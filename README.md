@@ -1,3 +1,3 @@
-# PhilosoRaptor v3
+# PhilosoRaptor
 
-3rd (and probably last) version of so powerful cryptocurrency PhilosoRaptor !
+PhilosoRaptor, a very powerful cryptocurrency designed for changing the world !
