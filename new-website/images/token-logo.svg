@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="322.608" height="322.608" viewBox="0 0 322.608 322.608">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.725" gradientTransform="translate(-0.051 0.057) rotate(-6.243)" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#202331"/>
+      <stop offset="1" stop-color="#282b3a"/>
+    </radialGradient>
+  </defs>
+  <g id="Group_85" data-name="Group 85" transform="translate(-1144.894 -217.392)">
+    <circle id="Ellipse_3" data-name="Ellipse 3" cx="136" cy="136" r="136" transform="matrix(0.978, 0.208, -0.208, 0.978, 1201.446, 217.392)" fill="url(#radial-gradient)"/>
+    <g id="Group_79" data-name="Group 79" transform="translate(1098.55 -8.742)">
+      <path id="Path_215" data-name="Path 215" d="M331.521,442.68,290.19,404.1l-5.923-40.8-66.14-38.171-72.063,16.124L126.32,360.668l11.517,3.62-15.795,7.239,30.6,16.453,60.217,15.137,19.743-7.9,53.256,80.969" transform="translate(0)" fill="none" stroke="#2ac724" stroke-linejoin="round" stroke-width="5"/>
+      <path id="Path_216" data-name="Path 216" d="M356.08,476.251l-31.229,33.811-7.238-33.811,57.836-47.639Z" transform="translate(-35.648 -16.537)" fill="none" stroke="#2ac724" stroke-linejoin="round" stroke-width="5"/>
+      <line id="Line_5" data-name="Line 5" x2="6.042" y2="41.622" transform="translate(290.19 404.104)" fill="none" stroke="#2ac724" stroke-linejoin="round" stroke-width="5"/>
+      <path id="Path_218" data-name="Path 218" d="M308.913,371.809l-51.662,31.918,55.822-3.258" transform="translate(-24.646 -8.509)" fill="none" stroke="#2ac724" stroke-linejoin="round" stroke-width="5"/>
+      <path id="Path_219" data-name="Path 219" d="M248.176,345.664l-84.486,7.011-36.416,11.736" transform="translate(-0.954 -3.743)" fill="none" stroke="#2ac724" stroke-linejoin="round" stroke-width="5"/>
+      <path id="Path_220" data-name="Path 220" d="M141.358,373.017l28.847,10.969,41.9-10.969,35.019,24.136-36.993-17.994-53.965,17.55" transform="translate(-3.521 -8.729)" fill="none" stroke="#2ac724" stroke-linejoin="round" stroke-width="5"/>
+    </g>
+  </g>
+</svg>
