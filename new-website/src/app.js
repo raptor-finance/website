@@ -4,8 +4,13 @@ $('.navbar-toggler').on('click', function (event) {
     $('.main-nav-overlay').toggleClass('show');
 });
 
-$('#btn-deposit').on('click', function (event) {
-    $('#DepositModal').modal('toggle')
+$('#btn-stake').on('click', function (event) {
+    $('#StakingModal').modal('toggle')
+    $('body').toggleClass('modal-active')
+});
+
+$('#btn-unstake').on('click', function (event) {
+    $('#UnStakingModal').modal('toggle')
     $('body').toggleClass('modal-active')
 });
 
