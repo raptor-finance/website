@@ -105,6 +105,10 @@ $(function() {
 
 		updateOnce();
 	}
+	
+	async function claim() {
+		await window.raptr.contract.method.claimStakingRewards().send({'from': window.raptr.wallet});
+	}
 
 	function getStakingEstimations(staked) {
 		return {
