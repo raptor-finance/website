@@ -1,0 +1,14 @@
+.dockerignore
+.env
+.git*
+.editorconfig
+.*/
+.project
+.settings
+.toolstarget
+node_modules
+npm-debug.log
+Dockerfile
+LICENSE
+README.md
+news/
