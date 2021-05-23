@@ -24,7 +24,7 @@
             <a href="http://raptor.tombrela.com/lottery.html" class="nav-item-lottery">Lottery</a>
         </li>
         <li>
-            <a href="http://raptor.tombrela.com/faq.html" class="nav-item-faq">Faq</a>
+            <a href="http://raptor.tombrela.com/faq.html" class="nav-item-faq">FAQ</a>
         </li>
         <li>
             <a href="http://raptor.tombrela.com/news" class="nav-item-news active">News</a>

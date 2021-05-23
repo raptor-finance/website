@@ -341,7 +341,6 @@ p {
 .home-container {
     display: flex;
     align-items: flex-end;
-    min-height: 90vh;
 }
 
 .faq-container {
@@ -470,3 +469,12 @@ p {
     color: #fff;
     padding: 0.375rem 0.75rem;
 } 
+
+.founder {
+    float: left;
+    width: 180px;
+    margin: 10px;
+    margin-bottom: 0;
+    margin-left: 0;
+    border: 5px solid rgba(255,255,255,0.5);
+}

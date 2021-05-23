@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="src/app.css">
     <link rel="stylesheet" href="src/media.css">
     <script language="javascript" type="text/javascript" src="web3.min.js"></script>
+    <script language="javascript" type="text/javascript" src="jquery.min.js"></script>
     <script language="javascript" type="text/javascript" src="raptr-staking-script.js"></script>
 </head>
 <body>
@@ -36,34 +37,34 @@
                     <a href="about.html" class="nav-item-roadmap">About</a>
                 </li>
                 <li>
-                    <a href="staking.html" class="nav-item-staking active">Staking</a>
+                    <a href="https://raptr.finance/staking" class="nav-item-staking active">Staking</a>
                 </li>
-                <li>
+                <!--<li>
                     <a href="lottery.html" class="nav-item-lottery">Lottery</a>
-                </li>
+                </li>-->
                 <li>
-                    <a href="faq.html" class="nav-item-faq">Faq</a>
+                    <a href="faq.html" class="nav-item-faq">FAQ</a>
                 </li>
-                <li>
+<!--                <li>
                     <a href="news.html" class="nav-item-news">News</a>
-                </li>
+                </li>-->
             </ul>
             <div class="navigation-footer">
                 <div class="text-center text-lg-left mb-2">
-                    <a href="" class="btn-social">
+                    <a href="https://twitter.com/raptor_token" class="btn-social">
                         <span class="iconify" data-icon="jam:twitter-circle" data-inline="false"></span>
                     </a>
-                    <a href="" class="btn-social">
+                    <a href="https://t.me/PhilosoRaptorToken" class="btn-social">
                         <span class="iconify" data-icon="ri:telegram-line" data-inline="false"></span>
                     </a>
                 </div>
                 <div>
-                    <a href="" class="btn btn-success btn-block">
+                    <a href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xf9A3FdA781c94942760860fc731c24301c83830A" class="btn btn-success btn-block">
                         Buy on PancakeSwap
                     </a>
                 </div>
                 <div class="mt-3">
-                    <a href="" class="btn btn-light btn-block">
+                    <a href="https://bscscan.com/token/0xf9a3fda781c94942760860fc731c24301c83830a#balances" class="btn btn-light btn-block">
                         View on BSCscan
                     </a>
                 </div>
@@ -81,7 +82,7 @@
                 <div class="row">
                     <div class="col-12 col-lg-10">
 
-                        <img src="./images/stacking.svg" class="mb-3" width="250">
+                        <img src="./images/staking.svg" class="mb-3" width="250">
                         <div>
                             <p class="text-white">
                                 This is a simple, non-custodial staking tool for adopters of RAPTOR to <br>
@@ -92,7 +93,7 @@
                                 other than the Calculator!
                             </p>
                             <p class="text-white">
-                                If you are not connected to this network, the page will appear as if it is stuck loading.
+                                If you are not connected to this network, the page will appear as if it is
                             </p>
                         </div>
                         <div>
@@ -105,12 +106,11 @@
                                             </div>
                                             <div class="mt-3">
                                                 <strong class="text-dark">Address</strong>
-                                                <div class="text-dark-light small" id="addresslabel">Loading Address...
-                                                </div>
+                                                <div class="text-dark-light small" id="staking-address"></div>
                                             </div>
                                             <div class="mt-3">
                                                 <strong class="text-dark">Balance</strong>
-                                                <div class="text-dark-light" id="balancelabel">Loading Balance...</div>
+                                                <div class="text-dark-light" id="staking-balance">0</div>
                                             </div>
                                             <div class="mt-3">
                                                 <strong class="text-dark">Calculated Staking Rewards</strong>
@@ -118,25 +118,15 @@
 
                                             <div class="mt-3">
                                                 <div>
-                                                    <input type="number" class="form-control" placeholder="Amount" id="askamountforcalc">
-                                                    <input class="btn btn-light" type="button" value="Calculate" onclick="calculaterewards()" />
+                                                    <input type="text" class="form-control" placeholder="Amount" id="staking-amount">
                                                 </div>
                                             </div>
                                             <div class="mt-3">
                                                 <div class="d-flex justify-content-between">
-                                                    <strong class="text-dark">Daily rewards </strong>
-                                                    <div class="text-dark-light small" id="calcdailyrewards">Please input to calculate</div>
-                                                </div>
-                                                <div class="d-flex justify-content-between">
                                                     <strong class="text-dark">Weekly rewards </strong>
-                                                    <div class="text-dark-light small" id="calcweeklyrewards">Please input to calculate</div>
-                                                </div>
-                                                <div class="d-flex justify-content-between">
-                                                    <strong class="text-dark">Monthly rewards </strong>
-                                                    <div class="text-dark-light small" id="calcmonthlyrewards">Please input to calculate</div>
+                                                    <div class="text-dark-light small" id="staking-rewards-estimated">0</div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -153,50 +143,36 @@
                                                         <img src="./images/token-logo.svg" height="70">
                                                     </div>
                                                     <div class="mt-2">
-                                                        <h4 class="text-dark font-weight-bold mb-0" id="pendingrewardslabel">Loading...</h4>
+                                                        <h4 class="text-dark font-weight-bold mb-0" id="rewards"></h4>
                                                         <span class="text-dark-light">Raptor Earned</span>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="mt-2">
-                                                <div class="container-fluid px-0">
-                                                    <div class="row">
-                                                        <div class="col-8">
-                                                            <a href="" class="btn btn-dark btn-block" onclick="claimRewards()">Harvest</a>
-                                                        </div>
-                                                    </div>
+                                                <div>
+                                                    <a href="javascript:void(0)" class="btn btn-light btn-block" id="btn-harvest">
+                                                        Harvest
+                                                    </a>
                                                 </div>
                                             </div>
                                             <div class="mt-2">
                                                 <div class="container-fluid px-0">
                                                     <div class="row">
-                                                      <div class="col-6">
-                                                          <input type="number" step="any" class="form-control" placeholder="Input Amount" id="askamount"/>
-                                                          <a href="javascript:void(0)" onclick="stakeOutFront()" class="btn btn-light btn-block"
-                                                             id="btn-withdraw"><span
-                                                                  class="iconify"
-                                                                  data-icon="bx:bx-minus"
-                                                                  data-inline="false"></span></a>
-                                                      </div>
-                                                      <div class="col-6">
-                                                        <input type="number" step="any" class="form-control" placeholder="Input Amount" id="askamount"/>
-                                                          <a href="javascript:void(0)" onclick="stakeInFront()" class="btn btn-light btn-block"
-                                                             id="btn-deposit"><span
-                                                                  class="iconify"
-                                                                  data-icon="bx:bx-plus-medical"
-                                                                  data-inline="false"></span></a>
-                                                      </div>
+                                                        <div class="col-7">
+                                                            <a href="javascript:void(0)" id="btn-stake" class="btn btn-dark btn-block">Stake</a>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <a href="javascript:void(0)" id="btn-unstake" class="btn btn-block btn-light">Unstake</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-3">
                                                 <div class="mt-1">
-                                                    <strong class="text-dark">APR</strong>
+                                                    <strong class="text-dark">Current APR</strong>
                                                     <span class="text-dark-light">5%</span>
                                                 </div>
                                                 <div class="mt-1">
                                                     <strong class="text-dark">Your Stake </strong>
-                                                    <span class="text-dark-light" id="stakedbalancelabel">Loading...</span>
+                                                    <span class="text-dark-light" id="stakedAmounts">0</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -213,11 +189,11 @@
     </div>
     <div class="main-nav-overlay" aria-expanded="false"></div>
 
-    <div class="modal modal-custom fade modal-dark" id="DepositModal" tabindex="-1">
+    <div class="modal modal-custom fade modal-dark" id="StakingModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Deposit Raptor Token</h5>
+                    <h5 class="modal-title">Stake</h5>
                     <button type="button" class="btn-close">
                         ×
                     </button>
@@ -225,7 +201,54 @@
                 <div class="modal-body">
                     <div class="d-flex justify-content-end">
                         <div class=" text-success pb-2">
-                            0 RAPTOR Available
+                            <span id="staking-available">0</span> RAPTOR Available
+                        </div>
+                    </div>
+                    <div class="my-3">
+
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control form-control-dark" placeholder="0"
+                                   aria-label="Recipient's username" aria-describedby="button-stake-max" id="stake-amount-todo">
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-transparent border-0">
+                                <span class="text-light">Raptor</span></span>
+                                <button class="btn btn-success" type="button" id="button-stake-max">Max</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" class="btn btn-block btn-close-modal btn-outline-success" data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-block btn-success" id="button-stake-confirm">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal modal-custom fade modal-dark" id="UnStakingModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Unstake Raptor Token</h5>
+                    <button type="button" class="btn-close">
+                        ×
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-end">
+                        <div class=" text-success pb-2">
+                            0 Staked RAPTOR Available
                         </div>
                     </div>
                     <div class="my-3">
