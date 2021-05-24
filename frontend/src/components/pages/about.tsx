@@ -1,9 +1,10 @@
 import * as React from 'react';
 import {BaseComponent} from "../shellInterfaces";
+import {StaticHtml} from "../shellHost";
 
 export class AboutPage extends BaseComponent<{}, {}> {
 
 	render() {
-		return <h1>Hello About</h1>
+		return <StaticHtml src={'../../content/about.html'} />
 	}
 }

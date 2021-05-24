@@ -12,10 +12,14 @@ import './index.css';
 import {Shell} from "./components/shell";
 import {HomePage} from "./components/pages/home";
 import {AboutPage} from "./components/pages/about";
+import {StaticHtml} from "./components/shellHost";
 
 const pagesInNavigator = [
 	{ id: 'home', title: 'Home', component: HomePage },
-	{ id: 'about', title: 'About', component: AboutPage },
+	{ id: 'about', title: 'About', component: StaticHtml, componentProps: { src: [
+		require('./content/about.css'),
+		require('./content/about.html')]
+	} },
 	{ id: 'news', title: 'News', component: null },
 	{ id: 'staking', title: 'Staking', component: null },
 	{ id: 'lottery', title: 'Lottery', component: null },

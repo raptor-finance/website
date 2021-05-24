@@ -33,3 +33,28 @@ export class ShellHost extends BaseComponent<ShellHostProps, ShellHostState> {
 		this.updateState({currentPage: page});
 	}
 }
+
+export type StaticHtmlProps = {
+	src: string;
+}
+
+export class StaticHtml extends BaseComponent<StaticHtmlProps, {}> {
+	render() {
+
+		console.log(this.props);
+
+		function getHtml(s) {
+
+			if (Array.isArray(s)) {
+				return s.map(getHtml).join('');
+			}
+
+			if (!s) {return ""}
+			if (!!s.default) return typeof s.default === "string" ? s.default : "";
+			return s;
+		}
+
+		const template = {__html: getHtml(this.readProps().src) };
+		return <div dangerouslySetInnerHTML={template} />;
+	}
+}
