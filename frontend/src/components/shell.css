@@ -1,5 +1,6 @@
 .main-wrapper {
-	background: /*url("../images/bg-main.jpg")*/ no-repeat bottom right transparent;
+	/* webpackIgnore: true */
+	background: url("images/bg-main.jpg") no-repeat bottom right transparent;
 	background-size: cover;
 	display: grid;
 	grid-template-columns: 15% 85%;
@@ -12,6 +13,7 @@
 	overflow-y: auto;
 	padding: 0 40px 0;
 	padding-bottom: 35px !important;
+	background: rgba(40,43,58, 0.9);
 }
 
 @media (max-width: 1600px) {

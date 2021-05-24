@@ -1,10 +1,19 @@
 import * as React from "react";
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Link,
+	useRouteMatch,
+	useParams
+} from "react-router-dom";
 
 import {ShellNav} from "./shellNav";
 import {ShellHost} from "./shellHost";
-import {BaseComponent, IShellPage, ShellNavigator} from "./shellInterfaces";
+import {BaseComponent, IShellPage} from "./shellInterfaces";
 
 import './shell.css';
+
 
 export type ShellProps = {
 	pages: IShellPage[];
@@ -15,22 +24,31 @@ export type ShellState = {
 
 export class Shell extends BaseComponent<ShellProps, ShellState> {
 
-	private readonly _navigator: ShellNavigator;
-
 	constructor(props: ShellProps) {
 		super(props);
-		this._navigator = new ShellNavigator();
 	}
 
 	render() {
 		const pages = this.readProps().pages;
 
-		return <div className="main-wrapper">
-			<ShellNav navigator={this._navigator} pages={pages} />
-			<div className="content-wrapper">
-				<ShellHost navigator={this._navigator} firstPage={pages[0]} />
+		return <Router>
+			<div className="main-wrapper">
+				<ShellNav pages={pages} />
+				<div className="content-wrapper">
+
+					<Switch>
+						{pages.map(page => (
+							<Route key={`${page.id}`} path={'/' + page.id}>
+								<ShellHost page={page} />
+							</Route>
+						))}
+						<Route path="/">
+							<ShellHost page={pages[0]} />
+						</Route>
+					</Switch>
+				</div>
 			</div>
-		</div>
+		</Router>
 	}
 }
 

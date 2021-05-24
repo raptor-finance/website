@@ -1,5 +1,4 @@
 import {Component} from "react";
-import {BehaviorSubject, Observable} from "rxjs";
 
 export abstract class BaseComponent<TProps, TState> extends Component<TProps, TState> {
 
@@ -29,15 +28,4 @@ export interface IShellPage {
 
 	component: ComponentRef;
 	componentProps?: any;
-}
-
-export class ShellNavigator {
-	private readonly _navigating: BehaviorSubject<IShellPage> = new BehaviorSubject<IShellPage>(null);
-
-	public navigatingEvent(): Observable<IShellPage> {
-		return this._navigating.asObservable();
-	}
-	public navigateTo(page: IShellPage) {
-		this._navigating.next(page);
-	}
 }

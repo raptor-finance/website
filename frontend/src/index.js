@@ -10,12 +10,13 @@ import './index.css';
 
 // now all the components
 import {Shell} from "./components/shell";
-import {HomePage} from "./components/pages/home";
-import {AboutPage} from "./components/pages/about";
-import {StaticHtml} from "./components/shellHost";
+import {StaticHtml} from "./components/pages/staticHtml";
 
 const pagesInNavigator = [
-	{ id: 'home', title: 'Home', component: HomePage },
+	{ id: 'home', title: 'Home', component: StaticHtml, componentProps: { src: [
+		require('./content/home.css'),
+		require('./content/home.html')]
+	} },
 	{ id: 'about', title: 'About', component: StaticHtml, componentProps: { src: [
 		require('./content/about.css'),
 		require('./content/about.html')]

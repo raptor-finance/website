@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {BaseComponent, IShellPage, ShellNavigator} from "./shellInterfaces";
+import { Link } from "react-router-dom";
+import {BaseComponent, IShellPage} from "./shellInterfaces";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import './shellNav.css';
@@ -9,7 +10,6 @@ import {faTelegram, faTwitter} from "@fortawesome/free-brands-svg-icons";
 
 export type ShellNavProps = {
 	pages: IShellPage[];
-	navigator: ShellNavigator;
 };
 export type ShellNavState = {
 	currentPage?: IShellPage;
@@ -19,15 +19,6 @@ export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 
 	constructor(props: ShellNavProps) {
 		super(props);
-	}
-
-	get currentPage(): IShellPage {
-		return (this.readState() || {}).currentPage;
-	}
-
-	set currentPage(value: IShellPage) {
-		this.readProps().navigator.navigateTo(value);
-		this.updateState({currentPage: value});
 	}
 
 	render() {
@@ -46,11 +37,8 @@ export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 						{
 							pages.map(page => {
 								const classes = ['nav-item', page.id];
-								if (page == this.currentPage) {
-									classes.push('active');
-								}
 								return <li key={`${page.id}`}>
-									<a href={'#' + page.id} className={classes.join(' ')} onClick={() => this.currentPage = page}>{page.title}</a>
+									<Link to={'/' + page.id} className={classes.join(' ')}>{page.title}</Link>
 								</li>;
 							})
 						}
