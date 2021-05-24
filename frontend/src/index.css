@@ -131,3 +131,7 @@ h1 {
 	width: 200px;
 	text-align: center;
 }
+
+.card-logo {
+	min-height: 350px;
+}
