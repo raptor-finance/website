@@ -89,7 +89,7 @@ $(function() {
 	async function unstake() {
 		const amount = +($('#unstake-amount-todo').val());
 		if (amount > 0) {
-			const receipt = await window.raptr.contract.methods.stakedBalanceOf(currentAddress).call();
+			const receipt = await window.raptr.contract.methods.stakedBalanceOf(window.raptr.wallet).call();
 
 			if (receipt >= amount*(10**9)) {
 				await window.raptr.contract.methods.withdrawStake(web3.utils.toWei(String(amount), 'gwei')).send({'from': window.raptr.wallet});
@@ -107,7 +107,7 @@ $(function() {
 	}
 	
 	async function claim() {
-		await window.raptr.contract.method.claimStakingRewards().send({'from': window.raptr.wallet});
+		await window.raptr.contract.methods.claimStakingRewards().send({'from': window.raptr.wallet});
 	}
 
 	function getStakingEstimations(staked) {
@@ -169,6 +169,7 @@ $(function() {
 			$('#rewards').text(dtoa(r.rewards*0.000000001));
 			$('#staking-balance').text(dtoa(r.balance*0.000000001));
 			$('#staking-available').text(dtoa(r.balance*0.000000001));
+			$('#unstaking-available').text(dtoa(r.staked*0.000000001));
 
 			window.raptr.currentBalances = r;
 		});
@@ -202,6 +203,17 @@ $(function() {
 
 		$('#button-stake-confirm').click(function() {
 			stake().then();
+		})
+		$('#button-addon2').click(function() {
+			$('#unstake-amount-todo').val(window.raptr.currentBalances.staked/(10**9));
+		})
+
+		$('#button-unstake-confirm').click(function() {
+			unstake().then();
+		})
+		
+		$('#btn-harvest').click(function() {
+			claim().then();
 		})
 	})
 })
