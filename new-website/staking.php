@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +7,11 @@
     <title>Staking</title>
     <link rel="icon"
           type="image/png"
-          href="/images/lsolo-logo.svg">
-    <link rel="stylesheet" href="src/app.css">
-    <link rel="stylesheet" href="src/media.css">
-    <script language="javascript" type="text/javascript" src="web3.min.js"></script>
-    <script language="javascript" type="text/javascript" src="jquery.min.js"></script>
+          href="https://raptr.finance/images/lsolo-logo.svg">
+    <link rel="stylesheet" href="https://raptr.finance/new-website/src/app.css">
+    <link rel="stylesheet" href="https://raptr.finance/new-website/src/media.css">
+    <script language="javascript" type="text/javascript" src="https://raptr.finance/new-website/web3.min.js"></script>
+    <script language="javascript" type="text/javascript" src="https://raptr.finance/new-website/jquery.min.js"></script>
     <script language="javascript" type="text/javascript" src="raptr-staking-script.js"></script>
 </head>
 <body>
@@ -22,14 +23,54 @@
     <div class="navigation-wrapper">
 
         <div class="logo-wrapper">
-            <img src="./images/logo.svg" class="img-logo">
+            <img src="https://raptr.finance/new-website/images/logo.svg" class="img-logo">
             <button class="navbar-toggler" type="button" data-target="#left-navbar"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="iconify" data-icon="bi:list" data-inline="false"></span>
             </button>
         </div>
-        
-        <?php include_once("nav.php"); ?>
+        <nav id="left-navbar">
+            <ul>
+                <li>
+                    <a href="index.html" class="nav-item-home">Home</a>
+                </li>
+                <li>
+                    <a href="about.html" class="nav-item-roadmap">About</a>
+                </li>
+                <li>
+                    <a href="https://raptr.finance/staking" class="nav-item-staking active">Staking</a>
+                </li>
+                <!--<li>
+                    <a href="lottery.html" class="nav-item-lottery">Lottery</a>
+                </li>-->
+                <li>
+                    <a href="faq.html" class="nav-item-faq">FAQ</a>
+                </li>
+<!--                <li>
+                    <a href="news.html" class="nav-item-news">News</a>
+                </li>-->
+            </ul>
+            <div class="navigation-footer">
+                <div class="text-center text-lg-left mb-2">
+                    <a href="https://twitter.com/raptor_token" class="btn-social">
+                        <span class="iconify" data-icon="jam:twitter-circle" data-inline="false"></span>
+                    </a>
+                    <a href="https://t.me/PhilosoRaptorToken" class="btn-social">
+                        <span class="iconify" data-icon="ri:telegram-line" data-inline="false"></span>
+                    </a>
+                </div>
+                <div>
+                    <a href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xf9A3FdA781c94942760860fc731c24301c83830A" class="btn btn-success btn-block">
+                        Buy on PancakeSwap
+                    </a>
+                </div>
+                <div class="mt-3">
+                    <a href="https://bscscan.com/token/0xf9a3fda781c94942760860fc731c24301c83830a#balances" class="btn btn-light btn-block">
+                        View on BSCscan
+                    </a>
+                </div>
+            </div>
+        </nav>
 
     </div>
 
@@ -42,7 +83,7 @@
                 <div class="row">
                     <div class="col-12 col-lg-10">
 
-                        <img src="./images/staking.svg" class="mb-3" width="250">
+                        <img src="https://raptr.finance/new-website/images/staking.svg" class="mb-3" width="250">
                         <div>
                             <p class="text-white">
                                 This is a simple, non-custodial staking tool for adopters of RAPTOR to <br>
@@ -100,7 +141,7 @@
                                             <div class="d-flex justify-content-between align-items-end">
                                                 <div>
                                                     <div>
-                                                        <img src="./images/token-logo.svg" height="70">
+                                                        <img src="https://raptr.finance/new-website/images/token-logo.svg" height="70">
                                                     </div>
                                                     <div class="mt-2">
                                                         <h4 class="text-dark font-weight-bold mb-0" id="rewards"></h4>
@@ -208,18 +249,17 @@
                 <div class="modal-body">
                     <div class="d-flex justify-content-end">
                         <div class=" text-success pb-2">
-                            0 Staked RAPTOR Available
+                            <span id="unstaking-available">0</span> Staked RAPTOR Available
                         </div>
                     </div>
                     <div class="my-3">
-
                         <div class="input-group mb-3">
                             <input type="text" class="form-control form-control-dark" placeholder="0"
-                                   aria-label="Recipient's username" aria-describedby="button-addon2">
+                                   aria-label="Recipient's username" aria-describedby="button-addon2" id="unstake-amount-todo">
                             <div class="input-group-append">
                                 <span class="input-group-text bg-transparent border-0">
                                 <span class="text-light">Raptor</span></span>
-                                <button class="btn btn-success" type="button" id="button-addon2">Max</button>
+                                <button class="btn btn-success" type="button" aria-describedby id="button-addon2">Max</button>
                             </div>
                         </div>
 
@@ -235,7 +275,7 @@
                                 </button>
                             </div>
                             <div class="col-6">
-                                <button type="button" class="btn btn-block btn-success">Confirm</button>
+                                <button id="button-unstake-confirm" type="button" class="btn btn-block btn-success">Confirm</button>
                             </div>
                         </div>
                     </div>
@@ -247,8 +287,8 @@
 </main>
 
 <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-<script src="jquery.min.js"></script>
-<script src="bootstrap.min.js"></script>
-<script src="src/app.js"></script>
+<script src="https://raptr.finance/new-website/jquery.min.js"></script>
+<script src="https://raptr.finance/new-website/bootstrap.min.js"></script>
+<script src="https://raptr.finance/new-website/src/app.js"></script>
 </body>
 </html>
