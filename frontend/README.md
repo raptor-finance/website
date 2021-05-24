@@ -1,11 +1,10 @@
 # Raptor Finance website
 This project contains the website of Raptor Finance.
 
-## How to build
+## How to edit
 Install Node.js, then run:
 
     npm install
-    npm run build
 
 You can run a development server using:
 
