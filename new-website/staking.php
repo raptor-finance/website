@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,11 +6,11 @@
     <title>Staking</title>
     <link rel="icon"
           type="image/png"
-          href="https://raptr.finance/images/lsolo-logo.svg">
-    <link rel="stylesheet" href="https://raptr.finance/new-website/src/app.css">
-    <link rel="stylesheet" href="https://raptr.finance/new-website/src/media.css">
-    <script language="javascript" type="text/javascript" src="https://raptr.finance/new-website/web3.min.js"></script>
-    <script language="javascript" type="text/javascript" src="https://raptr.finance/new-website/jquery.min.js"></script>
+          href="/images/lsolo-logo.svg">
+    <link rel="stylesheet" href="src/app.css">
+    <link rel="stylesheet" href="src/media.css">
+    <script language="javascript" type="text/javascript" src="web3.min.js"></script>
+    <script language="javascript" type="text/javascript" src="jquery.min.js"></script>
     <script language="javascript" type="text/javascript" src="raptr-staking-script.js"></script>
 </head>
 <body>
@@ -247,8 +246,8 @@
 </main>
 
 <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-<script src="https://raptr.finance/new-website/jquery.min.js"></script>
-<script src="https://raptr.finance/new-website/bootstrap.min.js"></script>
-<script src="https://raptr.finance/new-website/src/app.js"></script>
+<script src="jquery.min.js"></script>
+<script src="bootstrap.min.js"></script>
+<script src="src/app.js"></script>
 </body>
 </html>
