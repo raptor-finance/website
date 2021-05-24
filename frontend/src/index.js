@@ -12,20 +12,18 @@ import './index.css';
 import {Shell} from "./components/shell";
 import {StaticHtmlComponent} from "./components/pages/staticHtmlComponent";
 import {LotteryComponent} from "./components/pages/lotteryComponent";
+import {HomeComponent} from "./components/pages/homeComponent";
 
 const pagesInNavigator = [
-	{ id: 'home', title: 'Home', component: StaticHtmlComponent, componentProps: { src: [
-		require('./content/home.css'),
-		require('./content/home.html')]
-	} },
+	{ id: 'home', title: 'Home', component: HomeComponent },
 	{ id: 'about', title: 'About', component: StaticHtmlComponent, componentProps: { src: [
 		require('./content/about.css'),
 		require('./content/about.html')]
 	} },
-	//{ id: 'news', title: 'News', component: null },
-	//{ id: 'staking', title: 'Staking', component: null },
+	{ id: 'news', title: 'News', component: StaticHtmlComponent, componentProps: {src: '<h3 class="coming-soon">Coming soon</h3>'} },
+	{ id: 'staking', title: 'Staking', component: StaticHtmlComponent, componentProps: {src: '<h3 class="coming-soon">Coming soon</h3>'} },
 	{ id: 'lottery', title: 'Lottery', component: LotteryComponent },
-	//{ id: 'faq', title: 'FAQ', component: null },
+	{ id: 'faq', title: 'FAQ', component: StaticHtmlComponent, componentProps: {src: '<h3 class="coming-soon">Coming soon</h3>'}  },
 ]
 
 // and render our app into the "root" element!

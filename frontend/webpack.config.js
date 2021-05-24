@@ -49,6 +49,7 @@ module.exports = {
     
         // Public path is root of content base
         publicPath: '/',
+		historyApiFallback: true
     
     },
 

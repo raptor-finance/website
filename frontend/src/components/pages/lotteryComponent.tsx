@@ -78,15 +78,21 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 
 	private async loop(): Promise<void> {
 		const self = this;
-		await self.updateOnce.call(self);
-		setTimeout(async () => await self.loop.call(self), 10000);
+		const cont = await self.updateOnce.call(self);
+
+		if (cont) {
+			setTimeout(async () => await self.loop.call(self), 10000);
+		}
 	}
-	private async updateOnce(): Promise<void> {
+	private async updateOnce(): Promise<boolean> {
 		const lottery = this.readState().lottery;
 
 		if (!!lottery) {
 			try {
 				await lottery.refresh();
+				if (!this.readState().looping) {
+					return false;
+				}
 				this.updateState({
 					address: lottery.wallet.currentAddress,
 					balance: lottery.raptor.balance,
@@ -101,6 +107,11 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 				console.warn('Unable to update lottery status', e);
 			}
 		}
+		else {
+			return false;
+		}
+
+		return true;
 	}
 
 	render() {
