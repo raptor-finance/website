@@ -11,24 +11,24 @@
 </div>
 <nav id="left-navbar">
     <ul>
-        <li>
-            <a href="http://raptor.tombrela.com/index.html" class="nav-item-home">Home</a>
-        </li>
-        <li>
-            <a href="http://raptor.tombrela.com/about.html" class="nav-item-roadmap">About</a>
-        </li>
-        <li>
-            <a href="http://raptor.tombrela.com/staking.html" class="nav-item-staking">Staking</a>
-        </li>
-        <li>
-            <a href="http://raptor.tombrela.com/lottery.html" class="nav-item-lottery">Lottery</a>
-        </li>
-        <li>
-            <a href="http://raptor.tombrela.com/faq.html" class="nav-item-faq">FAQ</a>
-        </li>
-        <li>
-            <a href="http://raptor.tombrela.com/news" class="nav-item-news active">News</a>
-        </li>
+      <li>
+          <a href="index.php" class="nav-item-home">Home</a>
+      </li>
+      <li>
+          <a href="about.php" class="nav-item-roadmap">About</a>
+      </li>
+      <li>
+          <a href="https://raptr.finance/staking" class="nav-item-staking">Staking</a>
+      </li>
+      <li>
+          <a href="lottery.php" class="nav-item-lottery">Lottery</a>
+      </li>
+      <li>
+          <a href="faq.php" class="nav-item-faq">FAQ</a>
+      </li>
+     <li>
+          <a href="https://news.raptr.finance" class="nav-item-news">News</a>
+     </li>
     </ul>
 
     <div class="navigation-footer">
