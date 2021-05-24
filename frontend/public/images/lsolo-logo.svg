@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="350.211" height="322.608" viewBox="0 0 350.211 322.608">
   <defs>
-    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.852" gradientTransform="matrix(0.991, -0.131, 0.131, 0.991, -0.061, 0.07)" gradientUnits="objectBoundingBox">
-      <stop offset="0" stop-color="#2bb526"/>
-      <stop offset="1" stop-color="#49ed6f"/>
-    </radialGradient>
+    <linearGradient id="radial-gradient">
+      <stop offset="0" stop-color="#72baaf"/>
+      <stop offset="1" stop-color="#7ce390"/>
+    </linearGradient>
   </defs>
   <g id="Group_84" data-name="Group 84" transform="translate(-309.696 -540)">
     <g id="Group_83" data-name="Group 83">
       <g id="Group_82" data-name="Group 82">
-        <circle id="Ellipse_2" data-name="Ellipse 2" cx="136" cy="136" r="136" transform="matrix(0.978, 0.208, -0.208, 0.978, 366.248, 540)" fill="url(#radial-gradient)"/>
+        <circle id="Ellipse_2" data-name="Ellipse 2" cx="136" cy="136" r="136" transform="matrix(0, 1, 1, 0, 330, 560)" fill="url(#radial-gradient)"/>
         <g id="Group_78" data-name="Group 78" transform="translate(232.262 314.063)">
           <path id="Path_215" data-name="Path 215" d="M232.814,418.12l22.883.875,7.361-59.573-30.245,33.629V418.12L255.7,433.133l-5.344,18.073v8.745L228,468.114h23.758l10.2-12.826,10.057-23.612-13.409-19.239,43.726-35.709L425.645,339.56,196.522,360.111,193.9,342.038,164.6,325.13l-31.92,7.142-8.745,8.6,5.1,1.6-7,3.207,13.555,7.288,26.673,6.7,8.745-3.5L194.6,392.04" fill="none" stroke="#242735" stroke-linejoin="round" stroke-width="4"/>
           <path id="Path_216" data-name="Path 216" d="M341.224,474.671l-20.405-18.511-3.207-13.555L344.9,415.853Z" transform="translate(-124.734 -57.863)" fill="none" stroke="#242735" stroke-linejoin="round" stroke-width="4"/>

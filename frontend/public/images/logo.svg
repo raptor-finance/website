@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="672.304" height="322.608" viewBox="0 0 672.304 322.608">
   <defs>
-    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.852" gradientTransform="matrix(0.991, -0.131, 0.131, 0.991, -0.061, 0.07)" gradientUnits="objectBoundingBox">
-      <stop offset="0" stop-color="#2bb526"/>
-      <stop offset="1" stop-color="#49ed6f"/>
-    </radialGradient>
+    <linearGradient id="radial-gradient">
+      <stop offset="0" stop-color="#72baaf"/>
+      <stop offset="1" stop-color="#7ce390"/>
+    </linearGradient>
   </defs>
   <g id="Group_82" data-name="Group 82" transform="translate(-309.696 -540)">
-    <circle id="Ellipse_2" data-name="Ellipse 2" cx="136" cy="136" r="136" transform="matrix(0.978, 0.208, -0.208, 0.978, 366.248, 540)" fill="url(#radial-gradient)"/>
+    <circle id="Ellipse_2" data-name="Ellipse 2" cx="136" cy="136" r="136" transform="matrix(0, 1, 1, 0, 330, 560)" fill="url(#radial-gradient)"/>
     <text id="Raptor_Finance" data-name="Raptor
 Finance" transform="translate(627 689)" fill="#fff" font-size="100" font-family="NunitoSans-Bold, Nunito Sans" font-weight="700"><tspan x="0" y="0">Raptor</tspan><tspan x="0" y="90">Finance</tspan></text>
     <g id="Group_78" data-name="Group 78" transform="translate(232.262 314.063)">

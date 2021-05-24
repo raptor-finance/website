@@ -68,7 +68,6 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 					</div>
 				</div>
 				<div className="col-12 col-lg-5">
-
 					<div className="row">
 						<div className="col-12 col-md-6 col-lg-6 mb-3 mb-lg-auto">
 							<Link to="staking">
@@ -96,8 +95,7 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-12 col-lg-1" />
-						<div className="col-12 col-lg-10">
+						<div className="col">
 							<div className="card card-rounded-x2  overflow-hidden mt-1 gradient-green-blue mb-5">
 								<div className=" planet-earth-image"/>
 								<div className="card-body text-left">
@@ -134,7 +132,6 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 								</div>
 							</div>
 						</div>
-						<div className="col-12 col-lg-1" />
 					</div>
 				</div>
 			</div>

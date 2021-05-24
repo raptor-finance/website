@@ -1,4 +1,5 @@
 .home-container {
 	display: flex;
 	align-items: flex-end;
+	padding-top: 50px;
 }
