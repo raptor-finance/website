@@ -45,13 +45,11 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 			<div className="row align-items-center">
 				<div className="col-12 col-lg-7 mb-4 mb-lg-0">
 					<h1 className="text-white font-weight-bold">
-						<div>Can we heal the earth?</div>
+						<div>Can we heal the Earth together?</div>
 					</h1>
 					<div>
 						<p className="text-white">
-							Raptor Finance is a decentralized, financial ecosystem designed by holders for holders.
-							Our mission is to heal planet earth and stop climate change by allowing our holders to
-							stake their tokens to generate yield for themselves and ecological projects.
+							Raptor Finance is a decentralized, financial ecosystem designed by holders for holders. Our mission is to heal planet Earth together and fight climate change! We achieve this by donating to community-chosen projects that help prevent climate change. There is no planet B, therefore we need to work together to help save Mother Earth!
 						</p>
 					</div>
 					<div>
