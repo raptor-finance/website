@@ -10,7 +10,11 @@ You can run a development server using:
 
     npm start
 
-Which will then open a server listening to http://localhost:3000
+Which will then open a server listening to http://localhost:3000.
+While you change files in `src/` or `public/`, the dev server keeps updating your browser.
+This way you can conveniently edit the website with any editor.
+
+When you're done, please follow the deployment routine.
 
 ## How to deploy
 Make your changes first. Then run:
