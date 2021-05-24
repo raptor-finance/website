@@ -22,10 +22,10 @@ const pagesInNavigator = [
 		require('./content/about.css'),
 		require('./content/about.html')]
 	} },
-	{ id: 'news', title: 'News', component: null },
-	{ id: 'staking', title: 'Staking', component: null },
+	//{ id: 'news', title: 'News', component: null },
+	//{ id: 'staking', title: 'Staking', component: null },
 	{ id: 'lottery', title: 'Lottery', component: LotteryComponent },
-	{ id: 'faq', title: 'FAQ', component: null },
+	//{ id: 'faq', title: 'FAQ', component: null },
 ]
 
 // and render our app into the "root" element!

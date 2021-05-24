@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from "react-router-dom";
+import { NavLink  } from "react-router-dom";
 import {BaseComponent, IShellPage} from "./shellInterfaces";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -38,7 +38,7 @@ export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 							pages.map(page => {
 								const classes = ['nav-item', page.id];
 								return <li key={`${page.id}`}>
-									<Link to={'/' + page.id} className={classes.join(' ')}>{page.title}</Link>
+									<NavLink  to={'/' + page.id} activeClassName="active" className={classes.join(' ')}>{page.title}</NavLink>
 								</li>;
 							})
 						}
