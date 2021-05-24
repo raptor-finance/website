@@ -1,0 +1,11 @@
+# ignore files which are generated
+node_modules/
+dist/
+
+# ignore IDE stuff
+.idea/
+*.iml
+.vs/
+.vscode/
+
+#
