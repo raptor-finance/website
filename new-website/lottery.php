@@ -117,7 +117,7 @@
 <script src="https://raptr.finance/jquery.min.js"></script>
 <script src="https://raptr.finance/web3.min.js"></script>
 <script src="https://raptr.finance/bootstrap.min.js"></script>
-<script src="https://raptr.finance/lottery-web3.js"></script>
+<script src="https://raptr.finance/lotteryWeb3.min.js"></script>
 
 </body>
 </html>
