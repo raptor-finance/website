@@ -1,19 +1,29 @@
+// let's use React.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import $ from 'jquery';
-
+// and bootstrap
 import 'bootstrap';
+
+// with our own theme
 import './index.css';
 
+// now all the components
+import {Shell} from "./components/shell";
+import {HomePage} from "./components/pages/home";
+import {AboutPage} from "./components/pages/about";
+
+const pagesInNavigator = [
+	{ id: 'home', title: 'Home', component: HomePage },
+	{ id: 'about', title: 'About', component: AboutPage },
+	{ id: 'news', title: 'News', component: null },
+	{ id: 'staking', title: 'Staking', component: null },
+	{ id: 'lottery', title: 'Lottery', component: null },
+	{ id: 'faq', title: 'FAQ', component: null },
+]
+
+// and render our app into the "root" element!
 ReactDOM.render(
-    <div><h1>Test</h1><p id="hello">TestTest</p></div>,
+    <Shell pages={pagesInNavigator} />,
     document.getElementById('root')
 );
-
-function x() {
-    $('#hello').html(new Date())
-    setTimeout(x, 1000);
-}
-
-x();

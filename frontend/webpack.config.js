@@ -28,6 +28,10 @@ module.exports = {
       filename: 'static/js/bundle.js',
     },
 
+	resolve: {
+		extensions: ['.js', '.jsx', '.ts', '.tsx']
+	},
+
     devServer: {
 
         // Serve index.html as the base
@@ -51,7 +55,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(js|jsx|ts|tsx)$/,
                 exclude: /node_modules/,
                 include: resolveAppPath('src'),
                 loader: 'babel-loader',
