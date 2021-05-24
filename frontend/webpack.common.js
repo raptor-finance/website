@@ -51,7 +51,10 @@ module.exports = {
 		new CopyPlugin({
 			patterns: [
 				{ from: ".htaccess", to: "" },
-				{ from: "public/images", to: "images" }
+				{ from: "public/images", to: "images" },
+				{ from: "public/sitemap.xml", to: "" },
+				{ from: "public/robots.txt", to: "" },
+				{ from: "public/whitepaper.pdf", to: "" }
 			],
 		}),
     ],
