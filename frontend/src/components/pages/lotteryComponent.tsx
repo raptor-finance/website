@@ -5,6 +5,8 @@ import {BaseComponent} from "../shellInterfaces";
 import {Wallet} from "../wallet";
 import {RaptorLottery} from "../contracts/lottery";
 
+import './lotteryComponent.css';
+
 export type LotteryProps = {}
 export type LotteryState = {
 	lottery?: RaptorLottery,
@@ -23,10 +25,12 @@ export type LotteryState = {
 export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> {
 
 	handlePurchase(hash) {
+		// todo show message nicer
 		alert('You have successfully purchased a ticket. Your hash code is:<br/>' + hash);
 	}
 	handleError(error) {
-		// todo show error
+		// todo show error nicer
+		alert('Error: ' + error);
 		console.error(error);
 	}
 

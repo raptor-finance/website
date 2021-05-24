@@ -55,7 +55,7 @@ h1 {
 	border: 0;
 }
 
-.card a {
+.card.info a {
 	color: var(--dark);
 }
 
@@ -103,4 +103,20 @@ h1 {
 	background-position: bottom right;
 	background-size: 250px;
 	/*background-position: 150px bottom;*/
+}
+
+.btn-dark {
+	color: #fff;
+}
+
+.text-dark {
+	color: #000;
+}
+
+.text-dark-2 {
+	color: #282B3A;
+}
+
+.text-dark-light {
+	color: #515151;
 }
