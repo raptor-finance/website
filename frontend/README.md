@@ -13,6 +13,14 @@ You can run a development server using:
 
 Which will then open a server listening to http://localhost:3000
 
+## How to deploy
+Make your changes first. Then run:
+
+    npm run build
+
+Take the contents of the `dist/` folder and put them online via FTP.
+Make sure the `.htaccess` is also deployed because the React router will break without.
+
 ## Coding guidelines
 
 ### DO

@@ -38,7 +38,7 @@ export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 							pages.map(page => {
 								const classes = ['nav-item', page.id];
 								return <li key={`${page.id}`}>
-									<NavLink  to={'/' + page.id} activeClassName="active" className={classes.join(' ')}>{page.title}</NavLink>
+									<NavLink  to={page.id} activeClassName="active" className={classes.join(' ')}>{page.title}</NavLink>
 								</li>;
 							})
 						}

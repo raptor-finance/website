@@ -58,7 +58,7 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 
 						<div className="row">
 							<div className="col-6">
-								<Link to="/about" className="btn btn-outline-light btn-block">About Raptor</Link>
+								<Link to="about" className="btn btn-outline-light btn-block">About Raptor</Link>
 							</div>
 							<div className="col-6">
 								<a href="/whitepaper.pdf" className="btn btn-light btn-block"
@@ -71,7 +71,7 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 
 					<div className="row">
 						<div className="col-12 col-md-6 col-lg-6 mb-3 mb-lg-auto">
-							<Link to="/staking">
+							<Link to="staking">
 								<div className="card card-dark card-rounded-x2">
 									<div className="card-body text-center">
 										<img src="images/staking.svg" width="120" height="60" />
@@ -83,7 +83,7 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 							</Link>
 						</div>
 						<div className="col-12 col-md-6 col-lg-6">
-							<Link to="/lottery">
+							<Link to="lottery">
 								<div className="card card-dark card-rounded-x2">
 									<div className="card-body text-center">
 										<img src="images/lottery.svg" width="120" height="60" />
