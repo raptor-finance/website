@@ -127,9 +127,14 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 						<p>This is a simple, non-custodial proof-of-work random number generation lottery for Raptor. You
 							have the chance to win Raptor tokens by buying tickets with Raptor tokens.</p>
 						<p>In order to play in our lottery, you need to connect your browser wallet (such as <a
-							href="https://metamask.io/">Metamask</a>) and <a
+							href="https://metamask.io/" target="_blank">Metamask</a>) and <a
 							href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
 							target="_blank">switch to the Binance Smart Chain</a>.</p>
+					</div>
+				</div>
+				<div className="row text-white lottery-footer">
+					<div className="col-md-12 d-flex flex-column">
+						<button className="btn btn-primary btn-lg link-dark align-self-center" type="button" onClick={async () => this.buyTicket()}>Purchase a lottery ticket</button>
 					</div>
 				</div>
 				<div className="row lottery-body">
@@ -156,11 +161,6 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 							<h5>Total tickets for this round</h5>
 							<p>{numeral(state.totalTickets || 0).format('0,0.00')} tickets</p>
 						</div>
-					</div>
-				</div>
-				<div className="row text-white lottery-footer">
-					<div className="col-md-12 d-flex flex-column">
-						<button className="btn btn-primary btn-lg link-dark align-self-center" type="button" onClick={async () => this.buyTicket()}>Purchase a lottery ticket</button>
 					</div>
 				</div>
 			</div>

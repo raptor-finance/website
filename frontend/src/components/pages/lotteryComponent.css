@@ -8,12 +8,12 @@
 	width: 200px;
 }
 
-.lottery-container .lottery-header {
-	margin-bottom: 50px;
-}
-
 .lottery-container .lottery-footer {
 	padding: 50px;
+}
+
+.lottery-container .lottery-body > div {
+	padding: 20px;
 }
 
 .lottery-container .lottery-body .gradient-card {
