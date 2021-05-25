@@ -14,6 +14,7 @@ import {Shell} from "./components/shell";
 import {StaticHtmlComponent} from "./components/pages/staticHtmlComponent";
 import {LotteryComponent} from "./components/pages/lotteryComponent";
 import {HomeComponent} from "./components/pages/homeComponent";
+import {StakingComponent} from "./components/pages/stakingComponent";
 
 const pagesInNavigator = [
 	{ id: 'home', title: 'Home', component: HomeComponent },
@@ -22,7 +23,7 @@ const pagesInNavigator = [
 		require('./content/about.html')]
 	} },
 	{ id: 'news', title: 'News', component: StaticHtmlComponent, componentProps: {src: '<h3 class="coming-soon">Coming soon</h3>'} },
-	{ id: 'staking', title: 'Staking', component: StaticHtmlComponent, componentProps: {src: '<h3 class="coming-soon">Coming soon</h3>'} },
+	{ id: 'staking', title: 'Staking', component: StakingComponent },
 	{ id: 'lottery', title: 'Lottery', component: LotteryComponent },
 	{ id: 'faq', title: 'FAQ', component: StaticHtmlComponent, componentProps: {src: '<h3 class="coming-soon">Coming soon</h3>'}  },
 ]

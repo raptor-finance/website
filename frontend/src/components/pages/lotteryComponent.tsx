@@ -132,11 +132,6 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 							target="_blank">switch to the Binance Smart Chain</a>.</p>
 					</div>
 				</div>
-				<div className="row text-white lottery-footer">
-					<div className="col-md-12 d-flex flex-column">
-						<button className="btn btn-primary btn-lg link-dark align-self-center" type="button" onClick={async () => this.buyTicket()}>Purchase a lottery ticket</button>
-					</div>
-				</div>
 				<div className="row lottery-body">
 					<div className="col-md-6 d-flex">
 						<div className="d-flex flex-column flex-fill gradient-card primary">
@@ -146,7 +141,7 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 							<h5>Wallet balance</h5>
 							<p>{numeral(state.balance || 0).format('0,0.00')} Raptor</p>
 							<h5>Purchased tickets</h5>
-							<p>{numeral(state.tickets || 0).format('0,0.00')} tickets</p>
+							<p>{numeral(state.tickets || 0).format('0,0')} tickets</p>
 							<h5>Price per ticket</h5>
 							<p>{numeral(state.price || 0).format('0,0.00')} Raptor</p>
 						</div>
@@ -159,7 +154,8 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 							<h5>Current jackpot</h5>
 							<p>{numeral(state.jackpot || 0).format('0,0.00')} Raptor</p>
 							<h5>Total tickets for this round</h5>
-							<p>{numeral(state.totalTickets || 0).format('0,0.00')} tickets</p>
+							<p>{numeral(state.totalTickets || 0).format('0,0')} tickets</p>
+							<button className="btn btn-primary btn-lg link-dark align-self-center" type="button" onClick={async () => this.buyTicket()} style={{marginTop:"20px"}}>Purchase a lottery ticket</button>
 						</div>
 					</div>
 				</div>

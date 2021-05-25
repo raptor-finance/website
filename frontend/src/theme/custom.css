@@ -37,3 +37,14 @@ body {
 	color: var(--dark);
 	border: 1px solid var(--dark);
 }
+
+.coming-soon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	line-height: 50px;
+	margin-top: -25px;
+	margin-left: -100px;
+	width: 200px;
+	text-align: center;
+}
