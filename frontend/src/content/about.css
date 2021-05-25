@@ -125,6 +125,37 @@
 	border: 1px solid var(--light);
 }
 
+.about-container #sidebar {
+
+}
+
+.about-container #sidebar .gradient-card {
+	min-height: 700px;
+	position: sticky;
+	top: 30px;
+}
+
+.about-container #sidebar .background {
+	position: absolute;
+	left: 10px;
+	bottom: 10px;
+	right: 0;
+	height: auto;
+	opacity: 0.5;
+}
+
+.about-container #sidebar .background > img {
+	width: 100%;
+}
+
+.about-container #sidebar a {
+	color: var(--dark) !important;
+	font-weight: 600;
+	text-decoration: underline;
+	padding: 15px 0;
+	display: block;
+}
+
 @media screen and (max-width: 600px) {
 	.about-container #roadmap .timeline::after {
 		left: 31px;
