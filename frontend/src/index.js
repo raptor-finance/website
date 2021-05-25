@@ -1,6 +1,7 @@
 // let's use React.js
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 
 // and bootstrap
 import 'bootstrap';
@@ -25,6 +26,9 @@ const pagesInNavigator = [
 	{ id: 'lottery', title: 'Lottery', component: LotteryComponent },
 	{ id: 'faq', title: 'FAQ', component: StaticHtmlComponent, componentProps: {src: '<h3 class="coming-soon">Coming soon</h3>'}  },
 ]
+
+// initialize modals
+Modal.setAppElement('#root');
 
 // and render our app into the "root" element!
 ReactDOM.render(

@@ -8,6 +8,8 @@ export type HomeState = {
 	exit?: boolean;
 }
 
+import './homeComponent.css';
+
 export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 
 	private readonly plantDate: Date = new Date("05/18/2021");
@@ -21,6 +23,7 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 		console.log('mount');
 		this.tick();
 	}
+
 	componentWillUnmount() {
 		this.setState({exit: true});
 	}
@@ -42,98 +45,55 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 
 	render() {
 		return <div className="home-container">
-			<div className="row align-items-center">
-				<div className="col-12 col-lg-7 mb-4 mb-lg-0">
-					<h1 className="text-white font-weight-bold">
-						<div>Can we heal the Earth together?</div>
-					</h1>
-					<div>
-						<p className="text-white">
-							Raptor Finance is a decentralized, financial ecosystem designed by holders for holders. Our mission is to heal planet Earth together and fight climate change! We achieve this by donating to community-chosen projects that help prevent climate change. There is no planet B, therefore we need to work together to help save Mother Earth!
+			<div className="container" style={{marginTop: "10%"}}>
+				<div className="row">
+					<div className="col-md-6">
+						<h1><strong>Can we heal the Earth together?</strong><br/></h1>
+						<p>Raptor Finance is a decentralized, financial ecosystem designed by holders for holders. Our
+							mission is to heal planet Earth together and fight climate change! We achieve this by
+							donating to community-chosen projects that help prevent climate change. There is no planet
+							B, therefore we need to work together to help save Mother Earth!
 						</p>
 					</div>
-					<div>
-
-						<div className="row">
-							<div className="col-6">
-								<Link to="about" className="btn btn-outline-light btn-block">About Raptor</Link>
-							</div>
-							<div className="col-6">
-								<a href="/whitepaper.pdf" className="btn btn-light btn-block"
-								   target="_blank">Whitepaper</a>
-							</div>
+					<div className="col-md-6 d-flex">
+						<div className="d-flex flex-row align-self-center flex-wrap gradient-card primary"
+							 id="raptor-forest">
+							<h4 className="flex-fill">Our Raptor forest</h4>
+							<p><strong>Funded by: </strong><span>Raptor Finance</span></p>
+							<p><strong>Age: </strong><span>{this.readState().treeAge} days</span></p>
+							<p><strong>CO2 offset: </strong><span>3 tonnes</span></p>
+							<p><strong>Different species: </strong><span>6</span></p>
+							<p><strong>Amount of trees: </strong><span>151</span></p>
+							<p><strong>Planting projects: </strong><span>2</span></p>
 						</div>
 					</div>
 				</div>
-				<div className="col-12 col-lg-5">
-					<div className="row">
-						<div className="col-12 col-md-6 col-lg-6 mb-3 mb-lg-auto">
-							<Link to="staking">
-								<div className="card card-dark card-rounded-x2">
-									<div className="card-body text-center">
-										<img src="images/staking.svg" width="120" height="60" />
-										<div className="mt-2 small">
-											Earn More Raptors
-										</div>
-									</div>
-								</div>
-							</Link>
-						</div>
-						<div className="col-12 col-md-6 col-lg-6">
-							<Link to="lottery">
-								<div className="card card-dark card-rounded-x2">
-									<div className="card-body text-center">
-										<img src="images/lottery.svg" width="120" height="60" />
-										<div className="mt-2 small">
-											Win More Raptors
-										</div>
-									</div>
-								</div>
-							</Link>
+				<div className="row">
+					<div className="col-md-6">
+						<div className="d-flex justify-content-center flex-sm-column flex-lg-row hero-buttons"><a
+							className="btn btn-primary btn-lg" role="button" href="about">About Raptor Finance</a><a
+							className="btn btn-light btn-lg" role="button" href="/whitepaper.pdf" target="_blank">Read
+							our whitepaper</a>
 						</div>
 					</div>
-					<div className="row">
-						<div className="col">
-							<div className="card card-rounded-x2  overflow-hidden mt-1 gradient-green-blue mb-5">
-								<div className=" planet-earth-image"/>
-								<div className="card-body text-left">
-									<div className="row p-4">
-										<div className="col-12">
-											<h2 className="text-dark font-weight-bold mb-5 mt-5">Raptor Forest</h2>
-										</div>
-
-										<div className="col-12 col-lg-6">
-											<div className="text-dark pb-2">
-												<h5><strong>Funded by:</strong><span className="font-weight-thin"> Raptor Finance </span>
-												</h5>
-											</div>
-											<div className="text-dark pb-2">
-												<h5><strong>CO2 Offset:</strong> 3 tonnes</h5>
-											</div>
-											<div className="text-dark">
-												<h5><strong>Projects:</strong> 2</h5>
-											</div>
-										</div>
-
-										<div className="col-12 col-lg-6">
-											<div className="text-dark pb-2">
-												<h5><strong>Age:</strong> <span id="dayCounter">{this.readState().treeAge}</span></h5>
-											</div>
-											<div className="text-dark pb-2">
-												<h5><strong>Species:</strong> 6</h5>
-											</div>
-											<div className="text-dark">
-												<h5><strong>Trees:</strong> 151</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+					<div className="col-md-6">
+						<div className="d-flex justify-content-center flex-sm-column flex-lg-row hero-buttons">
+							<a
+								className="btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image"
+								href="lottery" role="button">
+									<img src="images/lottery.svg"/>
+									<span className="text-light"><strong>Win </strong>Raptor tokens</span>
+							</a>
+							<a
+								className="btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image"
+								href="staking" role="button">
+									<img src="images/staking.svg"/>
+									<span className="text-light"><strong>Earn </strong>Raptor tokens</span>
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	}
-
 }

@@ -1,0 +1,130 @@
+/* old styles from the prototype */
+
+
+h1 {
+	font-size: 3.5rem;
+	font-weight: 900;
+}
+
+.btn {
+	border-radius: 15px;
+	color: #282B3A;
+	font-weight: 600;
+	padding: 0.575rem 0.75rem;
+}
+
+.btn-light {
+	background-color: #e0e0e0;
+	border-color: #e0e0e0;
+}
+
+.btn-outline-light {
+	color: #e0e0e0;
+	border-color: #e0e0e0;
+}
+
+.btn-outline-success {
+	color: #31C461;
+}
+
+.btn-outline-success:hover {
+	color: #e0e0e0;
+}
+
+.btn-outline-light:hover {
+	color: #282B3A;
+}
+
+.text-center {
+	text-align: center;
+}
+
+
+.card-dark {
+	background-color: #282B3A;
+}
+
+.card {
+	border: 0;
+}
+
+.card.info a {
+	color: var(--dark);
+}
+
+.card-bottom-sticky {
+	position: -webkit-sticky;
+	position: sticky;
+	top: 100px;
+}
+
+.card-rounded {
+	border-radius: 1.3rem;
+}
+
+.card-rounded-x2 {
+	border-radius: 2.3rem;
+}
+
+.gradient-green-blue {
+	background: rgb(196, 234, 255);
+	background: linear-gradient(0deg, rgba(196, 234, 255, 1) 0%, rgba(111, 177, 54, 1) 100%);
+}
+
+.gradient-green-blue {
+	background: rgb(196, 234, 255);
+	background: linear-gradient(0deg, rgba(196, 234, 255, 1) 0%, rgba(111, 177, 54, 1) 100%);
+}
+
+.gradient-green-red {
+	background: rgb(255, 196, 203);
+	background: linear-gradient(0deg, rgba(255, 196, 203, 1) 0%, rgba(157, 185, 132, 1) 100%);
+}
+
+.gradient-green-blue-image {
+	/* webpackIgnore: true */
+	background-image: url("images/bg-bak.svg");
+	background-repeat: no-repeat;
+	background-position: bottom right;
+	background-size: 300px;
+}
+
+.gradient-green-blue-image-home {
+	/* webpackIgnore: true */
+	background-image: url("images/logo-rp-u.svg");
+	background-repeat: no-repeat;
+	background-position: bottom right;
+	background-size: 250px;
+	/*background-position: 150px bottom;*/
+}
+
+.btn-dark {
+	color: #fff;
+}
+
+.text-dark {
+	color: #000;
+}
+
+.text-dark-2 {
+	color: #282B3A;
+}
+
+.text-dark-light {
+	color: #515151;
+}
+
+.coming-soon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	line-height: 50px;
+	margin-top: -25px;
+	margin-left: -100px;
+	width: 200px;
+	text-align: center;
+}
+
+.card-logo {
+	min-height: 350px;
+}
