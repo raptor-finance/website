@@ -1,0 +1,39 @@
+{
+	"name": "raptor-frontend",
+	"scripts": {
+		"start": "webpack-dev-server --config webpack.dev.js",
+		"build": "webpack --config webpack.prod.js"
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^1.2.35",
+		"@fortawesome/free-brands-svg-icons": "^5.15.3",
+		"@fortawesome/free-solid-svg-icons": "^5.15.3",
+		"@fortawesome/react-fontawesome": "^0.1.14",
+		"@popperjs/core": "^2.9.2",
+		"bootstrap": "^5.0.1",
+		"jquery": "^3.6.0",
+		"numeral": "^2.0.6",
+		"react": "^16.8.6",
+		"react-bootstrap": "^1.6.0",
+		"react-dom": "^16.8.6",
+		"react-modal": "^3.13.1",
+		"react-router-dom": "^5.2.0",
+		"rxjs": "^7.1.0",
+		"web3": "^1.3.6"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.14.3",
+		"babel-loader": "^8.2.2",
+		"babel-preset-react-app": "^9.1.2",
+		"copy-webpack-plugin": "^6.2.1",
+		"css-loader": "^5.2.5",
+		"dns-packet": "^5.2.2",
+		"html-webpack-plugin": "^3.2.0",
+		"raw-loader": "^4.0.2",
+		"style-loader": "^2.0.0",
+		"webpack": "^4.29.6",
+		"webpack-cli": "^3.3.0",
+		"webpack-dev-server": "^3.11.2",
+		"webpack-merge": "^5.7.3"
+	}
+}

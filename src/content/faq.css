@@ -1,0 +1,20 @@
+.faq-container h1 {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding-top: 50px;
+	font-size: x-large;
+}
+
+.faq-container h1 > img {
+	height: 50px;
+	margin: 0 20px;
+}
+
+.faq-container h1 > span {
+	line-height: 50px;
+}
+
+.faq-container h1 {
+	color: var(--white);
+}

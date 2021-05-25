@@ -1,0 +1,43 @@
+.home-container {
+	display: flex;
+	align-items: flex-end;
+	padding-top: 50px;
+}
+
+.home-container #raptor-forest {
+	margin: 10px;
+}
+
+.home-container #raptor-forest p {
+	flex: 0 0 50%;
+}
+
+.home-container #raptor-forest h4 {
+	flex: 1 1 100%;
+	min-width: 100%;
+	margin-bottom: 40px;
+}
+
+.home-container .hero-buttons {
+	margin: 10px 0;
+}
+
+.home-container .hero-buttons > * {
+	margin: 10px;
+	color: var(--dark) !important;
+	font-size: medium;
+	padding: 15px;
+}
+
+.home-container .large-button-image {
+	background: rgba(0,0,0,0.5);
+}
+
+.home-container .large-button-image > img {
+	height: 60px;
+	width: 120px;
+}
+
+.home-container .large-button-image strong {
+	color: var(--white);
+}

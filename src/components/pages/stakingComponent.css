@@ -1,0 +1,58 @@
+.staking-container {
+	display: block;
+	margin-top: 5%;
+}
+
+.staking-container #staking-form label {
+	margin-bottom: 20px;
+}
+
+.staking-container .staking-header img {
+	margin-bottom: 50px;
+	width: 200px;
+}
+
+.staking-container .staking-header {
+	margin-bottom: 50px;
+}
+
+.staking-container .staking-footer {
+	padding: 50px;
+}
+
+.staking-container .staking-body h3 {
+	margin-bottom: 50px;
+}
+
+.staking-container #staking-form label {
+	margin-bottom: 20px;
+}
+
+.staking-container #staking-form {
+	display: flex;
+	flex-direction: column;
+}
+
+.staking-container #staking-form button.stake-confirm {
+	margin-top: 20px;
+}
+
+.staking-container #staking-form .staking-percentages {
+	margin-bottom: 20px;
+}
+
+.staking-container #staking-form .staking-slider-wrapper {
+	line-height: 35px;
+}
+
+.staking-container #staking-form .staking-slider-wrapper input {
+	height: 35px;
+}
+
+.staking-container #staking-form .staking-slider-wrapper label {
+	margin-left: 20px;
+}
+
+.staking-container .staking-body > div {
+	padding: 20px;
+}
