@@ -30,7 +30,10 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 	}
 	handleError(error) {
 		// todo show error nicer
-		alert('Error: ' + error);
+
+		const message = !!error && !!error.message ? error.message : error;
+
+		alert('Error: ' + message);
 		console.error(error);
 	}
 
@@ -118,72 +121,46 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 		const state = this.readState();
 
 		return <div className="lottery-container">
-			<div className="row">
-				<div className="col-12 col-lg-10">
-					<img src="https://raptr.finance/images/lottery.svg" className="mb-3" width="250" />
-					<div>
-						<p className="text-white">
-							This is a simple, non-custodial Proof of Work Random Number Generation <br />
-							Lottery for Raptor to easily purchase Raptor Lottery Tickets!
-						</p>
-						<p className="text-white">
-							You need to be connected to the Binance Smart Chain to play in our lotteries!
-						</p>
+			<div className="container">
+				<div className="row text-white lottery-header">
+					<div className="col-md-12"><img src="images/lottery.svg"/>
+						<p>This is a simple, non-custodial proof-of-work random number generation lottery for Raptor. You
+							have the chance to win Raptor tokens by buying tickets with Raptor tokens.</p>
+						<p>In order to play in our lottery, you need to connect your browser wallet (such as <a
+							href="https://metamask.io/">Metamask</a>) and <a
+							href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
+							target="_blank">switch to the Binance Smart Chain</a>.</p>
 					</div>
-					<div>
-						<div className="row">
-							<div className="col-12 col-md-6 col-lg-6">
-								<div className="card card-rounded-x2  overflow-hidden mt-3 gradient-green-blue">
-									<div className="card-body p-5 text-left">
-										<div>
-											<h4 className="text-dark font-weight-bold">Your Information</h4>
-										</div>
-										<div className="mt-3">
-											<strong className="text-dark">Address</strong>
-											<div className="text-dark-light small">{state.address || 'Please connect your wallet'}</div>
-										</div>
-										<div className="mt-3">
-											<strong className="text-dark">Balance</strong>
-											<div className="text-dark-light">{numeral(state.balance || 0).format('0,0.00')}</div>
-										</div>
-										<div className="mt-3">
-											<strong className="text-dark">Tickets balance</strong>
-											<div className="text-dark-light">{numeral(state.tickets || 0).format('0,0.00')}</div>
-										</div>
-										<div className="mt-3">
-											<strong className="text-dark">Ticket price:</strong>
-											<div className="text-dark font-weight-bold">{numeral(state.price || 0).format('0,0.00')}</div>
-										</div>
-										<div className="mt-3">
-											<div>
-												<a onClick={async () => this.buyTicket()} className="btn btn-dark btn-block">Purchase a ticket</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div className="col-12 col-md-6 col-lg-6">
-								<div className="card card-rounded-x2  overflow-hidden mt-3 gradient-green-red">
-									<div className="card-body p-5 text-left">
-										<div>
-											<h4 className="text-dark font-weight-bold">Current Jackpot</h4>
-										</div>
-										<div className="mt-5">
-											<strong className="text-dark">Winner of last round</strong>
-											<div className="text-dark-light">{state.lastWinner || 'Nobody won yet'}</div>
-										</div>
-										<div className="mt-3">
-											<strong className="text-dark">Current jackpot</strong>
-											<div className="text-dark-light">{numeral(state.jackpot || 0).format('0,0.00')}</div>
-										</div>
-										<div className="mt-3 mb-4">
-											<strong className="text-dark">Total tickets for this round</strong>
-											<div className="text-dark-light">{numeral(state.totalTickets || 0).format('0,0.00')}</div>
-										</div>
-									</div>
-								</div>
-							</div>
+				</div>
+				<div className="row lottery-body">
+					<div className="col-md-6 d-flex">
+						<div className="d-flex flex-column flex-fill gradient-card primary">
+							<h3>Your information</h3>
+							<h5>Wallet address</h5>
+							<p>{state.address || 'Please connect your wallet'}</p>
+							<h5>Wallet balance</h5>
+							<p>{numeral(state.balance || 0).format('0,0.00')} Raptor</p>
+							<h5>Purchased tickets</h5>
+							<p>{numeral(state.tickets || 0).format('0,0.00')} tickets</p>
+							<h5>Price per ticket</h5>
+							<p>{numeral(state.price || 0).format('0,0.00')} Raptor</p>
 						</div>
+					</div>
+					<div className="col-md-6 d-flex">
+						<div className="d-flex flex-column flex-fill gradient-card light">
+							<h3>Lottery status</h3>
+							<h5>Winner of last round</h5>
+							<p>{state.lastWinner || 'Nobody won yet!'}</p>
+							<h5>Current jackpot</h5>
+							<p>{numeral(state.jackpot || 0).format('0,0.00')} Raptor</p>
+							<h5>Total tickets for this round</h5>
+							<p>{numeral(state.totalTickets || 0).format('0,0.00')} tickets</p>
+						</div>
+					</div>
+				</div>
+				<div className="row text-white lottery-footer">
+					<div className="col-md-12 d-flex flex-column">
+						<button className="btn btn-primary btn-lg link-dark align-self-center" type="button" onClick={async () => this.buyTicket()}>Purchase a lottery ticket</button>
 					</div>
 				</div>
 			</div>
