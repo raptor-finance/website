@@ -52,7 +52,7 @@ export class Raptor {
 			throw 'Your staked Raptor balance is not sufficient to unstake this amount';
 		}
 	}
-	async claim(amount: number): Promise<void> {
+	async claim(): Promise<void> {
 		await this._contract.methods.claimStakingRewards().send({'from': this._wallet.currentAddress});
 		await this.refresh();
 	}

@@ -27,8 +27,8 @@ export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 			<div className="navigation-wrapper">
 				<div className="logo-wrapper">
 					<img src="images/logo.svg" className="img-logo" alt="Raptor Finance"/>
-					<button className="navbar-toggler" type="button" data-bs-target="#navbarResponsive" data-bs-toggle="collapse"
-							aria-controls="navbarSupportedContent" aria-expanded={false} aria-label="Toggle navigation">
+					<button className="navbar-toggler" type="button" data-bs-target="#mainNav" data-bs-toggle="collapse"
+							aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
 						<FontAwesomeIcon icon={faBars} />
 					</button>
 				</div>

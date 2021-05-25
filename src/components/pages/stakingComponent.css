@@ -33,9 +33,17 @@
 	flex-direction: column;
 }
 
-.staking-container #staking-form button.stake-confirm {
+.staking-container #staking-form .button-row {
 	margin-top: 20px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
 }
+
+.staking-container #staking-form .button-row > button {
+	margin: 0 4px;
+}
+
 
 .staking-container #staking-form .staking-percentages {
 	margin-bottom: 20px;

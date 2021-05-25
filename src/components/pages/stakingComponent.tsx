@@ -85,9 +85,16 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 	async confirmClaimRewards(): Promise<void> {
 
 		try {
+			const state = this.readState();
+			this.updateState({pending: true});
 
+			await state.raptor.claim();
+
+			this.updateState({pending: false});
+			this.updateOnce(true).then();
 		}
 		catch(e) {
+			this.updateState({pending: false});
 			this.handleError(e);
 		}
 	}
@@ -238,7 +245,10 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 								</div>
 								<label className="form-label">Amount of tokens in staking:</label>
 								<input type="number" className="form-control form-control-lg" id="staking-value" disabled={state.pending} onChange={this.handleInput} value={state.ctValue||0}/>
-								<button className="btn btn-primary btn-lg link-dark align-self-center stake-confirm" disabled={state.stakedBalance === state.ctValue || state.pending} type="button" onClick={async () => this.confirmStake()}>{state.ctLabel}</button>
+								<div className="button-row">
+									<button className="btn btn-primary btn-lg link-dark align-self-center stake-confirm" disabled={state.stakedBalance === state.ctValue || state.pending} type="button" onClick={async () => this.confirmStake()}>{state.ctLabel}</button>
+									<button className="btn btn-light btn-lg link-dark align-self-center stake-claim" disabled={state.pending} type="button" onClick={async () => this.confirmClaimRewards()}>Claim rewards</button>
+								</div>
 							</form>
 						</div>
 					</div>
