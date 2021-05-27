@@ -41,3 +41,7 @@
 .home-container .large-button-image strong {
 	color: var(--white);
 }
+
+.home-container .title-white {
+	color: rgba(255, 255, 255, 1) !important;
+}
