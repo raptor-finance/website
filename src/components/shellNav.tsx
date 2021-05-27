@@ -7,6 +7,12 @@ import './shellNav.css';
 import './shellNav.icons.css';
 import {faBars} from "@fortawesome/free-solid-svg-icons";
 import {faTelegram, faTwitter} from "@fortawesome/free-brands-svg-icons";
+import {faFacebook} from "@fortawesome/free-brands-svg-icons/faFacebook";
+import {faInstagram} from "@fortawesome/free-brands-svg-icons/faInstagram";
+import {faReddit} from "@fortawesome/free-brands-svg-icons/faReddit";
+import {faTiktok} from "@fortawesome/free-brands-svg-icons/faTiktok";
+import {faYoutube} from "@fortawesome/free-brands-svg-icons/faYoutube";
+import {faDiscord} from "@fortawesome/free-brands-svg-icons/faDiscord";
 
 export type ShellNavProps = {
 	pages: IShellPage[];
@@ -52,6 +58,24 @@ export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 							</a>
 							<a href="https://t.me/PhilosoRaptorToken" className="btn-social" target="_blank">
 								<FontAwesomeIcon icon={faTelegram} />
+							</a>
+							<a href="https://www.facebook.com/raptr.finance" className="btn-social" target="_blank">
+								<FontAwesomeIcon icon={faFacebook} />
+							</a>
+							<a href="https://www.instagram.com/raptor_token/" className="btn-social" target="_blank">
+								<FontAwesomeIcon icon={faInstagram} />
+							</a>
+							<a href="https://www.reddit.com/r/RaptorToken/" className="btn-social" target="_blank">
+								<FontAwesomeIcon icon={faReddit} />
+							</a>
+							<a href="https://www.tiktok.com/@raptor.finance" className="btn-social" target="_blank">
+								<FontAwesomeIcon icon={faTiktok} />
+							</a>
+							<a href="https://www.youtube.com/channel/UCQ-yByM7ECDvB1CIr_5Pafg" className="btn-social" target="_blank">
+								<FontAwesomeIcon icon={faYoutube} />
+							</a>
+							<a href="https://discord.gg/EJwR3pjd9A" className="btn-social" target="_blank">
+								<FontAwesomeIcon icon={faDiscord} />
 							</a>
 						</div>
 						<div>
