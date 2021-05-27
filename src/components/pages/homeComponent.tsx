@@ -85,9 +85,9 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 							<h4 className="flex-fill">Our Raptor forest</h4>
 							<p><strong>Funded by: </strong><span>Raptor Finance</span></p>
 							<p><strong>Age: </strong><span>{this.readState().treeAge} days</span></p>
-							<p><strong>CO2 offset: </strong><span>3 tonnes</span></p>
-							<p><strong>Different species: </strong><span>6</span></p>
-							<p><strong>Amount of trees: </strong><span>151</span></p>
+							<p><strong>CO2 offset: </strong><span>4.5 tonnes</span></p>
+							<p><strong>Different species: </strong><span>8</span></p>
+							<p><strong>Amount of trees: </strong><span>226</span></p>
 							<p><strong>Planting projects: </strong><span>2</span></p>
 						</div>
 					</div>
@@ -121,7 +121,7 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 						<h1><strong className="title-white">Want to help?</strong><br/></h1>
 						<p>You can help us saving the earth by donating to the official Raptor community donation wallet. The balance of this wallet will be gradually donated to environmental charities starting Q4/2021. Please check our <a href="about#roadmap">roadmap</a> for details.</p>
 						<p>This is our only donation wallet address: <a href={`https://bscscan.com/address/${DonationWalletAddress}`} target="_blank" style={{fontFamily: 'monospace'}}>{DonationWalletAddress}</a></p>
-						<p>There are currently ${numeral(state.donationBalance).format('0,0.00')} in our wallet to be donated!</p>
+						<p>There is currently ${numeral(state.donationBalance).format('0,0.00')} in our wallet to be donated!</p>
 					</div>
 					<div className="col-md-6 d-flex">
 						<div className="d-flex flex-row align-self-center flex-wrap gradient-card primary"
