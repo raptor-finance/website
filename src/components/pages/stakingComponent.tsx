@@ -155,7 +155,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 					this.updateState({
 						ctPercentage: (Math.floor(100 * raptor.stakedBalance / (raptor.balance + raptor.stakedBalance))),
 						ctValue: raptor.stakedBalance,
-						ctLabel: 'Please set stake first'
+						ctLabel: 'Please set amount'
 					})
 				}
 
@@ -181,7 +181,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 		this.updateState({
 			ctPercentage: p,
 			ctValue: v,
-			ctLabel: v < r.stakedBalance ? "Unstake tokens" : v > r.stakedBalance ? "Stake more tokens" : "Please set stake first"
+			ctLabel: v < r.stakedBalance ? "Unstake tokens" : v > r.stakedBalance ? "Stake tokens" : "Please set amount"
 		});
 	}
 	setStakeValue(value) {
@@ -193,7 +193,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 		this.updateState({
 			ctPercentage: Math.floor(100 * v / t),
 			ctValue: v,
-			ctLabel: v < r.stakedBalance ? "Unstake tokens" : v > r.stakedBalance ? "Stake more tokens" : "Please set stake first"
+			ctLabel: v < r.stakedBalance ? "Unstake tokens" : v > r.stakedBalance ? "Stake more tokens" : "Please set amount"
 		});
 	}
 
@@ -210,7 +210,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 						<p>In order to stake Raptor tokens, you need to connect your browser wallet (such as <a
 							href="https://metamask.io/">Metamask</a>) and <a
 							href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
-							target="_blank">switch to the Binance Smart Chain</a>.</p>
+							target="_blank">Switch to the Binance Smart Chain</a>.</p>
 					</div>
 				</div>
 				<div className="row staking-body">
@@ -231,7 +231,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 						<div className="d-flex flex-column flex-fill gradient-card dark">
 							<h3>Staking control</h3>
 							<form id="staking-form">
-								<label className="form-label">Percentage of tokens in staking:</label>
+								<label className="form-label">Percentage of tokens to stake:</label>
 								<div className="d-flex flex-row align-items-baseline staking-slider-wrapper">
 									<input type="range" className="form-range form-control" id="staking-slider" min="0" max="100" step="1" disabled={state.pending} value={state.ctPercentage||0} onChange={this.handleSlider} style={{border: "none", background: "none"}}/>
 									<label className="form-label align-self-center">{numeral(state.ctPercentage||0).format('0')}%</label>
@@ -243,11 +243,11 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 									<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" id="stake-75" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(75)}>75%</button>
 									<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" id="stake-100" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(100)}>100%</button>
 								</div>
-								<label className="form-label">Amount of tokens in staking:</label>
+								<label className="form-label">Amount of tokens to stake:</label>
 								<input type="number" className="form-control form-control-lg" id="staking-value" disabled={state.pending} onChange={this.handleInput} value={state.ctValue||0}/>
 								<div className="button-row">
 									<button className="btn btn-primary btn-lg link-dark align-self-center stake-confirm" disabled={state.stakedBalance === state.ctValue || state.pending} type="button" onClick={async () => this.confirmStake()}>{state.ctLabel}</button>
-									<button className="btn btn-light btn-lg link-dark align-self-center stake-claim" disabled={state.pending} type="button" onClick={async () => this.confirmClaimRewards()}>Claim rewards</button>
+									<button className="btn btn-light btn-lg link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>Claim rewards</button>
 								</div>
 							</form>
 						</div>

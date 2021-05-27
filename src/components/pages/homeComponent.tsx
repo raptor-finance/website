@@ -48,7 +48,7 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 			<div className="container" style={{marginTop: "10%"}}>
 				<div className="row">
 					<div className="col-md-6">
-						<h1><strong>Can we heal the Earth together?</strong><br/></h1>
+						<h1><strong className="title-white">Can we heal the Earth together?</strong><br/></h1>
 						<p>Raptor Finance is a decentralized, financial ecosystem designed by holders for holders. Our
 							mission is to heal planet Earth together and fight climate change! We achieve this by
 							donating to community-chosen projects that help prevent climate change. There is no planet
@@ -71,9 +71,8 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 				<div className="row">
 					<div className="col-md-6">
 						<div className="d-flex justify-content-center flex-sm-column flex-lg-row hero-buttons"><a
-							className="btn btn-primary btn-lg" role="button" href="about">About Raptor Finance</a><a
-							className="btn btn-light btn-lg" role="button" href="/whitepaper.pdf" target="_blank">Read
-							our whitepaper</a>
+							className="btn btn-primary btn-lg" role="button" href="about">About Us</a><a
+							className="btn btn-light btn-lg" role="button" href="/whitepaper.pdf" target="_blank">Our Docs</a>
 						</div>
 					</div>
 					<div className="col-md-6">

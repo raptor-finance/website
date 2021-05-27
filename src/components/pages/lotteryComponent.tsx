@@ -26,7 +26,7 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 
 	handlePurchase(hash) {
 		// todo show message nicer
-		alert('You have successfully purchased a ticket. Your hash code is:<br/>' + hash);
+		alert('You have successfully purchased a ticket. Your hash code is: ' + hash);
 	}
 	handleError(error) {
 		// todo show error nicer
