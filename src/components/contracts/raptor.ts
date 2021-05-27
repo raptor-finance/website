@@ -2,6 +2,9 @@ import {Wallet} from "../wallet";
 import {Contract} from "web3-eth-contract";
 import * as web3 from 'web3-utils';
 
+export const RaptorAddress = "0xf9A3FdA781c94942760860fc731c24301c83830A";
+export const DonationWalletAddress = "0x50dF6f99c75Aeb6739CB69135ABc6dA77C588f93"
+
 export class Raptor {
 	private readonly _wallet: Wallet;
 	private readonly _contract: Contract;
@@ -12,7 +15,7 @@ export class Raptor {
 
 	constructor(wallet: Wallet) {
 		this._wallet = wallet;
-		this._contract = wallet.connectToContract("0xf9A3FdA781c94942760860fc731c24301c83830A", require('./raptor.abi.json'));
+		this._contract = wallet.connectToContract(RaptorAddress, require('./raptor.abi.json'));
 	}
 
 	get contract(): Contract {
