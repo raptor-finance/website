@@ -247,7 +247,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 								<input type="number" className="form-control form-control-lg" id="staking-value" disabled={state.pending} onChange={this.handleInput} value={state.ctValue||0}/>
 								<div className="button-row">
 									<button className="btn btn-primary btn-lg link-dark align-self-center stake-confirm" disabled={state.stakedBalance === state.ctValue || state.pending} type="button" onClick={async () => this.confirmStake()}>{state.ctLabel}</button>
-									<button className="btn btn-light btn-lg link-dark align-self-center stake-claim" disabled={state.pending} type="button" onClick={async () => this.confirmClaimRewards()}>Claim rewards</button>
+									<button className="btn btn-light btn-lg link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>Claim rewards</button>
 								</div>
 							</form>
 						</div>
