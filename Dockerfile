@@ -6,6 +6,8 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . .
+COPY .htaccess .
+RUN npm run build
 
 FROM nginx:alpine
 EXPOSE 8080
