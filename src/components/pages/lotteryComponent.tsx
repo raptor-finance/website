@@ -20,6 +20,7 @@ export type LotteryState = {
 	lastWinner?: string,
 	jackpot?: number,
 	totalTickets?: number
+	drawNumber?: number
 }
 
 export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> {
@@ -48,6 +49,7 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 
 			const hash = await lottery.buyTicket();
 			this.handlePurchase(hash);
+			this.updateOnce().then();
 		}
 		catch(e) {
 			this.handleError(e);
@@ -103,7 +105,8 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 					price: lottery.ticketPrice,
 					lastWinner: lottery.lastWinner,
 					tickets: lottery.tickets,
-					totalTickets: lottery.totalTickets
+					totalTickets: lottery.totalTickets,
+					drawNumber: lottery.drawNumber
 				});
 			}
 			catch (e) {
@@ -149,6 +152,8 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 					<div className="col-md-6 d-flex">
 						<div className="d-flex flex-column flex-fill gradient-card light">
 							<h3>Lottery status</h3>
+							<h5>Current draw number</h5>
+							<p>{numeral(state.drawNumber).format('0,0') || 'Nothing has been drawn yet!'}</p>
 							<h5>Winner of last round</h5>
 							<p>{state.lastWinner || 'Nobody won yet!'}</p>
 							<h5>Current jackpot</h5>
