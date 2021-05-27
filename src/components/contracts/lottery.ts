@@ -15,6 +15,7 @@ export class RaptorLottery {
 	private _tickets: number = 0;
 	private _jackpot: number = 0;
 	private _totalTickets: number = 0;
+	private _drawNumber: number = 0;
 	private _lastWinner: string = null;
 
 	constructor(wallet: Wallet) {
@@ -48,6 +49,9 @@ export class RaptorLottery {
 	get lastWinner(): string {
 		return this._lastWinner;
 	}
+	get drawNumber(): number {
+		return this._drawNumber;
+	}
 
 	async refresh(): Promise<void> {
 		await this._raptor.refresh();
@@ -57,10 +61,11 @@ export class RaptorLottery {
 		this._tickets = await this._contract.methods.ticketBalanceOf(this._wallet.currentAddress).call();
 		this._jackpot = await this._contract.methods.currentJackpot().call() * dec
 
-		const currentDraw = await this._contract.methods.currentDraw().call();
+		this._drawNumber = await this._contract.methods.currentDraw().call();
 
-		this._totalTickets = await this._contract.methods.ticketsPerRound(currentDraw).call();
-		this._lastWinner = await this._contract.methods.winnerOfRound(currentDraw - 1).call();
+		this._totalTickets = await this._contract.methods.ticketsPerRound(this._drawNumber).call();
+		this._lastWinner = await this._contract.methods.winnerOfRound(this._drawNumber - 1).call();
+
 	}
 	async buyTicket(): Promise<string> {
 		await this._raptor.refresh()
