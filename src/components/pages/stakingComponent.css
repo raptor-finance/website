@@ -64,3 +64,13 @@
 .staking-container .staking-body > div {
 	padding: 20px;
 }
+
+.staking-container input::-webkit-outer-spin-button,
+.staking-container input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.staking-container input[type=number] {
+	-moz-appearance: textfield;
+}
