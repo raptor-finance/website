@@ -71,9 +71,8 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 				<div className="row">
 					<div className="col-md-6">
 						<div className="d-flex justify-content-center flex-sm-column flex-lg-row hero-buttons"><a
-							className="btn btn-primary btn-lg" role="button" href="about">About Raptor Finance</a><a
-							className="btn btn-light btn-lg" role="button" href="/whitepaper.pdf" target="_blank">Read
-							our whitepaper</a>
+							className="btn btn-primary btn-lg" role="button" href="about">About Us</a><a
+							className="btn btn-light btn-lg" role="button" href="/whitepaper.pdf" target="_blank">Our Docs</a>
 						</div>
 					</div>
 					<div className="col-md-6">
