@@ -1,22 +1,31 @@
 import * as React from "react";
+import * as numeral from "numeral";
 import {BaseComponent} from "../shellInterfaces";
-import {Link} from "react-router-dom";
 
 export type HomeProps = {};
 export type HomeState = {
 	treeAge?: number;
 	exit?: boolean;
+	priceUsd?: number;
+	priceBnb?: number;
+	donationBalance?: number;
 }
 
 import './homeComponent.css';
+import {DonationWalletAddress} from "../contracts/raptor";
+import {RaptorStatistics} from "../contracts/statistics";
 
 export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 
+	private readonly _statistics: RaptorStatistics;
 	private readonly plantDate: Date = new Date("05/18/2021");
+
+	private _timeout = null;
 
 	constructor(props) {
 		super(props);
 		this.state = {};
+		this._statistics = new RaptorStatistics();
 	}
 
 	componentDidMount() {
@@ -25,10 +34,15 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 	}
 
 	componentWillUnmount() {
+		if (!!this._timeout) {
+			clearTimeout(this._timeout);
+			this._timeout = null;
+		}
+
 		this.setState({exit: true});
 	}
 
-	tick() {
+	async tick() {
 		const self = this;
 		const state = this.readState();
 
@@ -39,11 +53,21 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 		const timeDelta = new Date().getTime() - this.plantDate.getTime();
 		const dayDelta = Math.floor(timeDelta / (1000 * 3600 * 24));
 
-		this.setState({treeAge: dayDelta})
-		setTimeout(() => self.tick.call(self), 60000);
+		await this._statistics.refresh();
+
+		this.setState({
+			treeAge: dayDelta,
+			donationBalance: this._statistics.donationWalletBalance,
+			priceBnb: this._statistics.raptorBnbPrice,
+			priceUsd: this._statistics.raptorUsdPrice
+		});
+
+		this._timeout = setTimeout(async () => await self.tick.call(self), 60000);
 	}
 
 	render() {
+		const state = this.readState();
+
 		return <div className="home-container">
 			<div className="container" style={{marginTop: "10%"}}>
 				<div className="row">
@@ -89,6 +113,22 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 									<img src="images/staking.svg"/>
 									<span className="text-light"><strong>Earn </strong>Raptor tokens</span>
 							</a>
+						</div>
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-md-6">
+						<h1><strong className="title-white">Want to help?</strong><br/></h1>
+						<p>You can help us saving the earth by donating to the official Raptor community donation wallet. The balance of this wallet will be gradually donated to environmental charities starting Q4/2021. Please check our <a href="about#roadmap">roadmap</a> for details.</p>
+						<p>This is our only donation wallet address: <a href={`https://bscscan.com/address/${DonationWalletAddress}`} target="_blank" style={{fontFamily: 'monospace'}}>{DonationWalletAddress}</a></p>
+						<p>There are currently ${numeral(state.donationBalance).format('0,0.00')} in our wallet to be donated!</p>
+					</div>
+					<div className="col-md-6 d-flex">
+						<div className="d-flex flex-row align-self-center flex-wrap gradient-card primary"
+							 id="raptor-forest">
+							<h4 className="flex-fill">Token statistics</h4>
+							<p><strong>Price in USD: </strong><span>{(+state.priceUsd).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p>
+							<p><strong>Price in BNB: </strong><span>{(+state.priceBnb).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p>
 						</div>
 					</div>
 				</div>
