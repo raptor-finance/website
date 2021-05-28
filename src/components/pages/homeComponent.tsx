@@ -127,8 +127,8 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 						<div className="d-flex flex-row align-self-center flex-wrap gradient-card primary"
 							 id="raptor-forest">
 							<h4 className="flex-fill">Token statistics</h4>
-							<p><strong>Price in USD: </strong><span>{(+state.priceUsd).toLocaleString('en-US', {maximumFractionDigits: 8, minimumFractionDigits: 8})}</span></p>
-							<p><strong>Price in BNB: </strong><span>{(+state.priceBnb).toLocaleString('en-US', {maximumFractionDigits: 10, minimumFractionDigits: 10})}</span></p>
+							<p><strong>Price in USD: </strong><span>{(+state.priceUsd).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p>
+							<p><strong>Price in BNB: </strong><span>{(+state.priceBnb).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p>
 						</div>
 					</div>
 				</div>
