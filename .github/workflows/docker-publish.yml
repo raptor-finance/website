@@ -4,7 +4,7 @@ on:
   push:
     # Publish `main` as Docker `latest` image.
     branches:
-      - release
+      - main
 
     # Publish `v1.2.3` tags as releases.
     tags:
@@ -14,7 +14,7 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME: r.raptr.finance/raptor/website
+  IMAGE_NAME: website
 
 jobs:
   push:
