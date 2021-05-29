@@ -19,9 +19,10 @@ export type StakingState = {
 	pendingRewards?: number,
 
 	// values pending to be set
-	ctPercentage?: number,
-	ctValue?: number,
-	ctLabel?: string,
+	ctPercentageStake?: number,
+	ctValueStake?: number,
+	ctPercentageUnstake?: number,
+	ctValueUnstake?: number,
 	pending?: boolean
 }
 
@@ -32,17 +33,25 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 	constructor(props) {
 		super(props);
 
-		this.handleSlider = this.handleSlider.bind(this);
-		this.handleInput = this.handleInput.bind(this);
+		this.handleStakeSlider = this.handleStakeSlider.bind(this);
+		this.handleUnstakeSlider = this.handleUnstakeSlider.bind(this);
+		this.handleInputStake = this.handleInputStake.bind(this);
+		this.handleInputUnstake = this.handleInputUnstake.bind(this);
 
 		this.state = {};
 	}
 
-	handleSlider(event) {
+	handleStakeSlider(event) {
 		this.setStakePercentage(event.target.value);
 	}
-	handleInput(event) {
+	handleUnstakeSlider(event) {
+		this.setUnstakePercentage(event.target.value);
+	}
+	handleInputStake(event) {
 		this.setStakeValue(event.target.value);
+	}
+	handleInputUnstake(event) {
+		this.setUnstakeValue(event.target.value);
 	}
 
 	handleError(error) {
@@ -59,18 +68,32 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 			const state = this.readState();
 			this.updateState({pending: true});
 
-			if (state.ctValue > state.raptor.stakedBalance) {
-				// stake
-				const delta = state.ctValue - state.raptor.stakedBalance;
-				await state.raptor.stake(delta);
-			}
-			else if (state.ctValue < state.raptor.stakedBalance) {
-				// unstake
-				const delta = state.raptor.stakedBalance - state.ctValue;
-				await state.raptor.unstakeAndClaim(delta);
+			if (state.ctValueStake >= 0) {
+				await state.raptor.stake(state.ctValueStake);
 			}
 			else {
-				alert("Your stake doesn't need to be updated.");
+				alert("Can't stake a negative amount.");
+				return;
+			}
+
+			this.updateState({pending: false});
+			this.updateOnce(true).then();
+		}
+		catch(e) {
+			this.updateState({pending: false});
+			this.handleError(e);
+		}
+	}
+	async confirmUnstake(): Promise<void> {
+		try {
+			const state = this.readState();
+			this.updateState({pending: true});
+
+			if (state.ctValueUnstake >= 0) {
+				await state.raptor.unstakeAndClaim(state.ctValueUnstake);
+			}
+			else {
+				alert("Can't unstake a negative amount.");
 				return;
 			}
 
@@ -153,9 +176,10 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 
 				if (resetCt) {
 					this.updateState({
-						ctPercentage: (Math.floor(100 * raptor.stakedBalance / (raptor.balance + raptor.stakedBalance))),
-						ctValue: raptor.stakedBalance,
-						ctLabel: 'Please set amount'
+						ctPercentageStake: 0,
+						ctValueStake: 0,
+						ctPercentageUnstake: 0,
+						ctValueUnstake: 0
 					})
 				}
 
@@ -176,24 +200,45 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 		if (!r) return;
 
 		const p = Math.max(0, Math.min(+(percent||0), 100));
-		const v = (r.stakedBalance + r.balance) * (p * 0.01);
+		const v = (r.balance) * (p * 0.01);
 
 		this.updateState({
-			ctPercentage: p,
-			ctValue: v,
-			ctLabel: v < r.stakedBalance ? "Unstake tokens" : v > r.stakedBalance ? "Stake tokens" : "Please set amount"
+			ctPercentageStake: p,
+			ctValueStake: v,
 		});
 	}
 	setStakeValue(value) {
 		const r = this.readState().raptor;
 		if (!r) return;
 
-		const t = r.stakedBalance + r.balance;
-		const v = Math.max(0, Math.min(+(value||0),r.stakedBalance + r.balance));
+		const t = r.balance;
+		const v = Math.max(0, Math.min(+(value||0),r.balance));
 		this.updateState({
-			ctPercentage: Math.floor(100 * v / t),
-			ctValue: v,
-			ctLabel: v < r.stakedBalance ? "Unstake tokens" : v > r.stakedBalance ? "Stake more tokens" : "Please set amount"
+			ctPercentageStake: Math.floor(100 * v / t),
+			ctValueStake: v,
+		});
+	}
+	setUnstakePercentage(percent) {
+		const r = this.readState().raptor;
+		if (!r) return;
+
+		const p = Math.max(0, Math.min(+(percent||0), 100));
+		const v = (r.stakedBalance) * (p * 0.01);
+
+		this.updateState({
+			ctPercentageUnstake: p,
+			ctValueUnstake: v,
+		});
+	}
+	setUnstakeValue(value) {
+		const r = this.readState().raptor;
+		if (!r) return;
+
+		const t = r.stakedBalance;
+		const v = Math.max(0, Math.min(+(value||0),r.stakedBalance));
+		this.updateState({
+			ctPercentageStake: Math.floor(100 * v / t),
+			ctValueStake: v,
 		});
 	}
 
@@ -229,29 +274,61 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 					</div>
 					<div className="col-md-6 d-flex">
 						<div className="d-flex flex-column flex-fill gradient-card dark">
-							<h3>Staking control</h3>
-							<form id="staking-form">
-								<label className="form-label">Percentage of tokens to stake:</label>
-								<div className="d-flex flex-row align-items-baseline staking-slider-wrapper">
-									<input type="range" className="form-range form-control" id="staking-slider" min="0" max="100" step="1" disabled={state.pending} value={state.ctPercentage||0} onChange={this.handleSlider} style={{border: "none", background: "none"}}/>
-									<label className="form-label align-self-center">{numeral(state.ctPercentage||0).format('0')}%</label>
+							<div style={{margin: "-20px"}}>
+								<ul role="tablist" className="nav nav-tabs" style={{padding: "10px", paddingBottom: "0"}}>
+									<li role="presentation" className="nav-item"><a role="tab" data-bs-toggle="tab" className="nav-link active" href="#ctl-stake">Stake</a></li>
+									<li role="presentation" className="nav-item"><a role="tab" data-bs-toggle="tab" className="nav-link" href="#ctl-unstake">Unstake</a></li>
+								</ul>
+								<div className="tab-content">
+									<div role="tabpanel" className="tab-pane active" id="ctl-stake">
+										<form id="staking-form">
+											<label className="form-label">Percentage of tokens to stake:</label>
+											<div className="d-flex flex-row align-items-baseline staking-slider-wrapper">
+												<input type="range" className="form-range form-control" min="0" max="100" step="1" disabled={state.pending} value={state.ctPercentageStake||0} onChange={this.handleStakeSlider} style={{border: "none", background: "none"}}/>
+												<label className="form-label align-self-center">{numeral(state.ctPercentageStake||0).format('0')}%</label>
+											</div>
+											<div className="d-flex flex-row justify-content-evenly staking-percentages">
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(0)}>0%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(25)}>25%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(50)}>50%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(75)}>75%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(100)}>100%</button>
+											</div>
+											<label className="form-label">Amount of tokens to stake:</label>
+											<input type="number" className="form-control form-control-lg" disabled={state.pending} onChange={this.handleInputStake} value={state.ctValueStake||0}/>
+											<div className="button-row">
+												<button className="btn btn-primary btn-lg link-dark align-self-center stake-confirm" disabled={state.ctValueStake <= 0 || state.pending} type="button" onClick={async () => this.confirmStake()}>Stake</button>
+												<button className="btn btn-light btn-lg link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>Claim rewards</button>
+											</div>
+										</form>
+									</div>
+									<div role="tabpanel" className="tab-pane" id="ctl-unstake">
+										<form id="unstaking-form">
+											<label className="form-label">Percentage of tokens to unstake:</label>
+											<div className="d-flex flex-row align-items-baseline staking-slider-wrapper">
+												<input type="range" className="form-range form-control" min="0" max="100" step="1" disabled={state.pending} value={state.ctPercentageUnstake||0} onChange={this.handleUnstakeSlider} style={{border: "none", background: "none"}}/>
+												<label className="form-label align-self-center">{numeral(state.ctPercentageUnstake||0).format('0')}%</label>
+											</div>
+											<div className="d-flex flex-row justify-content-evenly staking-percentages">
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setUnstakePercentage(0)}>0%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setUnstakePercentage(25)}>25%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setUnstakePercentage(50)}>50%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setUnstakePercentage(75)}>75%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setUnstakePercentage(100)}>100%</button>
+											</div>
+											<label className="form-label">Amount of tokens to unstake:</label>
+											<input type="number" className="form-control form-control-lg" disabled={state.pending} onChange={this.handleInputUnstake} value={state.ctValueUnstake||0}/>
+											<div className="button-row">
+												<button className="btn btn-primary btn-lg link-dark align-self-center stake-confirm" disabled={state.ctValueUnstake <= 0 || state.pending} type="button" onClick={async () => this.confirmUnstake()}>Unstake</button>
+												<button className="btn btn-light btn-lg link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>Claim rewards</button>
+											</div>
+										</form>
+									</div>
 								</div>
-								<div className="d-flex flex-row justify-content-evenly staking-percentages">
-									<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" id="stake-0" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(0)}>0%</button>
-									<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" id="stake-25" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(25)}>25%</button>
-									<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" id="stake-50" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(50)}>50%</button>
-									<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" id="stake-75" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(75)}>75%</button>
-									<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" id="stake-100" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(100)}>100%</button>
-								</div>
-								<label className="form-label">Amount of tokens to stake:</label>
-								<input type="number" className="form-control form-control-lg" id="staking-value" disabled={state.pending} onChange={this.handleInput} value={state.ctValue||0}/>
-								<div className="button-row">
-									<button className="btn btn-primary btn-lg link-dark align-self-center stake-confirm" disabled={state.stakedBalance === state.ctValue || state.pending} type="button" onClick={async () => this.confirmStake()}>{state.ctLabel}</button>
-									<button className="btn btn-light btn-lg link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>Claim rewards</button>
-								</div>
-							</form>
+							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>

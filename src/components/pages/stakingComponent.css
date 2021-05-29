@@ -24,41 +24,52 @@
 	margin-bottom: 50px;
 }
 
-.staking-container #staking-form label {
+.staking-container form label {
 	margin-bottom: 20px;
 }
 
-.staking-container #staking-form {
+.staking-container form {
 	display: flex;
 	flex-direction: column;
+	margin: 20px;
 }
 
-.staking-container #staking-form .button-row {
+.staking-container form .button-row {
 	margin-top: 20px;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 }
 
-.staking-container #staking-form .button-row > button {
+.staking-container ul.nav-tabs {
+	background-color: rgba(0,0,0,0.5);
+	border-radius: 21px 21px 0 0;
+}
+
+.staking-container a.nav-link {
+	color: var(--white);
+}
+
+.staking-container form .button-row > button {
 	margin: 0 4px;
 }
 
-
-.staking-container #staking-form .staking-percentages {
+.staking-container form .staking-percentages {
 	margin-bottom: 20px;
+	margin-right: 60px;
 }
 
-.staking-container #staking-form .staking-slider-wrapper {
+.staking-container form .staking-slider-wrapper {
 	line-height: 35px;
 }
 
-.staking-container #staking-form .staking-slider-wrapper input {
+.staking-container form .staking-slider-wrapper input {
 	height: 35px;
 }
 
-.staking-container #staking-form .staking-slider-wrapper label {
-	margin-left: 20px;
+.staking-container form .staking-slider-wrapper label {
+	width: 60px;
+	text-align: right;
 }
 
 .staking-container .staking-body > div {
