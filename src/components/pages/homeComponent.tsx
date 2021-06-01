@@ -82,13 +82,14 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 					<div className="col-md-6 d-flex">
 						<div className="d-flex flex-row align-self-center flex-wrap gradient-card primary"
 							 id="raptor-forest">
-							<h4 className="flex-fill">Our Raptor forest</h4>
+							<h4 className="flex-fill">Our Raptor Forest</h4>
 							<p><strong>Funded by: </strong><span>Raptor Finance</span></p>
 							<p><strong>Age: </strong><span>{this.readState().treeAge} days</span></p>
-							<p><strong>CO2 offset: </strong><span>4.5 tonnes</span></p>
+							<p><strong>CO2 offset: </strong><span>22.24 tonnes</span></p>
 							<p><strong>Different species: </strong><span>8</span></p>
-							<p><strong>Amount of trees: </strong><span>226</span></p>
+							<p><strong>Amount of trees: </strong><span>1,887</span></p>
 							<p><strong>Planting projects: </strong><span>2</span></p>
+							<p><strong>Our Forest:</strong> <span><a className="title-white" href="https://ecologi.com/raptorfinance">Click Here</a></span></p>
 						</div>
 					</div>
 				</div>
