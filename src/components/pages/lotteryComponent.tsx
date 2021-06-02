@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as numeral from 'numeral';
 
-import {BaseComponent} from "../shellInterfaces";
+import {BaseComponent, ShellErrorHandler} from "../shellInterfaces";
 import {Wallet} from "../wallet";
 import {RaptorLottery} from "../contracts/lottery";
 
@@ -30,12 +30,7 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 		alert('You have successfully purchased a ticket. Your hash code is: ' + hash);
 	}
 	handleError(error) {
-		// todo show error nicer
-
-		const message = !!error && !!error.message ? error.message : error;
-
-		alert('Error: ' + message);
-		console.error(error);
+		ShellErrorHandler.handle(error);
 	}
 
 	async buyTicket(): Promise<void> {
