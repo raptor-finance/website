@@ -10,7 +10,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
 	entry: resolveAppPath('src'),
 	output: {
-		filename: 'bundle.[contenthash].js',
+		filename: process.env.production ? '[name].[chunkhash].js' : '[name].[hash].js',
 	},
 	resolve: {
 		extensions: ['.js', '.jsx', '.ts', '.tsx']
