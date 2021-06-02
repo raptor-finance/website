@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as numeral from 'numeral';
 
-import {BaseComponent} from "../shellInterfaces";
+import {BaseComponent, ShellErrorHandler} from "../shellInterfaces";
 import {Wallet} from "../wallet";
 
 import './stakingComponent.css';
@@ -55,12 +55,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 	}
 
 	handleError(error) {
-		// todo show error nicer
-
-		const message = !!error && !!error.message ? error.message : error;
-
-		alert('Error: ' + message);
-		console.error(error);
+		ShellErrorHandler.handle(error);
 	}
 
 	async confirmStake(): Promise<void> {
