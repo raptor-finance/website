@@ -84,6 +84,7 @@ export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 						<div className="mt-3">
 							<a href="https://bscscan.com/token/0xf9a3fda781c94942760860fc731c24301c83830a#balances" className="btn btn-light btn-block" target="_blank">View on BSCscan</a>
 						</div>
+						<p className="mt-3 text-center">© Raptor Finance 2021+</p>
 					</div>
 				</nav>
 			</div>
