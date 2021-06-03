@@ -6,7 +6,6 @@ const resolveAppPath = relativePath => path.resolve(appDirectory, relativePath);
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const { env } = require('node:process');
 
 module.exports = {
 	entry: resolveAppPath('src'),

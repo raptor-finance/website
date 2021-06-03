@@ -31,11 +31,11 @@ export class Wallet {
 
 	public async connect(): Promise<boolean> {
 		const wnd: any = window;
-		const provider1: any = await this.web3Modal.connect();
+		const web3ModelProvider: any = await this.web3Modal.connect();
 
 		if (!!wnd.ethereum) {
 			if (!this._web3) {
-				this._web3 = new Web3(provider1);
+				this._web3 = new Web3(web3ModelProvider);
 			}
 
 			const accounts = await wnd.ethereum.request({method:'eth_requestAccounts'});
