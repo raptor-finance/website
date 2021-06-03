@@ -6,11 +6,12 @@ const resolveAppPath = relativePath => path.resolve(appDirectory, relativePath);
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const { env } = require('node:process');
 
 module.exports = {
 	entry: resolveAppPath('src'),
 	output: {
-		filename: 'bundle.[contenthash].js',
+		filename: env.mode ?  'bundle.[contenthash].js' : 'bundle-[hash].js',
 	},
 	resolve: {
 		extensions: ['.js', '.jsx', '.ts', '.tsx']

@@ -37,7 +37,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 		this.handleUnstakeSlider = this.handleUnstakeSlider.bind(this);
 		this.handleInputStake = this.handleInputStake.bind(this);
 		this.handleInputUnstake = this.handleInputUnstake.bind(this);
-
+		this.connectWallet = this.connectWallet.bind(this);
 		this.state = {};
 	}
 
@@ -119,24 +119,24 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 
 	async componentDidMount() {
 
-		try {
-			const wallet = new Wallet();
-			const result = await wallet.connect();
+		// try {
+		// 	const wallet = new Wallet();
+		// 	const result = await wallet.connect();
 
-			if (!result) {
-				throw 'The wallet connection was cancelled.';
-			}
+		// 	if (!result) {
+		// 		throw 'The wallet connection was cancelled.';
+		// 	}
 
-			const raptor = new Raptor(wallet);
+		// 	const raptor = new Raptor(wallet);
 
-			this.updateState({raptor: raptor, looping: true});
-			this.updateOnce(true).then();
+		// 	this.updateState({raptor: raptor, looping: true});
+		// 	this.updateOnce(true).then();
 
-			this.loop().then();
-		}
-		catch(e) {
-			this.handleError(e);
-		}
+		// 	this.loop().then();
+		// }
+		// catch(e) {
+		// 	this.handleError(e);
+		// }
 	}
 	componentWillUnmount() {
 		if (!!this._timeout) {
@@ -188,6 +188,28 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 		}
 
 		return true;
+	}
+
+	async connectWallet() {
+		
+		try {
+			const wallet = new Wallet();
+			const result = await wallet.connect();
+
+			if (!result) {
+				throw 'The wallet connection was cancelled.';
+			}
+
+			const raptor = new Raptor(wallet);
+
+			this.updateState({raptor: raptor, looping: true});
+			this.updateOnce(true).then();
+
+			this.loop().then();
+		}
+		catch(e) {
+			this.handleError(e);
+		}
 	}
 
 	setStakePercentage(percent) {
@@ -243,7 +265,14 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 		return <div className="staking-container">
 			<div className="container">
 				<div className="row text-white staking-header">
-					<div className="col-md-12"><img src="images/staking.svg"/>
+					<div className="col-md-12">
+						<img src="images/staking.svg"/>
+						{state.address ?
+							(<a className="btn-wallet float-right" ref="">{ "Connected to " + state.address.slice(0, 9) + " ...."}</a>)
+							:
+							(<a className="btn btn-primary btn-sm btn-wallet float-right" role="button" onClick={this.connectWallet}> Connect Wallet </a>)
+						}
+						
 						<p>Using Raptor staking, you can easily earn more Raptor tokens over time while the blockchain is
 							running. Planning to hold Raptor tokens to help our planet? Earn more while doing so and collect
 							your passive income.</p>
