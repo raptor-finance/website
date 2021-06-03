@@ -11,7 +11,7 @@ const { env } = require('node:process');
 module.exports = {
 	entry: resolveAppPath('src'),
 	output: {
-		filename: env.mode ?  'bundle.[contenthash].js' : 'bundle-[hash].js',
+		filename: process.env.production ? '[name].[chunkhash].js' : '[name].[hash].js',
 	},
 	resolve: {
 		extensions: ['.js', '.jsx', '.ts', '.tsx']
