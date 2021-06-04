@@ -25,6 +25,11 @@ export type LotteryState = {
 
 export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> {
 
+	constructor(props) {
+		super(props);
+		this.connectWallet = this.connectWallet.bind(this);
+	}
+
 	handlePurchase(hash) {
 		// todo show message nicer
 		alert('You have successfully purchased a ticket. Your hash code is: ' + hash);
@@ -53,24 +58,24 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 
 	async componentDidMount() {
 
-		try {
-			const wallet = new Wallet();
-			const result = await wallet.connect();
+		// try {
+		// 	const wallet = new Wallet();
+		// 	const result = await wallet.connect();
 
-			if (!result) {
-				throw 'The wallet connection was cancelled.';
-			}
+		// 	if (!result) {
+		// 		throw 'The wallet connection was cancelled.';
+		// 	}
 
-			const lottery = new RaptorLottery(wallet);
+		// 	const lottery = new RaptorLottery(wallet);
 
-			this.updateState({lottery: lottery, looping: true});
-			this.updateOnce().then();
+		// 	this.updateState({lottery: lottery, looping: true});
+		// 	this.updateOnce().then();
 
-			this.loop().then();
-		}
-		catch(e) {
-			this.handleError(e);
-		}
+		// 	this.loop().then();
+		// }
+		// catch(e) {
+		// 	this.handleError(e);
+		// }
 	}
 	componentWillUnmount() {
 		this.updateState({lottery: null, looping: false});
@@ -115,6 +120,28 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 		return true;
 	}
 
+	async connectWallet() {
+		
+		try {
+			const wallet = new Wallet();
+			const result = await wallet.connect();
+
+			if (!result) {
+				throw 'The wallet connection was cancelled.';
+			}
+
+			const lottery = new RaptorLottery(wallet);
+
+			this.updateState({lottery: lottery, looping: true});
+			this.updateOnce().then();
+
+			this.loop().then();
+		}
+		catch(e) {
+			this.handleError(e);
+		}
+	}
+
 	render() {
 		const state = this.readState();
 
@@ -122,6 +149,11 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 			<div className="container">
 				<div className="row text-white lottery-header">
 					<div className="col-md-12"><img src="images/lottery.svg"/>
+						{state.address ?
+							(<a className="btn-wallet float-right" ref="">{ "Connected to " + state.address.slice(0, 9) + " ...."}</a>)
+							:
+							(<a className="btn btn-primary btn-sm btn-wallet float-right" role="button" onClick={this.connectWallet}> Connect Wallet </a>)
+						}
 						<p>This is a simple, non-custodial proof-of-work random number generation lottery for Raptor. You
 							have the chance to win Raptor tokens by buying tickets with Raptor tokens.</p>
 						<p>In order to play in our lottery, you need to connect your browser wallet (such as <a

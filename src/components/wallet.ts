@@ -1,16 +1,41 @@
 import Web3 from "web3";
+import Web3Modal from "web3modal";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 import {Contract} from "web3-eth-contract";
 
 export class Wallet {
 	private _address: string = null;
+	
+	private  web3Modal = new Web3Modal({
+		network: "homestead", // TODO: change this network option to be changable according
+		cacheProvider: false,
+		providerOptions: this.getProviderOptions()
+	  });
 	private _web3: Web3 = null;
+
+	public getProviderOptions (): any {
+		const providerOptions = {
+			walletconnect: {
+				package: WalletConnectProvider,
+				options: {
+					infuraId: "14ac626894b04727a792316d48d56ffb"
+					// infuraId: process.env.VUE_APP_INFURA_ID
+				}
+			}
+		};
+	
+		return providerOptions;
+	};
+
+	
 
 	public async connect(): Promise<boolean> {
 		const wnd: any = window;
+		const web3ModelProvider: any = await this.web3Modal.connect();
 
 		if (!!wnd.ethereum) {
 			if (!this._web3) {
-				this._web3 = new Web3(wnd.ethereum);
+				this._web3 = new Web3(web3ModelProvider);
 			}
 
 			const accounts = await wnd.ethereum.request({method:'eth_requestAccounts'});
