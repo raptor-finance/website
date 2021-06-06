@@ -7,7 +7,7 @@ export class Wallet {
 	private _address: string = null;
 	
 	private  web3Modal = new Web3Modal({
-		network: "homestead", // TODO: change this network option to be changable according
+		network: "mainnet", // TODO: change this network option to be changable according
 		cacheProvider: false,
 		providerOptions: this.getProviderOptions()
 	  });
@@ -33,14 +33,23 @@ export class Wallet {
 		const wnd: any = window;
 		const web3ModelProvider: any = await this.web3Modal.connect();
 
-		if (!!wnd.ethereum) {
+		// if (!!wnd.ethereum) {
 			if (!this._web3) {
 				this._web3 = new Web3(web3ModelProvider);
 			}
+			this._web3.eth.extend({
+				methods: [
+				  {
+					name: "chainId",
+					call: "eth_chainId",
+					// outputFormatter: this._web3.utils.hexToNumber
+				  }
+				]
+			});
 
-			const accounts = await wnd.ethereum.request({method:'eth_requestAccounts'});
+			const accounts = await this._web3.eth.getAccounts();
 			const selectedAccount = accounts[0];
-
+			
 			const provider: any = this._web3.eth.currentProvider;
 			if (!provider || +provider.chainId !== 56) {
 				throw 'Please choose the Binance Smart Chain as the current network in your wallet app.';
@@ -48,10 +57,10 @@ export class Wallet {
 
 			this._address = selectedAccount;
 			return this.isConnected;
-		}
-		else {
-			throw 'No compatible wallet app was found. Please install a supported browser extension, such as Metamask.';
-		}
+		// }
+		// else {
+		// 	// throw 'No compatible wallet app was found. Please install a supported browser extension, such as Metamask.';
+		// }
 	}
 	public async disconnect(): Promise<void> {
 		this._web3 = null;
