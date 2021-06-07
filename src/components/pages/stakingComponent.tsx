@@ -199,7 +199,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 			if (!result) {
 				throw 'The wallet connection was cancelled.';
 			}
-
+			
 			const raptor = new Raptor(wallet);
 
 			this.updateState({raptor: raptor, looping: true});
