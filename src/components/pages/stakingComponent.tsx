@@ -240,7 +240,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 		if (!r) return;
 
 		const p = Math.max(0, Math.min(+(percent||0), 100));
-		const v =  Math.min(((r.stakedBalance) * (p * 0.01)), r.stakedBalance));
+		const v =  Math.min(((r.stakedBalance) * (p * 0.01)), r.stakedBalance);
 
 		this.updateState({
 			ctPercentageUnstake: p,
