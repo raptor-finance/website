@@ -358,4 +358,3 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 		</div>
 	}
 }
-
