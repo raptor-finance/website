@@ -9,6 +9,8 @@ export type HomeState = {
 	priceUsd?: number;
 	priceBnb?: number;
 	donationBalance?: number;
+	treeAmount?: number;
+	carbonOffset?: number;
 }
 
 import './homeComponent.css';
@@ -62,6 +64,20 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 			priceUsd: this._statistics.raptorUsdPrice
 		});
 
+		fetch("https://public.ecologi.com/users/raptorfinance/impact")
+			.then(res => res.json())
+			.then(
+				(result) => {
+					this.setState({
+						treeAmount: result.trees,
+						carbonOffset: result.carbonOffset
+					});
+				},
+				(err) => {
+					console.error("Error fetching data from ecologi API", err);
+				}
+			)
+
 		this._timeout = setTimeout(async () => await self.tick.call(self), 60000);
 	}
 
@@ -85,9 +101,9 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 							<h4 className="flex-fill">Our Raptor Forest</h4>
 							<p><strong>Funded by: </strong><span>Raptor Finance</span></p>
 							<p><strong>Age: </strong><span>{this.readState().treeAge} days</span></p>
-							<p><strong>CO2 offset: </strong><span>22.24 tonnes</span></p>
+							<p><strong>CO2 offset: </strong><span>{this.readState().carbonOffset} tonnes</span></p>
 							<p><strong>Different species: </strong><span>8</span></p>
-							<p><strong>Amount of trees: </strong><span>1,887</span></p>
+							<p><strong>Amount of trees: </strong><span>{this.readState().treeAmount}</span></p>
 							<p><strong>Planting projects: </strong><span>2</span></p>
 							<p><strong>Our Forest:</strong> <span><a className="title-white" href="https://ecologi.com/raptorfinance">Click Here</a></span></p>
 						</div>
