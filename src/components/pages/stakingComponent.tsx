@@ -29,6 +29,7 @@ export type StakingState = {
 export class StakingComponent extends BaseComponent<StakingProps, StakingState> {
 
 	private _timeout: any = null;
+	private stakingRef = null;
 
 	constructor(props) {
 		super(props);
@@ -38,6 +39,9 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 		this.handleInputStake = this.handleInputStake.bind(this);
 		this.handleInputUnstake = this.handleInputUnstake.bind(this);
 		this.connectWallet = this.connectWallet.bind(this);
+		this.handleInputFocus = this.handleInputFocus.bind(this);
+		this.handleInputBlur = this.handleInputBlur.bind(this);
+		this.stakingRef = React.createRef() 
 		this.state = {};
 	}
 
@@ -258,11 +262,23 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 			ctValueStake: v,
 		});
 	}
-
+	handleInputFocus() {
+		if(window.innerWidth<540){
+			const altura = window.innerHeight;
+			const scrollp = altura/100*38;
+			const bottomEl = document.getElementsByClassName("empty-for-mobile")[0];
+			bottomEl.setAttribute("style", "height: "+ scrollp + "px;");
+			bottomEl.scrollIntoView();
+		}	
+	}
+	handleInputBlur() {
+		const bottomEl = document.getElementsByClassName("empty-for-mobile")[0];
+		bottomEl.setAttribute("style", "height: 0px;");
+	}
 	render() {
 		const state = this.readState();
 
-		return <div className="staking-container">
+		return <div className="staking-container" >
 			<div className="container">
 				<div className="row text-white staking-header">
 					<div className="col-md-12">
@@ -319,7 +335,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(100)}>100%</button>
 											</div>
 											<label className="form-label">Amount of tokens to stake:</label>
-											<input type="number" className="form-control form-control-lg" disabled={state.pending} onChange={this.handleInputStake} value={state.ctValueStake||0}/>
+											<input type="number" className="form-control form-control-lg" disabled={state.pending} onChange={this.handleInputStake} value={state.ctValueStake||0} onFocus={this.handleInputFocus} onBlur={this.handleInputBlur} />
 											<div className="button-row">
 												<button className="btn btn-primary btn-lg link-dark align-self-center stake-confirm" disabled={state.ctValueStake <= 0 || state.pending} type="button" onClick={async () => this.confirmStake()}>Stake</button>
 												<button className="btn btn-light btn-lg link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>Claim rewards</button>
@@ -341,7 +357,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setUnstakePercentage(100)}>100%</button>
 											</div>
 											<label className="form-label">Amount of tokens to unstake:</label>
-											<input type="number" className="form-control form-control-lg" disabled={state.pending} onChange={this.handleInputUnstake} value={state.ctValueUnstake||0}/>
+											<input type="number" className="form-control form-control-lg" disabled={state.pending} onChange={this.handleInputUnstake} value={state.ctValueUnstake||0} onFocus={this.handleInputFocus} onBlur={this.handleInputBlur}/>
 											<div className="button-row">
 												<button className="btn btn-primary btn-lg link-dark align-self-center stake-confirm" disabled={state.ctValueUnstake <= 0 || state.pending} type="button" onClick={async () => this.confirmUnstake()}>Unstake</button>
 												<button className="btn btn-light btn-lg link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>Claim rewards</button>
@@ -354,6 +370,8 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 					</div>
 
 				</div>
+			</div>
+			<div className="empty-for-mobile" ref={this.stakingRef}>
 			</div>
 		</div>
 	}
