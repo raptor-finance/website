@@ -112,6 +112,12 @@
 	}
 }
 
+@media (min-width: 990px) {
+	.navigation-wrapper nav {
+		display: block !important;
+	}
+}
+
 @media (max-width: 990px) {
 
 	.navigation-wrapper nav {
@@ -125,7 +131,7 @@
 
 	.navbar-toggler {
 		display: inline-block;
-	}
+	}	
 
 	.navigation-wrapper {
 		display: block;
