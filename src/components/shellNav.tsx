@@ -29,7 +29,8 @@ export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 	}
 	
 	toggleMenu = (e) => {
-		this.collapseRef.current.click();
+		if (window.innerWidth < 990)
+			this.collapseRef.current.click();
 	}
 	
 	render() {
