@@ -23,10 +23,16 @@ export type ShellNavState = {
 
 export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 
+	private collapseRef = React.createRef<HTMLButtonElement>();
 	constructor(props: ShellNavProps) {
 		super(props);
 	}
-
+	
+	toggleMenu = (e) => {
+		if (window.innerWidth < 990)
+			this.collapseRef.current.click();
+	}
+	
 	render() {
 		const pages: IShellPage[] = (this.readProps().pages || []);
 		return (
@@ -36,7 +42,7 @@ export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 						<img src="images/logo.svg" className="img-logo" alt="Raptor Finance"/>
 					</a>
 					<button className="navbar-toggler" type="button" data-bs-target="#mainNav" data-bs-toggle="collapse"
-							aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+							aria-controls="navbarSupportedContent" aria-label="Toggle navigation" ref={this.collapseRef}>
 						<FontAwesomeIcon icon={faBars} />
 					</button>
 				</div>
@@ -46,7 +52,7 @@ export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 							pages.map(page => {
 								const classes = ['nav-item', page.id];
 								return <li key={`${page.id}`}>
-									<NavLink  to={page.id} activeClassName="active" className={classes.join(' ')}>{page.title}</NavLink>
+									<NavLink  to={page.id} activeClassName="active" className={classes.join(' ')} onClick={this.toggleMenu}>{page.title}</NavLink>
 								</li>;
 							})
 						}
