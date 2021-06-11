@@ -120,7 +120,7 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 							<p><strong>Different species: </strong><span>8</span></p>
 							<p><strong>Amount of trees: </strong><span>{this.readState().treeAmount}</span></p>
 							<p><strong>Planting projects: </strong><span>2</span></p>
-							<p><strong>Our Forest:</strong> <span><a className="title-white" href="https://ecologi.com/raptorfinance">Click Here</a></span></p>
+							<p><strong>Our Forest 🌳:</strong> <span><a className="title-white" href="https://ecologi.com/raptorfinance">Click Here</a></span></p>
 						</div>
 					</div>
 				</div>
