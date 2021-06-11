@@ -10,6 +10,7 @@ import './lotteryComponent.css';
 export type LotteryProps = {}
 export type LotteryState = {
 	lottery?: RaptorLottery,
+	wallet?: Wallet,
 	looping?: boolean,
 
 	address?: string,
@@ -19,8 +20,9 @@ export type LotteryState = {
 
 	lastWinner?: string,
 	jackpot?: number,
-	totalTickets?: number
-	drawNumber?: number
+	totalTickets?: number,
+	drawNumber?: number,
+	pending?: boolean
 }
 
 export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> {
@@ -28,6 +30,7 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 	constructor(props) {
 		super(props);
 		this.connectWallet = this.connectWallet.bind(this);
+		this.disconnectWallet = this.disconnectWallet.bind(this);
 	}
 
 	handlePurchase(hash) {
@@ -41,6 +44,7 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 	async buyTicket(): Promise<void> {
 
 		try {
+			this.updateState({pending: true});
 			const lottery = this.readState().lottery;
 
 			if (!lottery) {
@@ -49,9 +53,11 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 
 			const hash = await lottery.buyTicket();
 			this.handlePurchase(hash);
+			this.updateState({pending: false});
 			this.updateOnce().then();
 		}
 		catch(e) {
+			this.updateState({pending: false});
 			this.handleError(e);
 		}
 	}
@@ -123,6 +129,7 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 	async connectWallet() {
 		
 		try {
+			this.updateState({pending: true});
 			const wallet = new Wallet();
 			const result = await wallet.connect();
 
@@ -132,12 +139,30 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 
 			const lottery = new RaptorLottery(wallet);
 
-			this.updateState({lottery: lottery, looping: true});
+			this.updateState({lottery: lottery, wallet: wallet, looping: true, pending: false});
 			this.updateOnce().then();
 
 			this.loop().then();
 		}
 		catch(e) {
+			this.updateState({pending: false});
+			this.handleError(e);
+		}
+	}
+
+	async disconnectWallet() {
+		
+		try {
+			this.updateState({pending: true});		
+			const result = await this.state.wallet.disconnect();
+			if (result) {
+				throw 'The wallet connection was cancelled.';
+			}
+			
+			this.updateState({lottery: null, wallet: null, address: null, looping: false, pending: false});
+		}
+		catch(e) {
+			this.updateState({pending: false});
 			this.handleError(e);
 		}
 	}
@@ -150,9 +175,15 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 				<div className="row text-white lottery-header">
 					<div className="col-md-12"><img src="images/lottery.svg"/>
 						{state.address ?
-							(<a className="btn-wallet float-right" ref="">{ "Connected to " + state.address.slice(0, 9) + " ...."}</a>)
+							(<a className="btn btn-primary ladda-button btn-sm btn-wallet float-right" role="button" onClick={this.disconnectWallet}> 
+								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> }
+								Disconnect Wallet 
+							</a>)
 							:
-							(<a className="btn btn-primary btn-sm btn-wallet float-right" role="button" onClick={this.connectWallet}> Connect Wallet </a>)
+							(<a className="btn btn-primary ladda-button btn-sm btn-wallet float-right" role="button" onClick={this.connectWallet}> 
+								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> }
+								 Connect Wallet 
+							</a>)
 						}
 						<p>This is a simple, non-custodial proof-of-work random number generation lottery for Raptor. You
 							have the chance to win Raptor tokens by buying tickets with Raptor tokens.</p>
