@@ -81,6 +81,21 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 		this._timeout = setTimeout(async () => await self.tick.call(self), 60000);
 	}
 
+	convert(n) {
+        var sign = +n < 0 ? "-" : "",
+            toStr = n.toString();
+        if (!/e/i.test(toStr)) {
+            return n;
+        }
+        var [lead,decimal,pow] = n.toString()
+            .replace(/^-/,"")
+            .replace(/^([0-9]+)(e.*)/,"$1.$2")
+            .split(/e|\./);
+        return +pow < 0
+            ? sign + "0." + "0".repeat(Math.max(Math.abs(pow)-1 || 0, 0)) + lead + decimal
+            : sign + lead + (+pow >= decimal.length ? (decimal + "0".repeat(Math.max(+pow-decimal.length || 0, 0))) : (decimal.slice(0,+pow)+"."+decimal.slice(+pow)))
+    }
+
 	render() {
 		const state = this.readState();
 
@@ -144,8 +159,9 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 						<div className="d-flex flex-row align-self-center flex-wrap gradient-card primary"
 							 id="raptor-forest">
 							<h4 className="flex-fill">Token statistics</h4>
-							<p><strong>Price in USD: </strong><span>{(+state.priceUsd).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p>
-							<p><strong>Price in BNB: </strong><span>{(+state.priceBnb).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p>
+							{/* <p><strong>Price in USD: </strong><span>{(+state.priceUsd).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p> */}
+							<p><strong>Price in USD: </strong><span>{this.convert(+state.priceUsd).toString()}</span></p>
+							<p><strong>Price in BNB: </strong><span>{this.convert(+state.priceBnb).toString()}</span></p>
 						</div>
 					</div>
 				</div>
