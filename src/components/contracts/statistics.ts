@@ -1,4 +1,5 @@
 import * as $ from "jquery";
+import axios from "axios";
 import {RaptorAddress, DonationWalletAddress} from "./raptor";
 import Web3 from "web3";
 import {Contract} from "web3-eth-contract";
@@ -65,24 +66,51 @@ export class RaptorStatistics {
 			return new Promise<PriceInfo>(function(res){res(prices)});
 		}
 		return new Promise<PriceInfo>(function(res,rej) {
-			$.get({
-				url: 'https://api.coingecko.com/api/v3/simple/price?ids=binancecoin,raptor-finance&vs_currencies=usd,bnb',
-				dataType: 'json',
-				success: function(a) {
+			axios.get('https://glacial-eyrie-20564.herokuapp.com/https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=RAPTOR&convert=USD', {
+				headers: {
+					'X-CMC_PRO_API_KEY': "82a29d31-29f1-4ba6-80b7-5f21909c1c67",
+					'Content-Type': 'application/json'
+				}
+			})
+			.then(function(a){
+				axios.get('https://glacial-eyrie-20564.herokuapp.com/https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=RAPTOR&convert=BNB', {
+					headers: {
+						'X-CMC_PRO_API_KEY': "82a29d31-29f1-4ba6-80b7-5f21909c1c67",
+						'Content-Type': 'application/json'
+					}
+				})
+				.then(function(b){
 					res({
 						raptor: {
-							usd: (a['raptor-finance']||{}).usd||0,
-							bnb: (a['raptor-finance']||{}).bnb||0
+							usd: a.data.data.RAPTOR.quote.USD.price||0,
+							bnb: b.data.data.RAPTOR.quote.BNB.price||0
 						},
 						bnb: {
-							usd: (a['binancecoin']||{}).usd||0
+							usd: a.data.data.RAPTOR.quote.USD.price||0
 						}
 					});
-				},
-				error: function(err) {
-					rej(err);
-				}
+				});
 			});
+			
+			// $.get({
+			// 	url: 'https://api.coingecko.com/api/v3/simple/price?ids=binancecoin,raptor-finance&vs_currencies=usd,bnb',
+			// 	dataType: 'json',
+			// 	success: function(a) {
+					
+			// 		res({
+			// 			raptor: {
+			// 				usd: (a['raptor-finance']||{}).usd||0,
+			// 				bnb: (a['raptor-finance']||{}).bnb||0
+			// 			},
+			// 			bnb: {
+			// 				usd: (a['binancecoin']||{}).usd||0
+			// 			}
+			// 		});
+			// 	},
+			// 	error: function(err) {
+			// 		rej(err);
+			// 	}
+			// });
 		})
 	}
 }
