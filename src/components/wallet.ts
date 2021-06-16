@@ -60,7 +60,7 @@ export class Wallet {
 			const selectedAccount = accounts[0];
 			
 			const provider: any = this._web3.eth.currentProvider;
-    			if (!provider || ((provider.chainId !== 56) && (provider.networkVersion !== 56))) {
+    			if (!provider || ((provider.chainId != 56) && (provider.networkVersion != 56))) {
 	 			throw 'Please choose the Binance Smart Chain as the current network in your wallet app.';
 			}
 
