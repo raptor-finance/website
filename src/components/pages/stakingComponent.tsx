@@ -120,7 +120,6 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 	}
 
 	async componentDidMount() {
-
 		// try {
 		// 	const wallet = new Wallet();
 		// 	const result = await wallet.connect();
