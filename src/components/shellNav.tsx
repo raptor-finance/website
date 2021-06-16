@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './shellNav.css';
 import './shellNav.icons.css';
 import {faBars} from "@fortawesome/free-solid-svg-icons";
-import {faTelegram, faTwitter} from "@fortawesome/free-brands-svg-icons";
+import {faMedium, faTelegram, faTwitter} from "@fortawesome/free-brands-svg-icons";
 import {faFacebook} from "@fortawesome/free-brands-svg-icons/faFacebook";
 import {faInstagram} from "@fortawesome/free-brands-svg-icons/faInstagram";
 import {faReddit} from "@fortawesome/free-brands-svg-icons/faReddit";
@@ -82,6 +82,9 @@ export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 							</a>
 							<a href="https://discord.gg/EJwR3pjd9A" className="btn-social" target="_blank">
 								<FontAwesomeIcon icon={faDiscord} />
+							</a>
+							<a href="https://raptor-finance.medium.com/" className="btn-social" target="_blank">
+								<FontAwesomeIcon icon={faMedium} />
 							</a>
 						</div>
 						<div>
