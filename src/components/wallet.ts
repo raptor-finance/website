@@ -61,26 +61,21 @@ export class Wallet {
 			
 			const provider: any = this._web3.eth.currentProvider;
     		if (!provider || ((provider.chainId != 56) && (provider.networkVersion != 56))) {
-				if (provider["isMetaMask"]) {
-					const networkinfo = [{
-					chainId: '0x38',
-					chainName: 'Binance Smart Chain',
-					nativeCurrency:
-						{
-							name: 'BNB',
-							symbol: 'BNB',
-							decimals: 18
-						},
-					rpcUrls: ['https://bsc-dataseed1.binance.org/'],
-					blockExplorerUrls: ['https://bscscan.com/'],
-					}]
-					txn = await ethereum.request({method: 'wallet_addEthereumChain', params:networkinfo}).catch(function () {throw "Unable to change network"})
-					if (txn) {
-						console.log(txn);
-					}
-				}
-				else {
-					throw 'Please choose the Binance Smart Chain as the current network in your wallet app.';
+				const networkinfo = [{
+				chainId: '0x38',
+				chainName: 'Binance Smart Chain',
+				nativeCurrency:
+					{
+						name: 'BNB',
+						symbol: 'BNB',
+						decimals: 18
+					},
+				rpcUrls: ['https://bsc-dataseed1.binance.org/'],
+				blockExplorerUrls: ['https://bscscan.com/'],
+				}]
+				txn = await ethereum.request({method: 'wallet_addEthereumChain', params:networkinfo}).catch(function () {throw 'Please choose the Binance Smart Chain as the current network in your wallet app.'})
+				if (txn) {
+					console.log(txn);
 				}
 			}
 
