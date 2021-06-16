@@ -73,7 +73,7 @@ export class Wallet {
 						},
 					rpcUrls: ['https://bsc-dataseed1.binance.org/'],
 					}]
-					txn = await ethereum.request({method: 'wallet_addEthereumChain', params:networkinfo}).catch(throw "Unable to change network")
+					txn = await ethereum.request({method: 'wallet_addEthereumChain', params:networkinfo}).catch(function () {throw "Unable to change network"})
 					if (txn) {
 					console.log(txn)
 					}
