@@ -67,11 +67,7 @@
 }
 
 .navigation-footer {
-	position: absolute;
-	bottom: 80px;
-	left: 0;
-	right: 0;
-	padding: 5px 35px;
+	padding-bottom: 35px;
 }
 
 .btn-social {
@@ -82,6 +78,15 @@
 
 .btn-social:hover {
 	color: #747D93 !important;
+}
+
+#mainNav.show {
+	flex-direction: column;
+	max-height: 100%;
+	padding: 35px;
+	display: flex !important;
+	justify-content: space-between;
+	height: 100%;
 }
 
 
