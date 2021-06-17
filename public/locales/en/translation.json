@@ -1,0 +1,102 @@
+{
+    "nav": {
+        "home": "Home",
+        "about": "About",
+        "staking": "Staking",
+        "lottery": "Lottery",
+        "faq": "FAQ",
+        "buyon": "Buy on PancakeSwap",
+        "viewon": "View on BSCscan",
+        "copyright": "Raptor Finance 2021+"
+    },
+    "home": {
+        "subtitle1": "Can we heal the Earth together?",
+        "paragraph1": "Raptor Finance is a decentralized, financial ecosystem designed by holders for holders. Our mission is to heal planet Earth together and fight climate change! We achieve this by donating to community-chosen projects that help prevent climate change. There is no planet B, therefore we need to work together to help save Mother Earth!",
+        "raptor_forest": {
+            "title": "Our Raptor Forest",
+            "funder": "<0>Funded by: </0><1>Raptor Finance</1>",
+            "age": "Age:",
+            "day": "{{count, number}} day",
+            "day_plural": "{{count, number}} days",
+            "co2_offset": "CO2 offset:",
+            "tonnes": "tonnes",
+            "species": "Different species:",
+            "tree_amount": "Amount of trees:",
+            "planting_projects": "Planting projects:",
+            "our_forest": "Our Forest:",
+            "click_here": "Click Here"
+        },
+        "about_us": "About Us",
+        "our_docs": "Our Docs",
+        "win_tokens": "<0>Win</0> Raptor tokens",
+        "earn_tokens": "<0>Earn</0> Raptor tokens",
+        "subtitle2": "Want to help?",
+        "paragraph2": "You can help us saving the earth by donating to the official Raptor community donation wallet. The balance of this wallet will be gradually donated to environmental charities starting Q4/2021. Please check our",
+        "roadmap": "roadmap",
+        "for_details": "for details.",
+        "paragraph3": "This is our only donation wallet address:",
+        "paragraph4_1": "There is currently $",
+        "paragraph4_2": " in our wallet to be donated!",
+        "token_statistics": {
+            "title": "Token statistics",
+            "price_usd": "Price in USD:",
+            "price_bnb": "Price in BNB:"
+        }
+    },
+    "staking": {
+        "connect_wallet": "Connect Wallet",
+        "disconnect_wallet": "Disconnect Wallet",
+        "paragraph1": "Using Raptor staking, you can easily earn more Raptor tokens over time while the blockchain is running. Planning to hold Raptor tokens to help our planet? Earn more while doing so and collect your passive income.",
+        "paragraph2_1": "In order to stake Raptor tokens, you need to connect your browser wallet (such as",
+        "and": ") and",
+        "paragraph2_2": "Switch to the Binance Smart Chain",
+        "your_info": {
+            "title": "Your information",
+            "wallet_address": "Wallet address",
+            "connect_wallet": "Please connect your wallet",
+            "tradeable": "Tradeable balance",
+            "staked": "Staked balance",
+            "pending_rewards": "Pending rewards"
+        },
+        "stake": {
+            "title": "Stake",        
+            "percentage": "Percentage of tokens to stake:",
+            "amount": "Amount of tokens to stake:",
+            "claim_rewards": "Claim rewards"
+        },
+        "unstake": {
+            "title": "Unstake",
+            "percentage": "Percentage of tokens to unstake:",
+            "amount": "Amount of tokens to unstake:",
+            "claim_rewards": "Claim rewards"
+        }
+    },
+    "lottery": {
+        "connect_wallet": "Connect Wallet",
+        "disconnect_wallet": "Disconnect Wallet",
+        "paragraph1": "This is a simple, non-custodial proof-of-work random number generation lottery for Raptor. You have the chance to win Raptor tokens by buying tickets with Raptor tokens.",
+        "paragraph2_1": "In order to stake Raptor tokens, you need to connect your browser wallet (such as",
+        "and": ") and",
+        "paragraph2_2": "Switch to the Binance Smart Chain",
+        "your_info": {
+            "title": "Your information",
+            "wallet_address": "Wallet address",
+            "connect_wallet": "Please connect your wallet",
+            "purchased": "Purchased tickets",
+            "wallet_balance": "Wallet balance",
+            "price_per_ticket": "Price per ticket",
+            "tickets": "tickets"
+        },        
+        "status": {
+            "title": "Lottery status",
+            "current_number": "Current draw number",
+            "nothing": "Nothing has been drawn yet!",
+            "winner": "Winner of last round",
+            "nobody": "Nobody won yet!",
+            "current_jackpot": "Current jackpot",
+            "total_tickets": "Total tickets for this round",
+            "purchase": "Purchase a lottery ticket"
+        }
+    }  
+    
+}

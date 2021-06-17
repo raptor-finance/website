@@ -12,9 +12,11 @@ import './index.css';
 // now all the components
 import {Shell} from "./components/shell";
 import {StaticHtmlComponent} from "./components/pages/staticHtmlComponent";
-import {LotteryComponent} from "./components/pages/lotteryComponent";
-import {HomeComponent} from "./components/pages/homeComponent";
-import {StakingComponent} from "./components/pages/stakingComponent";
+import LotteryComponent from "./components/pages/lotteryComponent";
+import HomeComponent from "./components/pages/homeComponent";
+import StakingComponent from "./components/pages/stakingComponent";
+
+import './i18n'
 
 const pagesInNavigator = [
 	{ id: 'home', title: 'Home', component: HomeComponent },
@@ -33,9 +35,11 @@ const pagesInNavigator = [
 
 // initialize modals
 Modal.setAppElement('#root');
-
+console.log(HomeComponent)
 // and render our app into the "root" element!
 ReactDOM.render(
-    <Shell pages={pagesInNavigator} />,
+	<React.Suspense fallback="Loading...">
+		<Shell pages={pagesInNavigator} />
+	</React.Suspense>,
     document.getElementById('root')
 );

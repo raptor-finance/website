@@ -1,0 +1,101 @@
+{
+    "nav": {
+        "home": "主页",
+        "about": "关于",
+        "staking": "抵押",
+        "lottery": "彩票",
+        "faq": "常问问题",
+        "buyon": "在 PancakeSwap 上购买",
+        "viewon": "在 BSCscan 上查看",
+        "copyright": "迅猛龙金融 2021+"
+    },
+    "home": {
+        "subtitle1": "我们可以一起治愈地球吗？",
+        "paragraph1": "迅猛龙金融是一个由持有者为持有者设计的去中心化金融生态系统。 我们的使命是共同治愈地球并应对气候变化！ 我们通过向社区选择的有助于防止气候变化的项目捐款来实现这一目标。 没有行星B，因此我们需要共同努力，帮助拯救地球母亲！",
+        "raptor_forest": {
+            "title": "我们的迅猛龙森林",
+            "funder": "<0>资助者: </0><1>迅猛龙金融</1>",
+            "age": "年龄:",
+            "day": "{{count, number}} 天",
+            "co2_offset": "CO2 抵消:",
+            "tonnes": "吨",
+            "species": "不同的物种:",
+            "tree_amount": "树木数量:",
+            "planting_projects": "种植项目:",
+            "our_forest": "我们的森林:",
+            "click_here": "点击这里"
+        },
+        "about_us": "关于我们",
+        "our_docs": "我们的文档",
+        "win_tokens": "<0>赢</0> 迅猛龙代币",
+        "earn_tokens": "<0>赚</0> 迅猛龙代币",
+        "subtitle2": "想帮忙？",
+        "paragraph2": "您可以通过向官方 Raptor 社区捐款钱包捐款来帮助我们拯救地球。 从 2021 年第四季度开始，该钱包的余额将逐步捐赠给环保慈善机构。 请查看我们的",
+        "roadmap": "路线图",
+        "for_details": "了解详情。",
+        "paragraph3": "这是我们唯一的捐赠钱包地址：",
+        "paragraph4_1": "目前我们的钱包里有 $",
+        "paragraph4_2": " 美元要捐赠！",
+        "token_statistics": {
+            "title": "代币统计",
+            "price_usd": "美元价格：",
+            "price_bnb": "BNB价格："
+        }        
+    },
+    "staking": {
+        "connect_wallet": "连接钱包",
+        "disconnect_wallet": "断开钱包",
+        "paragraph1": "使用 Raptor 抵押，随着时间的推移，您可以轻松地在区块链运行时赚取更多的 Raptor 代币。 计划持有 Raptor 代币来帮助我们的星球？ 在这样做的同时赚取更多并收集您的被动收入。",        
+        "paragraph2_1": "为了抵押 Raptor 代币，您需要连接到您的浏览器钱包（例如 ",
+        "and": "） 和",
+        "paragraph2_2": "切换到币安智能链",
+        "your_info": {
+            "title": "你的资料",
+            "wallet_address": "钱包地址",
+            "connect_wallet": "请连接您的钱包",
+            "tradeable": "可交易余额",
+            "staked": "抵押余额",
+            "pending_rewards": "待定奖励"
+        },       
+        "stake": {
+            "title": "赌注",        
+            "percentage": "持有代币的百分比：",
+            "amount": "要质押的代币数量：",
+            "claim_rewards": "领取奖励"
+        },
+        "unstake": {
+            "title": "取消抵押",
+            "percentage": "取消抵押的代币百分比：",
+            "amount": "要取消抵押的代币数量：",
+            "claim_rewards": "领取奖励"
+        }
+    },
+    "lottery": {
+        "connect_wallet": "连接钱包",
+        "disconnect_wallet": "断开钱包",
+        "paragraph1": "这是 Raptor 的一个简单的、非托管的工作证明随机数生成彩票。 您有机会通过使用 Raptor 代币购买门票来赢取 Raptor 代币。",
+        "paragraph2_1": "为了抵押 Raptor 代币，您需要连接到您的浏览器钱包（例如 ",
+        "and": "） 和",
+        "paragraph2_2": "切换到币安智能链",
+        "your_info": {
+            "title": "你的资料",
+            "wallet_address": "钱包地址",
+            "connect_wallet": "请连接您的钱包",
+            "purchased": "购票",
+            "wallet_balance": "钱包余额",
+            "price_per_ticket": "每张票的价格",
+            "tickets": "票"
+        },        
+        "status": {
+            "title": "彩票状态",
+            "current_number": "当前开奖号码",
+            "nothing": "还没有画出来！",
+            "winner": "上一轮获胜者",
+            "nobody": "还没有人赢！",
+            "current_jackpot": "当前头奖",
+            "total_tickets": "本轮总门票",
+            "purchase": "购买彩票"
+        }
+    } 
+   
+}

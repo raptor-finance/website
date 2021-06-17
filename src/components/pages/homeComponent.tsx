@@ -1,6 +1,10 @@
 import * as React from "react";
 import * as numeral from "numeral";
 import {BaseComponent} from "../shellInterfaces";
+import './homeComponent.css';
+import {DonationWalletAddress} from "../contracts/raptor";
+import {RaptorStatistics} from "../contracts/statistics";
+import { withTranslation, WithTranslation, TFunction, Trans } from "react-i18next";
 
 export type HomeProps = {};
 export type HomeState = {
@@ -13,18 +17,15 @@ export type HomeState = {
 	carbonOffset?: number;
 }
 
-import './homeComponent.css';
-import {DonationWalletAddress} from "../contracts/raptor";
-import {RaptorStatistics} from "../contracts/statistics";
 
-export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
+class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState> {
 
 	private readonly _statistics: RaptorStatistics;
 	private readonly plantDate: Date = new Date("05/18/2021");
 
 	private _timeout = null;
 
-	constructor(props) {
+	constructor(props: HomeProps & WithTranslation) {
 		super(props);
 		this.state = {};
 		this._statistics = new RaptorStatistics();
@@ -98,37 +99,33 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 
 	render() {
 		const state = this.readState();
-
+		const t: TFunction<"translation"> = this.readProps().t;
 		return <div className="home-container">
 			<div className="container" style={{marginTop: "10%"}}>
 				<div className="row">
 					<div className="col-md-6">
-						<h1><strong className="title-white">Can we heal the Earth together?</strong><br/></h1>
-						<p>Raptor Finance is a decentralized, financial ecosystem designed by holders for holders. Our
-							mission is to heal planet Earth together and fight climate change! We achieve this by
-							donating to community-chosen projects that help prevent climate change. There is no planet
-							B, therefore we need to work together to help save Mother Earth!
-						</p>
+						<h1><strong className="title-white">{t('home.subtitle1')}</strong><br/></h1>
+						<p>{t('home.paragraph1')}</p>
 					</div>
 					<div className="col-md-6 d-flex">
 						<div className="d-flex flex-row align-self-center flex-wrap gradient-card primary"
 							 id="raptor-forest">
-							<h4 className="flex-fill">Our Raptor Forest</h4>
-							<p><strong>Funded by: </strong><span>Raptor Finance</span></p>
-							<p><strong>Age: </strong><span>{this.readState().treeAge} days</span></p>
-							<p><strong>CO2 offset: </strong><span>{this.readState().carbonOffset} tonnes</span></p>
-							<p><strong>Different species: </strong><span>8</span></p>
-							<p><strong>Amount of trees: </strong><span>{this.readState().treeAmount}</span></p>
-							<p><strong>Planting projects: </strong><span>2</span></p>
-							<p><strong>Our Forest 🌳:</strong> <span><a className="title-white" href="https://ecologi.com/raptorfinance">Click Here</a></span></p>
+							<h4 className="flex-fill">{t('home.raptor_forest.title')}</h4>
+							<p><Trans i18nKey='home.raptor_forest.funder'><strong>Funded by: </strong><span>Raptor Finance</span></Trans></p>
+							<p><strong>{t('home.raptor_forest.age')} </strong><span>{t('home.raptor_forest.day', { count: this.readState().treeAge})}</span></p>
+							<p><strong>{t('home.raptor_forest.co2_offset')} </strong><span>{this.readState().carbonOffset} {t('home.raptor_forest.tonnes')}</span></p>
+							<p><strong>{t('home.raptor_forest.species')} </strong><span>8</span></p>
+							<p><strong>{t('home.raptor_forest.tree_amount')} </strong><span>{this.readState().treeAmount}</span></p>
+							<p><strong>{t('home.raptor_forest.planting_projects')} </strong><span>2</span></p>
+							<p><strong>{t('home.raptor_forest.our_forest')} 🌳:</strong> <span><a className="title-white" href="https://ecologi.com/raptorfinance">{t('home.raptor_forest.click_here')}</a></span></p>
 						</div>
 					</div>
 				</div>
 				<div className="row">
 					<div className="col-md-6">
 						<div className="d-flex justify-content-center flex-sm-column flex-lg-row hero-buttons"><a
-							className="btn btn-primary btn-lg" role="button" href="about">About Us</a><a
-							className="btn btn-light btn-lg" role="button" href="/whitepaper.pdf" target="_blank">Our Docs</a>
+							className="btn btn-primary btn-lg" role="button" href="about">{t('home.about_us')}</a><a
+							className="btn btn-light btn-lg" role="button" href="/whitepaper.pdf" target="_blank">{t('home.our_docs')}</a>
 						</div>
 					</div>
 					<div className="col-md-6">
@@ -137,31 +134,31 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 								className="btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image"
 								href="lottery" role="button">
 									<img src="images/lottery.svg"/>
-									<span className="text-light"><strong>Win </strong>Raptor tokens</span>
+									<span className="text-light"><Trans i18nKey='home.win_tokens'><strong>Win </strong>Raptor tokens</Trans></span>
 							</a>
 							<a
 								className="btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image"
 								href="staking" role="button">
 									<img src="images/staking.svg"/>
-									<span className="text-light"><strong>Earn </strong>Raptor tokens</span>
+									<span className="text-light"><Trans i18nKey='home.earn_tokens'><strong>Earn </strong>Raptor tokens</Trans></span>
 							</a>
 						</div>
 					</div>
 				</div>
 				<div className="row">
 					<div className="col-md-6">
-						<h1><strong className="title-white">Want to help?</strong><br/></h1>
-						<p>You can help us saving the earth by donating to the official Raptor community donation wallet. The balance of this wallet will be gradually donated to environmental charities starting Q4/2021. Please check our <a href="about#roadmap">roadmap</a> for details.</p>
-						<p>This is our only donation wallet address: <a href={`https://bscscan.com/address/${DonationWalletAddress}`} target="_blank" style={{fontFamily: 'monospace'}}>{DonationWalletAddress}</a></p>
-						<p>There is currently ${numeral(state.donationBalance).format('0,0.00')} in our wallet to be donated!</p>
+						<h1><strong className="title-white">{t('home.subtitle2')}</strong><br/></h1>
+						<p>{t('home.paragraph2')} <a href="about#roadmap">{t('home.roadmap')}</a> {t('home.for_details')}</p>
+						<p>{t('home.paragraph3')} <a href={`https://bscscan.com/address/${DonationWalletAddress}`} target="_blank" style={{fontFamily: 'monospace'}}>{DonationWalletAddress}</a></p>						
+						<p>{t('home.paragraph4_1')}{numeral(state.donationBalance).format('0,0.00')}{t('home.paragraph4_2')}</p>
 					</div>
 					<div className="col-md-6 d-flex">
 						<div className="d-flex flex-row align-self-center flex-wrap gradient-card primary"
 							 id="raptor-forest">
-							<h4 className="flex-fill">Token statistics</h4>
+							<h4 className="flex-fill">{t('home.token_statistics.title')}</h4>
 							{/* <p><strong>Price in USD: </strong><span>{(+state.priceUsd).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p> */}
-							<p><strong>Price in USD: </strong><span>{this.convert(+state.priceUsd).toString()}</span></p>
-							<p><strong>Price in BNB: </strong><span>{this.convert(+state.priceBnb).toString()}</span></p>
+							<p><strong>{t('home.token_statistics.price_usd')} </strong><span>{this.convert(+state.priceUsd).toString()}</span></p>
+							<p><strong>{t('home.token_statistics.price_bnb')} </strong><span>{this.convert(+state.priceBnb).toString()}</span></p>
 						</div>
 					</div>
 				</div>
@@ -169,3 +166,5 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 		</div>
 	}
 }
+
+export default withTranslation()(HomeComponent)
