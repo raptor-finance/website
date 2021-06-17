@@ -74,10 +74,7 @@ export class Wallet {
 					rpcUrls: ['https://bsc-dataseed1.binance.org/'],
 					blockExplorerUrls: ['https://bscscan.com/'],
 					}]
-					txn = await ethereum.request({method: 'wallet_addEthereumChain', params:networkinfo}).catch(function () {throw 'Please choose the Binance Smart Chain as the current network in your wallet app !'})
-					if (txn) {
-						console.log(txn);
-					}
+					await ethereum.request({method: 'wallet_addEthereumChain', params:networkinfo}).catch(function () {throw 'Please choose the Binance Smart Chain as the current network in your wallet app !'})
 				}
 				else {
 					throw 'Please choose the Binance Smart Chain as the current network in your wallet app !';
