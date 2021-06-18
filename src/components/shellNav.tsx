@@ -88,6 +88,9 @@ export class ShellNav extends BaseComponent<ShellNavProps, ShellNavState> {
 							</a>
 						</div>
 						<div>
+							<a href="https://whitebit.com/trade-pro/RAPTOR_DECL?type=spot" className="btn btn-success btn-block" target="_blank">Buy on WhiteBIT</a>
+						</div>
+						<div className="mt-3">
 							<a href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xf9A3FdA781c94942760860fc731c24301c83830A" className="btn btn-success btn-block" target="_blank">Buy on PancakeSwap</a>
 						</div>
 						<div className="mt-3">
