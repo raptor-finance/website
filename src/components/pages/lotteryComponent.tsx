@@ -175,12 +175,12 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 				<div className="row text-white lottery-header">
 					<div className="col-md-12"><img src="images/lottery.svg"/>
 						{state.address ?
-							(<a className="btn btn-primary ladda-button btn-sm btn-wallet float-right" role="button" onClick={this.disconnectWallet}> 
+							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}> 
 								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> }
 								Disconnect Wallet 
 							</a>)
 							:
-							(<a className="btn btn-primary ladda-button btn-sm btn-wallet float-right" role="button" onClick={this.connectWallet}> 
+							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}> 
 								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> }
 								 Connect Wallet 
 							</a>)
@@ -195,7 +195,7 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 				</div>
 				<div className="row lottery-body">
 					<div className="col-md-6 d-flex">
-						<div className="d-flex flex-column flex-fill gradient-card primary">
+						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h3>Your information</h3>
 							<h5>Wallet address</h5>
 							<p>{state.address || 'Please connect your wallet'}</p>
@@ -208,7 +208,7 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 						</div>
 					</div>
 					<div className="col-md-6 d-flex">
-						<div className="d-flex flex-column flex-fill gradient-card light">
+						<div className="shadow d-flex flex-column flex-fill gradient-card light">
 							<h3>Lottery status</h3>
 							<h5>Current draw number</h5>
 							<p>{numeral(state.drawNumber).format('0,0') || 'Nothing has been drawn yet!'}</p>

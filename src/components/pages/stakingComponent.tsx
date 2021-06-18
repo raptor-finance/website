@@ -288,12 +288,12 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 					<div className="col-md-12">
 						<img src="images/staking.svg"/>
 						{state.address ?
-							(<a className="btn btn-primary ladda-button btn-sm btn-wallet float-right" role="button" onClick={this.disconnectWallet}> 
+							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}> 
 								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> }
 								Disconnect Wallet 
 							</a>)
 							:
-							(<a className="btn btn-primary ladda-button btn-sm btn-wallet float-right" role="button" onClick={this.connectWallet}> 
+							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}> 
 								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> }
 								 Connect Wallet 
 							</a>)
@@ -310,7 +310,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 				</div>
 				<div className="row staking-body">
 					<div className="col-md-6 d-flex">
-						<div className="d-flex flex-column flex-fill gradient-card primary">
+						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h3>Your information</h3>
 							<h5>Wallet address</h5>
 							<p>{state.address || 'Please connect your wallet'}</p>
@@ -323,7 +323,7 @@ export class StakingComponent extends BaseComponent<StakingProps, StakingState> 
 						</div>
 					</div>
 					<div className="col-md-6 d-flex">
-						<div className="d-flex flex-column flex-fill gradient-card dark">
+						<div className="shadow d-flex flex-column flex-fill gradient-card dark">
 							<div style={{margin: "-20px"}}>
 								<ul role="tablist" className="nav nav-tabs" style={{padding: "10px", paddingBottom: "0"}}>
 									<li role="presentation" className="nav-item"><a role="tab" data-bs-toggle="tab" className="nav-link active" href="#ctl-stake">Stake</a></li>
