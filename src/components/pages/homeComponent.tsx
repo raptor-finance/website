@@ -111,7 +111,7 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 						</p>
 					</div>
 					<div className="col-md-6 d-flex">
-						<div className="d-flex flex-row align-self-center flex-wrap gradient-card primary"
+						<div className="shadow d-flex flex-row align-self-center flex-wrap gradient-card primary"
 							 id="raptor-forest">
 							<h4 className="flex-fill">Our Raptor Forest</h4>
 							<p><strong>Funded by: </strong><span>Raptor Finance</span></p>
@@ -127,20 +127,20 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 				<div className="row">
 					<div className="col-md-6">
 						<div className="d-flex justify-content-center flex-sm-column flex-lg-row hero-buttons"><a
-							className="btn btn-primary btn-lg" role="button" href="about">About Us</a><a
-							className="btn btn-light btn-lg" role="button" href="/whitepaper.pdf" target="_blank">Our Docs</a>
+							className="shadow btn btn-primary btn-lg" role="button" href="about">About Us</a><a
+							className="shadow btn btn-light btn-lg" role="button" href="/whitepaper.pdf" target="_blank">Our Docs</a>
 						</div>
 					</div>
 					<div className="col-md-6">
 						<div className="d-flex justify-content-center flex-sm-column flex-lg-row hero-buttons">
 							<a
-								className="btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image"
+								className="shadow btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image"
 								href="lottery" role="button">
 									<img src="images/lottery.svg"/>
 									<span className="text-light"><strong>Win </strong>Raptor tokens</span>
 							</a>
 							<a
-								className="btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image"
+								className="shadow btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image"
 								href="staking" role="button">
 									<img src="images/staking.svg"/>
 									<span className="text-light"><strong>Earn </strong>Raptor tokens</span>
@@ -156,7 +156,7 @@ export class HomeComponent extends BaseComponent<HomeProps, HomeState> {
 						<p>There is currently ${numeral(state.donationBalance).format('0,0.00')} in our wallet to be donated!</p>
 					</div>
 					<div className="col-md-6 d-flex">
-						<div className="d-flex flex-row align-self-center flex-wrap gradient-card primary"
+						<div className="shadow d-flex flex-row align-self-center flex-wrap gradient-card primary"
 							 id="raptor-forest">
 							<h4 className="flex-fill">Token statistics</h4>
 							{/* <p><strong>Price in USD: </strong><span>{(+state.priceUsd).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p> */}
