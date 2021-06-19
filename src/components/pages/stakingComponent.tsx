@@ -6,7 +6,7 @@ import {Wallet} from "../wallet";
 
 import './stakingComponent.css';
 import {Raptor} from "../contracts/raptor";
-import { WithTranslation, withTranslation, TFunction } from 'react-i18next';
+import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
 
 export type StakingProps = {}
 export type StakingState = {
@@ -302,10 +302,10 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 						}
 						
 						<p>{t('staking.paragraph1')}</p>
-						<p>{t('staking.paragraph2_1')} <a
-							href="https://metamask.io/">Metamask</a>{t('staking.and')} <a
+						<p><Trans i18nKey='staking.paragraph2'>In order to stake Raptor tokens, you need to connect your browser wallet (such as <a
+							href="https://metamask.io/">Metamask</a>) and <a
 							href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
-							target="_blank">{t('staking.paragraph2_2')}</a>.</p>
+							target="_blank">Switch to the Binance Smart Chain</a></Trans>.</p>
 					</div>
 				</div>
 				<div className="row staking-body">

@@ -7,7 +7,7 @@ export const defaultLanguage = "en";
 
 export const supportedLanguages = [
   { code: "en", name: "English" },
-  { code: "ch", name: "中文" },
+  { code: "ch", name: "简体中文" },
 ];
 
 i18next
@@ -22,7 +22,9 @@ i18next
     //   loadPath: `./locales/{{lng}}.json`
     // },
     react: {
-      useSuspense: true
+      	useSuspense: true,
+	  	transSupportBasicHtmlNodes: true,
+		transKeepBasicHtmlNodesFor: ['u', 'a']
     },
     fallbackLng: defaultLanguage,
     keySeparator: '.',

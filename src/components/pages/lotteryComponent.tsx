@@ -6,7 +6,7 @@ import {Wallet} from "../wallet";
 import {RaptorLottery} from "../contracts/lottery";
 
 import './lotteryComponent.css';
-import { WithTranslation, withTranslation, TFunction } from 'react-i18next';
+import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
 
 export type LotteryProps = {}
 export type LotteryState = {
@@ -187,10 +187,10 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							</a>)
 						}
 						<p>{t('lottery.paragraph1')}</p>
-						<p>{t('lottery.paragraph2_1')} <a
-							href="https://metamask.io/">Metamask</a>{t('lottery.and')} <a
+						<p><Trans i18nKey='lottery.paragraph2'>In order to stake Raptor tokens, you need to connect your browser wallet (such as <a
+							href="https://metamask.io/">Metamask</a>) and <a
 							href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
-							target="_blank">{t('lottery.paragraph2_2')}</a>.</p>
+							target="_blank">Switch to the Binance Smart Chain</a></Trans>.</p>
 					</div>
 				</div>
 				<div className="row lottery-body">

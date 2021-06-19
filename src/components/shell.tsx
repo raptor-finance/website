@@ -29,7 +29,6 @@ export class Shell extends BaseComponent<ShellProps, ShellState> {
 
 	render() {
 		const pages = this.readProps().pages;
-		console.log(pages, "====");
 		return <Router>
 			<div className="main-wrapper">
 				<ShellNav pages={pages} />
