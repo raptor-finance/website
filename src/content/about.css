@@ -18,6 +18,14 @@
 	color: var(--white);
 }
 
+.about-container h2 {
+	color: var(--complementary-alt);
+}
+
+.about-container h3 {
+	color: var(--primary);
+}
+
 .about-container #team-members .photo {
 	width: 100%;
 	margin: 30px 0;
@@ -31,7 +39,8 @@
 }
 
 .about-container #team-members .title {
-	color: var(--white);
+	font-size: large;
+	color: var(--complementary-alt);
 	text-align: center;
 }
 
@@ -158,6 +167,18 @@
 
 .memberCard {
 	align-items: center;
+}
+
+.roadmap-list {
+	color: #fff;
+}
+
+.roadmap-list.done {
+	color: var(--primary-alt);
+}
+
+.roadmap-list.done li::marker {
+	content: ' ✓  ';
 }
 
 @media screen and (max-width: 600px) {

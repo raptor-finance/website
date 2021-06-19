@@ -14,7 +14,7 @@ body {
 }
 
 .gradient-card {
-	border-radius: 20px;
+	border-radius: 12px;
 	min-width: 40px;
 	min-height: 40px;
 	padding: 20px;
@@ -33,7 +33,7 @@ body {
 }
 
 .gradient-card.primary {
-	background: linear-gradient(var(--primary), var(--light) 100%);
+	background: linear-gradient(var(--primary), var(--primary-alt) 100%);
 	color: var(--dark);
 	border: 1px solid var(--dark);
 }

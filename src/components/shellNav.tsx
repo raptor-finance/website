@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { NavLink  } from "react-router-dom";
-import {BaseComponent, IShellPage} from "./shellInterfaces";
+import { NavLink } from "react-router-dom";
+import { BaseComponent, IShellPage } from "./shellInterfaces";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import './shellNav.css';
@@ -29,12 +29,12 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 	constructor(props: ShellNavProps & WithTranslation) {
 		super(props);
 	}
-	
+
 	toggleMenu = (e) => {
 		if (window.innerWidth < 990)
 			this.collapseRef.current.click();
 	}
-	
+
 	render() {
 		const pages: IShellPage[] = (this.readProps().pages || []);
 		const t: TFunction<"translation"> = this.readProps().t;
@@ -43,10 +43,10 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 			<div className="navigation-wrapper">
 				<div className="logo-wrapper">
 					<a href="/home">
-						<img src="images/logo.svg" className="img-logo" alt="Raptor Finance"/>
+						<img src="images/logo.svg" className="img-logo" alt="Raptor Finance" />
 					</a>
 					<button className="navbar-toggler" type="button" data-bs-target="#mainNav" data-bs-toggle="collapse"
-							aria-controls="navbarSupportedContent" aria-label="Toggle navigation" ref={this.collapseRef}>
+						aria-controls="navbarSupportedContent" aria-label="Toggle navigation" ref={this.collapseRef}>
 						<FontAwesomeIcon icon={faBars} />
 					</button>
 				</div>
@@ -89,7 +89,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 					</div>
 
 					<div className="navigation-footer">
-						<div className="text-center text-lg-left mb-2">
+						<div className="social-medias text-center text-lg-left">
 							<a href="https://twitter.com/raptor_token" className="btn-social" target="_blank">
 								<FontAwesomeIcon icon={faTwitter} />
 							</a>
@@ -119,13 +119,13 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							</a>
 						</div>
 						<div>
-							<a href="https://whitebit.com/trade-pro/RAPTOR_DECL?type=spot" className="btn btn-success btn-block" target="_blank">{t('nav.buyonwhitebit')}</a>
+							<a href="https://whitebit.com/trade-pro/RAPTOR_DECL?type=spot" className="btn btn-primary btn-block" target="_blank">Buy on WhiteBIT</a>
 						</div>
 						<div className="mt-3">
-							<a href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xf9A3FdA781c94942760860fc731c24301c83830A" className="btn btn-success btn-block" target="_blank">{t('nav.buyonpancakeswap')}</a>
+							<a href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xf9A3FdA781c94942760860fc731c24301c83830A" className="btn btn-primary btn-block" target="_blank">{t('nav.buyonpancakeswap')}</a>
 						</div>
-						<div className="mt-3">							
-							<a href="https://bscscan.com/token/0xf9a3fda781c94942760860fc731c24301c83830a#balances" className="btn btn-light btn-block" target="_blank">{t('nav.viewonbscscan')}</a>
+						<div className="mt-3">
+							<a href="https://bscscan.com/token/0xf9a3fda781c94942760860fc731c24301c83830a#balances" className="btn btn-complementary btn-block" target="_blank">{t('nav.viewonbscscan')}</a>
 						</div>
 						<p className="mt-3 text-center">© {t('nav.copyright')}</p>
 					</div>
