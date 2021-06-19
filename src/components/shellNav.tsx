@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './shellNav.css';
 import './shellNav.icons.css';
 import {faBars} from "@fortawesome/free-solid-svg-icons";
-import {faTelegram, faTwitter} from "@fortawesome/free-brands-svg-icons";
+import {faMedium, faTelegram, faTwitter} from "@fortawesome/free-brands-svg-icons";
 import {faFacebook} from "@fortawesome/free-brands-svg-icons/faFacebook";
 import {faInstagram} from "@fortawesome/free-brands-svg-icons/faInstagram";
 import {faReddit} from "@fortawesome/free-brands-svg-icons/faReddit";
@@ -114,12 +114,18 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							<a href="https://discord.gg/EJwR3pjd9A" className="btn-social" target="_blank">
 								<FontAwesomeIcon icon={faDiscord} />
 							</a>
+							<a href="https://raptor-finance.medium.com/" className="btn-social" target="_blank">
+								<FontAwesomeIcon icon={faMedium} />
+							</a>
 						</div>
 						<div>
-							<a href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xf9A3FdA781c94942760860fc731c24301c83830A" className="btn btn-success btn-block" target="_blank">{t('nav.buyon')}</a>
+							<a href="https://whitebit.com/trade-pro/RAPTOR_DECL?type=spot" className="btn btn-success btn-block" target="_blank">{t('nav.buyonwhitebit')}</a>
+						</div>
+						<div className="mt-3">
+							<a href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xf9A3FdA781c94942760860fc731c24301c83830A" className="btn btn-success btn-block" target="_blank">{t('nav.buyonpancakeswap')}</a>
 						</div>
 						<div className="mt-3">							
-							<a href="https://bscscan.com/token/0xf9a3fda781c94942760860fc731c24301c83830a#balances" className="btn btn-light btn-block" target="_blank">{t('nav.viewon')}</a>
+							<a href="https://bscscan.com/token/0xf9a3fda781c94942760860fc731c24301c83830a#balances" className="btn btn-light btn-block" target="_blank">{t('nav.viewonbscscan')}</a>
 						</div>
 						<p className="mt-3 text-center">© {t('nav.copyright')}</p>
 					</div>

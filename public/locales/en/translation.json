@@ -5,8 +5,9 @@
         "staking": "Staking",
         "lottery": "Lottery",
         "faq": "FAQ",
-        "buyon": "Buy on PancakeSwap",
-        "viewon": "View on BSCscan",
+        "buyonpancakeswap": "Buy on PancakeSwap",
+        "buyonwhitebit": "Buy on WhiteBIT",
+        "viewonbscscan": "View on BSCscan",
         "copyright": "Raptor Finance 2021+"
     },
     "home": {

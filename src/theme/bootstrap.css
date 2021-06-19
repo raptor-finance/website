@@ -1780,7 +1780,7 @@ textarea.form-control {
 
 .btn {
   display: inline-block;
-  font-weight: 400;
+  font-weight: bold;
   color: #9daabf;
   text-align: center;
   vertical-align: middle;
@@ -1812,7 +1812,7 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background: #31c461 linear-gradient(180deg, #30ad5b, #31c461) repeat-x;
+  background: #31c461 linear-gradient(180deg, #30ad5b, #45CB73) repeat-x;
   border-color: #31c461; }
   .btn-primary:hover {
     color: #fff;
@@ -1980,7 +1980,7 @@ fieldset:disabled a.btn {
 
 .btn-light {
   color: #212529;
-  background: #9daabf linear-gradient(180deg, #8b97ab, #9daabf) repeat-x;
+  background: #9daabf linear-gradient(180deg, #8b97ab, #808DA3) repeat-x;
   border-color: #9daabf; }
   .btn-light:hover {
     color: #fff;
@@ -2009,7 +2009,8 @@ fieldset:disabled a.btn {
 .btn-dark {
   color: #fff;
   background: #282b3a linear-gradient(180deg, #282b3a, #282b3a) repeat-x;
-  border-color: #282b3a; }
+  border-color: #282b3a; 
+  font-weight: 400; }
   .btn-dark:hover {
     color: #fff;
     background: #181a23 linear-gradient(180deg, #1b1d27, #181a23) repeat-x;

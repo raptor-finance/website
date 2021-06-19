@@ -108,7 +108,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						<p>{t('home.paragraph1')}</p>
 					</div>
 					<div className="col-md-6 d-flex">
-						<div className="d-flex flex-row align-self-center flex-wrap gradient-card primary"
+						<div className="shadow d-flex flex-row align-self-center flex-wrap gradient-card primary"
 							 id="raptor-forest">
 							<h4 className="flex-fill">{t('home.raptor_forest.title')}</h4>
 							<p><Trans i18nKey='home.raptor_forest.funder'><strong>Funded by: </strong><span>Raptor Finance</span></Trans></p>
@@ -124,20 +124,20 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 				<div className="row">
 					<div className="col-md-6">
 						<div className="d-flex justify-content-center flex-sm-column flex-lg-row hero-buttons"><a
-							className="btn btn-primary btn-lg" role="button" href="about">{t('home.about_us')}</a><a
-							className="btn btn-light btn-lg" role="button" href="/whitepaper.pdf" target="_blank">{t('home.our_docs')}</a>
+							className="shadow btn btn-primary btn-lg" role="button" href="about">{t('home.about_us')}</a><a
+							className="shadow btn btn-light btn-lg" role="button" href="/whitepaper.pdf" target="_blank">{t('home.our_docs')}</a>
 						</div>
 					</div>
 					<div className="col-md-6">
 						<div className="d-flex justify-content-center flex-sm-column flex-lg-row hero-buttons">
 							<a
-								className="btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image"
+								className="shadow btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image"
 								href="lottery" role="button">
 									<img src="images/lottery.svg"/>
 									<span className="text-light"><Trans i18nKey='home.win_tokens'><strong>Win </strong>Raptor tokens</Trans></span>
 							</a>
 							<a
-								className="btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image"
+								className="shadow btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image"
 								href="staking" role="button">
 									<img src="images/staking.svg"/>
 									<span className="text-light"><Trans i18nKey='home.earn_tokens'><strong>Earn </strong>Raptor tokens</Trans></span>
@@ -153,7 +153,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						<p>{t('home.paragraph4_1')}{numeral(state.donationBalance).format('0,0.00')}{t('home.paragraph4_2')}</p>
 					</div>
 					<div className="col-md-6 d-flex">
-						<div className="d-flex flex-row align-self-center flex-wrap gradient-card primary"
+						<div className="shadow d-flex flex-row align-self-center flex-wrap gradient-card primary"
 							 id="raptor-forest">
 							<h4 className="flex-fill">{t('home.token_statistics.title')}</h4>
 							{/* <p><strong>Price in USD: </strong><span>{(+state.priceUsd).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p> */}

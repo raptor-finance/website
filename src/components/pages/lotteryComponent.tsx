@@ -176,12 +176,12 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 				<div className="row text-white lottery-header">
 					<div className="col-md-12"><img src="images/lottery.svg"/>
 						{state.address ?
-							(<a className="btn btn-primary ladda-button btn-sm btn-wallet float-right" role="button" onClick={this.disconnectWallet}> 
+							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}> 
 								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> }
 								{t('lottery.disconnect_wallet')} 
 							</a>)
 							:
-							(<a className="btn btn-primary ladda-button btn-sm btn-wallet float-right" role="button" onClick={this.connectWallet}> 
+							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}> 
 								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> }
 								{t('lottery.connect_wallet')} 
 							</a>)
@@ -195,7 +195,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 				</div>
 				<div className="row lottery-body">
 					<div className="col-md-6 d-flex">
-						<div className="d-flex flex-column flex-fill gradient-card primary">
+						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h3>{t('lottery.your_info.title')}</h3>
 							<h5>{t('lottery.your_info.wallet_address')}</h5>
 							<p>{state.address || t('lottery.your_info.connect_wallet')}</p>
@@ -208,7 +208,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 						</div>
 					</div>
 					<div className="col-md-6 d-flex">
-						<div className="d-flex flex-column flex-fill gradient-card light">
+						<div className="shadow d-flex flex-column flex-fill gradient-card light">
 							<h3>{t('lottery.status.title')}</h3>
 							<h5>{t('lottery.status.current_number')}</h5>
 							<p>{numeral(state.drawNumber).format('0,0') || t('lottery.status.nothing')}</p>

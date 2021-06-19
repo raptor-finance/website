@@ -5,8 +5,9 @@
         "staking": "质押",
         "lottery": "彩票",
         "faq": "常问问题",
-        "buyon": "在 PancakeSwap 上购买",
-        "viewon": "在 BSCscan 上查看",
+        "buyonwhitebit": "在 WhiteBIT 上购买",
+        "buyonpancakeswap": "在 PancakeSwap 上购买",
+        "viewonbscscan": "在 BSCscan 上查看",
         "copyright": "迅猛龙金融 2021+"
     },
     "home": {

@@ -23,9 +23,11 @@
 
 .home-container .hero-buttons > * {
 	margin: 10px;
-	color: var(--dark) !important;
 	font-size: medium;
-	padding: 15px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
 .home-container .large-button-image {
