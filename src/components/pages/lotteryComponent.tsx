@@ -176,21 +176,21 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 				<div className="row text-white lottery-header">
 					<div className="col-md-12"><img src="images/lottery.svg" />
 						{state.address ?
-							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}> 
-								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> }
-								{t('lottery.disconnect_wallet')} 
+							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
+								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+								{t('lottery.disconnect_wallet')}
 							</a>)
 							:
-							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}> 
-								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> }
-								{t('lottery.connect_wallet')} 
+							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}>
+								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+								{t('lottery.connect_wallet')}
 							</a>)
 						}
 						<p>{t('lottery.paragraph1')}</p>
 						<p><Trans i18nKey='lottery.paragraph2'>In order to stake Raptor tokens, you need to connect your browser wallet (such as <a
 							href="https://metamask.io/">Metamask</a>) and <a
-							href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
-							target="_blank">Switch to the Binance Smart Chain</a></Trans>.</p>
+								href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
+								target="_blank">Switch to the Binance Smart Chain</a></Trans>.</p>
 					</div>
 				</div>
 				<div className="row lottery-body">
@@ -218,7 +218,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							<p>{numeral(state.jackpot || 0).format('0,0.00')} Raptor</p>
 							<h5>{t('lottery.status.total_tickets')}</h5>
 							<p>{numeral(state.totalTickets || 0).format('0,0')} {t('lottery.your_info.tickets')}</p>
-							<button className="btn btn-primary btn-lg link-dark align-self-center" type="button" onClick={async () => this.buyTicket()} style={{marginTop:"20px"}}>{t('lottery.status.purchase')}</button>
+							<button className="btn btn-primary btn-lg link-dark align-self-center" type="button" onClick={async () => this.buyTicket()} style={{ marginTop: "20px" }}>{t('lottery.status.purchase')}</button>
 						</div>
 					</div>
 				</div>

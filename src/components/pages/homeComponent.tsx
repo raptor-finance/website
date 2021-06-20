@@ -147,15 +147,15 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 				</div>
 				<div className="row">
 					<div className="col-md-6">
-					<h1><strong className="title-white">{t('home.subtitle2')}</strong><br /></h1>
-					<p>{t('home.paragraph2')} <a href="about#roadmap">{t('home.roadmap')}</a> {t('home.for_details')}</p>
-					<p>{t('home.paragraph3')} <a href={`https://bscscan.com/address/${DonationWalletAddress}`} target="_blank" style={{ fontFamily: 'monospace', wordBreak: "break-word" }}>{DonationWalletAddress}</a></p>
-					<p>{t('home.paragraph4_1')}{numeral(state.donationBalance).format('0,0.00')}{t('home.paragraph4_2')}</p>
-				</div>
-				<div className="col-md-6 d-flex">
-					<div className="shadow d-flex flex-row align-self-center flex-wrap gradient-card primary"
-						id="raptor-forest">
-						<h3 className="flex-fill"><strong>{t('home.token_statistics.title')}</strong></h3>
+						<h1><strong className="title-white">{t('home.subtitle2')}</strong><br /></h1>
+						<p>{t('home.paragraph2')} <a href="about#roadmap">{t('home.roadmap')}</a> {t('home.for_details')}</p>
+						<p>{t('home.paragraph3')} <a href={`https://bscscan.com/address/${DonationWalletAddress}`} target="_blank" style={{ fontFamily: 'monospace', wordBreak: "break-word" }}>{DonationWalletAddress}</a></p>
+						<p>{t('home.paragraph4_1')}{numeral(state.donationBalance).format('0,0.00')}{t('home.paragraph4_2')}</p>
+					</div>
+					<div className="col-md-6 d-flex">
+						<div className="shadow d-flex flex-row align-self-center flex-wrap gradient-card primary"
+							id="raptor-forest">
+							<h3 className="flex-fill"><strong>{t('home.token_statistics.title')}</strong></h3>
 							{/* <p><strong>Price in USD: </strong><span>{(+state.priceUsd).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p> */}
 							<p><strong>{t('home.token_statistics.price_usd')} </strong><span>{this.convert(+state.priceUsd).toString()}</span></p>
 							<p><strong>{t('home.token_statistics.price_bnb')} </strong><span>{this.convert(+state.priceBnb).toString()}</span></p>

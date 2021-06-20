@@ -5,12 +5,12 @@
 	padding-top: 50px;
 }
 
-.about-container h1 > img {
+.about-container h1>img {
 	height: 50px;
 	margin: 0 20px;
 }
 
-.about-container h1 > span {
+.about-container h1>span {
 	line-height: 50px;
 }
 
@@ -134,9 +134,7 @@
 	border: 1px solid var(--light);
 }
 
-.about-container #sidebar {
-
-}
+.about-container #sidebar {}
 
 .about-container #sidebar .gradient-card {
 	min-height: 700px;
@@ -153,7 +151,7 @@
 	opacity: 0.5;
 }
 
-.about-container #sidebar .background > img {
+.about-container #sidebar .background>img {
 	width: 100%;
 }
 
@@ -193,7 +191,9 @@
 }
 
 @media screen and (max-width: 600px) {
-	.about-container #roadmap .left::after, .right::after {
+
+	.about-container #roadmap .left::after,
+	.right::after {
 		left: 18px;
 	}
 }

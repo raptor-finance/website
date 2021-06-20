@@ -1,19 +1,19 @@
 import Web3 from "web3";
 import Web3Modal, { providers } from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import {Contract} from "web3-eth-contract";
+import { Contract } from "web3-eth-contract";
 
 export class Wallet {
 	private _address: string = null;
 	private _provider: any = null;
-	private  web3Modal = new Web3Modal({
+	private web3Modal = new Web3Modal({
 		network: "binance", // TODO: change this network option to be changable according
 		cacheProvider: false,
 		providerOptions: this.getProviderOptions()
-	  });
+	});
 	private _web3: Web3 = null;
 
-	public getProviderOptions (): any {
+	public getProviderOptions(): any {
 		const providerOptions = {
 			walletconnect: {
 				package: WalletConnectProvider,
@@ -35,11 +35,11 @@ export class Wallet {
 				// }
 			}
 		};
-	
+
 		return providerOptions;
 	};
 
-	
+
 
 	public async connect(): Promise<boolean> {
 		const wnd: any = window;
@@ -52,47 +52,47 @@ export class Wallet {
 			console.log(error);
 		});
 		// if (!!wnd.ethereum) {
-			if (!this._web3) {
-				this._web3 = new Web3(this._provider);
-			}
-			
-			const accounts = await this._web3.eth.getAccounts();
-			const selectedAccount = accounts[0];
-			
-			const provider: any = this._web3.eth.currentProvider;
-    		if (!provider || ((provider.chainId != 56) && (provider.networkVersion != 56))) {
-				if (provider.isMetaMask) {
-					const networkinfo = [{
+		if (!this._web3) {
+			this._web3 = new Web3(this._provider);
+		}
+
+		const accounts = await this._web3.eth.getAccounts();
+		const selectedAccount = accounts[0];
+
+		const provider: any = this._web3.eth.currentProvider;
+		if (!provider || ((provider.chainId != 56) && (provider.networkVersion != 56))) {
+			if (provider.isMetaMask) {
+				const networkinfo = [{
 					chainId: '0x38',
 					chainName: 'Binance Smart Chain',
 					nativeCurrency:
-						{
-							name: 'BNB',
-							symbol: 'BNB',
-							decimals: 18
-						},
+					{
+						name: 'BNB',
+						symbol: 'BNB',
+						decimals: 18
+					},
 					rpcUrls: ['https://bsc-dataseed1.binance.org/'],
 					blockExplorerUrls: ['https://bscscan.com/'],
-					}]
-					await ethereum.request({method: 'wallet_addEthereumChain', params:networkinfo}).catch(function () {throw 'Please choose the Binance Smart Chain as the current network in your wallet app !'})
-				}
-				else {
-					throw 'Please choose the Binance Smart Chain as the current network in your wallet app !';
-				}
+				}]
+				await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Please choose the Binance Smart Chain as the current network in your wallet app !' })
 			}
+			else {
+				throw 'Please choose the Binance Smart Chain as the current network in your wallet app !';
+			}
+		}
 
-			this._address = selectedAccount;
-			return this.isConnected;
+		this._address = selectedAccount;
+		return this.isConnected;
 		// }
 		// else {
 		// 	// throw 'No compatible wallet app was found. Please install a supported browser extension, such as Metamask.';
 		// }
 	}
-	
+
 	public async disconnect(): Promise<boolean> {
 		this._web3 = null;
 		this._address = null;
-		if(this._provider.close) {
+		if (this._provider.close) {
 			await this._provider.close();
 
 			// If the cached provider is not cleared,

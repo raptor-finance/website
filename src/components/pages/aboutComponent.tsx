@@ -211,7 +211,6 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, {}> {
                 </div>
             </div>
         </div>
-
     }
 }
 
