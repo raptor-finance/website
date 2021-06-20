@@ -6,6 +6,7 @@ import {Wallet} from "../wallet";
 import {RaptorLottery} from "../contracts/lottery";
 
 import './lotteryComponent.css';
+import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
 
 export type LotteryProps = {}
 export type LotteryState = {
@@ -25,9 +26,9 @@ export type LotteryState = {
 	pending?: boolean
 }
 
-export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> {
+class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, LotteryState> {
 
-	constructor(props) {
+	constructor(props: LotteryProps & WithTranslation) {
 		super(props);
 		this.connectWallet = this.connectWallet.bind(this);
 		this.disconnectWallet = this.disconnectWallet.bind(this);
@@ -169,7 +170,7 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 
 	render() {
 		const state = this.readState();
-
+		const t: TFunction<"translation"> = this.readProps().t;
 		return <div className="lottery-container">
 			<div className="container">
 				<div className="row text-white lottery-header">
@@ -177,48 +178,47 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 						{state.address ?
 							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}> 
 								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> }
-								Disconnect Wallet 
+								{t('lottery.disconnect_wallet')} 
 							</a>)
 							:
 							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}> 
 								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span> }
-								 Connect Wallet 
+								{t('lottery.connect_wallet')} 
 							</a>)
 						}
-						<p>This is a simple, non-custodial proof-of-work random number generation lottery for Raptor. You
-							have the chance to win Raptor tokens by buying tickets with Raptor tokens.</p>
-						<p>In order to play in our lottery, you need to connect your browser wallet (such as <a
-							href="https://metamask.io/" target="_blank">Metamask</a>) and <a
+						<p>{t('lottery.paragraph1')}</p>
+						<p><Trans i18nKey='lottery.paragraph2'>In order to stake Raptor tokens, you need to connect your browser wallet (such as <a
+							href="https://metamask.io/">Metamask</a>) and <a
 							href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
-							target="_blank">switch to the Binance Smart Chain</a>.</p>
+							target="_blank">Switch to the Binance Smart Chain</a></Trans>.</p>
 					</div>
 				</div>
 				<div className="row lottery-body">
 					<div className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
-							<h3>Your information</h3>
-							<h5>Wallet address</h5>
-							<p>{state.address || 'Please connect your wallet'}</p>
-							<h5>Wallet balance</h5>
+							<h3>{t('lottery.your_info.title')}</h3>
+							<h5>{t('lottery.your_info.wallet_address')}</h5>
+							<p>{state.address || t('lottery.your_info.connect_wallet')}</p>
+							<h5>{t('lottery.your_info.wallet_balance')}</h5>
 							<p>{numeral(state.balance || 0).format('0,0.00')} Raptor</p>
-							<h5>Purchased tickets</h5>
-							<p>{numeral(state.tickets || 0).format('0,0')} tickets</p>
-							<h5>Price per ticket</h5>
+							<h5>{t('lottery.your_info.purchased')}</h5>
+							<p>{numeral(state.tickets || 0).format('0,0')} {t('lottery.your_info.tickets')}</p>
+							<h5>{t('lottery.your_info.price_per_ticket')}</h5>
 							<p>{numeral(state.price || 0).format('0,0.00')} Raptor</p>
 						</div>
 					</div>
 					<div className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card light">
-							<h3>Lottery status</h3>
-							<h5>Current draw number</h5>
-							<p>{numeral(state.drawNumber).format('0,0') || 'Nothing has been drawn yet!'}</p>
-							<h5>Winner of last round</h5>
-							<p>{state.lastWinner || 'Nobody won yet!'}</p>
-							<h5>Current jackpot</h5>
+							<h3>{t('lottery.status.title')}</h3>
+							<h5>{t('lottery.status.current_number')}</h5>
+							<p>{numeral(state.drawNumber).format('0,0') || t('lottery.status.nothing')}</p>
+							<h5>{t('lottery.status.winner')}</h5>
+							<p>{state.lastWinner || t('lottery.status.nobody')}</p>
+							<h5>{t('lottery.status.current_jackpot')}</h5>
 							<p>{numeral(state.jackpot || 0).format('0,0.00')} Raptor</p>
-							<h5>Total tickets for this round</h5>
-							<p>{numeral(state.totalTickets || 0).format('0,0')} tickets</p>
-							<button className="btn btn-primary btn-lg link-dark align-self-center" type="button" onClick={async () => this.buyTicket()} style={{marginTop:"20px"}}>Purchase a lottery ticket</button>
+							<h5>{t('lottery.status.total_tickets')}</h5>
+							<p>{numeral(state.totalTickets || 0).format('0,0')} {t('lottery.your_info.tickets')}</p>
+							<button className="btn btn-primary btn-lg link-dark align-self-center" type="button" onClick={async () => this.buyTicket()} style={{marginTop:"20px"}}>{t('lottery.status.purchase')}</button>
 						</div>
 					</div>
 				</div>
@@ -227,3 +227,4 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 	}
 }
 
+export default withTranslation()(LotteryComponent)
