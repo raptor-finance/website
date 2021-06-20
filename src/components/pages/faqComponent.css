@@ -6,12 +6,12 @@
 	font-size: x-large;
 }
 
-.faq-container h1 > img {
+.faq-container h1>img {
 	height: 50px;
 	margin: 0 20px;
 }
 
-.faq-container h1 > span {
+.faq-container h1>span {
 	line-height: 50px;
 }
 

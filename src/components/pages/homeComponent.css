@@ -11,18 +11,18 @@
 	flex: 0 0 50%;
 }
 
-.home-container #raptor-forest h4 {
+.home-container #raptor-forest h3 {
 	flex: 1 1 100%;
 	min-width: 100%;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
 .home-container .hero-buttons {
 	margin: 10px 0;
 }
 
-.home-container .hero-buttons > * {
-	margin: 10px;
+.home-container .hero-buttons>* {
+	margin: 5px;
 	font-size: medium;
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -31,10 +31,10 @@
 }
 
 .home-container .large-button-image {
-	background: rgba(0,0,0,0.5);
+	background: rgba(0, 0, 0, 0.5);
 }
 
-.home-container .large-button-image > img {
+.home-container .large-button-image>img {
 	height: 60px;
 	width: 120px;
 }
@@ -45,4 +45,14 @@
 
 .home-container .title-white {
 	color: rgba(255, 255, 255, 1) !important;
+}
+
+.hero-buttons {
+	justify-content: start;
+}
+
+@media (max-width: 990px) {
+	.hero-buttons {
+		justify-content: center;
+	}
 }
