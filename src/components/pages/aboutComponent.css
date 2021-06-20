@@ -18,6 +18,14 @@
 	color: var(--white);
 }
 
+.about-container h2 {
+	color: var(--complementary-alt);
+}
+
+.timeline h2 {
+	color: var(--primary);
+}
+
 .about-container #team-members .photo {
 	width: 100%;
 	margin: 30px 0;
@@ -31,7 +39,8 @@
 }
 
 .about-container #team-members .title {
-	color: var(--white);
+	color: var(--complementary-alt);
+	font-size: large;
 	text-align: center;
 }
 

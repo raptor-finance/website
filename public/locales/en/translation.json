@@ -12,7 +12,8 @@
     },
     "home": {
         "subtitle1": "Can we heal the Earth together?",
-        "paragraph1": "Raptor Finance is a decentralized, financial ecosystem designed by holders for holders. Our mission is to heal planet Earth together and fight climate change! We achieve this by donating to community-chosen projects that help prevent climate change. There is no planet B, therefore we need to work together to help save Mother Earth!",
+        "paragraph1": "Raptor Finance is a decentralized, financial ecosystem designed by holders for holders. Our mission is to heal planet Earth together and fight climate change! We achieve this by donating to community-chosen projects that help prevent climate change.",
+        "paragraph1_end": "There is no planet B, therefore we need to work together to help save Mother Earth!",
         "raptor_forest": {
             "title": "Our Raptor Forest",
             "funder": "<0>Funded by: </0><1>Raptor Finance</1>",
@@ -28,18 +29,18 @@
             "click_here": "Click Here"
         },
         "about_us": "About Us",
-        "our_docs": "Our Docs",
+        "our_docs": "Whitepaper",
         "win_tokens": "<0>Win</0> Raptor tokens",
         "earn_tokens": "<0>Earn</0> Raptor tokens",
         "subtitle2": "Want to help?",
-        "paragraph2": "You can help us saving the earth by donating to the official Raptor community donation wallet. The balance of this wallet will be gradually donated to environmental charities starting Q4/2021. Please check our",
+        "paragraph2": "You can help us save the Earth by donating to the official Raptor community donation wallet. The balance of this wallet will be gradually donated to environmental charities starting Q4/2021. Please check our",
         "roadmap": "roadmap",
         "for_details": "for details.",
         "paragraph3": "This is our only donation wallet address:",
         "paragraph4_1": "There is currently $",
         "paragraph4_2": " in our wallet to be donated!",
         "token_statistics": {
-            "title": "Token statistics",
+            "title": "Token Statistics",
             "price_usd": "Price in USD:",
             "price_bnb": "Price in BNB:"
         }
@@ -50,7 +51,7 @@
         "paragraph1": "Using Raptor staking, you can easily earn more Raptor tokens over time while the blockchain is running. Planning to hold Raptor tokens to help our planet? Earn more while doing so and collect your passive income.",
         "paragraph2": "In order to stake Raptor tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>",
         "your_info": {
-            "title": "Your information",
+            "title": "Your Information",
             "wallet_address": "Wallet address",
             "connect_wallet": "Please connect your wallet",
             "tradeable": "Tradeable balance",
@@ -73,10 +74,10 @@
     "lottery": {
         "connect_wallet": "Connect Wallet",
         "disconnect_wallet": "Disconnect Wallet",
-        "paragraph1": "This is a simple, non-custodial proof-of-work random number generation lottery for Raptor. You have the chance to win Raptor tokens by buying tickets with Raptor tokens.",
-        "paragraph2": "In order to stake Raptor tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>",
+        "paragraph1": "This is a simple, non-custodial, proof-of-work random number generation lottery for Raptor. You have the chance to win Raptor tokens by buying tickets with Raptor tokens.",
+        "paragraph2": "In order to stake your Raptor tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>",
         "your_info": {
-            "title": "Your information",
+            "title": "Your Information",
             "wallet_address": "Wallet address",
             "connect_wallet": "Please connect your wallet",
             "purchased": "Purchased tickets",
@@ -85,7 +86,7 @@
             "tickets": "tickets"
         },        
         "status": {
-            "title": "Lottery status",
+            "title": "Lottery Status",
             "current_number": "Current draw number",
             "nothing": "Nothing has been drawn yet!",
             "winner": "Winner of last round",
@@ -111,7 +112,7 @@
            }           
        },
        "products_overview": {
-           "title": "Raptor Finance Products Overview",
+           "title": "Products Overview",
            "token": {
                "title": "Raptor Token",
                "paragraph1": "Raptor Token powers the Raptor ecosystem. It is the foundation of all the products we have made and will be the foundation of all the future products we will make. The Raptor Token is a deflationary token and has a 7% transaction fee which is burned within the contract. We do this to combat the exchange killer known as impermanent loss because on the other side, we have features such as staking (and farming coming in the future) which generate new tokens. With this, we can keep our total supply balanced.",
@@ -135,7 +136,7 @@
              }
        },
        "team": {
-           "title": "The team",
+           "title": "The Team",
            "founder": {
                "name": "Ismail van Essen",
                "title": "Founder",
@@ -149,10 +150,10 @@
                 "name": "Jonathan Guerrero",
                 "title": "VP Marketing",
                 "desc1": "Hello, my name is Jonathan Guerrero and I'm the VP of marketing at Raptor Finance!",
-                "desc2": "I was originally studying to become a medical surgeon due to my families request, one day I noticed that this was not my calling so I started to pursue various business opportunities always looking to improve my resume, having worked for Marketing at J.Crew and Madewell for more than 2 years as a Marketing specialist and operations supervisor, I always excel at the tasks at hand, I love to Identify and plan differentiated and impactful marketing strategies/materials, Build, Manage and coach a high-performing marketing team.",
-                "desc3": "Maintaining brand standards and ensuring compliance across all marketing and communications channels, due to my devotion to working, has allowed me to be operating from Mexico for the previously mentioned company, I have outstanding communication, presentation, and leadership skills that allow me to identify competitors and evaluate their strategies and positioning and devise counter-strategies, allowing me to direct and support market research collection, analysis, and interpretation of market data for short- and long-term market forecasts and reports.",
-                "desc4": "I have been in cryptocurrency for 3 years now, which has provided me with a considerable amount of knowledge of all types of cryptocurrencies including the DeFi network.",
-                "desc5": "I decided to join the Raptor finance team because I am concerned about climate change, and the problems it could create for future generations, I want to be able to leave my footprint on this world and do something about this issue!"
+                "desc2": "I was originally studying to become a medical surgeon due to my family's request, one day I noticed that this was not my calling so I started to pursue various business opportunities, always looking to improve my resume. Having worked at J.Crew and Madewell for more than 2 years as a Marketing Specialist and Operations Supervisor, I always excel at the task at hand. I love to identify and plan differentiated, and impactful marketing strategies/materials, as well as building, managing and coaching high-performing marketing teams.",
+                "desc3": "Maintaining brand standards and ensuring compliance across all marketing and communications channels due to my devotion to working, has allowed me to be operating from Mexico for the previously mentioned company. I have outstanding communication, presentation, and leadership skills that allow me to identify competitors and evaluate their strategies and positioning to devise counter-strategies. This allows me to direct and support market research collection, analysis, and interpretation of market data for short and long-term market forecasts and reports.",
+                "desc4": "I have been in cryptocurrency for 3 years now which has provided me with a considerable amount of knowledge about all sorts of cryptocurrencies, including the DeFi network.",
+                "desc5": "I decided to join the Raptor Finance team because I am concerned about climate change, and the problems it could create for future generations. I want to be able to leave my footprint on this world, and do something about this issue!"
             },
             "vp_security": {
                 "name": "Ilija Icevic",
@@ -188,7 +189,7 @@
             }
        },
        "our_roadmap": {
-            "title": "Our roadmap to success",
+            "title": "Our Roadmap",
             "paragraph": "Please note that we have multiple products that aren't mentioned in our roadmap because we want to keep some surprises for our holders!",
             "q2_2021": {
                 "title": "Q2 2021",

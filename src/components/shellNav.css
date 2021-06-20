@@ -84,6 +84,10 @@
 	margin-bottom: 20px;
 }
 
+.lang-select {
+	margin-top: 20px;
+}
+
 #mainNav.show {
 	flex-direction: column;
 	max-height: 100%;
@@ -209,5 +213,9 @@
 
 	.social-medias {
 		margin-bottom: 10px;
+	}
+
+	.lang-select {
+		margin-top: 10px;
 	}
 }

@@ -17,14 +17,10 @@
 }
 
 .lottery-container .lottery-body .gradient-card {
-	padding: 40px;
+	padding: 20px;
 }
 
 .lottery-container .lottery-body h3 {
 	margin-bottom: 20px;
 	font-weight: bold;
-}
-
-.lottery-container .lottery-body p {
-	font-size: small;
 }

@@ -105,26 +105,27 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 					<div className="col-md-6">
 						<h1><strong className="title-white">{t('home.subtitle1')}</strong><br /></h1>
 						<p>{t('home.paragraph1')}</p>
+						<p>{t('home.paragraph1_end')}</p>
 					</div>
 					<div className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-row align-self-center flex-wrap gradient-card primary"
 							id="raptor-forest">
-							<h4 className="flex-fill">{t('home.raptor_forest.title')}</h4>
+							<h3 className="flex-fill"><strong>{t('home.raptor_forest.title')}</strong></h3>
 							<p><Trans i18nKey='home.raptor_forest.funder'><strong>Funded by: </strong><span>Raptor Finance</span></Trans></p>
 							<p><strong>{t('home.raptor_forest.age')} </strong><span>{t('home.raptor_forest.day', { count: this.readState().treeAge })}</span></p>
 							<p><strong>{t('home.raptor_forest.co2_offset')} </strong><span>{this.readState().carbonOffset} {t('home.raptor_forest.tonnes')}</span></p>
 							<p><strong>{t('home.raptor_forest.species')} </strong><span>8</span></p>
 							<p><strong>{t('home.raptor_forest.tree_amount')} </strong><span>{this.readState().treeAmount}</span></p>
 							<p><strong>{t('home.raptor_forest.planting_projects')} </strong><span>2</span></p>
-							<p><strong>{t('home.raptor_forest.our_forest')} 🌳:</strong> <span><a className="title-white" href="https://ecologi.com/raptorfinance">{t('home.raptor_forest.click_here')}</a></span></p>
+							<p><strong>{t('home.raptor_forest.our_forest')} 🌳:</strong> <span><strong><a className="title-white" href="https://ecologi.com/raptorfinance">{t('home.raptor_forest.click_here')}</a></strong></span></p>
 						</div>
 					</div>
 				</div>
 				<div className="row">
 					<div className="col-md-6">
-						<div className="d-flex justify-content-center flex-sm-column flex-lg-row hero-buttons"><a
-							className="shadow btn btn-primary btn-lg" role="button" href="about" style={{ marginLeft: "0" }}>{t('home.about_us')}</a><a
-								className="shadow btn btn-light btn-lg" role="button" href="/whitepaper.pdf" target="_blank">{t('home.our_docs')}</a>
+						<div className="d-flex flex-sm-column flex-lg-row hero-buttons">
+							<a className="shadow btn btn-primary btn-lg" role="button" href="about" style={{ marginLeft: "0" }}>{t('home.about_us')}</a>
+							<a className="shadow btn btn-complementary btn-lg" role="button" href="/whitepaper.pdf" target="_blank">{t('home.our_docs')}</a>
 						</div>
 					</div>
 					<div className="col-md-6">
@@ -154,7 +155,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 				<div className="col-md-6 d-flex">
 					<div className="shadow d-flex flex-row align-self-center flex-wrap gradient-card primary"
 						id="raptor-forest">
-						<h4 className="flex-fill">{t('home.token_statistics.title')}</h4>
+						<h3 className="flex-fill"><strong>{t('home.token_statistics.title')}</strong></h3>
 							{/* <p><strong>Price in USD: </strong><span>{(+state.priceUsd).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p> */}
 							<p><strong>{t('home.token_statistics.price_usd')} </strong><span>{this.convert(+state.priceUsd).toString()}</span></p>
 							<p><strong>{t('home.token_statistics.price_bnb')} </strong><span>{this.convert(+state.priceBnb).toString()}</span></p>

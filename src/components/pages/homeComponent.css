@@ -11,10 +11,10 @@
 	flex: 0 0 50%;
 }
 
-.home-container #raptor-forest h4 {
+.home-container #raptor-forest h3 {
 	flex: 1 1 100%;
 	min-width: 100%;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
 .home-container .hero-buttons {
@@ -45,6 +45,10 @@
 
 .home-container .title-white {
 	color: rgba(255, 255, 255, 1) !important;
+}
+
+.hero-buttons {
+	justify-content: start;
 }
 
 @media (max-width: 990px) {
