@@ -224,7 +224,7 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 					<div className="d-none d-lg-flex sticky-top col-3" id="sidebar">
 						<PulseDiv className="align-self-start gradient-card primary">
 							<div className="background"><img src="images/logo-rp-u.svg" /></div>
-							<h5><strong>{t('about.card_right.title')}</strong></h5>
+							<h4><strong>{t('about.card_right.title')}</strong></h4>
 							<p>{t('about.card_right.desc')}</p>
 							<a className="link-dark" href="#mission">{t('about.card_right.mission')}</a>
 							<a className="link-dark" href="#team">{t('about.card_right.team')}</a>

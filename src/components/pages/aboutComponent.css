@@ -24,7 +24,8 @@
 }
 
 .about-container #team-members .photo {
-	width: 100%;
+	width: 240px;
+	height: 260px;
 	margin: 30px 0;
 	max-width: 250px;
 	align-self: center;

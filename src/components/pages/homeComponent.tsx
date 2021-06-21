@@ -229,7 +229,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						<FadeInDiv>
 							<div className="shadow d-flex flex-row align-self-center flex-wrap gradient-card primary"
 								id="raptor-forest">
-								<h3 className="flex-fill"><strong>{t('home.raptor_forest.title')}</strong></h3>
+								<h2 className="flex-fill"><strong>{t('home.raptor_forest.title')}</strong></h2>
 								<p><Trans i18nKey='home.raptor_forest.funder'><strong>Funded by: </strong>
 									<span>Raptor Finance</span></Trans>
 								</p>
@@ -285,7 +285,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						<FadeInDiv>
 							<div className="shadow align-self-center gradient-card primary"
 								id="raptor-forest">
-								<h3 className="flex-fill"><strong>{t('home.token_statistics.title')}</strong></h3>
+								<h2 className="flex-fill"><strong>{t('home.token_statistics.title')}</strong></h2>
 								{/* <p><strong>Price in USD: </strong><span>{(+state.priceUsd).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p> */}
 								<p><strong>{t('home.token_statistics.price_usd')} </strong>
 									<AnimatedNumber value={this.convert(+state.priceUsd)} duration="1000" formatValue={value => `${Number(value).toFixed(14)}`}>
