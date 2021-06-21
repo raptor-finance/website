@@ -5,26 +5,22 @@
 
 .lottery-container .lottery-header img {
 	margin-bottom: 50px;
-	width: 200px;
+	height: 90px;
 }
 
 .lottery-container .lottery-footer {
 	padding: 50px;
 }
 
-.lottery-container .lottery-body > div {
+.lottery-container .lottery-body>div {
 	padding: 20px;
 }
 
 .lottery-container .lottery-body .gradient-card {
-	padding: 40px;
+	padding: 20px;
 }
 
 .lottery-container .lottery-body h3 {
-	margin-bottom: 50px;
-	font-weight: 900;
-}
-
-.lottery-container .lottery-body p {
-	font-size: small;
+	margin-bottom: 20px;
+	font-weight: bold;
 }

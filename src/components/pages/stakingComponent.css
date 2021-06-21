@@ -9,11 +9,7 @@
 
 .staking-container .staking-header img {
 	margin-bottom: 50px;
-	width: 200px;
-}
-
-.staking-container .staking-header {
-	margin-bottom: 50px;
+	height: 90px;
 }
 
 .staking-container .staking-footer {
@@ -21,7 +17,8 @@
 }
 
 .staking-container .staking-body h3 {
-	margin-bottom: 50px;
+	font-weight: bold;
+	margin-bottom: 20px;
 }
 
 .staking-container form label {
@@ -42,15 +39,15 @@
 }
 
 .staking-container ul.nav-tabs {
-	background-color: rgba(0,0,0,0.5);
-	border-radius: 21px 21px 0 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 10px 10px 0 0;
 }
 
 .staking-container a.nav-link {
 	color: var(--white);
 }
 
-.staking-container form .button-row > button {
+.staking-container form .button-row>button {
 	margin: 0 4px;
 }
 
@@ -72,7 +69,7 @@
 	text-align: right;
 }
 
-.staking-container .staking-body > div {
+.staking-container .staking-body>div {
 	padding: 20px;
 }
 

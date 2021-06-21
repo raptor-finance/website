@@ -5,17 +5,25 @@
 	padding-top: 50px;
 }
 
-.about-container h1 > img {
+.about-container h1>img {
 	height: 50px;
 	margin: 0 20px;
 }
 
-.about-container h1 > span {
+.about-container h1>span {
 	line-height: 50px;
 }
 
 .about-container h1 {
 	color: var(--white);
+}
+
+.about-container h2 {
+	color: var(--complementary-alt);
+}
+
+.timeline h2 {
+	color: var(--primary);
 }
 
 .about-container #team-members .photo {
@@ -31,7 +39,8 @@
 }
 
 .about-container #team-members .title {
-	color: var(--white);
+	color: var(--complementary-alt);
+	font-size: large;
 	text-align: center;
 }
 
@@ -125,9 +134,7 @@
 	border: 1px solid var(--light);
 }
 
-.about-container #sidebar {
-
-}
+.about-container #sidebar {}
 
 .about-container #sidebar .gradient-card {
 	min-height: 700px;
@@ -144,7 +151,7 @@
 	opacity: 0.5;
 }
 
-.about-container #sidebar .background > img {
+.about-container #sidebar .background>img {
 	width: 100%;
 }
 
@@ -184,7 +191,9 @@
 }
 
 @media screen and (max-width: 600px) {
-	.about-container #roadmap .left::after, .right::after {
+
+	.about-container #roadmap .left::after,
+	.right::after {
 		left: 18px;
 	}
 }

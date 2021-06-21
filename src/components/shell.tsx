@@ -9,8 +9,8 @@ import {
 } from "react-router-dom";
 
 import ShellNav from "./shellNav";
-import {ShellHost} from "./shellHost";
-import {BaseComponent, IShellPage} from "./shellInterfaces";
+import { ShellHost } from "./shellHost";
+import { BaseComponent, IShellPage } from "./shellInterfaces";
 import './shell.css';
 
 
@@ -43,7 +43,7 @@ export class Shell extends BaseComponent<ShellProps, ShellState> {
 						<Route path="/">
 							<ShellHost page={pages[0]} />
 						</Route>
-						
+
 					</Switch>
 				</div>
 			</div>
