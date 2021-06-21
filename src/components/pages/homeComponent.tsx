@@ -5,12 +5,14 @@ import './homeComponent.css';
 import { DonationWalletAddress } from "../contracts/raptor";
 import { RaptorStatistics } from "../contracts/statistics";
 import { withTranslation, WithTranslation, TFunction, Trans } from "react-i18next";
+import { Fade, Slide } from "react-reveal";
 import { fadeIn, pulse } from "react-animations";
 import styled, { keyframes } from "styled-components";
 import AnimatedNumber from "animated-number-react";
 
 export type HomeProps = {};
 export type HomeState = {
+	currentTab?: number;
 	treeAge?: number;
 	exit?: boolean;
 	priceUsd?: number;
@@ -39,6 +41,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 	constructor(props: HomeProps & WithTranslation) {
 		super(props);
 		this.state = {
+			currentTab: 0,
 			treeAge: 0,
 			priceUsd: 0,
 			priceBnb: 0,
@@ -47,6 +50,10 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 			carbonOffset: 0,
 		};
 		this._statistics = new RaptorStatistics();
+	}
+
+	handleClick(currentTab) {
+		this.setState({ currentTab });
 	}
 
 	componentDidMount() {
@@ -136,6 +143,60 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 	render() {
 		const state = this.readState();
 		const t: TFunction<"translation"> = this.readProps().t;
+
+		const data = [
+			{
+				id: "1",
+				name: "Q2",
+				header: t('about.our_roadmap.q2_2021.title'),
+				items: [
+					{ text: t('about.our_roadmap.q2_2021.line1'), done: "complete", },
+					{ text: t('about.our_roadmap.q2_2021.line2'), done: "complete", },
+					{ text: t('about.our_roadmap.q2_2021.line3'), done: "complete", },
+					{ text: t('about.our_roadmap.q2_2021.line4'), done: "complete", },
+					{ text: t('about.our_roadmap.q2_2021.line5'), done: "complete", },
+					{ text: t('about.our_roadmap.q2_2021.line6'), done: "complete", },
+					{ text: t('about.our_roadmap.q2_2021.line7'), done: "complete", },
+					{ text: t('about.our_roadmap.q2_2021.line8'), done: "complete", },
+					{ text: t('about.our_roadmap.q2_2021.line9'), done: "complete", },
+					{ text: t('about.our_roadmap.q2_2021.line10'), done: "complete", },
+				],
+			},
+			{
+				id: "2",
+				name: "Q3",
+				header: t('about.our_roadmap.q3_2021.title'),
+				items: [
+					{ text: t('about.our_roadmap.q3_2021.line1'), done: "wip", },
+					{ text: t('about.our_roadmap.q3_2021.line2'), done: "wip", },
+					{ text: t('about.our_roadmap.q3_2021.line3'), done: "wip", },
+					{ text: t('about.our_roadmap.q3_2021.line4'), done: "wip", },
+				],
+			},
+			{
+				id: "3",
+				name: "Q4",
+				header: t('about.our_roadmap.q4_2021.title'),
+				items: [
+					{ text: t('about.our_roadmap.q4_2021.line1'), done: "wip", },
+					{ text: t('about.our_roadmap.q4_2021.line2'), done: "wip", },
+					{ text: t('about.our_roadmap.q4_2021.line3'), done: "wip", },
+					{ text: t('about.our_roadmap.q4_2021.line4'), done: "wip", },
+					{ text: t('about.our_roadmap.q4_2021.line5'), done: "wip", },
+					{ text: t('about.our_roadmap.q4_2021.line6'), done: "wip", },
+				],
+			},
+			{
+				id: "4",
+				name: "Q1",
+				header: t('about.our_roadmap.q1_2022.title'),
+				items: [
+					{ text: t('about.our_roadmap.q1_2022.line1'), done: "wip", },
+					{ text: t('about.our_roadmap.q1_2022.line2'), done: "wip", },
+				],
+			},
+		]
+
 		return <div className="home-container">
 			<div className="container" style={{ marginTop: "6%" }}>
 				<div className="row">
@@ -144,8 +205,10 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						<p>{t('home.paragraph1')}</p>
 						<p>{t('home.paragraph1_end')}</p>
 						<div className="d-flex flex-sm-column flex-lg-row hero-buttons">
-							<a className="shadow btn btn-primary btn-lg btn-about" role="button" href="about" style={{ marginLeft: "0" }}>{t('home.about_us')}</a>
-							<a className="shadow btn btn-complementary btn-lg" role="button" href="/whitepaper.pdf" target="_blank">{t('home.our_docs')}</a>
+							<Slide left>
+								<a className="shadow btn btn-primary btn-lg btn-about" role="button" href="about" style={{ marginLeft: "0" }}>{t('home.about_us')}</a>
+								<a className="shadow btn btn-complementary btn-lg" role="button" href="/whitepaper.pdf" target="_blank">{t('home.our_docs')}</a>
+							</Slide>
 						</div>
 						<h1><strong className="title-white">{t('home.subtitle2')}</strong><br /></h1>
 						<p>{t('home.paragraph2')} <a href="about#roadmap">{t('home.roadmap')}</a> {t('home.for_details')}</p>
@@ -200,22 +263,24 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 							</div>
 						</FadeInDiv>
 						<div className="d-flex justify-content-around flex-sm-column flex-lg-row hero-buttons">
-							<PulseDiv>
-								<a
-									className="shadow btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image btn-features"
-									href="lottery" role="button">
-									<img src="images/lottery.svg" />
-									<span className="text-light"><Trans i18nKey='home.win_tokens'><strong>Win </strong>Raptor tokens</Trans></span>
-								</a>
-							</PulseDiv>
-							<PulseDiv>
-								<a
-									className="shadow btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image btn-features"
-									href="staking" role="button">
-									<img src="images/staking.svg" />
-									<span className="text-light"><Trans i18nKey='home.earn_tokens'><strong>Earn </strong>Raptor tokens</Trans></span>
-								</a>
-							</PulseDiv>
+							<Slide right>
+								<PulseDiv>
+									<a
+										className="shadow btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image btn-features"
+										href="lottery" role="button">
+										<img src="images/lottery.svg" />
+										<span className="text-light"><Trans i18nKey='home.win_tokens'><strong>Win </strong>Raptor tokens</Trans></span>
+									</a>
+								</PulseDiv>
+								<PulseDiv>
+									<a
+										className="shadow btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image btn-features"
+										href="staking" role="button">
+										<img src="images/staking.svg" />
+										<span className="text-light"><Trans i18nKey='home.earn_tokens'><strong>Earn </strong>Raptor tokens</Trans></span>
+									</a>
+								</PulseDiv>
+							</Slide>
 						</div>
 						<FadeInDiv>
 							<div className="shadow align-self-center gradient-card primary"
@@ -236,7 +301,49 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						</FadeInDiv>
 					</div>
 				</div>
-			</div >
+				<section id="roadmap" style={{ marginTop: "8%" }}>
+					<div>
+						<Fade bottom>
+							<h1 className="justify-content-center"><strong className="title-white align-self-center">{t('about.our_roadmap.title')}</strong></h1>
+							<p className="justify-content-center text-align-center">{t('about.our_roadmap.paragraph')}</p>
+						</Fade>
+						<div className="row">
+							<Fade bottom>
+								<div className="tab col-md-1">
+									{data.map((button, i) => (
+										<React.Fragment>
+											<button key={button.name} className="btn-roadmap" style={{ backgroundColor: this.state.currentTab == i ? "var(--primary)" : "var(--white)" }} onClick={() => this.handleClick(i)}>{button.name}</button>
+											{i < data.length - 1 &&
+												<div className="line"></div>
+											}
+										</React.Fragment>
+									)
+									)
+									}
+								</div>
+							</Fade>
+							<Fade bottom>
+								<div className="roadmap-content col-md-11">
+									{this.state.currentTab !== -1 &&
+										<React.Fragment>
+											<Fade spy={this.state.currentTab}>
+												<h3>{data[this.state.currentTab].header}</h3>
+												<ul className="roadmap-list">
+													{data[this.state.currentTab].items.map((li, i) => (
+														<li className={li.done}>{li.text}</li>
+													)
+													)
+													}
+												</ul>
+											</Fade>
+										</React.Fragment>
+									}
+								</div>
+							</Fade>
+						</div>
+					</div>
+				</section>
+			</div>
 		</div >
 	}
 }

@@ -7,7 +7,7 @@ import { Wallet } from "../wallet";
 import './stakingComponent.css';
 import { Raptor } from "../contracts/raptor";
 import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
-import { fadeInUp, pulse } from "react-animations";
+import { fadeInLeft, fadeInRight, pulse } from "react-animations";
 import styled, { keyframes } from "styled-components";
 import AnimatedNumber from "animated-number-react";
 
@@ -31,9 +31,13 @@ export type StakingState = {
 	pending?: boolean
 }
 
-const FadeInUpAnimation = keyframes`${fadeInUp}`;
-const FadeInUpDiv = styled.div`
-  animation: ease-out 0.6s ${FadeInUpAnimation};
+const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
+const FadeInLeftDiv = styled.div`
+  animation: ease-out 0.6s ${FadeInLeftAnimation};
+`;
+const FadeInRightAnimation = keyframes`${fadeInRight}`;
+const FadeInRightDiv = styled.div`
+  animation: ease-out 0.6s ${FadeInRightAnimation};
 `;
 const PulseAnimation = keyframes`${pulse}`;
 const PulseDiv = styled.div`
@@ -321,7 +325,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 					</div>
 				</div>
 				<div className="row staking-body">
-					<FadeInUpDiv className="col-md-6 d-flex">
+					<FadeInLeftDiv className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h3>{t('staking.your_info.title')}</h3>
 							<h5>{t('staking.your_info.wallet_address')}</h5>
@@ -354,8 +358,8 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 								0 Raptor
 							</AnimatedNumber>
 						</div>
-					</FadeInUpDiv>
-					<FadeInUpDiv className="col-md-6 d-flex">
+					</FadeInLeftDiv>
+					<FadeInRightDiv className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card dark">
 							<div style={{ margin: "-20px" }}>
 								<ul role="tablist" className="nav nav-tabs" style={{ padding: "10px", paddingBottom: "0" }}>
@@ -410,7 +414,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 								</div>
 							</div>
 						</div>
-					</FadeInUpDiv>
+					</FadeInRightDiv>
 				</div>
 			</div>
 		</div>

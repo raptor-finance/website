@@ -24,3 +24,17 @@
 	margin-bottom: 20px;
 	font-weight: bold;
 }
+
+.lottery-info {
+	margin-bottom: 20px;
+}
+
+.btn-lottery {
+	width: 40%;
+}
+
+@media (max-width: 600px) {
+	.btn-lottery {
+		width: 100%;
+	}
+}

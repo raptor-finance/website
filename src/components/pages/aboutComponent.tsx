@@ -93,7 +93,7 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 						<div className="container">
 							<div className="row">
 								<div className="col-md-12">
-									<h1><span>{t('about.raptor_finance.title')}</span></h1>
+									<h1><strong>{t('about.raptor_finance.title')}</strong></h1>
 									<p>{t('about.raptor_finance.paragraph1')}</p>
 									<p>{t('about.raptor_finance.paragraph2')}</p>
 									<p>{t('about.raptor_finance.paragraph3')}</p>
@@ -106,7 +106,7 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 										<li>{t('about.raptor_finance.our_plan.line5')}</li>
 									</ul>
 									<Fade bottom>
-										<h1><span>{t('about.products_overview.title')}</span></h1>
+										<h1><strong>{t('about.products_overview.title')}</strong></h1>
 									</Fade>
 									<Fade bottom>
 										<h2>{t('about.products_overview.token.title')}</h2>
@@ -137,7 +137,7 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 						<div className="container" id="team-members">
 							<Fade bottom>
 								<div id="team-header">
-									<h1><span>{t('about.team.title')}</span></h1>
+									<h1><strong>{t('about.team.title')}</strong></h1>
 								</div>
 								<div className="row">
 									<div className="col-md-6 d-flex flex-column item">
@@ -176,6 +176,8 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 										<p className="title">{t('about.team.vp_security.title')}</p>
 									</div>
 								</div>
+							</Fade>
+							<Fade left>
 								<div className="row">
 									<div className="col-md-4 d-flex flex-column item"><img className="photo" src="images/team/rinor.png" />
 										<a href="https://www.linkedin.com/in/rinor-sherifi-b568bb20b/" target="_blank">
@@ -199,7 +201,7 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 									</div>
 								</div>
 							</Fade>
-							<Fade bottom>
+							<Fade right>
 								<div className="row">
 									<div className="col-md-4 d-flex flex-column item"><img className="photo blank" src="images/team/blank.png" />
 										<h3 className="name">{t('about.team.graphics_team_manager.name')}</h3>
@@ -217,46 +219,6 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 							</Fade>
 						</div>
 					</section>
-					<section id="roadmap">
-						<div>
-							<h1>{t('about.our_roadmap.title')}</h1>
-							<p>{t('about.our_roadmap.paragraph')}</p>
-							<div className="row" style={{ padding: "0px 20px 20px 20px" }}>
-								<Fade bottom>
-									<div className="tab col-md-1">
-										{data.map((button, i) => (
-											<React.Fragment>
-												<button key={button.name} className="btn-roadmap" style={{ backgroundColor: this.state.currentTab == i ? "var(--primary)" : "var(--white)" }} onClick={() => this.handleClick(i)}>{button.name}</button>
-												{i < data.length - 1 &&
-													<div className="line"></div>
-												}
-											</React.Fragment>
-										)
-										)
-										}
-									</div>
-								</Fade>
-								<Fade bottom>
-									<div className="roadmap-content col-md-11">
-										{this.state.currentTab !== -1 &&
-											<React.Fragment>
-												<Fade spy={this.state}>
-													<h3>{data[this.state.currentTab].header}</h3>
-													<ul className="roadmap-list">
-														{data[this.state.currentTab].items.map((li, i) => (
-															<li className={li.done}>{li.text}</li>
-														)
-														)
-														}
-													</ul>
-												</Fade>
-											</React.Fragment>
-										}
-									</div>
-								</Fade>
-							</div>
-						</div>
-					</section>
 				</div>
 				<Slide right>
 					<div className="d-none d-lg-flex sticky-top col-3" id="sidebar">
@@ -266,7 +228,6 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 							<p>{t('about.card_right.desc')}</p>
 							<a className="link-dark" href="#mission">{t('about.card_right.mission')}</a>
 							<a className="link-dark" href="#team">{t('about.card_right.team')}</a>
-							<a className="link-dark" href="#roadmap">{t('about.card_right.roadmap')}</a>
 						</PulseDiv>
 					</div>
 				</Slide>
