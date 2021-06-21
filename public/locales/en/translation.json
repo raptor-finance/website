@@ -48,7 +48,7 @@
         "connect_wallet": "Connect Wallet",
         "disconnect_wallet": "Disconnect Wallet",
         "paragraph1": "Using Raptor staking, you can easily earn more Raptor tokens over time while the blockchain is running. Planning to hold Raptor tokens to help our planet? Earn more while doing so and collect your passive income.",
-        "paragraph2": "In order to stake Raptor tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>",
+        "paragraph2": "In order to stake Raptor tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <3>Switch to the Binance Smart Chain</3>",
         "your_info": {
             "title": "Your information",
             "wallet_address": "Wallet address",
@@ -74,7 +74,7 @@
         "connect_wallet": "Connect Wallet",
         "disconnect_wallet": "Disconnect Wallet",
         "paragraph1": "This is a simple, non-custodial proof-of-work random number generation lottery for Raptor. You have the chance to win Raptor tokens by buying tickets with Raptor tokens.",
-        "paragraph2": "In order to stake Raptor tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>",
+        "paragraph2": "In order to stake Raptor tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <3>Switch to the Binance Smart Chain</3>",
         "your_info": {
             "title": "Your information",
             "wallet_address": "Wallet address",
@@ -196,7 +196,7 @@
                 "line2": "Team structure set up",
                 "line3": "Team Slack + Github set up",
                 "line4": "CMC &amp; CG listings",
-                "line5": "Server migration (to green server hosting company)</li>",
+                "line5": "Server migration (to green server hosting company)",
                 "line6": "New website",
                 "line7": "IndoEx listing",
                 "line8": "WhiteBit listing",
@@ -236,7 +236,7 @@
     "faq": {
         "faq1": {
             "title": "How do I buy Raptor Token?",
-            "desc": "Raptor is launched on the Binance Smart Chain. This means that in order to buy Raptor, you need the Binance Coin (BNB). You can buy BNB from <1>Trustwallet</1>, Binance Smart Chain wallet, or from an exchange such as Binance itself, Crypto.com, Whitebit, or similar. Once you have BNB, send them to your wallet and <1>head over to PancakeSwap</1> to buy Raptor for BNB. Make sure you set your slippage to 8%."
+            "desc": "Raptor is launched on the Binance Smart Chain. This means that in order to buy Raptor, you need the Binance Coin (BNB). You can buy BNB from <1>Trustwallet</1>, Binance Smart Chain wallet, or from an exchange such as Binance itself, Crypto.com, Whitebit, or similar. Once you have BNB, send them to your wallet and <3>head over to PancakeSwap</3> to buy Raptor for BNB. Make sure you set your slippage to 8%."
         },
         "faq2": {
             "title": "How do I stake?",
@@ -256,7 +256,7 @@
         },
         "faq6": {
             "title": "Has the founder revealed his identity?",
-            "desc": "Yes, the identity of the team members are revealed on <1>our \"About\" page</1>. Our founder is called Ismail van Essen and you can find him on <1>LinkedIn</1>."
+            "desc": "Yes, the identity of the team members are revealed on <1>our \"About\" page</1>. Our founder is called Ismail van Essen and you can find him on <3>LinkedIn</3>."
         },
         "faq7": {
             "title": "Is it safe to stake my tokens on the staking website?",
