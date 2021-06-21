@@ -159,33 +159,29 @@
                 "name": "Ilija Icevic",
                 "title": "VP Security"
             },
-            "vp_community": {
-                "name": "Rob Jay",
-                "title": "VP Community"
-            },
             "social_media_manager": {
                 "name": "Rinor Sherifi",
-                "title": "Social media manager"
+                "title": "Social Media Manager"
             },
             "content_manager": {
                 "name": "Kyle Marcos",
-                "title": "Content manager"
+                "title": "Content Manager"
             },
             "graphics_designer": {
                 "name": "Romain Lambert",
-                "title": "Graphics designer"
+                "title": "Graphics Designer"
             },
             "graphics_team_manager": {
-                "name": "Samuel",
-                "title": "Graphics team manager"
+                "name": "Anowac",
+                "title": "Graphics Team Manager"
             },
             "software_developer1": {
                 "name": "Miguel",
-                "title": "Software developer"
+                "title": "Software Developer"
             },
             "software_developer2": {
                 "name": "Yanis",
-                "title": "Software developer"
+                "title": "Software Developer"
             }
        },
        "our_roadmap": {
@@ -196,20 +192,20 @@
                 "line1": "Launch of the Raptor Finance smart contract",
                 "line2": "Team structure set up",
                 "line3": "Team Slack + Github set up",
-                "line4": "CMC &amp; CG listings",
-                "line5": "Server migration (to green server hosting company)</li>",
+                "line4": "CMC & CG listings",
+                "line5": "Server migration (to green server hosting company)",
                 "line6": "New website",
                 "line7": "IndoEx listing",
                 "line8": "WhiteBit listing",
                 "line9": "Listings on various tracking platforms",
-                "line10": "Global Marketing expansion phase 1"
+                "line10": "Global marketing expansion phase 1"
             },
             "q3_2021": {
                 "title": "Q3 2021",
                 "line1": "RaptorSwap",
                 "line2": "RaptorFarm",
                 "line3": "Smart contract security audit",
-                "line4": "Global Marketing Expansion phase 2"                
+                "line4": "Global marketing Expansion phase 2"                
             },
             "q4_2021": {
                 "title": "Q4 2021",
@@ -217,7 +213,7 @@
                 "line2": "RaptorNFT platform",
                 "line3": "Raptor BSC ecosystem",
                 "line4": "Emitting donations from the donation wallet piece-by-piece in a community-governed way, helping projects that prevent further climate change",
-                "line5": "Global Marketing expansion phase 3",
+                "line5": "Global marketing expansion phase 3",
                 "line6": "Release 2022 roadmap"                
             },
             "q1_2022": {

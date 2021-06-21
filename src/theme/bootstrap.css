@@ -2830,6 +2830,18 @@ fieldset:disabled a.btn {
 	box-shadow: 0 0 0 0.2rem rgba(138, 150, 169, 0.5);
 }
 
+.btn-roadmap {
+	font-weight: bold;
+	padding: 4px;
+	margin: 20px 0px 20px 0px;
+	border-width: 0px;
+	float: left;
+	height: 50px;
+	width: 50px;
+	border-radius: 50px;
+	background-color: var(--white);
+}
+
 .btn-success {
 	color: var(--white);
 	background: #31c461 linear-gradient(180deg, #30ad5b, #31c461) repeat-x;
