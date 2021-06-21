@@ -3,9 +3,7 @@ import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
-	Link,
-	useRouteMatch,
-	useParams
+	Redirect
 } from "react-router-dom";
 
 import ShellNav from "./shellNav";
@@ -40,10 +38,15 @@ export class Shell extends BaseComponent<ShellProps, ShellState> {
 								<ShellHost page={page} />
 							</Route>
 						))}
-						<Route path="/">
-							<ShellHost page={pages[0]} />
-						</Route>
-
+						<Route
+							exact
+							path="/"
+							render={() => {
+								return (
+									<Redirect to="/home" />
+								)
+							}}
+						/>
 					</Switch>
 				</div>
 			</div>
