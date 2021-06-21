@@ -18,16 +18,11 @@
 }
 
 .home-container .hero-buttons {
-	margin: 10px 0;
+	margin: 50px 0;
 }
 
 .home-container .hero-buttons>* {
-	margin: 5px;
-	font-size: medium;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	padding-left: 20px;
-	padding-right: 20px;
+	margin: 10px;
 }
 
 .home-container .large-button-image {
@@ -51,8 +46,15 @@
 	justify-content: start;
 }
 
+.btn-features {
+	font-size: medium;
+}
+
 @media (max-width: 990px) {
 	.hero-buttons {
 		justify-content: center;
+	}
+	.btn-about {
+		margin-left: 10px !important;
 	}
 }
