@@ -21,7 +21,7 @@ body {
 }
 
 .gradient-card.light {
-	background: linear-gradient(var(--light), var(--white) 100%);
+	background: linear-gradient(var(--light), rgba(255, 255, 255, 0.5) 100%);
 	color: var(--dark);
 	border: 1px solid var(--dark);
 }
@@ -33,7 +33,7 @@ body {
 }
 
 .gradient-card.primary {
-	background: linear-gradient(var(--primary), var(--primary-alt) 100%);
+	background: linear-gradient(rgba(48,196,97, 1), rgba(85,211,126, 0.5) 100%);
 	color: var(--dark);
 	border: 1px solid var(--dark);
 }
