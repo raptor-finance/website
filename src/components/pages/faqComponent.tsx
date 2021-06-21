@@ -1,11 +1,12 @@
 import * as React from "react";
 import { WithTranslation, withTranslation, Trans } from "react-i18next";
 import { BaseComponent } from "../shellInterfaces";
+import { Fade } from 'react-reveal';
 import './faqComponent.css'
 
 export type FaqProps = {}
-
-class FaqComponent extends BaseComponent<FaqProps & WithTranslation, {}> {
+export type FaqState = {}
+class FaqComponent extends BaseComponent<FaqProps & WithTranslation, FaqState> {
 
     constructor(props) {
         super(props);

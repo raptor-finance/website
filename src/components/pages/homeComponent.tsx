@@ -22,7 +22,7 @@ export type HomeState = {
 
 const FadeInAnimation = keyframes`${fadeIn}`;
 const FadeInDiv = styled.div`
-  animation: ease-in 1s ${FadeInAnimation};
+  animation: ease-in 0.4s ${FadeInAnimation};
 `;
 const PulseAnimation = keyframes`${pulse}`;
 const PulseDiv = styled.div`
@@ -152,9 +152,11 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						<p>{t('home.paragraph3')} <a href={`https://bscscan.com/address/${DonationWalletAddress}`} target="_blank" style={{ fontFamily: 'monospace', wordBreak: "break-word" }}>{DonationWalletAddress}</a></p>
 						<p>
 							{t('home.paragraph4_1')}
-							<AnimatedNumber value={this.state.donationBalance} duration="1000" formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', {
-								minimumFractionDigits: 2
-							})}`}>
+							<AnimatedNumber
+								value={this.state.donationBalance}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
+							>
 								{this.readState().donationBalance}
 							</AnimatedNumber>
 							{t('home.paragraph4_2')}
@@ -193,8 +195,8 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 										0
 									</AnimatedNumber>
 								</p>
-								<p><strong>{t('home.raptor_forest.our_forest')} 🌳:</strong>
-									<span><strong><a className="title-white" href="https://ecologi.com/raptorfinance"> {t('home.raptor_forest.click_here')}</a></strong></span></p>
+								<p><strong>{t('home.raptor_forest.our_forest')} 🌳: </strong>
+									<span><strong><a className="title-white" href="https://ecologi.com/raptorfinance">{t('home.raptor_forest.click_here')}</a></strong></span></p>
 							</div>
 						</FadeInDiv>
 						<div className="d-flex justify-content-around flex-sm-column flex-lg-row hero-buttons">

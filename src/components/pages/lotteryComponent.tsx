@@ -4,6 +4,8 @@ import * as numeral from 'numeral';
 import { BaseComponent, ShellErrorHandler } from "../shellInterfaces";
 import { Wallet } from "../wallet";
 import { RaptorLottery } from "../contracts/lottery";
+import { fadeInUp } from "react-animations";
+import styled, { keyframes } from "styled-components";
 
 import './lotteryComponent.css';
 import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
@@ -25,6 +27,11 @@ export type LotteryState = {
 	drawNumber?: number,
 	pending?: boolean
 }
+
+const FadeInUpAnimation = keyframes`${fadeInUp}`;
+const FadeInUpDiv = styled.div`
+  animation: ease-out 0.6s ${FadeInUpAnimation};
+`;
 
 class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, LotteryState> {
 
@@ -194,7 +201,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 					</div>
 				</div>
 				<div className="row lottery-body">
-					<div className="col-md-6 d-flex">
+					<FadeInUpDiv className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h3>{t('lottery.your_info.title')}</h3>
 							<h5>{t('lottery.your_info.wallet_address')}</h5>
@@ -206,8 +213,8 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							<h5>{t('lottery.your_info.price_per_ticket')}</h5>
 							<p>{numeral(state.price || 0).format('0,0.00')} Raptor</p>
 						</div>
-					</div>
-					<div className="col-md-6 d-flex">
+					</FadeInUpDiv>
+					<FadeInUpDiv className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card light">
 							<h3>{t('lottery.status.title')}</h3>
 							<h5>{t('lottery.status.current_number')}</h5>
@@ -220,7 +227,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							<p>{numeral(state.totalTickets || 0).format('0,0')} {t('lottery.your_info.tickets')}</p>
 							<button className="btn btn-primary btn-lg link-dark align-self-center" type="button" onClick={async () => this.buyTicket()} style={{ marginTop: "20px" }}>{t('lottery.status.purchase')}</button>
 						</div>
-					</div>
+					</FadeInUpDiv>
 				</div>
 			</div>
 		</div>
