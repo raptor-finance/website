@@ -4,6 +4,9 @@ import * as numeral from 'numeral';
 import { BaseComponent, ShellErrorHandler } from "../shellInterfaces";
 import { Wallet } from "../wallet";
 import { RaptorLottery } from "../contracts/lottery";
+import { fadeInLeft, fadeInRight, fadeInUp } from "react-animations";
+import styled, { keyframes } from "styled-components";
+import AnimatedNumber from "animated-number-react";
 
 import './lotteryComponent.css';
 import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
@@ -25,6 +28,19 @@ export type LotteryState = {
 	drawNumber?: number,
 	pending?: boolean
 }
+
+const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
+const FadeInLeftDiv = styled.div`
+  animation: ease-out 0.6s ${FadeInLeftAnimation};
+`;
+const FadeInRightAnimation = keyframes`${fadeInRight}`;
+const FadeInRightDiv = styled.div`
+  animation: ease-out 0.6s ${FadeInRightAnimation};
+`;
+const FadeInUpAnimation = keyframes`${fadeInUp}`;
+const FadeInUpDiv = styled.div`
+  animation: ease-out 0.6s ${FadeInUpAnimation};
+`;
 
 class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, LotteryState> {
 
@@ -194,33 +210,81 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 					</div>
 				</div>
 				<div className="row lottery-body">
-					<div className="col-md-6 d-flex">
+					<FadeInLeftDiv className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h3>{t('lottery.your_info.title')}</h3>
 							<h5>{t('lottery.your_info.wallet_address')}</h5>
 							<p>{state.address || t('lottery.your_info.connect_wallet')}</p>
 							<h5>{t('lottery.your_info.wallet_balance')}</h5>
-							<p>{numeral(state.balance || 0).format('0,0.00')} Raptor</p>
+							<AnimatedNumber
+								value={numeral(state.balance || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
+								className="lottery-info"
+							>
+								0 Raptor
+							</AnimatedNumber>
 							<h5>{t('lottery.your_info.purchased')}</h5>
-							<p>{numeral(state.tickets || 0).format('0,0')} {t('lottery.your_info.tickets')}</p>
+							<AnimatedNumber
+								value={numeral(state.tickets || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })} Tickets`}
+								className="lottery-info"
+							>
+								0 tickets
+								</AnimatedNumber>
 							<h5>{t('lottery.your_info.price_per_ticket')}</h5>
-							<p>{numeral(state.price || 0).format('0,0.00')} Raptor</p>
+							<AnimatedNumber
+								value={numeral(state.price || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor Tokens`}
+								className="lottery-info"
+							>
+								{numeral(state.price || 0).format('0,0.00')} Raptor Tokens
+							</AnimatedNumber>
 						</div>
-					</div>
-					<div className="col-md-6 d-flex">
+					</FadeInLeftDiv>
+					<FadeInRightDiv className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card light">
 							<h3>{t('lottery.status.title')}</h3>
 							<h5>{t('lottery.status.current_number')}</h5>
-							<p>{numeral(state.drawNumber).format('0,0') || t('lottery.status.nothing')}</p>
+							<AnimatedNumber
+								value={numeral(state.drawNumber || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`}
+								className="lottery-info"
+							>
+								{numeral(state.drawNumber).format('0,0') || t('lottery.status.nothing')}
+							</AnimatedNumber>
 							<h5>{t('lottery.status.winner')}</h5>
 							<p>{state.lastWinner || t('lottery.status.nobody')}</p>
 							<h5>{t('lottery.status.current_jackpot')}</h5>
-							<p>{numeral(state.jackpot || 0).format('0,0.00')} Raptor</p>
+							<AnimatedNumber
+								value={numeral(state.jackpot || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor Tokens`}
+								className="lottery-info"
+							>
+								{numeral(state.jackpot || 0).format('0,0.00')} Raptor Tokens
+							</AnimatedNumber>
 							<h5>{t('lottery.status.total_tickets')}</h5>
-							<p>{numeral(state.totalTickets || 0).format('0,0')} {t('lottery.your_info.tickets')}</p>
-							<button className="btn btn-primary btn-lg link-dark align-self-center" type="button" onClick={async () => this.buyTicket()} style={{ marginTop: "20px" }}>{t('lottery.status.purchase')}</button>
+							<AnimatedNumber
+								value={numeral(state.totalTickets || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })} Tickets`}
+								className="lottery-info"
+							>
+								{numeral(state.totalTickets || 0).format('0,0')} Tickets
+							</AnimatedNumber>
 						</div>
-					</div>
+					</FadeInRightDiv>
+					<FadeInUpDiv>
+						<div className="d-flex justify-content-center">
+							<button className="btn btn-complementary btn-lg link-dark align-self-center btn-lottery" type="button" onClick={async () => this.buyTicket()}>{
+								t('lottery.status.purchase')}
+							</button>
+						</div>
+					</FadeInUpDiv>
 				</div>
 			</div>
 		</div>

@@ -46,23 +46,10 @@
 	opacity: 0.22;
 }
 
-.tab-content {
-	padding-left: 40px;
-	margin-top: 20px;
-}
-
-.line {
-	border-left: 1px solid var(--primary-alt);
-  height: 15px;
-  margin-top: 90px;
-	margin-left: 24px;
-	width: 0px;
-}
-
 .about-container #sidebar .gradient-card {
 	min-height: 700px;
 	position: sticky;
-	top: 30px;
+	top: 50px;
 }
 
 .about-container #sidebar .background {
@@ -90,32 +77,8 @@
 	align-items: center;
 }
 
-.roadmap-list {
-	color: #fff;
-}
-
-.roadmap-list .complete {
-	color: var(--primary-alt);
-}
-
-.roadmap-list .complete::marker {
-	content: ' ✓  ';
-}
-
-.about-container #roadmap h3 {
-	font-weight: bold;
-	font-size: xx-large;
-	margin-bottom: 10px;
-}
-
 @media (max-width: 600px) {
 	.tab {
 		align-items: center;
-	}
-	.btn-roadmap {
-		margin-left: 45%;
-	}
-	.line {
-		margin-left: 52%;
 	}
 }

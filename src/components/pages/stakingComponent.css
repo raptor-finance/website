@@ -21,6 +21,10 @@
 	margin-bottom: 20px;
 }
 
+.staking-info {
+	margin-bottom: 20px;
+}
+
 .staking-container form label {
 	margin-bottom: 20px;
 }
@@ -39,7 +43,7 @@
 }
 
 .staking-container ul.nav-tabs {
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: #141414;
 	border-radius: 10px 10px 0 0;
 }
 

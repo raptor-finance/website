@@ -2836,9 +2836,9 @@ fieldset:disabled a.btn {
 	margin: 20px 0px 20px 0px;
 	border-width: 0px;
 	float: left;
-	height: 50px;
-	width: 50px;
-	border-radius: 50px;
+	height: 60px;
+	width: 60px;
+	border-radius: 60px;
 	background-color: var(--white);
 }
 

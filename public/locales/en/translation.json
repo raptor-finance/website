@@ -25,7 +25,7 @@
             "species": "Different species:",
             "tree_amount": "Amount of trees:",
             "planting_projects": "Planting projects:",
-            "our_forest": "Our Forest:",
+            "our_forest": "Our Forest",
             "click_here": "Click Here"
         },
         "about_us": "About Us",
@@ -225,7 +225,7 @@
        "card_right": {
            "title": "Looking for something specific?",
            "desc": "Click one of the links below to quickly jump to a topic!",
-           "mission": "What is Raptors mission?",
+           "mission": "What is Raptor's mission?",
            "team": "Who is working on Raptor?",
            "roadmap": "What is the roadmap?"
        } 
