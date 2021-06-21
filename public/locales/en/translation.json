@@ -5,6 +5,8 @@
         "staking": "Staking",
         "lottery": "Lottery",
         "faq": "FAQ",
+        "coinmarketcap": "CoinMarketCap",
+        "coingecko": "CoinGecko",
         "buyonpancakeswap": "Buy on PancakeSwap",
         "buyonwhitebit": "Buy on WhiteBIT",
         "viewonbscscan": "View on BSCscan",
