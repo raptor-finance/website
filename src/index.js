@@ -9,6 +9,10 @@ import 'bootstrap';
 // with our own theme
 import './index.css';
 
+// with custom packages for the fallback loader
+import { ClipLoader } from 'react-spinners';
+import { css } from 'styled-components';
+
 // now all the components
 import {Shell} from "./components/shell";
 import {StaticHtmlComponent} from "./components/pages/staticHtmlComponent";
@@ -35,15 +39,18 @@ const pagesInNavigator = [
 	// 			require('./content/faq.css'),
 	// 			require('./content/faq.html')]
 	// } },
-
 ]
+
+const overrideCss = css`
+	margin-left: 50%
+`;
 
 // initialize modals
 Modal.setAppElement('#root');
 console.log(HomeComponent)
 // and render our app into the "root" element!
 ReactDOM.render(
-	<React.Suspense fallback="Loading...">
+	<React.Suspense fallback={<ClipLoader color={"#FFFFFF"} css={overrideCss}/>}>
 		<Shell pages={pagesInNavigator} />
 	</React.Suspense>,
     document.getElementById('root')
