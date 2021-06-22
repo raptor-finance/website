@@ -1,6 +1,6 @@
-import {Wallet} from "../wallet";
-import {Contract} from "web3-eth-contract";
-import {Raptor} from "./raptor";
+import {Wallet} from '../wallet';
+import {Contract} from 'web3-eth-contract';
+import {Raptor} from './raptor';
 
 export class RaptorLottery {
 
@@ -72,7 +72,7 @@ export class RaptorLottery {
 
 		const rawPrice: number = this._ticketPrice * 10 ** 9;
 
-		if (this._raptor.balance ** 10 ** 9 >= rawPrice) {
+		if (this._raptor.balance * 10 ** 9 >= rawPrice) {
 			const allowance = +(await this._raptor.contract.methods.allowance(this._wallet.currentAddress, RaptorLottery.address).call());
 
 			if (allowance < rawPrice) {
@@ -89,4 +89,3 @@ export class RaptorLottery {
 		}
 	}
 }
-

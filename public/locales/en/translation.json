@@ -1,0 +1,272 @@
+{
+    "nav": {
+        "home": "Home",
+        "about": "About",
+        "staking": "Staking",
+        "lottery": "Lottery",
+        "faq": "FAQ",
+        "buyonpancakeswap": "Buy on PancakeSwap",
+        "buyonwhitebit": "Buy on WhiteBIT",
+        "viewonbscscan": "View on BSCscan",
+        "copyright": "Raptor Finance 2021+"
+    },
+    "home": {
+        "subtitle1": "Can we heal the Earth together?",
+        "paragraph1": "Raptor Finance is a decentralized, financial ecosystem designed by holders for holders. Our mission is to heal planet Earth together and fight climate change! We achieve this by donating to community-chosen projects that help prevent climate change.",
+        "paragraph1_end": "There is no planet B, therefore we need to work together to help save Mother Earth!",
+        "raptor_forest": {
+            "title": "Our Raptor Forest",
+            "funder": "<0>Funded by: </0><1>Raptor Finance</1>",
+            "age": "Age:",
+            "day": "{{count, number}} day",
+            "day_plural": "{{count, number}} days",
+            "co2_offset": "CO2 offset:",
+            "tonnes": "tonnes",
+            "species": "Different species:",
+            "tree_amount": "Amount of trees:",
+            "planting_projects": "Planting projects:",
+            "our_forest": "Our Forest",
+            "click_here": "Click Here"
+        },
+        "about_us": "About Us",
+        "our_docs": "Whitepaper",
+        "win_tokens": "<0>Win</0> Raptor tokens",
+        "earn_tokens": "<0>Earn</0> Raptor tokens",
+        "subtitle2": "Want to help?",
+        "paragraph2": "You can help us save the Earth by donating to the official Raptor community donation wallet. The balance of this wallet will be gradually donated to environmental charities starting Q4/2021. Please check our",
+        "roadmap": "roadmap",
+        "for_details": "for details.",
+        "paragraph3": "This is our only donation wallet address:",
+        "paragraph4_1": "There is currently $",
+        "paragraph4_2": " in our wallet to be donated!",
+        "token_statistics": {
+            "title": "Token Statistics",
+            "price_usd": "Price in USD:",
+            "price_bnb": "Price in BNB:"
+        }
+    },
+    "staking": {
+        "connect_wallet": "Connect Wallet",
+        "disconnect_wallet": "Disconnect Wallet",
+        "paragraph1": "Using Raptor staking, you can easily earn more Raptor tokens over time while the blockchain is running. Planning to hold Raptor tokens to help our planet? Earn more while doing so and collect your passive income.",
+        "paragraph2": "In order to stake Raptor tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>",
+        "your_info": {
+            "title": "Your Information",
+            "wallet_address": "Wallet address",
+            "connect_wallet": "Please connect your wallet",
+            "tradeable": "Tradeable balance",
+            "staked": "Staked balance",
+            "pending_rewards": "Pending rewards"
+        },
+        "stake": {
+            "title": "Stake",        
+            "percentage": "Percentage of tokens to stake:",
+            "amount": "Amount of tokens to stake:",
+            "claim_rewards": "Claim rewards"
+        },
+        "unstake": {
+            "title": "Unstake",
+            "percentage": "Percentage of tokens to unstake:",
+            "amount": "Amount of tokens to unstake:",
+            "claim_rewards": "Claim rewards"
+        }
+    },
+    "lottery": {
+        "connect_wallet": "Connect Wallet",
+        "disconnect_wallet": "Disconnect Wallet",
+        "paragraph1": "This is a simple, non-custodial, proof-of-work random number generation lottery for Raptor. You have the chance to win Raptor tokens by buying tickets with Raptor tokens.",
+        "paragraph2": "In order to stake your Raptor tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>",
+        "your_info": {
+            "title": "Your Information",
+            "wallet_address": "Wallet address",
+            "connect_wallet": "Please connect your wallet",
+            "purchased": "Purchased tickets",
+            "wallet_balance": "Wallet balance",
+            "price_per_ticket": "Price per ticket",
+            "tickets": "tickets"
+        },        
+        "status": {
+            "title": "Lottery Status",
+            "current_number": "Current draw number",
+            "nothing": "Nothing has been drawn yet!",
+            "winner": "Winner of last round",
+            "nobody": "Nobody won yet!",
+            "current_jackpot": "Current jackpot",
+            "total_tickets": "Total tickets for this round",
+            "purchase": "Purchase a lottery ticket"
+        }
+    },
+    "about": {
+       "raptor_finance": {
+           "title": "About Raptor Finance",
+           "paragraph1": "Here at Raptor Finance, our goal is to build a decentralized, green DEX platform (RaptorSwap) and green blockchain (RaptorChain). We at Raptor Finance feel that the crypto industry is not sustainable and green enough, we are going to change that! Our platform will be hosted on servers that are powered by green electricity, our UK data center uses 100% green-sourced power as specified by E.ON, and as regulated by Ofgem. Additionally, we are planting trees every day to ensure that the world is becoming a greener place!",
+           "paragraph2": "With RaptorSwap, we will be collecting fees on all transactions, and unlike any other DEX/CEX platform, we will have a fixed percentage of these fees going directly to our donation wallet. This means that we will have a constant stream of our earnings going to our donation wallet. Therefore, the bigger we become, the greater our impact can be!",
+           "paragraph3": "We at Raptor Finance aim to donate these earnings to charities/projects/foundations that help the fight against climate change through technology. We strongly believe that it’s impossible to change the behavior of enough people on this planet in time to save our planet, so we need technology to help do that! We are not saying that anyone who doesn’t think about climate change is bad, because realistically if you earn 10 dollars a day you, unfortunately, don’t have the time to think about the climate. This is one of a multitude of reasons why people aren’t thinking about climate change. But we do! And that is the reason we started this project!",
+           "our_plan": {
+               "title": "So what is our plan?",
+               "line1": "Begin our movement! Join us and become part of the RaptorFamily!",
+               "line2": "Launch our range of products according to our roadmap",
+               "line3": "Start various green initiatives (e.g. clean-up giveaways, planting trees, etc.)",
+               "line4": "Support/donate to research/projects that make a real impact",
+               "line5": "Support/donate to educational projects around the world that teach people about the importance of taking care of our planet"
+           }           
+       },
+       "products_overview": {
+           "title": "Products Overview",
+           "token": {
+               "title": "Raptor Token",
+               "paragraph1": "Raptor Token powers the Raptor ecosystem. It is the foundation of all the products we have made and will be the foundation of all the future products we will make. The Raptor Token is a deflationary token and has a 7% transaction fee which is burned within the contract. We do this to combat the exchange killer known as impermanent loss because on the other side, we have features such as staking (and farming coming in the future) which generate new tokens. With this, we can keep our total supply balanced.",
+               "paragraph2": "Initially, our total supply was one quadrillion tokens, of which we burned 53% from the get-go. We monitor the balance and if we see a need to burn, we always discuss this with the community first, given we are a community-driven token."
+           },
+           "swap": {
+                "title": "RaptorSwap",
+                "paragraph1": "A one of a kind DEX with CEX attributes, featuring live trading charts and live transaction feeds. Our one-of-a-kind non-KYC verified exchange allows you to reap the benefits of a traditional exchange without having to worry about the prying eyes of the regulation, and your tokens will always remain in your custody, off of an exchange. If you prefer a more simple swap style, we also provide that so our product is not exclusive to the tech-savvy consumer, but for everyone. A small set fee is applied to every transaction which partially goes to our donation wallet, by doing so we enable our trading platform to partake in saving the planet!",
+                "paragraph2": "New token owners will have the possibility to help save our planet by hosting their liquidity on RaptorSwap. Fees from liquidity pools and subsequent trading fees will go directly to our donation wallet!"
+            },
+            "staking": {
+                "title": "RaptorStaking",
+                "paragraph1": "With RaptorStaking you can earn additional Raptors Tokens. Deposit your Raptor Token into our specialized staking contract, and earn a sustainable 5% APR every epoch (3s).",
+                "paragraph2": "We do not have a time lock on our RaptorStaking platform, you can unstake and claim your earned Raptor Tokens whenever you like, giving you the freedom to manage your own income."
+            },
+            "lottery": {
+                 "title": "RaptorLottery",
+                 "paragraph1": "Buy tickets to participate in our first-of-its-kind, Proof-of-Work (PoW), random number generation (RNG) lottery, using the same fundamentals as Proof-of-Work mining to generate on-chain randomization. When you purchase a ticket, a “ticket” is minted for you on the blockchain via a cryptographically secure, randomly generated hash. That hash is your “ticket” and is minted to your address; it cannot be duplicated or modified.",
+                 "paragraph2": "Once a week, our specialized lottery contract will draw the highest available hash, via the highest available nonce, and whoever has the highest algorithmically valued hash wins the jackpot!",
+                 "paragraph3": "When you purchase a ticket 80% of the cost goes to the pot, and 20% goes to our donation wallet, each ticket purchase is also subject to the 7% transaction tax which also goes directly to our donation wallet! Not only making this a first-of-its-kind PoWRNG lottery, but also an exciting way to help save our planet!"
+             }
+       },
+       "team": {
+           "title": "The Team",
+           "founder": {
+               "name": "Ismail van Essen",
+               "title": "Founder",
+               "desc1": "Hello, my name is Ismail van Essen and I'm the founder of Raptor Finance!",
+               "desc2": "Having studied and worked in the IT field for 5 years, having also a broad and in-depth financial analysis and consulting background and being part of a management team I have an important expertise of the end-to-end processes in corporate environments.",
+               "desc3": "Proven to be successful in transitions/mergers, projects and implementations from local countries to Bulgaria. I have the proven ability to establish, lead, manage strong relationships and I am always dedicated to getting the job done properly and efficiently, these qualities and experiences brought together have made it possible for me to successfully implement new end-to-end processes across multiple countries to globalize the processes.",
+               "desc4": "Next to my normal job I have been in the DeFi (Decentralized Finance) world for over 4 years before the 2017 bull-run. That bull-run gave me multiple valuable lessons in how markets work, and the volatility of the crypto market and I have been trading ever since. In February 2021 I came up with the idea to make the PhilosoRaptor token.",
+               "desc5": "This to not only support the holders, traders and DeFi believers but also to help our own planet. I believe climate change is dangerous, real and I want to do my part in making our planet a better place. I believe that even if you do not believe in climate change, that you still would like to have clean air, freshwater and a plastic free ocean to swim, and for our aquatic friends to thrive. So let’s work together and make that a reality!"
+           },
+           "vp_marketing": {
+                "name": "Jonathan Guerrero",
+                "title": "VP Marketing",
+                "desc1": "Hello, my name is Jonathan Guerrero and I'm the VP of marketing at Raptor Finance!",
+                "desc2": "I was originally studying to become a medical surgeon due to my family's request, one day I noticed that this was not my calling so I started to pursue various business opportunities, always looking to improve my resume. Having worked at J.Crew and Madewell for more than 2 years as a Marketing Specialist and Operations Supervisor, I always excel at the task at hand. I love to identify and plan differentiated, and impactful marketing strategies/materials, as well as building, managing and coaching high-performing marketing teams.",
+                "desc3": "Maintaining brand standards and ensuring compliance across all marketing and communications channels due to my devotion to working, has allowed me to be operating from Mexico for the previously mentioned company. I have outstanding communication, presentation, and leadership skills that allow me to identify competitors and evaluate their strategies and positioning to devise counter-strategies. This allows me to direct and support market research collection, analysis, and interpretation of market data for short and long-term market forecasts and reports.",
+                "desc4": "I have been in cryptocurrency for 3 years now which has provided me with a considerable amount of knowledge about all sorts of cryptocurrencies, including the DeFi network.",
+                "desc5": "I decided to join the Raptor Finance team because I am concerned about climate change, and the problems it could create for future generations. I want to be able to leave my footprint on this world, and do something about this issue!"
+            },
+            "vp_security": {
+                "name": "Ilija Icevic",
+                "title": "VP Security"
+            },
+            "social_media_manager": {
+                "name": "Rinor Sherifi",
+                "title": "Social Media Manager"
+            },
+            "content_manager": {
+                "name": "Kyle Marcos",
+                "title": "Content Manager"
+            },
+            "graphics_designer": {
+                "name": "Romain Lambert",
+                "title": "Graphics Designer"
+            },
+            "graphics_team_manager": {
+                "name": "Anowac",
+                "title": "Graphics Team Manager"
+            },
+            "software_developer1": {
+                "name": "Miguel",
+                "title": "Software Developer"
+            },
+            "software_developer2": {
+                "name": "Yanis",
+                "title": "Software Developer"
+            }
+       },
+       "our_roadmap": {
+            "title": "Our Roadmap",
+            "paragraph": "Please note that we have multiple products that aren't mentioned in our roadmap because we want to keep some surprises for our holders!",
+            "q2_2021": {
+                "title": "Q2 2021",
+                "line1": "Launch of the Raptor Finance smart contract",
+                "line2": "Team structure set up",
+                "line3": "Team Slack + Github set up",
+                "line4": "CMC & CG listings",
+                "line5": "Server migration (to green server hosting company)",
+                "line6": "New website",
+                "line7": "IndoEx listing",
+                "line8": "WhiteBit listing",
+                "line9": "Listings on various tracking platforms",
+                "line10": "Global marketing expansion phase 1"
+            },
+            "q3_2021": {
+                "title": "Q3 2021",
+                "line1": "RaptorSwap",
+                "line2": "RaptorFarm",
+                "line3": "Smart contract security audit",
+                "line4": "Global marketing Expansion phase 2"                
+            },
+            "q4_2021": {
+                "title": "Q4 2021",
+                "line1": "RaptorSwap upgrades",
+                "line2": "RaptorNFT platform",
+                "line3": "Raptor BSC ecosystem",
+                "line4": "Emitting donations from the donation wallet piece-by-piece in a community-governed way, helping projects that prevent further climate change",
+                "line5": "Global marketing expansion phase 3",
+                "line6": "Release 2022 roadmap"                
+            },
+            "q1_2022": {
+                "title": "Q1 2022",
+                "line1": "RaptorChain! An EVM-compatible, low latency, scalable, ultra-low fee blockchain, and the beginning of a new future; parts of the fees are donated!",
+                "line2": "Move from Raptor Token to Raptor Coin!"                
+            }
+       },
+       "card_right": {
+           "title": "Looking for something specific?",
+           "desc": "Click one of the links below to quickly jump to a topic!",
+           "mission": "What is Raptor's mission?",
+           "team": "Who is working on Raptor?",
+           "roadmap": "What is the roadmap?"
+       } 
+    },
+    "faq": {
+        "faq1": {
+            "title": "How do I buy Raptor Token?",
+            "desc": "Raptor is launched on the Binance Smart Chain. This means that in order to buy Raptor, you need the Binance Coin (BNB). You can buy BNB from <1>Trustwallet</1>, Binance Smart Chain wallet, or from an exchange such as Binance itself, Crypto.com, Whitebit, or similar. Once you have BNB, send them to your wallet and <1>head over to PancakeSwap</1> to buy Raptor for BNB. Make sure you set your slippage to 8%."
+        },
+        "faq2": {
+            "title": "How do I stake?",
+            "desc": "Go to <1>our \"Staking\" page</1>. It will automatically ask you to connect your wallet, connect the wallet that contains your Raptor Tokens. You will see your wallet information appear and the total amount of Raptor Tokens that you own in your wallet. We do not charge any fees for staking but you have to have BNB in your wallet in order to pay for the Binance SmartChain gas fees. Make sure you keep enough BNB in your wallet to claim or unstake you Raptor Tokens in the future. When you are all set use the slidebar to select how many Raptor Tokens you wish to stake. Press the \"Stake\" button to stake the amount of Raptor tokens you entered. Now your Raptor Tokens are staked and you'll earn 5% APY."
+        },
+        "faq3": {
+            "title": "How do I claim my rewards?",
+            "desc": "When you have staked your Raptor Tokens you're able to claim your rewards anytime you wish. Just press the \"Claim\" button in <1>our \"Staking\" page</1> and your rewards will be automatically transferred to your wallet. Make sure you have enough BNB in your wallet to pay for the gas fees."
+        },
+        "faq4": {
+            "title": "How do I unstake my Raptor Tokens?",
+            "desc": "Go to <1>our \"Staking\" page</1> and press the \"Unstake\" button. All of your staked Raptor Tokens and your rewards will be automatically transferred to your wallet. Make sure you have enough BNB in your wallet to pay for the gas fees."
+        },
+        "faq5": {
+            "title": "Is the liquidity locked?",
+            "desc": "Yes, <1>we have locked the liquidity</1> until the release of RaptorSwap. At which point, we will only be unlocking it for testing, and then immediately locking it again for the remainder of our existence."
+        },
+        "faq6": {
+            "title": "Has the founder revealed his identity?",
+            "desc": "Yes, the identity of the team members are revealed on <1>our \"About\" page</1>. Our founder is called Ismail van Essen and you can find him on <1>LinkedIn</1>."
+        },
+        "faq7": {
+            "title": "Is it safe to stake my tokens on the staking website?",
+            "desc": "Yes, we have extensive security measures in place to ensure the upmost protection of our clients' assets. Please <1>review our smart contract</1> during your own research to confirm the security for yourself."
+        },
+        "faq8": {
+            "title": "Why is the price in my Trustwallet sometimes incorrect?",
+            "desc": "Trustwallet derives its pricing from CoinMarketCap's embedded API, and this service has been known to have incorrect and inflated pricing on smaller tokens. One reason for this is that they don't update the price as frequently in order to save resources."
+        },
+        "faq9": {
+            "title": "What sets your project apart from all of the others?",
+            "desc": "Plain and simple; we are the only project that is planning to divert a part of the fees from our upcoming RaptorSwap exchange to a donation wallet. The community will use this to decide what environmental organizations we should donate to throughout the year, instead of being greedy and pocketing everything."
+        }
+    }
+    
+}

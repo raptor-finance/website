@@ -1,0 +1,13 @@
+.raptor-forest {
+	margin: 10px;
+}
+
+.raptor-forest p {
+	flex: 0 0 50%;
+}
+
+.raptor-forest h2 {
+	flex: 1 1 100%;
+	min-width: 100%;
+	margin-bottom: 20px;
+}

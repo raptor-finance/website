@@ -1,4 +1,4 @@
-import {Component} from "react";
+import { Component } from 'react';
 
 export abstract class BaseComponent<TProps, TState> extends Component<TProps, TState> {
 
@@ -21,11 +21,37 @@ export abstract class BaseComponent<TProps, TState> extends Component<TProps, TS
 	}
 }
 
-export interface ComponentRef extends Function { new (...args: any[]): Component; }
+export interface ComponentRef extends Function { new(...args: any[]): Component; }
+
 export interface IShellPage {
 	id: String;
 	title: String;
 
 	component: ComponentRef;
 	componentProps?: any;
+}
+
+export class ShellErrorHandler {
+	static handle(error: any) {
+
+		let message;
+		console.error(error);
+
+		if (!error) {
+			message = "An unknown error occurred. Please let us know about it in our Telegram group."
+		}
+		else {
+			if (!!error.message) {
+				message = error.message;
+			}
+			else if (typeof error === 'string') {
+				message = error;
+			}
+			else {
+				message = "An unknown error occurred: " + error;
+			}
+		}
+
+		alert(message);
+	}
 }

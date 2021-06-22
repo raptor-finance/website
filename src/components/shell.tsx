@@ -1,19 +1,16 @@
-import * as React from "react";
+import * as React from 'react';
+
 import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
-	Link,
-	useRouteMatch,
-	useParams
-} from "react-router-dom";
-
-import {ShellNav} from "./shellNav";
-import {ShellHost} from "./shellHost";
-import {BaseComponent, IShellPage} from "./shellInterfaces";
+	Redirect
+} from 'react-router-dom';
+import { ShellHost } from './shellHost';
+import { BaseComponent, IShellPage } from './shellInterfaces';
+import ShellNav from './shellNav';
 
 import './shell.css';
-
 
 export type ShellProps = {
 	pages: IShellPage[];
@@ -30,7 +27,6 @@ export class Shell extends BaseComponent<ShellProps, ShellState> {
 
 	render() {
 		const pages = this.readProps().pages;
-
 		return <Router>
 			<div className="main-wrapper">
 				<ShellNav pages={pages} />
@@ -42,13 +38,18 @@ export class Shell extends BaseComponent<ShellProps, ShellState> {
 								<ShellHost page={page} />
 							</Route>
 						))}
-						<Route path="/">
-							<ShellHost page={pages[0]} />
-						</Route>
+						<Route
+							exact
+							path="/"
+							render={() => {
+								return (
+									<Redirect to="/home" />
+								)
+							}}
+						/>
 					</Switch>
 				</div>
 			</div>
 		</Router>
 	}
 }
-

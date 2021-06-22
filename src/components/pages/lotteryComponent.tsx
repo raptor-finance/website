@@ -1,15 +1,20 @@
 import * as React from 'react';
 import * as numeral from 'numeral';
 
-import {BaseComponent} from "../shellInterfaces";
-import {Wallet} from "../wallet";
-import {RaptorLottery} from "../contracts/lottery";
+import { BaseComponent, ShellErrorHandler } from '../shellInterfaces';
+import { Wallet } from '../wallet';
+import { RaptorLottery } from '../contracts/lottery';
+import { fadeInLeft, fadeInRight, fadeInUp } from 'react-animations';
+import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
+import styled, { keyframes } from 'styled-components';
+import AnimatedNumber from 'animated-number-react';
 
 import './lotteryComponent.css';
 
 export type LotteryProps = {}
 export type LotteryState = {
 	lottery?: RaptorLottery,
+	wallet?: Wallet,
 	looping?: boolean,
 
 	address?: string,
@@ -19,28 +24,45 @@ export type LotteryState = {
 
 	lastWinner?: string,
 	jackpot?: number,
-	totalTickets?: number
-	drawNumber?: number
+	totalTickets?: number,
+	drawNumber?: number,
+	pending?: boolean
 }
 
-export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> {
+const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
+const FadeInLeftDiv = styled.div`
+  animation: ease-out 0.6s ${FadeInLeftAnimation};
+`;
+const FadeInRightAnimation = keyframes`${fadeInRight}`;
+const FadeInRightDiv = styled.div`
+  animation: ease-out 0.6s ${FadeInRightAnimation};
+`;
+const FadeInUpAnimation = keyframes`${fadeInUp}`;
+const FadeInUpDiv = styled.div`
+  animation: ease-out 0.6s ${FadeInUpAnimation};
+`;
+
+class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, LotteryState> {
+
+	constructor(props: LotteryProps & WithTranslation) {
+		super(props);
+		this.connectWallet = this.connectWallet.bind(this);
+		this.disconnectWallet = this.disconnectWallet.bind(this);
+	}
 
 	handlePurchase(hash) {
 		// todo show message nicer
 		alert('You have successfully purchased a ticket. Your hash code is: ' + hash);
 	}
+
 	handleError(error) {
-		// todo show error nicer
-
-		const message = !!error && !!error.message ? error.message : error;
-
-		alert('Error: ' + message);
-		console.error(error);
+		ShellErrorHandler.handle(error);
 	}
 
 	async buyTicket(): Promise<void> {
 
 		try {
+			this.updateState({ pending: true });
 			const lottery = this.readState().lottery;
 
 			if (!lottery) {
@@ -49,36 +71,39 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 
 			const hash = await lottery.buyTicket();
 			this.handlePurchase(hash);
+			this.updateState({ pending: false });
 			this.updateOnce().then();
 		}
-		catch(e) {
+		catch (e) {
+			this.updateState({ pending: false });
 			this.handleError(e);
 		}
 	}
 
 	async componentDidMount() {
 
-		try {
-			const wallet = new Wallet();
-			const result = await wallet.connect();
+		// try {
+		// 	const wallet = new Wallet();
+		// 	const result = await wallet.connect();
 
-			if (!result) {
-				throw 'The wallet connection was cancelled.';
-			}
+		// 	if (!result) {
+		// 		throw 'The wallet connection was cancelled.';
+		// 	}
 
-			const lottery = new RaptorLottery(wallet);
+		// 	const lottery = new RaptorLottery(wallet);
 
-			this.updateState({lottery: lottery, looping: true});
-			this.updateOnce().then();
+		// 	this.updateState({lottery: lottery, looping: true});
+		// 	this.updateOnce().then();
 
-			this.loop().then();
-		}
-		catch(e) {
-			this.handleError(e);
-		}
+		// 	this.loop().then();
+		// }
+		// catch(e) {
+		// 	this.handleError(e);
+		// }
 	}
+
 	componentWillUnmount() {
-		this.updateState({lottery: null, looping: false});
+		this.updateState({ lottery: null, looping: false });
 	}
 
 	private async loop(): Promise<void> {
@@ -120,52 +145,152 @@ export class LotteryComponent extends BaseComponent<LotteryProps, LotteryState> 
 		return true;
 	}
 
+	async connectWallet() {
+
+		try {
+			this.updateState({ pending: true });
+			const wallet = new Wallet();
+			const result = await wallet.connect();
+
+			if (!result) {
+				throw 'The wallet connection was cancelled.';
+			}
+
+			const lottery = new RaptorLottery(wallet);
+
+			this.updateState({ lottery: lottery, wallet: wallet, looping: true, pending: false });
+			this.updateOnce().then();
+
+			this.loop().then();
+		}
+		catch (e) {
+			this.updateState({ pending: false });
+			this.handleError(e);
+		}
+	}
+
+	async disconnectWallet() {
+
+		try {
+			this.updateState({ pending: true });
+			const result = await this.state.wallet.disconnect();
+			if (result) {
+				throw 'The wallet connection was cancelled.';
+			}
+
+			this.updateState({ lottery: null, wallet: null, address: null, looping: false, pending: false });
+		}
+		catch (e) {
+			this.updateState({ pending: false });
+			this.handleError(e);
+		}
+	}
+
 	render() {
 		const state = this.readState();
-
+		const t: TFunction<"translation"> = this.readProps().t;
 		return <div className="lottery-container">
 			<div className="container">
 				<div className="row text-white lottery-header">
-					<div className="col-md-12"><img src="images/lottery.svg"/>
-						<p>This is a simple, non-custodial proof-of-work random number generation lottery for Raptor. You
-							have the chance to win Raptor tokens by buying tickets with Raptor tokens.</p>
-						<p>In order to play in our lottery, you need to connect your browser wallet (such as <a
-							href="https://metamask.io/" target="_blank">Metamask</a>) and <a
-							href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
-							target="_blank">switch to the Binance Smart Chain</a>.</p>
+					<div className="col-md-12"><img src="images/lottery.svg" />
+						{state.address ?
+							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
+								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+								{t('lottery.disconnect_wallet')}
+							</a>)
+							:
+							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}>
+								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+								{t('lottery.connect_wallet')}
+							</a>)
+						}
+						<p>{t('lottery.paragraph1')}</p>
+						<p><Trans i18nKey='lottery.paragraph2'>In order to stake Raptor tokens, you need to connect your browser wallet (such as <a
+							href="https://metamask.io/">Metamask</a>) and <a
+								href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
+								target="_blank">Switch to the Binance Smart Chain</a></Trans>.</p>
 					</div>
 				</div>
 				<div className="row lottery-body">
-					<div className="col-md-6 d-flex">
-						<div className="d-flex flex-column flex-fill gradient-card primary">
-							<h3>Your information</h3>
-							<h5>Wallet address</h5>
-							<p>{state.address || 'Please connect your wallet'}</p>
-							<h5>Wallet balance</h5>
-							<p>{numeral(state.balance || 0).format('0,0.00')} Raptor</p>
-							<h5>Purchased tickets</h5>
-							<p>{numeral(state.tickets || 0).format('0,0')} tickets</p>
-							<h5>Price per ticket</h5>
-							<p>{numeral(state.price || 0).format('0,0.00')} Raptor</p>
+					<FadeInLeftDiv className="col-md-6 d-flex">
+						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
+							<h1>{t('lottery.your_info.title')}</h1>
+							<h2>{t('lottery.your_info.wallet_address')}</h2>
+							<p className="lottery-info">{state.address || t('lottery.your_info.connect_wallet')}</p>
+							<h2>{t('lottery.your_info.wallet_balance')}</h2>
+							<AnimatedNumber
+								value={numeral(state.balance || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
+								className="lottery-info"
+							>
+								0 Raptor
+							</AnimatedNumber>
+							<h2>{t('lottery.your_info.purchased')}</h2>
+							<AnimatedNumber
+								value={numeral(state.tickets || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })} Tickets`}
+								className="lottery-info"
+							>
+								0 tickets
+								</AnimatedNumber>
+							<h2>{t('lottery.your_info.price_per_ticket')}</h2>
+							<AnimatedNumber
+								value={numeral(state.price || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor Tokens`}
+								className="lottery-info"
+							>
+								{numeral(state.price || 0).format('0,0.00')} Raptor Tokens
+							</AnimatedNumber>
 						</div>
-					</div>
-					<div className="col-md-6 d-flex">
-						<div className="d-flex flex-column flex-fill gradient-card light">
-							<h3>Lottery status</h3>
-							<h5>Current draw number</h5>
-							<p>{numeral(state.drawNumber).format('0,0') || 'Nothing has been drawn yet!'}</p>
-							<h5>Winner of last round</h5>
-							<p>{state.lastWinner || 'Nobody won yet!'}</p>
-							<h5>Current jackpot</h5>
-							<p>{numeral(state.jackpot || 0).format('0,0.00')} Raptor</p>
-							<h5>Total tickets for this round</h5>
-							<p>{numeral(state.totalTickets || 0).format('0,0')} tickets</p>
-							<button className="btn btn-primary btn-lg link-dark align-self-center" type="button" onClick={async () => this.buyTicket()} style={{marginTop:"20px"}}>Purchase a lottery ticket</button>
+					</FadeInLeftDiv>
+					<FadeInRightDiv className="col-md-6 d-flex">
+						<div className="shadow d-flex flex-column flex-fill gradient-card light">
+							<h1>{t('lottery.status.title')}</h1>
+							<h2>{t('lottery.status.current_number')}</h2>
+							<AnimatedNumber
+								value={numeral(state.drawNumber || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`}
+								className="lottery-info"
+							>
+								{numeral(state.drawNumber).format('0,0') || t('lottery.status.nothing')}
+							</AnimatedNumber>
+							<h2>{t('lottery.status.winner')}</h2>
+							<p className="lottery-info">{state.lastWinner || t('lottery.status.nobody')}</p>
+							<h2>{t('lottery.status.current_jackpot')}</h2>
+							<AnimatedNumber
+								value={numeral(state.jackpot || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor Tokens`}
+								className="lottery-info"
+							>
+								{numeral(state.jackpot || 0).format('0,0.00')} Raptor Tokens
+							</AnimatedNumber>
+							<h2>{t('lottery.status.total_tickets')}</h2>
+							<AnimatedNumber
+								value={numeral(state.totalTickets || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })} Tickets`}
+								className="lottery-info"
+							>
+								{numeral(state.totalTickets || 0).format('0,0')} Tickets
+							</AnimatedNumber>
 						</div>
-					</div>
+					</FadeInRightDiv>
+					<FadeInUpDiv>
+						<div className="d-flex justify-content-center">
+							<button className="btn btn-complementary btn-lg link-dark align-self-center btn-lottery" type="button" onClick={async () => this.buyTicket()}>{
+								t('lottery.status.purchase')}
+							</button>
+						</div>
+					</FadeInUpDiv>
 				</div>
 			</div>
 		</div>
 	}
 }
 
+export default withTranslation()(LotteryComponent);

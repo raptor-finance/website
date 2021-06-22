@@ -1,5 +1,6 @@
-import * as React from "react";
-import {BaseComponent, IShellPage} from "./shellInterfaces";
+import * as React from 'react';
+
+import { BaseComponent, IShellPage } from './shellInterfaces';
 
 export type ShellHostProps = {
 	page: IShellPage;
@@ -13,7 +14,8 @@ export class ShellHost extends BaseComponent<ShellHostProps, ShellHostState> {
 	}
 
 	render() {
-		const page: IShellPage = this.readProps().page || {id: null, title: null, component: null};
+		console.log(this.props)
+		const page: IShellPage = this.readProps().page || { id: null, title: null, component: null };
 		if (!page.component) {
 			return null;
 		}

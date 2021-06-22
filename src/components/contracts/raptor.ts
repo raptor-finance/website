@@ -1,5 +1,6 @@
-import {Wallet} from "../wallet";
-import {Contract} from "web3-eth-contract";
+import {Wallet} from '../wallet';
+import {Contract} from 'web3-eth-contract';
+// import { ethers } from 'ethers';
 import * as web3 from 'web3-utils';
 
 export const RaptorAddress = "0xf9A3FdA781c94942760860fc731c24301c83830A";
