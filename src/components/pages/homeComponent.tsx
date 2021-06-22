@@ -1,31 +1,28 @@
-import * as React from "react";
-import * as numeral from "numeral";
-import { BaseComponent } from "../shellInterfaces";
+import * as React from 'react';
+
+import { Suspense } from 'react';
+import { BaseComponent } from '../shellInterfaces';
+import { DonationWalletAddress } from '../contracts/raptor';
+import { RaptorStatistics } from '../contracts/statistics';
+import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
+import { Slide } from 'react-reveal';
+import { pulse } from 'react-animations';
+import { PuffLoader, PropagateLoader } from 'react-spinners';
+import styled, { keyframes } from 'styled-components';
+import AnimatedNumber from 'animated-number-react';
+
 import './homeComponent.css';
-import { DonationWalletAddress } from "../contracts/raptor";
-import { RaptorStatistics } from "../contracts/statistics";
-import { withTranslation, WithTranslation, TFunction, Trans } from "react-i18next";
-import { Fade, Slide } from "react-reveal";
-import { fadeIn, pulse } from "react-animations";
-import styled, { keyframes } from "styled-components";
-import AnimatedNumber from "animated-number-react";
 
 export type HomeProps = {};
 export type HomeState = {
-	currentTab?: number;
-	treeAge?: number;
 	exit?: boolean;
-	priceUsd?: number;
-	priceBnb?: number;
 	donationBalance?: number;
-	treeAmount?: number;
-	carbonOffset?: number;
-}
+};
 
-const FadeInAnimation = keyframes`${fadeIn}`;
-const FadeInDiv = styled.div`
-  animation: ease-in 0.4s ${FadeInAnimation};
-`;
+const RoadmapDiv = React.lazy(() => import('../roadmap'));
+const RaptorForestDiv = React.lazy(() => import('../raptorForest'));
+const TokenStatisticsDiv = React.lazy(() => import('../tokenStatistics'));
+
 const PulseAnimation = keyframes`${pulse}`;
 const PulseDiv = styled.div`
   animation: infinite 5s ${PulseAnimation};
@@ -34,26 +31,15 @@ const PulseDiv = styled.div`
 class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState> {
 
 	private readonly _statistics: RaptorStatistics;
-	private readonly plantDate: Date = new Date("05/18/2021");
 
 	private _timeout = null;
 
 	constructor(props: HomeProps & WithTranslation) {
 		super(props);
 		this.state = {
-			currentTab: 0,
-			treeAge: 0,
-			priceUsd: 0,
-			priceBnb: 0,
 			donationBalance: 0,
-			treeAmount: 0,
-			carbonOffset: 0,
 		};
 		this._statistics = new RaptorStatistics();
-	}
-
-	handleClick(currentTab) {
-		this.setState({ currentTab });
 	}
 
 	componentDidMount() {
@@ -78,124 +64,26 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 			return;
 		}
 
-		const timeDelta = new Date().getTime() - this.plantDate.getTime();
-		const dayDelta = Math.floor(timeDelta / (1000 * 3600 * 24));
-
 		await this._statistics.refresh();
 
 		this.setState({
-			treeAge: dayDelta,
 			donationBalance: this._statistics.donationWalletBalance,
-			priceBnb: this._statistics.raptorBnbPrice,
-			priceUsd: this._statistics.raptorUsdPrice
 		});
-
-		fetch("https://public.ecologi.com/users/raptorfinance/impact")
-			.then(res => res.json())
-			.then(
-				(result) => {
-					this.setState({
-						treeAmount: result.trees,
-						carbonOffset: result.carbonOffset
-					});
-				},
-				(err) => {
-					console.error("Error fetching data from ecologi API", err);
-				}
-			)
 
 		this._timeout = setTimeout(async () => await self.tick.call(self), 60000);
 	}
 
-	convert(n) {
-		var sign = +n < 0 ? "-" : "",
-			toStr = n.toString();
-		if (!/e/i.test(toStr)) {
-			return n;
-		}
-		var [lead, decimal, pow] = n.toString()
-			.replace(/^-/, "")
-			.replace(/^([0-9]+)(e.*)/, "$1.$2")
-			.split(/e|\./);
-		return +pow < 0
-			? sign + "0." + "0".repeat(Math.max(Math.abs(pow) - 1 || 0, 0)) + lead + decimal
-			: sign + lead + (+pow >= decimal.length ? (decimal + "0".repeat(Math.max(+pow - decimal.length || 0, 0))) : (decimal.slice(0, +pow) + "." + decimal.slice(+pow)))
-	}
-
 	handleChange = ({ target: {
-		treeAge,
-		priceUsd,
-		priceBnb,
 		donationBalance,
-		treeAmount,
-		carbonOffset,
 	} }) => {
 		this.setState({
-			treeAge,
-			priceUsd,
-			priceBnb,
 			donationBalance,
-			treeAmount,
-			carbonOffset,
 		});
-	};
+	}
 
 	render() {
 		const state = this.readState();
 		const t: TFunction<"translation"> = this.readProps().t;
-
-		const data = [
-			{
-				id: "1",
-				name: "Q2",
-				header: t('about.our_roadmap.q2_2021.title'),
-				items: [
-					{ text: t('about.our_roadmap.q2_2021.line1'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line2'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line3'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line4'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line5'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line6'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line7'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line8'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line9'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line10'), done: "complete", },
-				],
-			},
-			{
-				id: "2",
-				name: "Q3",
-				header: t('about.our_roadmap.q3_2021.title'),
-				items: [
-					{ text: t('about.our_roadmap.q3_2021.line1'), done: "wip", },
-					{ text: t('about.our_roadmap.q3_2021.line2'), done: "wip", },
-					{ text: t('about.our_roadmap.q3_2021.line3'), done: "wip", },
-					{ text: t('about.our_roadmap.q3_2021.line4'), done: "wip", },
-				],
-			},
-			{
-				id: "3",
-				name: "Q4",
-				header: t('about.our_roadmap.q4_2021.title'),
-				items: [
-					{ text: t('about.our_roadmap.q4_2021.line1'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line2'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line3'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line4'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line5'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line6'), done: "wip", },
-				],
-			},
-			{
-				id: "4",
-				name: "Q1",
-				header: t('about.our_roadmap.q1_2022.title'),
-				items: [
-					{ text: t('about.our_roadmap.q1_2022.line1'), done: "wip", },
-					{ text: t('about.our_roadmap.q1_2022.line2'), done: "wip", },
-				],
-			},
-		]
 
 		return <div className="home-container">
 			<div className="container" style={{ marginTop: "6%" }}>
@@ -226,49 +114,16 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						</p>
 					</div>
 					<div className="col-md-6">
-						<FadeInDiv>
-							<div className="shadow d-flex flex-row align-self-center flex-wrap gradient-card primary"
-								id="raptor-forest">
-								<h3 className="flex-fill"><strong>{t('home.raptor_forest.title')}</strong></h3>
-								<p><Trans i18nKey='home.raptor_forest.funder'><strong>Funded by: </strong>
-									<span>Raptor Finance</span></Trans>
-								</p>
-								<p><strong>{t('home.raptor_forest.age')} </strong>
-									<AnimatedNumber value={this.state.treeAge} duration="1000" formatValue={value => `${Number(value).toFixed(0)}`}>
-										{t('home.raptor_forest.day', { count: this.readState().treeAge })}
-									</AnimatedNumber>
-								</p>
-								<p><strong>{t('home.raptor_forest.co2_offset')} </strong>
-									<AnimatedNumber value={this.state.carbonOffset} duration="1000" formatValue={value => `${Number(value).toFixed(2)}`}>
-										{this.readState().carbonOffset} {t('home.raptor_forest.tonnes')}
-									</AnimatedNumber>
-								</p>
-								<p><strong>{t('home.raptor_forest.species')} </strong>
-									<AnimatedNumber value="8" duration="1000" formatValue={value => `${Number(value).toFixed(0)}`}>
-										0
-									</AnimatedNumber>
-								</p>
-								<p><strong>{t('home.raptor_forest.tree_amount')} </strong>
-									<AnimatedNumber value={this.state.treeAmount} duration="1000" formatValue={value => `${Number(value).toFixed(0)}`}>
-										{this.readState().treeAmount}
-									</AnimatedNumber>
-								</p>
-								<p><strong>{t('home.raptor_forest.planting_projects')} </strong>
-									<AnimatedNumber value="2" duration="1000" formatValue={value => `${Number(value).toFixed(0)}`}>
-										0
-									</AnimatedNumber>
-								</p>
-								<p><strong>{t('home.raptor_forest.our_forest')} 🌳: </strong>
-									<span><strong><a className="title-white" href="https://ecologi.com/raptorfinance">{t('home.raptor_forest.click_here')}</a></strong></span></p>
-							</div>
-						</FadeInDiv>
+						<Suspense fallback={<PuffLoader color={'#ffffff'} />}>
+							<RaptorForestDiv />
+						</Suspense>
 						<div className="d-flex justify-content-around flex-sm-column flex-lg-row hero-buttons">
 							<Slide right>
 								<PulseDiv>
 									<a
 										className="shadow btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image btn-features"
 										href="lottery" role="button">
-										<img src="images/lottery.svg" />
+										<img src="images/lottery.svg" alt="raptor-lottery-logo" />
 										<span className="text-light"><Trans i18nKey='home.win_tokens'><strong>Win </strong>Raptor tokens</Trans></span>
 									</a>
 								</PulseDiv>
@@ -276,76 +131,25 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 									<a
 										className="shadow btn btn-dark btn-lg d-flex flex-column align-items-center large-button-image btn-features"
 										href="staking" role="button">
-										<img src="images/staking.svg" />
+										<img src="images/staking.svg" alt="raptor-staking-logo" />
 										<span className="text-light"><Trans i18nKey='home.earn_tokens'><strong>Earn </strong>Raptor tokens</Trans></span>
 									</a>
 								</PulseDiv>
 							</Slide>
 						</div>
-						<FadeInDiv>
-							<div className="shadow align-self-center gradient-card primary"
-								id="raptor-forest">
-								<h3 className="flex-fill"><strong>{t('home.token_statistics.title')}</strong></h3>
-								{/* <p><strong>Price in USD: </strong><span>{(+state.priceUsd).toLocaleString('en-US', {maximumFractionDigits: 12, minimumFractionDigits: 12})}</span></p> */}
-								<p><strong>{t('home.token_statistics.price_usd')} </strong>
-									<AnimatedNumber value={this.convert(+state.priceUsd)} duration="1000" formatValue={value => `${Number(value).toFixed(14)}`}>
-										0
-									</AnimatedNumber>
-								</p>
-								<p><strong>{t('home.token_statistics.price_bnb')} </strong>
-									<AnimatedNumber value={this.convert(+state.priceBnb)} duration="1000" formatValue={value => `${Number(value).toFixed(9)}`}>
-										0
-									</AnimatedNumber>
-								</p>
-							</div>
-						</FadeInDiv>
+						<Suspense fallback={<PuffLoader color={'#ffffff'} />}>
+							<TokenStatisticsDiv />
+						</Suspense>
 					</div>
 				</div>
-				<section id="roadmap" style={{ marginTop: "8%" }}>
-					<div>
-						<Fade bottom>
-							<h1 className="justify-content-center"><strong className="title-white align-self-center">{t('about.our_roadmap.title')}</strong></h1>
-							<p className="justify-content-center text-align-center">{t('about.our_roadmap.paragraph')}</p>
-						</Fade>
-						<div className="row">
-							<Fade bottom>
-								<div className="tab col-md-1">
-									{data.map((button, i) => (
-										<React.Fragment>
-											<button key={button.name} className="btn-roadmap" style={{ backgroundColor: this.state.currentTab == i ? "var(--primary)" : "var(--white)" }} onClick={() => this.handleClick(i)}>{button.name}</button>
-											{i < data.length - 1 &&
-												<div className="line"></div>
-											}
-										</React.Fragment>
-									)
-									)
-									}
-								</div>
-							</Fade>
-							<Fade bottom>
-								<div className="roadmap-content col-md-11">
-									{this.state.currentTab !== -1 &&
-										<React.Fragment>
-											<Fade spy={this.state.currentTab}>
-												<h3>{data[this.state.currentTab].header}</h3>
-												<ul className="roadmap-list">
-													{data[this.state.currentTab].items.map((li, i) => (
-														<li className={li.done}>{li.text}</li>
-													)
-													)
-													}
-												</ul>
-											</Fade>
-										</React.Fragment>
-									}
-								</div>
-							</Fade>
-						</div>
-					</div>
+				<section style={{ marginTop: "8%" }}>
+					<Suspense fallback={<PropagateLoader color={'#ffffff'} />}>
+						<RoadmapDiv />
+					</Suspense>
 				</section>
 			</div>
 		</div >
 	}
 }
 
-export default withTranslation()(HomeComponent)
+export default withTranslation()(HomeComponent);

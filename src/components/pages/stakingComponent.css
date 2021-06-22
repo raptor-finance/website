@@ -10,15 +10,22 @@
 .staking-container .staking-header img {
 	margin-bottom: 50px;
 	height: 90px;
+	width: 190px;
 }
 
 .staking-container .staking-footer {
 	padding: 50px;
 }
 
-.staking-container .staking-body h3 {
+.staking-container .staking-body h1 {
+	font-size: 1.8rem;
 	font-weight: bold;
 	margin-bottom: 20px;
+}
+
+.staking-container .staking-body h2 {
+	font-size: 1.2rem;
+	margin-bottom: 8px;
 }
 
 .staking-info {
