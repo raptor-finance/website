@@ -203,15 +203,11 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 							</Fade>
 							<Fade right>
 								<div className="row">
-									<div className="col-md-4 d-flex flex-column item"><img className="photo blank" src="images/team/blank.png" />
-										<h3 className="name">{t('about.team.graphics_team_manager.name')}</h3>
-										<p className="title">{t('about.team.graphics_team_manager.title')}</p>
-									</div>
-									<div className="col-md-4 d-flex flex-column item"><img className="photo blank" src="images/team/blank.png" />
+									<div className="col-md-6 d-flex flex-column item"><img className="photo blank" src="images/team/blank.png" />
 										<h3 className="name">{t('about.team.software_developer1.name')}</h3>
 										<p className="title">{t('about.team.software_developer1.title')}</p>
 									</div>
-									<div className="col-md-4 d-flex flex-column item"><img className="photo blank" src="images/team/blank.png" />
+									<div className="col-md-6 d-flex flex-column item"><img className="photo blank" src="images/team/blank.png" />
 										<h3 className="name">{t('about.team.software_developer2.name')}</h3>
 										<p className="title">{t('about.team.software_developer2.title')}</p>
 									</div>

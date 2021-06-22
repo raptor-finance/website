@@ -293,7 +293,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 									</AnimatedNumber>
 								</p>
 								<p><strong>{t('home.token_statistics.price_bnb')} </strong>
-									<AnimatedNumber value={this.convert(+state.priceBnb)} duration="1000" formatValue={value => `${Number(value).toFixed(9)}`}>
+									<AnimatedNumber value={this.convert(+state.priceBnb)} duration="1000" formatValue={value => `${Number(value).toFixed(14)}`}>
 										0
 									</AnimatedNumber>
 								</p>
