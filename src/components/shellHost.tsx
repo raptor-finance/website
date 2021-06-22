@@ -1,5 +1,6 @@
-import * as React from "react";
-import { BaseComponent, IShellPage } from "./shellInterfaces";
+import * as React from 'react';
+
+import { BaseComponent, IShellPage } from './shellInterfaces';
 
 export type ShellHostProps = {
 	page: IShellPage;

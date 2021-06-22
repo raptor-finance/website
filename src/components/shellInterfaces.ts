@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component } from 'react';
 
 export abstract class BaseComponent<TProps, TState> extends Component<TProps, TState> {
 
@@ -22,6 +22,7 @@ export abstract class BaseComponent<TProps, TState> extends Component<TProps, TS
 }
 
 export interface ComponentRef extends Function { new(...args: any[]): Component; }
+
 export interface IShellPage {
 	id: String;
 	title: String;

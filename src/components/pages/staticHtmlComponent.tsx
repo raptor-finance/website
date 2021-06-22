@@ -1,9 +1,10 @@
-import * as React from "react";
-import {BaseComponent} from "../shellInterfaces";
+import * as React from 'react';
+
+import {BaseComponent} from '../shellInterfaces';
 
 export type StaticHtmlProps = {
 	src: string;
-}
+};
 
 export class StaticHtmlComponent extends BaseComponent<StaticHtmlProps, {}> {
 	render() {

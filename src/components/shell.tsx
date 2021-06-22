@@ -1,16 +1,16 @@
-import * as React from "react";
+import * as React from 'react';
+
 import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
 	Redirect
-} from "react-router-dom";
+} from 'react-router-dom';
+import { ShellHost } from './shellHost';
+import { BaseComponent, IShellPage } from './shellInterfaces';
+import ShellNav from './shellNav';
 
-import ShellNav from "./shellNav";
-import { ShellHost } from "./shellHost";
-import { BaseComponent, IShellPage } from "./shellInterfaces";
 import './shell.css';
-
 
 export type ShellProps = {
 	pages: IShellPage[];
@@ -53,4 +53,3 @@ export class Shell extends BaseComponent<ShellProps, ShellState> {
 		</Router>
 	}
 }
-

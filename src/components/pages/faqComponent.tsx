@@ -1,11 +1,14 @@
-import * as React from "react";
-import { WithTranslation, withTranslation, Trans } from "react-i18next";
-import { BaseComponent } from "../shellInterfaces";
-import { Fade } from 'react-reveal';
-import './faqComponent.css'
+import * as React from 'react';
 
-export type FaqProps = {}
-export type FaqState = {}
+import { WithTranslation, withTranslation, Trans } from 'react-i18next';
+import { BaseComponent } from '../shellInterfaces';
+import { Fade } from 'react-reveal';
+
+import './faqComponent.css';
+
+export type FaqProps = {};
+export type FaqState = {};
+
 class FaqComponent extends BaseComponent<FaqProps & WithTranslation, FaqState> {
 
   constructor(props) {
@@ -74,4 +77,4 @@ class FaqComponent extends BaseComponent<FaqProps & WithTranslation, FaqState> {
   }
 }
 
-export default withTranslation()(FaqComponent)
+export default withTranslation()(FaqComponent);

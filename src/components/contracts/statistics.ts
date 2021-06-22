@@ -1,10 +1,17 @@
-import * as $ from "jquery";
-import axios from "axios";
-import { RaptorAddress, DonationWalletAddress } from "./raptor";
-import Web3 from "web3";
-import { Contract } from "web3-eth-contract";
+import axios from 'axios';
+import { RaptorAddress, DonationWalletAddress } from './raptor';
+import Web3 from 'web3';
+import { Contract } from 'web3-eth-contract';
 
-type PriceInfo = { raptor: { usd: number, bnb: number }, bnb: { usd: number } }
+type PriceInfo = { 
+	raptor: { 
+		usd: number, 
+		bnb: number 
+	}, 
+	bnb: { 
+		usd: number
+	}
+};
 
 export class RaptorStatistics {
 

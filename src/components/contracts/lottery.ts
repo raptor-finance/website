@@ -1,6 +1,6 @@
-import {Wallet} from "../wallet";
-import {Contract} from "web3-eth-contract";
-import {Raptor} from "./raptor";
+import {Wallet} from '../wallet';
+import {Contract} from 'web3-eth-contract';
+import {Raptor} from './raptor';
 
 export class RaptorLottery {
 
