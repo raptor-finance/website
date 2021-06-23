@@ -22,3 +22,9 @@
 .faq-container a {
 	text-decoration: none;
 }
+
+@media (max-width: 900px) {
+	.faq-container h1>span {
+		line-height: 32px;
+	}
+}

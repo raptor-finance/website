@@ -31,11 +31,11 @@ export type LotteryState = {
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
 const FadeInLeftDiv = styled.div`
-  animation: ease-out 0.6s ${FadeInLeftAnimation};
+  animation: ease-out 0.8s ${FadeInLeftAnimation};
 `;
 const FadeInRightAnimation = keyframes`${fadeInRight}`;
 const FadeInRightDiv = styled.div`
-  animation: ease-out 0.6s ${FadeInRightAnimation};
+  animation: ease-out 0.8s ${FadeInRightAnimation};
 `;
 const FadeInUpAnimation = keyframes`${fadeInUp}`;
 const FadeInUpDiv = styled.div`

@@ -39,6 +39,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 		const pages: IShellPage[] = (this.readProps().pages || []);
 		const t: TFunction<"translation"> = this.readProps().t;
 		const i18n = this.readProps().i18n;
+		
 		return (
 			<div className="navigation-wrapper">
 				<div className="logo-wrapper">

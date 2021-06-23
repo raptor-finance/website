@@ -42,7 +42,7 @@
 
 @media (max-width: 990px) {
 	.hero-buttons {
-		justify-content: center;
+		justify-content: space-between;
 	}
 
 	.home-container .hero-buttons {
@@ -51,5 +51,14 @@
 
 	.btn-about {
 		margin-left: 10px !important;
+	}
+
+	.btn-lg {
+		font-size: medium;
+	}
+
+	.home-container .large-button-image>img {
+		height: 40px;
+		width: 80px;
 	}
 }

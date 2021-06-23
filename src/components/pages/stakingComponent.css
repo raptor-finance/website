@@ -93,3 +93,29 @@
 .staking-container input[type=number] {
 	-moz-appearance: textfield;
 }
+
+@media (max-width: 900px) {
+	.staking-container .staking-header img {
+		margin-bottom: 20px;
+	}
+
+	.staking-container .staking-header a {
+		float: none !important;
+		margin-bottom: 20px;
+	}
+
+	.staking-container form .staking-percentages {
+		margin: 0px 0px 10px 0px;
+	}
+
+	.staking-container form .button-row {
+		margin-top: 20px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.staking-container form .button-row button {
+		width: 50vw;
+		margin-bottom: 10px;
+	}
+}

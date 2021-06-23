@@ -142,7 +142,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						</Suspense>
 					</div>
 				</div>
-				<section style={{ marginTop: "8%" }}>
+				<section>
 					<Suspense fallback={<PropagateLoader color={'#ffffff'} />}>
 						<RoadmapDiv />
 					</Suspense>
