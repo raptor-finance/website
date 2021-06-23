@@ -5,8 +5,10 @@ import { BaseComponent } from '../shellInterfaces';
 import { DonationWalletAddress } from '../contracts/raptor';
 import { RaptorStatistics } from '../contracts/statistics';
 import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
+import { pulse } from 'react-animations';
 import { Fade, Slide } from 'react-reveal';
 import { PuffLoader, PropagateLoader } from 'react-spinners';
+import styled, { keyframes } from 'styled-components';
 import AnimatedNumber from 'animated-number-react';
 
 import './homeComponent.css';
@@ -20,6 +22,11 @@ export type HomeState = {
 const RoadmapDiv = React.lazy(() => import('../roadmap'));
 const RaptorForestDiv = React.lazy(() => import('../raptorForest'));
 const TokenStatisticsDiv = React.lazy(() => import('../tokenStatistics'));
+
+const PulseAnimation = keyframes`${pulse}`;
+const PulseDiv = styled.div`
+  animation: infinite 10s ${PulseAnimation};
+`;
 
 class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState> {
 
@@ -95,7 +102,9 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						</div>
 						<div className="col-md-6">
 							<Suspense fallback={<PuffLoader color={'#ffffff'} />}>
-								<RaptorForestDiv />
+								<PulseDiv>
+									<RaptorForestDiv />
+								</PulseDiv>
 							</Suspense>
 						</div>
 					</div>

@@ -3,6 +3,8 @@ import * as React from 'react';
 import { BaseComponent } from './shellInterfaces';
 import { RaptorStatistics } from './contracts/statistics';
 import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
+import { pulse } from 'react-animations';
+import styled, { keyframes } from 'styled-components';
 import AnimatedNumber from 'animated-number-react';
 
 import './tokenStatistics.css';
@@ -14,6 +16,11 @@ export type TokenStatisticsState = {
 	marketCapUsd?: number;
 	totalSupply?: number;
 };
+
+const PulseAnimation = keyframes`${pulse}`;
+const PulseDiv = styled.div`
+  animation: infinite 3s ${PulseAnimation};
+`;
 
 class TokenStatistics extends BaseComponent<TokenStatisticsProps & WithTranslation, TokenStatisticsState> {
 
@@ -93,33 +100,41 @@ class TokenStatistics extends BaseComponent<TokenStatisticsProps & WithTranslati
 		return <div className="d-flex statistics">
 			<div className="stat">
 				<p>
-					<AnimatedNumber value={this.state.marketCapUsd} duration="1000" formatValue={value => `$${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`}>
-						0
+					<PulseDiv>
+						<AnimatedNumber value={this.state.marketCapUsd} duration="1000" formatValue={value => `$${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`}>
+							0
 						</AnimatedNumber>
+					</PulseDiv>
 				</p>
 				<h2>Market Cap</h2>
 			</div>
 			<div className="stat">
 				<p>
-					<AnimatedNumber value={this.convert(+state.priceUsd)} duration="1000" formatValue={value => `$${Number(value).toFixed(14)}`}>
-						0
+					<PulseDiv>
+						<AnimatedNumber value={this.convert(+state.priceUsd)} duration="1000" formatValue={value => `$${Number(value).toFixed(14)}`}>
+							0
 						</AnimatedNumber>
+					</PulseDiv>
 				</p>
 				<h2>{t('home.token_statistics.price_usd')}</h2>
 			</div>
 			<div className="stat">
 				<p>
-					<AnimatedNumber value={28} duration="2000" formatValue={value => `${Number(value).toFixed(0)}k +`}>
-						0
+					<PulseDiv>
+						<AnimatedNumber value={28} duration="2000" formatValue={value => `${Number(value).toFixed(0)}k +`}>
+							0
 						</AnimatedNumber>
+					</PulseDiv>
 				</p>
 				<h2>Holders</h2>
 			</div>
 			<div className="stat">
 				<p>
-					<AnimatedNumber value={this.convert(this.state.totalSupply)} duration="1000" formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`}>
-						0
+					<PulseDiv>
+						<AnimatedNumber value={this.convert(this.state.totalSupply)} duration="1000" formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`}>
+							0
 						</AnimatedNumber>
+					</PulseDiv>
 				</p>
 				<h2>Total Supply</h2>
 			</div>

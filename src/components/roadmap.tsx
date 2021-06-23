@@ -3,8 +3,6 @@ import * as React from 'react';
 import { BaseComponent } from './shellInterfaces';
 import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
 import { Fade } from 'react-reveal';
-import { fadeIn } from 'react-animations';
-import styled, { keyframes } from 'styled-components';
 
 import './roadmap.css';
 
@@ -12,11 +10,6 @@ export type RoadmapProps = {};
 export type RoadmapState = {
   currentTab?: number;
 };
-
-const FadeInAnimation = keyframes`${fadeIn}`;
-const FadeInDiv = styled.div`
-  animation: ease-in 0.4s ${FadeInAnimation};
-`;
 
 class Roadmap extends BaseComponent<RoadmapProps & WithTranslation, RoadmapState> {
 
