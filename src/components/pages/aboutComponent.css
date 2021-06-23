@@ -38,6 +38,7 @@
 }
 
 .about-container #team-members .name {
+	font-size: 28px;
 	color: var(--white);
 	text-align: center;
 }

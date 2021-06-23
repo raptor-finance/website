@@ -14,6 +14,10 @@
 	overflow: auto;
 }
 
+.navigation-wrapper #mainNav {
+	height: 92%;
+}
+
 .navigation-wrapper .logo-wrapper {
 	display: block;
 	position: relative;
@@ -26,9 +30,12 @@
 }
 
 .navigation-wrapper nav {
-	padding: 20px 20px 0 20px;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
 	margin: 0px;
 	overflow-y: auto;
+	justify-content: space-between;
 }
 
 .navigation-wrapper ul {
@@ -65,11 +72,6 @@
 	color: #31C461;
 }
 
-.navigation-footer {
-	margin-top: 80px;
-	margin-bottom: 10px;
-}
-
 .btn-social {
 	font-size: 1.5rem;
 	color: white;
@@ -88,22 +90,6 @@
 	margin-top: 20px;
 }
 
-#mainNav.show {
-	flex-direction: column;
-	max-height: 100%;
-	padding: 20px 30px 0px 30px;
-	display: flex !important;
-	height: 100%;
-}
-
-#mainNav.collapsing {
-	padding: 20px 30px 40px 30px;
-}
-
-.mainNav {
-	height: 100%;
-}
-
 @media (max-width: 668px) {
 	.navigation-wrapper nav {
 		padding: 0px 35px 0 35px;
@@ -115,13 +101,22 @@
 	}
 }
 
-@media (min-width: 990px) {
-	.navigation-wrapper nav {
-		display: block !important;
-	}
-}
-
 @media (max-width: 990px) {
+	.navigation-wrapper #mainNav {
+		height: 0px;
+	}
+
+	#mainNav.show {
+		max-height: 100%;
+		padding: 20px 30px;
+		height: 90.28%;
+		overflow-y: auto;
+	}
+
+	#mainNav.collapsing {
+		padding: 20px 30px;
+	}
+
 	.navigation-wrapper nav {
 		padding: 0px 35px 0 35px;
 		margin: 0px;
@@ -134,7 +129,6 @@
 	.navigation-wrapper {
 		display: block;
 		position: fixed;
-		justify-content: space-between;
 		align-items: center;
 		width: 100%;
 		min-height: auto;
@@ -172,11 +166,6 @@
 		overflow: hidden;
 	}
 
-	.navigation-wrapper nav.show {
-		height: 95vh;
-		display: block !important;
-	}
-
 	.navigation-wrapper {
 		display: block;
 		height: auto;
@@ -187,8 +176,9 @@
 	.navigation-footer {
 		display: block;
 		position: relative;
-		margin-top: 20px;
+		margin: 0px;
 		text-align: center;
+		padding-top: 10px;
 	}
 
 	.main-nav-overlay {
@@ -216,6 +206,6 @@
 	}
 
 	.lang-select {
-		margin-top: 10px;
+		margin-top: 16px;
 	}
 }

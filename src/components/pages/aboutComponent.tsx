@@ -9,9 +9,7 @@ import styled, { keyframes } from 'styled-components';
 import './aboutComponent.css';
 
 export type AboutProps = {};
-export type AboutState = {
-	currentTab?: number,
-};
+export type AboutState = {};
 
 const PulseAnimation = keyframes`${pulse}`;
 const PulseDiv = styled.div`
@@ -22,74 +20,13 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			currentTab: 0,
-		};
-		this.handleClick = this.handleClick.bind(this);
-	}
-
-	handleClick(currentTab) {
-		this.setState({ currentTab });
 	}
 
 	render() {
 		const t: TFunction<"translation"> = this.readProps().t;
 
-		const data = [
-			{
-				id: "1",
-				name: "Q2",
-				header: t('about.our_roadmap.q2_2021.title'),
-				items: [
-					{ text: t('about.our_roadmap.q2_2021.line1'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line2'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line3'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line4'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line5'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line6'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line7'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line8'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line9'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line10'), done: "complete", },
-				],
-			},
-			{
-				id: "2",
-				name: "Q3",
-				header: t('about.our_roadmap.q3_2021.title'),
-				items: [
-					{ text: t('about.our_roadmap.q3_2021.line1'), done: "wip", },
-					{ text: t('about.our_roadmap.q3_2021.line2'), done: "wip", },
-					{ text: t('about.our_roadmap.q3_2021.line3'), done: "wip", },
-					{ text: t('about.our_roadmap.q3_2021.line4'), done: "wip", },
-				],
-			},
-			{
-				id: "3",
-				name: "Q4",
-				header: t('about.our_roadmap.q4_2021.title'),
-				items: [
-					{ text: t('about.our_roadmap.q4_2021.line1'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line2'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line3'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line4'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line5'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line6'), done: "wip", },
-				],
-			},
-			{
-				id: "4",
-				name: "Q1",
-				header: t('about.our_roadmap.q1_2022.title'),
-				items: [
-					{ text: t('about.our_roadmap.q1_2022.line1'), done: "wip", },
-					{ text: t('about.our_roadmap.q1_2022.line2'), done: "wip", },
-				],
-			},
-		];
-
 		return <div className="about-container">
-			<div className="d-flex flex-row container">
+			<div className="d-flex flex-row container" style={{ padding: "0px" }}>
 				<div>
 					<section id="mission">
 						<div className="container">
