@@ -1,5 +1,7 @@
 .roadmap {
-	margin-top: 8%;
+	margin-top: 6%;
+	margin-bottom: 6%;
+	padding: 0px 10%;
 }
 
 .roadmap h1 {
@@ -49,8 +51,6 @@
 .line {
 	border-left: 1px solid var(--primary-alt);
 	height: 15px;
-	margin-top: 100px;
-	margin-left: 29px;
 	width: 0px;
 }
 
@@ -59,21 +59,24 @@
 	margin-top: 10px;
 }
 
+.roadmap .row .tab {
+	flex-direction: column;
+	align-items: center;
+}
+
+.tab-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 @media (max-width: 990px) {
 	.roadmap {
 		margin-top: 16%;
 	}
 
-	.btn-roadmap {
-		margin-left: 42%;
-	}
-
 	.roadmap-content {
 		padding-left: 15px;
-	}
-
-	.line {
-		margin-left: 40.2vw;
 	}
 
 	.roadmap h1 {

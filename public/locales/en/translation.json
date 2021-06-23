@@ -32,7 +32,7 @@
         "our_docs": "Whitepaper",
         "win_tokens": "<0>Win</0> Raptor tokens",
         "earn_tokens": "<0>Earn</0> Raptor tokens",
-        "subtitle2": "Want to help?",
+        "subtitle2": "How you can help!",
         "paragraph2": "You can help us save the Earth by donating to the official Raptor community donation wallet. The balance of this wallet will be gradually donated to environmental charities starting Q4/2021. Please check our",
         "roadmap": "roadmap",
         "for_details": "for details.",
@@ -41,7 +41,7 @@
         "paragraph4_2": " in our wallet to be donated!",
         "token_statistics": {
             "title": "Token Statistics",
-            "price_usd": "Price in USD:",
+            "price_usd": "Price USD",
             "price_bnb": "Price in BNB:"
         }
     },
@@ -226,8 +226,8 @@
            "title": "Looking for something specific?",
            "desc": "Click one of the links below to quickly jump to a topic!",
            "mission": "What is Raptor's mission?",
-           "team": "Who is working on Raptor?",
-           "roadmap": "What is the roadmap?"
+           "products": "What are Raptor's products?",
+           "team": "Who is working on Raptor?"
        } 
     },
     "faq": {

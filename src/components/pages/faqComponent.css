@@ -1,8 +1,11 @@
+.faq-container {
+	padding: 8% 10% 0% 10%;
+}
+
 .faq-container h1 {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	padding-top: 50px;
 	font-size: x-large;
 }
 
@@ -23,7 +26,15 @@
 	text-decoration: none;
 }
 
+.faq-container p {
+	margin-bottom: 50px;
+}
+
 @media (max-width: 900px) {
+	.faq-container {
+		padding: 30% 10% 0 10%;
+	}
+
 	.faq-container h1>span {
 		line-height: 32px;
 	}

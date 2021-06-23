@@ -3,8 +3,6 @@ import * as React from 'react';
 import { BaseComponent } from './shellInterfaces';
 import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
 import { Fade } from 'react-reveal';
-import { fadeIn } from 'react-animations';
-import styled, { keyframes } from 'styled-components';
 
 import './roadmap.css';
 
@@ -12,11 +10,6 @@ export type RoadmapProps = {};
 export type RoadmapState = {
   currentTab?: number;
 };
-
-const FadeInAnimation = keyframes`${fadeIn}`;
-const FadeInDiv = styled.div`
-  animation: ease-in 0.4s ${FadeInAnimation};
-`;
 
 class Roadmap extends BaseComponent<RoadmapProps & WithTranslation, RoadmapState> {
 
@@ -28,8 +21,8 @@ class Roadmap extends BaseComponent<RoadmapProps & WithTranslation, RoadmapState
   }
 
   handleClick(currentTab) {
-		this.setState({ currentTab });
-	}
+    this.setState({ currentTab });
+  }
 
   render() {
     const state = this.readState();
@@ -95,13 +88,15 @@ class Roadmap extends BaseComponent<RoadmapProps & WithTranslation, RoadmapState
       </Fade>
       <div className="row">
         <Fade bottom>
-          <div className="tab col-md-1">
+          <div className="tab col-md-1 d-flex">
             {data.map((button, i) => (
               <React.Fragment>
-                <button key={button.name} className="btn-roadmap" style={{ backgroundColor: this.state.currentTab == i ? "var(--primary)" : "var(--white)" }} onClick={() => this.handleClick(i)}>{button.name}</button>
-                {i < data.length - 1 &&
-                  <div className="line"></div>
-                }
+                <div className="tab-section">
+                  <button key={button.name} className="btn-roadmap" style={{ backgroundColor: this.state.currentTab == i ? "var(--primary)" : "var(--white)" }} onClick={() => this.handleClick(i)}>{button.name}</button>
+                  {i < data.length - 1 &&
+                    <div className="line"></div>
+                  }
+                </div>
               </React.Fragment>
             )
             )

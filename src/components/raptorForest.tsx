@@ -104,12 +104,12 @@ class RaptorForest extends BaseComponent <RaptorForestProps & WithTranslation, R
 					<span>Raptor Finance</span></Trans>
 				</p>
 				<p><strong>{t('home.raptor_forest.age')} </strong>
-					<AnimatedNumber value={this.state.treeAge} duration="1000" formatValue={value => `${Number(value).toFixed(0)}`}>
+					<AnimatedNumber value={this.state.treeAge} duration="1000" formatValue={value => `${Number(value).toFixed(0)}d`}>
 						{t('home.raptor_forest.day', { count: this.readState().treeAge })}
 					</AnimatedNumber>
 				</p>
 				<p><strong>{t('home.raptor_forest.co2_offset')} </strong>
-					<AnimatedNumber value={this.state.carbonOffset} duration="1000" formatValue={value => `${Number(value).toFixed(2)}`}>
+					<AnimatedNumber value={this.state.carbonOffset} duration="1000" formatValue={value => `${Number(value).toFixed(2)}t`}>
 						{this.readState().carbonOffset} {t('home.raptor_forest.tonnes')}
 					</AnimatedNumber>
 				</p>
@@ -119,7 +119,7 @@ class RaptorForest extends BaseComponent <RaptorForestProps & WithTranslation, R
 				</AnimatedNumber>
 				</p>
 				<p><strong>{t('home.raptor_forest.tree_amount')} </strong>
-					<AnimatedNumber value={this.state.treeAmount} duration="1000" formatValue={value => `${Number(value).toFixed(0)}`}>
+					<AnimatedNumber value={this.state.treeAmount} duration="1000" formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`}>
 						{this.readState().treeAmount}
 					</AnimatedNumber>
 				</p>

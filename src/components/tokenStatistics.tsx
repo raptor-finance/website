@@ -1,22 +1,25 @@
 import * as React from 'react';
+
 import { BaseComponent } from './shellInterfaces';
 import { RaptorStatistics } from './contracts/statistics';
-import './roadmap.css';
 import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
-import { fadeIn } from 'react-animations';
+import { pulse } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 import AnimatedNumber from 'animated-number-react';
+
+import './tokenStatistics.css';
 
 export type TokenStatisticsProps = {};
 export type TokenStatisticsState = {
 	exit?: boolean;
 	priceUsd?: number;
-	priceBnb?: number;
+	marketCapUsd?: number;
+	totalSupply?: number;
 };
 
-const FadeInAnimation = keyframes`${fadeIn}`;
-const FadeInDiv = styled.div`
-  animation: ease-in 0.4s ${FadeInAnimation};
+const PulseAnimation = keyframes`${pulse}`;
+const PulseDiv = styled.div`
+  animation: infinite 3s ${PulseAnimation};
 `;
 
 class TokenStatistics extends BaseComponent<TokenStatisticsProps & WithTranslation, TokenStatisticsState> {
@@ -28,7 +31,8 @@ class TokenStatistics extends BaseComponent<TokenStatisticsProps & WithTranslati
 		super(props);
 		this.state = {
 			priceUsd: 0,
-			priceBnb: 0,
+			marketCapUsd: 0,
+			totalSupply: 0,
 		};
 		this._statistics = new RaptorStatistics();
 	}
@@ -58,8 +62,9 @@ class TokenStatistics extends BaseComponent<TokenStatisticsProps & WithTranslati
 		await this._statistics.refresh();
 
 		this.setState({
-			priceBnb: this._statistics.raptorBnbPrice,
 			priceUsd: this._statistics.raptorUsdPrice,
+			marketCapUsd: this._statistics.marketCapUsd,
+			totalSupply: this._statistics.totalSupply,
 		});
 
 		this._timeout = setTimeout(async () => await self.tick.call(self), 60000);
@@ -82,11 +87,9 @@ class TokenStatistics extends BaseComponent<TokenStatisticsProps & WithTranslati
 
 	handleChange = ({ target: {
 		priceUsd,
-		priceBnb,
 	} }) => {
 		this.setState({
 			priceUsd,
-			priceBnb,
 		});
 	};
 
@@ -94,22 +97,48 @@ class TokenStatistics extends BaseComponent<TokenStatisticsProps & WithTranslati
 		const state = this.readState();
 		const t: TFunction<"translation"> = this.readProps().t;
 
-		return <FadeInDiv>
-			<div className="shadow align-self-center gradient-card primary"
-				id="raptor-forest">
-				<h2 className="flex-fill"><strong>{t('home.token_statistics.title')}</strong></h2>
-				<p><strong>{t('home.token_statistics.price_usd')} </strong>
-					<AnimatedNumber value={this.convert(+state.priceUsd)} duration="1000" formatValue={value => `${Number(value).toFixed(14)}`}>
-						0
-				</AnimatedNumber>
+		return <div className="d-flex statistics">
+			<div className="stat">
+				<p>
+					<PulseDiv>
+						<AnimatedNumber value={this.state.marketCapUsd} duration="1000" formatValue={value => `$${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`}>
+							0
+						</AnimatedNumber>
+					</PulseDiv>
 				</p>
-				<p><strong>{t('home.token_statistics.price_bnb')} </strong>
-					<AnimatedNumber value={this.convert(+state.priceBnb)} duration="1000" formatValue={value => `${Number(value).toFixed(14)}`}>
-						0
-				</AnimatedNumber>
-				</p>
+				<h2>Market Cap</h2>
 			</div>
-		</FadeInDiv>
+			<div className="stat">
+				<p>
+					<PulseDiv>
+						<AnimatedNumber value={this.convert(+state.priceUsd)} duration="1000" formatValue={value => `$${Number(value).toFixed(14)}`}>
+							0
+						</AnimatedNumber>
+					</PulseDiv>
+				</p>
+				<h2>{t('home.token_statistics.price_usd')}</h2>
+			</div>
+			<div className="stat">
+				<p>
+					<PulseDiv>
+						<AnimatedNumber value={28} duration="2000" formatValue={value => `${Number(value).toFixed(0)}k +`}>
+							0
+						</AnimatedNumber>
+					</PulseDiv>
+				</p>
+				<h2>Holders</h2>
+			</div>
+			<div className="stat">
+				<p>
+					<PulseDiv>
+						<AnimatedNumber value={this.convert(this.state.totalSupply)} duration="1000" formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`}>
+							0
+						</AnimatedNumber>
+					</PulseDiv>
+				</p>
+				<h2>Total Supply</h2>
+			</div>
+		</div>
 	}
 };
 
