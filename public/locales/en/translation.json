@@ -233,7 +233,7 @@
     "faq": {
         "faq1": {
             "title": "How do I buy Raptor Token?",
-            "desc": "Raptor is launched on the Binance Smart Chain. This means that in order to buy Raptor, you need the Binance Coin (BNB). You can buy BNB from <1>Trustwallet</1>, Binance Smart Chain wallet, or from an exchange such as Binance itself, Crypto.com, Whitebit, or similar. Once you have BNB, send them to your wallet and <1>head over to PancakeSwap</1> to buy Raptor for BNB. Make sure you set your slippage to 8%."
+            "desc": "Raptor is launched on the Binance Smart Chain. This means that in order to buy Raptor, you need the Binance Coin (BNB). You can buy BNB from <1>Trustwallet</1>, Binance Smart Chain wallet, or from an exchange such as Binance itself, Crypto.com, Whitebit, or similar. Once you have BNB, send them to your wallet and <3>head over to PancakeSwap</3> to buy Raptor for BNB. Make sure you set your slippage to 8%."
         },
         "faq2": {
             "title": "How do I stake?",
@@ -253,7 +253,7 @@
         },
         "faq6": {
             "title": "Has the founder revealed his identity?",
-            "desc": "Yes, the identity of the team members are revealed on <1>our \"About\" page</1>. Our founder is called Ismail van Essen and you can find him on <1>LinkedIn</1>."
+            "desc": "Yes, the identity of the team members are revealed on <1>our \"About\" page</1>. Our founder is called Ismail van Essen and you can find him on <3>LinkedIn</3>."
         },
         "faq7": {
             "title": "Is it safe to stake my tokens on the staking website?",

@@ -8,6 +8,13 @@
 	height: 90px;
 }
 
+.lottery-container .lottery-header a {
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	width: 160px;
+}
+
 .lottery-container .lottery-footer {
 	padding: 50px;
 }
@@ -37,6 +44,25 @@
 
 .btn-lottery {
 	width: 40%;
+}
+
+.overlay {
+	position:fixed;
+	top:0;
+	left:0;
+	background:rgba(255, 255, 255, 0.3);
+	z-index:5;
+	width:100%;
+	height:100%;
+}
+
+.overlay .spinner-border {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -4em;
+	margin-left: -4em; 
+	z-index: 9999999;
 }
 
 @media (max-width: 600px) {

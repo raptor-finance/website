@@ -13,6 +13,13 @@
 	width: 190px;
 }
 
+.staking-container .staking-header a {	    
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	width: 160px;
+}
+
 .staking-container .staking-footer {
 	padding: 50px;
 }
@@ -118,4 +125,23 @@
 		width: 50vw;
 		margin-bottom: 10px;
 	}
+}
+
+.overlay {
+	position:fixed;
+	top:0;
+	left:0;
+	background:rgba(255, 255, 255, 0.3);
+	z-index:5;
+	width:100%;
+	height:100%;
+}
+
+.overlay .spinner-border {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -4em;
+	margin-left: -4em; 
+	z-index: 9999999;
 }
