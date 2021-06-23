@@ -1,6 +1,6 @@
 .lottery-container {
 	display: block;
-	margin-top: 5%;
+	padding: 6% 10% 0 10%;
 }
 
 .lottery-container .lottery-header img {
@@ -39,7 +39,11 @@
 	width: 40%;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
+	.lottery-container {
+		padding: 30% 10% 0 10%;
+	}
+
 	.lottery-container .lottery-header img {
 		margin-bottom: 20px;
 	}

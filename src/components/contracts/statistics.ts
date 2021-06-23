@@ -10,6 +10,12 @@ type PriceInfo = {
 	}, 
 	bnb: { 
 		usd: number
+	},
+	marketCap: {
+		usd: number
+	}
+	totalSupply: {
+		value: number
 	}
 };
 
@@ -66,6 +72,12 @@ export class RaptorStatistics {
 	public get raptorUsdPrice(): number {
 		return (this._prices || {}).raptor.usd;
 	}
+	public get marketCapUsd(): number {
+		return (this._prices || {}).marketCap.usd;
+	}
+	public get totalSupply(): number {
+		return (this._prices || {}).totalSupply.value;
+	}
 
 	private getPrices(force: boolean): Promise<PriceInfo> {
 		if (!!this._prices && !force) {
@@ -88,10 +100,15 @@ export class RaptorStatistics {
 						},
 						bnb: {
 							usd: a.data.lastPrices.raptorusd
+						},
+						marketCap: {
+							usd: a.data.lastPrices.marketcapusd,
+						},
+						totalSupply: {
+							value: a.data.totalSupply,
 						}
 					});
-				});
-
+				})
 
 			// $.get({
 			// 	url: 'https://api.coingecko.com/api/v3/simple/price?ids=binancecoin,raptor-finance&vs_currencies=usd,bnb',

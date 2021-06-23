@@ -28,8 +28,8 @@ class Roadmap extends BaseComponent<RoadmapProps & WithTranslation, RoadmapState
   }
 
   handleClick(currentTab) {
-		this.setState({ currentTab });
-	}
+    this.setState({ currentTab });
+  }
 
   render() {
     const state = this.readState();
@@ -95,13 +95,15 @@ class Roadmap extends BaseComponent<RoadmapProps & WithTranslation, RoadmapState
       </Fade>
       <div className="row">
         <Fade bottom>
-          <div className="tab col-md-1">
+          <div className="tab col-md-1 d-flex">
             {data.map((button, i) => (
               <React.Fragment>
-                <button key={button.name} className="btn-roadmap" style={{ backgroundColor: this.state.currentTab == i ? "var(--primary)" : "var(--white)" }} onClick={() => this.handleClick(i)}>{button.name}</button>
-                {i < data.length - 1 &&
-                  <div className="line"></div>
-                }
+                <div className="tab-section">
+                  <button key={button.name} className="btn-roadmap" style={{ backgroundColor: this.state.currentTab == i ? "var(--primary)" : "var(--white)" }} onClick={() => this.handleClick(i)}>{button.name}</button>
+                  {i < data.length - 1 &&
+                    <div className="line"></div>
+                  }
+                </div>
               </React.Fragment>
             )
             )

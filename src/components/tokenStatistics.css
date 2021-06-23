@@ -1,0 +1,26 @@
+.statistics {
+	justify-content: space-around;
+	padding: 0px 10%;
+}
+
+.statistics h2 {
+	color: var(--complementary-alt);
+	font-size: medium;
+	font-weight: bold;
+	margin: 0px;
+	padding-bottom: 40px;
+}
+
+.statistics p {
+	color: var(--primary-alt);
+	font-size: large;
+	font-weight: bold;
+	padding-top: 40px;
+	margin-bottom: 5px;
+}
+
+.stat {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
