@@ -111,7 +111,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 					<div className="second-paragraph">
 						<h1><strong className="title-white">{t('home.subtitle2')}</strong><br /></h1>
 						<p>{t('home.paragraph2')} <a href="about#roadmap">{t('home.roadmap')}</a> {t('home.for_details')}</p>
-						<p>{t('home.paragraph3')} <a href={`https://bscscan.com/address/${DonationWalletAddress}`} target="_blank" style={{ fontFamily: 'monospace', wordBreak: "break-word" }}>{DonationWalletAddress}</a></p>
+						<p>{t('home.paragraph3')} <a href={`https://bscscan.com/address/${DonationWalletAddress}`} target="_blank" rel="noreferrer" style={{ fontFamily: 'monospace', wordBreak: "break-word" }}>{DonationWalletAddress}</a></p>
 						<p>
 							{t('home.paragraph4_1')}
 							<AnimatedNumber

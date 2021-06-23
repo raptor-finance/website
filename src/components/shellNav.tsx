@@ -104,13 +104,13 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							</a>
 						</div>
 						<div>
-							<a href="https://whitebit.com/trade-pro/RAPTOR_DECL?type=spot" className="btn btn-primary btn-block" target="_blank">{t('nav.buyonwhitebit')}</a>
+							<a href="https://whitebit.com/trade-pro/RAPTOR_DECL?type=spot" rel="noreferrer" className="btn btn-primary btn-block" target="_blank">{t('nav.buyonwhitebit')}</a>
 						</div>
 						<div className="mt-3">
-							<a href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xf9A3FdA781c94942760860fc731c24301c83830A" className="btn btn-primary btn-block" target="_blank">{t('nav.buyonpancakeswap')}</a>
+							<a href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xf9A3FdA781c94942760860fc731c24301c83830A" rel="noreferrer" className="btn btn-primary btn-block" target="_blank">{t('nav.buyonpancakeswap')}</a>
 						</div>
 						<div className="mt-3">
-							<a href="https://bscscan.com/token/0xf9a3fda781c94942760860fc731c24301c83830a#balances" className="btn btn-complementary btn-block" target="_blank">{t('nav.viewonbscscan')}</a>
+							<a href="https://bscscan.com/token/0xf9a3fda781c94942760860fc731c24301c83830a#balances" rel="noreferrer" className="btn btn-complementary btn-block" target="_blank">{t('nav.viewonbscscan')}</a>
 						</div>
 						<select
 							value={languageCodeOnly(i18n.language)}

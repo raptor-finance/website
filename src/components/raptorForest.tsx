@@ -129,7 +129,7 @@ class RaptorForest extends BaseComponent <RaptorForestProps & WithTranslation, R
 				</AnimatedNumber>
 				</p>
 				<p><strong>{t('home.raptor_forest.our_forest')} 🌳: </strong>
-					<span><strong><a className="title-white" href="https://ecologi.com/raptorfinance">{t('home.raptor_forest.click_here')}</a></strong></span></p>
+					<span><strong><a className="title-white" href="https://ecologi.com/raptorfinance" rel="noreferrer">{t('home.raptor_forest.click_here')}</a></strong></span></p>
 			</div>
 		</FadeInDiv>
 	}
