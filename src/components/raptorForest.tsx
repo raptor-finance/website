@@ -104,7 +104,7 @@ class RaptorForest extends BaseComponent <RaptorForestProps & WithTranslation, R
 					<span>Raptor Finance</span></Trans>
 				</p>
 				<p><strong>{t('home.raptor_forest.age')} </strong>
-					<AnimatedNumber value={this.state.treeAge} duration="1000" formatValue={value => `${Number(value).toFixed(0)}`}>
+					<AnimatedNumber value={this.state.treeAge} duration="1000" formatValue={value => `${Number(value).toFixed(0)}d`}>
 						{t('home.raptor_forest.day', { count: this.readState().treeAge })}
 					</AnimatedNumber>
 				</p>
