@@ -192,7 +192,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 		return <div className="lottery-container">
 			<div className="container">
 				<div className="row text-white lottery-header">
-					<div className="col-md-12"><img src="images/lottery.svg" />
+					<div className="col-md-12"><img src="images/lottery.svg" alt="raptor-lottery-logo" />
 						{state.address ?
 							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
 								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}

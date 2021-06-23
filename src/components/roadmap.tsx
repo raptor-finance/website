@@ -90,11 +90,11 @@ class Roadmap extends BaseComponent<RoadmapProps & WithTranslation, RoadmapState
         <Fade bottom>
           <div className="tab col-md-1 d-flex">
             {data.map((button, i) => (
-              <React.Fragment>
-                <div className="tab-section">
+              <React.Fragment key={i}>
+                <div className="tab-section" key={i}>
                   <button key={button.name} className="btn-roadmap" style={{ backgroundColor: this.state.currentTab == i ? "var(--primary)" : "var(--white)" }} onClick={() => this.handleClick(i)}>{button.name}</button>
                   {i < data.length - 1 &&
-                    <div className="line"></div>
+                    <div className="line" key={i}></div>
                   }
                 </div>
               </React.Fragment>
@@ -111,7 +111,7 @@ class Roadmap extends BaseComponent<RoadmapProps & WithTranslation, RoadmapState
                   <h2>{data[this.state.currentTab].header}</h2>
                   <ul className="roadmap-list">
                     {data[this.state.currentTab].items.map((li, i) => (
-                      <li className={li.done}>{li.text}</li>
+                      <li className={li.done} key={i}>{li.text}</li>
                     )
                     )
                     }

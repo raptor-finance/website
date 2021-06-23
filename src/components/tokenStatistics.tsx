@@ -99,43 +99,35 @@ class TokenStatistics extends BaseComponent<TokenStatisticsProps & WithTranslati
 
 		return <div className="d-flex statistics">
 			<div className="stat">
-				<p>
-					<PulseDiv>
-						<AnimatedNumber value={this.state.marketCapUsd} duration="1000" formatValue={value => `$${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`}>
-							0
-						</AnimatedNumber>
-					</PulseDiv>
-				</p>
+				<PulseDiv>
+					<AnimatedNumber value={this.state.marketCapUsd} duration="1000" formatValue={value => `$${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`} className="stat-value">
+						0
+					</AnimatedNumber>
+				</PulseDiv>
 				<h2>Market Cap</h2>
 			</div>
 			<div className="stat">
-				<p>
-					<PulseDiv>
-						<AnimatedNumber value={this.convert(+state.priceUsd)} duration="1000" formatValue={value => `$${Number(value).toFixed(14)}`}>
-							0
-						</AnimatedNumber>
-					</PulseDiv>
-				</p>
+				<PulseDiv>
+					<AnimatedNumber value={this.convert(+state.priceUsd)} duration="1000" formatValue={value => `$${Number(value).toFixed(14)}`} className="stat-value">
+						0
+					</AnimatedNumber>
+				</PulseDiv>
 				<h2>{t('home.token_statistics.price_usd')}</h2>
 			</div>
 			<div className="stat">
-				<p>
-					<PulseDiv>
-						<AnimatedNumber value={28} duration="2000" formatValue={value => `${Number(value).toFixed(0)}k +`}>
-							0
-						</AnimatedNumber>
-					</PulseDiv>
-				</p>
+				<PulseDiv>
+					<AnimatedNumber value={28} duration="2000" formatValue={value => `${Number(value).toFixed(0)}k +`} className="stat-value">
+						0
+					</AnimatedNumber>
+				</PulseDiv>
 				<h2>Holders</h2>
 			</div>
 			<div className="stat">
-				<p>
-					<PulseDiv>
-						<AnimatedNumber value={this.convert(this.state.totalSupply)} duration="1000" formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`}>
-							0
-						</AnimatedNumber>
-					</PulseDiv>
-				</p>
+				<PulseDiv>
+					<AnimatedNumber value={this.convert(this.state.totalSupply)} duration="1000" formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`} className="stat-value">
+						0
+					</AnimatedNumber>
+				</PulseDiv>
 				<h2>Total Supply</h2>
 			</div>
 		</div>

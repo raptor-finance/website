@@ -16,6 +16,7 @@
 
 .navigation-wrapper #mainNav {
 	height: 92%;
+	transition: all 0.25s;
 }
 
 .navigation-wrapper .logo-wrapper {
@@ -95,7 +96,6 @@
 		padding: 0px 35px 0 35px;
 		margin: 0px;
 	}
-
 	.navigation-footer {
 		margin-top: 10px;
 	}
@@ -105,27 +105,22 @@
 	.navigation-wrapper #mainNav {
 		height: 0px;
 	}
-
 	#mainNav.show {
 		max-height: 100%;
 		padding: 20px 30px;
 		height: 90.28%;
 		overflow-y: auto;
 	}
-
 	#mainNav.collapsing {
 		padding: 20px 30px;
 	}
-
 	.navigation-wrapper nav {
 		padding: 0px 35px 0 35px;
 		margin: 0px;
 	}
-
 	.navbar-toggler {
 		display: inline-block;
 	}
-
 	.navigation-wrapper {
 		display: block;
 		position: fixed;
@@ -137,13 +132,11 @@
 		padding-bottom: 0px;
 		border-right: inherit !important;
 	}
-
 	.navigation-wrapper .logo-wrapper .img-logo {
 		display: inline-block;
 		width: 150px;
 		margin: 5px;
 	}
-
 	.navigation-wrapper .logo-wrapper {
 		display: flex !important;
 		width: 100%;
@@ -154,7 +147,6 @@
 		position: relative;
 		z-index: 11;
 	}
-
 	.navigation-wrapper nav {
 		position: fixed;
 		background-color: #282B3A;
@@ -165,14 +157,12 @@
 		overflow-y: inherit;
 		overflow: hidden;
 	}
-
 	.navigation-wrapper {
 		display: block;
 		height: auto;
 		align-items: center;
 		justify-content: space-between;
 	}
-
 	.navigation-footer {
 		display: block;
 		position: relative;
@@ -180,7 +170,6 @@
 		text-align: center;
 		padding-top: 10px;
 	}
-
 	.main-nav-overlay {
 		display: block;
 		position: fixed;
@@ -195,16 +184,13 @@
 		pointer-events: none;
 		background: rgba(0, 0, 0, 0.65);
 	}
-
 	.main-nav-overlay.show {
 		opacity: 1;
 		pointer-events: all;
 	}
-
 	.social-medias {
 		margin-bottom: 10px;
 	}
-
 	.lang-select {
 		margin-top: 16px;
 	}
