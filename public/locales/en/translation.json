@@ -226,8 +226,8 @@
            "title": "Looking for something specific?",
            "desc": "Click one of the links below to quickly jump to a topic!",
            "mission": "What is Raptor's mission?",
-           "team": "Who is working on Raptor?",
-           "roadmap": "What is the roadmap?"
+           "products": "What are Raptor's products?",
+           "team": "Who is working on Raptor?"
        } 
     },
     "faq": {

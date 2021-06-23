@@ -44,30 +44,24 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 										<li>{t('about.raptor_finance.our_plan.line4')}</li>
 										<li>{t('about.raptor_finance.our_plan.line5')}</li>
 									</ul>
-									<Fade bottom>
-										<h1><strong>{t('about.products_overview.title')}</strong></h1>
-									</Fade>
-									<Fade bottom>
-										<h2>{t('about.products_overview.token.title')}</h2>
-										<p>{t('about.products_overview.token.paragraph1')}</p>
-										<p>{t('about.products_overview.token.paragraph2')}</p>
-									</Fade>
-									<Fade bottom>
-										<h2>{t('about.products_overview.swap.title')}</h2>
-										<p>{t('about.products_overview.swap.paragraph1')}</p>
-										<p>{t('about.products_overview.swap.paragraph2')}</p>
-									</Fade>
-									<Fade bottom>
-										<h2>{t('about.products_overview.staking.title')}</h2>
-										<p>{t('about.products_overview.staking.paragraph1')}</p>
-										<p>{t('about.products_overview.staking.paragraph2')}</p>
-									</Fade>
-									<Fade bottom>
-										<h2>{t('about.products_overview.lottery.title')}</h2>
-										<p>{t('about.products_overview.lottery.paragraph1')}</p>
-										<p>{t('about.products_overview.lottery.paragraph2')}</p>
-										<p>{t('about.products_overview.lottery.paragraph3')}</p>
-									</Fade>
+									<div id="products-overview">
+										<Fade bottom>
+											<h1><strong>{t('about.products_overview.title')}</strong></h1>
+											<h2>{t('about.products_overview.token.title')}</h2>
+											<p>{t('about.products_overview.token.paragraph1')}</p>
+											<p>{t('about.products_overview.token.paragraph2')}</p>
+											<h2>{t('about.products_overview.swap.title')}</h2>
+											<p>{t('about.products_overview.swap.paragraph1')}</p>
+											<p>{t('about.products_overview.swap.paragraph2')}</p>
+											<h2>{t('about.products_overview.staking.title')}</h2>
+											<p>{t('about.products_overview.staking.paragraph1')}</p>
+											<p>{t('about.products_overview.staking.paragraph2')}</p>
+											<h2>{t('about.products_overview.lottery.title')}</h2>
+											<p>{t('about.products_overview.lottery.paragraph1')}</p>
+											<p>{t('about.products_overview.lottery.paragraph2')}</p>
+											<p>{t('about.products_overview.lottery.paragraph3')}</p>
+										</Fade>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -162,6 +156,7 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 							<h1><strong>{t('about.card_right.title')}</strong></h1>
 							<p>{t('about.card_right.desc')}</p>
 							<a className="link-dark" href="#mission">{t('about.card_right.mission')}</a>
+							<a className="link-dark" href="#products-overview">{t('about.card_right.products')}</a>
 							<a className="link-dark" href="#team">{t('about.card_right.team')}</a>
 						</PulseDiv>
 					</div>

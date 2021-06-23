@@ -26,6 +26,14 @@
 	color: var(--primary);
 }
 
+#mission #products-overview {
+	margin-top: 40px;
+}
+
+#team {
+	margin-top: 40px;
+}
+
 .about-container #sidebar h1 {
 	color: var(--dark);
 	font-size: x-large;
@@ -79,13 +87,20 @@
 .about-container #sidebar a {
 	color: var(--dark) !important;
 	font-weight: 600;
-	text-decoration: underline;
 	padding: 15px 0;
 	display: block;
 }
 
+.about-container #sidebar a:hover {
+	text-decoration: underline !important;
+}
+
 .memberCard {
 	align-items: center;
+}
+
+.link-dark {
+	text-decoration: none !important;
 }
 
 @media (max-width: 600px) {
