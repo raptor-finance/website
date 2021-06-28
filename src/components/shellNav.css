@@ -15,7 +15,7 @@
 }
 
 .navigation-wrapper #mainNav {
-	height: 92%;
+	height: 92% !important;
 	transition: all 0.25s;
 }
 
