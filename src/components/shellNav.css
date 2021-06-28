@@ -74,9 +74,9 @@
 }
 
 .btn-social {
-	font-size: 1.5rem;
+	font-size: 27px;
 	color: white;
-	margin: 5px;
+	margin: 4px;
 }
 
 .btn-social:hover {
@@ -103,10 +103,6 @@
 	padding: 20px 30px 40px 30px;
 }
 
-.mainNav {
-	height: 100%;
-}
-
 @media (max-width: 668px) {
 	.navigation-wrapper nav {
 		padding: 0px 35px 0 35px;
@@ -118,9 +114,6 @@
 }
 
 @media (max-width: 990px) {
-	.navigation-wrapper #mainNav {
-		/* height: 0px; */
-	}
 	#mainNav.show {
 		max-height: 100%;
 		padding: 20px 30px;
