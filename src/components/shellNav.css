@@ -15,7 +15,7 @@
 }
 
 .navigation-wrapper #mainNav {
-	height: 92%;
+	height: calc(100% - 84px) !important;
 	transition: all 0.25s;
 }
 
@@ -52,14 +52,14 @@
 
 .navigation-wrapper ul li a {
 	display: block;
-	padding: 18px 14px 18px 60px;
+	padding: 12px 14px 12px 60px;
 	margin: 0px;
 	color: #747D93;
 	font-weight: bold;
 	border-radius: 15px;
 	background-repeat: no-repeat;
 	background-position: 15px center;
-	height: 60px;
+	height: 48px;
 	text-decoration: none;
 }
 
@@ -74,9 +74,9 @@
 }
 
 .btn-social {
-	font-size: 1.5rem;
+	font-size: 26px;
 	color: white;
-	margin: 5px;
+	margin: 4px;
 }
 
 .btn-social:hover {
@@ -84,11 +84,23 @@
 }
 
 .social-medias {
-	margin-bottom: 20px;
+	margin-bottom: 0.5rem;
 }
 
 .lang-select {
 	margin-top: 20px;
+}
+
+
+#mainNav.show {
+	flex-direction: column;
+	height: calc(100% - 84px);
+	padding: 20px 30px 0px 30px;
+	display: flex !important;
+}
+
+#mainNav.collapsing {
+	padding: 20px 30px 40px 30px;
 }
 
 @media (max-width: 668px) {
@@ -97,19 +109,15 @@
 		margin: 0px;
 	}
 	.navigation-footer {
-		margin-top: 10px;
+		margin-top: 50px;
 	}
 }
 
 @media (max-width: 990px) {
-	.navigation-wrapper #mainNav {
-		height: 0px;
-	}
 	#mainNav.show {
-		max-height: 100%;
 		padding: 20px 30px;
-		height: 90.28%;
-		overflow-y: auto;
+		height: calc(100% - 84px);
+		overflow-y: scroll;
 	}
 	#mainNav.collapsing {
 		padding: 20px 30px;
@@ -166,7 +174,7 @@
 	.navigation-footer {
 		display: block;
 		position: relative;
-		margin: 0px;
+		margin-top: 60px;
 		text-align: center;
 		padding-top: 10px;
 	}
