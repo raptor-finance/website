@@ -15,7 +15,7 @@
 }
 
 .navigation-wrapper #mainNav {
-	height: calc(100% - 84px);
+	height: calc(100% - 84px) !important;
 	transition: all 0.25s;
 }
 
