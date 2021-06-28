@@ -54,7 +54,8 @@ module.exports = {
 				{from: "public/images", to: "images"},
 				{from: "public/sitemap.xml", to: ""},
 				{from: "public/robots.txt", to: ""},
-				{from: "public/whitepaper.pdf", to: ""}
+				{from: "public/whitepaper.pdf", to: ""},
+				{from: "public/locales", to: "locales"}
 			],
 		}),
 	],

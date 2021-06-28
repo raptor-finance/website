@@ -21,11 +21,11 @@ i18next
     // backend: {
     //   loadPath: `./locales/{{lng}}.json`
     // },
-    react: {
-      	useSuspense: true,
-	  	transSupportBasicHtmlNodes: true,
-		transKeepBasicHtmlNodesFor: ['u', 'a']
-    },
+    // react: {
+    //   	useSuspense: true,
+	  // 	transSupportBasicHtmlNodes: true,
+		// transKeepBasicHtmlNodesFor: ['u', 'a']
+    // },
     fallbackLng: defaultLanguage,
     keySeparator: '.',
     interpolation: { escapeValue: false }
