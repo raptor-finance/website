@@ -59,6 +59,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 								const menuMap = {
 									'home': t('nav.home'),
 									'about': t('nav.about'),
+									'swap': t('nav.swap'),
 									'staking': t('nav.staking'),
 									'lottery': t('nav.lottery'),
 									'faq': t('nav.faq')
