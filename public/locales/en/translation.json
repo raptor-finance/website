@@ -2,6 +2,7 @@
     "nav": {
         "home": "Home",
         "about": "About",
+        "swap": "Swap",
         "staking": "Staking",
         "lottery": "Lottery",
         "faq": "FAQ",
@@ -46,6 +47,9 @@
             "price_usd": "Price USD",
             "price_bnb": "Price in BNB:"
         }
+    },
+    "swap" : {
+        "title": "RaptorSwap is coming soon"
     },
     "staking": {
         "connect_wallet": "Connect Wallet",
