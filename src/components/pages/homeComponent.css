@@ -1,24 +1,22 @@
+.content-wrapper {
+	overflow-x: hidden;
+	padding: 0px;
+}
+
+.container {
+	max-width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
 .home-container {
-	display: flex;
+	padding-top: 6%;
+	width: 100%;
 	align-items: flex-end;
 }
 
 .home-container h1 {
 	margin-bottom: 15px;
-}
-
-.home-container #raptor-forest {
-	margin: 10px;
-}
-
-.home-container #raptor-forest p {
-	flex: 0 0 50%;
-}
-
-.home-container #raptor-forest h3 {
-	flex: 1 1 100%;
-	min-width: 100%;
-	margin-bottom: 20px;
 }
 
 .home-container .hero-buttons {
@@ -46,6 +44,10 @@
 	color: rgba(255, 255, 255, 1) !important;
 }
 
+.intro {
+	padding: 0px 10%;
+}
+
 .hero-buttons {
 	justify-content: start;
 }
@@ -54,64 +56,33 @@
 	font-size: medium;
 }
 
-.home-container #roadmap h1 {
+.token-stats {
+	margin-top: 6%;
+	background-color: rgba(0, 0, 0, 0.4);
+	width: 100%;
+}
+
+.token-stats h1 {
 	font-size: 56px;
+	color: var(--white);
 	text-align: center;
-	margin-bottom: 40px;
-}
-
-.home-container #roadmap h3 {
-	font-size: 40px;
-	font-weight: bold;
-	color: var(--primary);
-}
-
-.home-container #roadmap .row {
-	padding: 0px 20% 0px 20%;
-}
-
-.home-container #roadmap p {
-	font-size: large;
-	text-align: center;
-	margin-bottom: 40px;
-}
-
-.roadmap-list {
-	color: #fff;
-}
-
-.roadmap-list li {
-	margin-bottom: 5px;
-}
-
-.roadmap-list .complete {
-	color: var(--primary-alt);
-}
-
-.roadmap-list .complete::marker {
-	content: ' ✓  ';
-}
-
-.roadmap-content {
-	padding-left: 80px;
-	margin-top: 10px;
-}
-
-.home-container #roadmap h3 {
-	font-weight: bold;
-	font-size: 40px;
-	margin-bottom: 10px;
-}
-
-.line {
-	border-left: 1px solid var(--primary-alt);
-	height: 15px;
-	margin-top: 90px;
-	margin-left: 24px;
-	width: 0px;
+	/* padding-top: 20px; */
+	margin-bottom: 50px;
 }
 
 @media (max-width: 990px) {
+	.intro {
+		padding: 30% 10% 0 10%;
+	}
+
+	.token-stats {
+		display: none;
+	}
+
+	.second-paragraph {
+		margin-top: 20px;
+	}
+
 	.hero-buttons {
 		justify-content: center;
 	}
@@ -124,31 +95,12 @@
 		margin-left: 10px !important;
 	}
 
-	.btn-roadmap {
-		margin-left: 42%;
+	.btn-lg {
+		font-size: medium;
 	}
 
-	.roadmap-content {
-		padding-left: 15px;
-	}
-
-	.line {
-		margin-left: 51%;
-	}
-
-	.home-container #roadmap h1 {
-		font-size: 48px;
-		text-align: center;
-		margin-bottom: 20px;
-	}
-
-	.home-container #roadmap .row {
-		padding: 0px 2% 0px 2%;
-	}
-
-	.home-container #roadmap p {
-		font-size: large;
-		text-align: center;
-		margin-bottom: 20px;
+	.home-container .large-button-image>img {
+		height: 40px;
+		width: 80px;
 	}
 }

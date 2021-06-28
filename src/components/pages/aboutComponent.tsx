@@ -1,15 +1,15 @@
-import * as React from "react";
-import { withTranslation, WithTranslation, TFunction } from "react-i18next";
-import { BaseComponent } from "../shellInterfaces";
+import * as React from 'react';
+
+import { withTranslation, WithTranslation, TFunction } from 'react-i18next';
+import { BaseComponent } from '../shellInterfaces';
 import { Fade, Slide } from 'react-reveal';
-import { pulse } from "react-animations";
-import styled, { keyframes } from "styled-components";
+import { pulse } from 'react-animations';
+import styled, { keyframes } from 'styled-components';
+
 import './aboutComponent.css';
 
 export type AboutProps = {};
-export type AboutState = {
-	currentTab?: number,
-};
+export type AboutState = {};
 
 const PulseAnimation = keyframes`${pulse}`;
 const PulseDiv = styled.div`
@@ -20,74 +20,13 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			currentTab: 0,
-		};
-		this.handleClick = this.handleClick.bind(this);
-	}
-
-	handleClick(currentTab) {
-		this.setState({ currentTab });
 	}
 
 	render() {
 		const t: TFunction<"translation"> = this.readProps().t;
 
-		const data = [
-			{
-				id: "1",
-				name: "Q2",
-				header: t('about.our_roadmap.q2_2021.title'),
-				items: [
-					{ text: t('about.our_roadmap.q2_2021.line1'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line2'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line3'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line4'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line5'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line6'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line7'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line8'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line9'), done: "complete", },
-					{ text: t('about.our_roadmap.q2_2021.line10'), done: "complete", },
-				],
-			},
-			{
-				id: "2",
-				name: "Q3",
-				header: t('about.our_roadmap.q3_2021.title'),
-				items: [
-					{ text: t('about.our_roadmap.q3_2021.line1'), done: "wip", },
-					{ text: t('about.our_roadmap.q3_2021.line2'), done: "wip", },
-					{ text: t('about.our_roadmap.q3_2021.line3'), done: "wip", },
-					{ text: t('about.our_roadmap.q3_2021.line4'), done: "wip", },
-				],
-			},
-			{
-				id: "3",
-				name: "Q4",
-				header: t('about.our_roadmap.q4_2021.title'),
-				items: [
-					{ text: t('about.our_roadmap.q4_2021.line1'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line2'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line3'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line4'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line5'), done: "wip", },
-					{ text: t('about.our_roadmap.q4_2021.line6'), done: "wip", },
-				],
-			},
-			{
-				id: "4",
-				name: "Q1",
-				header: t('about.our_roadmap.q1_2022.title'),
-				items: [
-					{ text: t('about.our_roadmap.q1_2022.line1'), done: "wip", },
-					{ text: t('about.our_roadmap.q1_2022.line2'), done: "wip", },
-				],
-			},
-		]
-
 		return <div className="about-container">
-			<div className="d-flex flex-row container">
+			<div className="d-flex flex-row container" style={{ padding: "0px" }}>
 				<div>
 					<section id="mission">
 						<div className="container">
@@ -105,30 +44,24 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 										<li>{t('about.raptor_finance.our_plan.line4')}</li>
 										<li>{t('about.raptor_finance.our_plan.line5')}</li>
 									</ul>
-									<Fade bottom>
-										<h1><strong>{t('about.products_overview.title')}</strong></h1>
-									</Fade>
-									<Fade bottom>
-										<h2>{t('about.products_overview.token.title')}</h2>
-										<p>{t('about.products_overview.token.paragraph1')}</p>
-										<p>{t('about.products_overview.token.paragraph2')}</p>
-									</Fade>
-									<Fade bottom>
-										<h2>{t('about.products_overview.swap.title')}</h2>
-										<p>{t('about.products_overview.swap.paragraph1')}</p>
-										<p>{t('about.products_overview.swap.paragraph2')}</p>
-									</Fade>
-									<Fade bottom>
-										<h2>{t('about.products_overview.staking.title')}</h2>
-										<p>{t('about.products_overview.staking.paragraph1')}</p>
-										<p>{t('about.products_overview.staking.paragraph2')}</p>
-									</Fade>
-									<Fade bottom>
-										<h2>{t('about.products_overview.lottery.title')}</h2>
-										<p>{t('about.products_overview.lottery.paragraph1')}</p>
-										<p>{t('about.products_overview.lottery.paragraph2')}</p>
-										<p>{t('about.products_overview.lottery.paragraph3')}</p>
-									</Fade>
+									<div id="products-overview">
+										<Fade bottom>
+											<h1><strong>{t('about.products_overview.title')}</strong></h1>
+											<h2>{t('about.products_overview.token.title')}</h2>
+											<p>{t('about.products_overview.token.paragraph1')}</p>
+											<p>{t('about.products_overview.token.paragraph2')}</p>
+											<h2>{t('about.products_overview.swap.title')}</h2>
+											<p>{t('about.products_overview.swap.paragraph1')}</p>
+											<p>{t('about.products_overview.swap.paragraph2')}</p>
+											<h2>{t('about.products_overview.staking.title')}</h2>
+											<p>{t('about.products_overview.staking.paragraph1')}</p>
+											<p>{t('about.products_overview.staking.paragraph2')}</p>
+											<h2>{t('about.products_overview.lottery.title')}</h2>
+											<p>{t('about.products_overview.lottery.paragraph1')}</p>
+											<p>{t('about.products_overview.lottery.paragraph2')}</p>
+											<p>{t('about.products_overview.lottery.paragraph3')}</p>
+										</Fade>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -141,9 +74,9 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 								</div>
 								<div className="row">
 									<div className="col-md-6 d-flex flex-column item">
-										<img className="photo" src="images/team/ismail.png" />
-										<a href="https://www.linkedin.com/in/ismail-van-essen-b6936628/" target="_blank">
-											<h3 className="name">{t('about.team.founder.name')}</h3>
+										<img className="photo" src="images/team/ismail.png" alt="raptor-team-founder" />
+										<a href="https://www.linkedin.com/in/ismail-van-essen-b6936628/" rel="noreferrer" target="_blank">
+											<h2 className="name">{t('about.team.founder.name')}</h2>
 										</a>
 										<p className="title">{t('about.team.founder.title')}</p>
 										<p className="description">{t('about.team.founder.desc1')}</p>
@@ -153,9 +86,9 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 										<p className="description">{t('about.team.founder.desc5')}<br /><br /></p>
 									</div>
 									<div className="col-md-6 d-flex flex-column item">
-										<img className="photo" src="images/team/jonathan.png" />
-										<a href="http://linkedin.com/in/jonathan-g-51bb35109" target="_blank">
-											<h3 className="name">{t('about.team.vp_marketing.name')}</h3>
+										<img className="photo" src="images/team/jonathan.png" alt="raptor-team-vp-marketing" />
+										<a href="http://linkedin.com/in/jonathan-g-51bb35109" rel="noreferrer" target="_blank">
+											<h2 className="name">{t('about.team.vp_marketing.name')}</h2>
 										</a>
 										<p className="title">{t('about.team.vp_marketing.title')}</p>
 										<p className="description">{t('about.team.vp_marketing.desc1')}</p>
@@ -169,9 +102,9 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 							<Fade bottom>
 								<div className="row">
 									<div className="col-md-12 d-flex flex-column item">
-										<img className="photo" src="images/team/ilija.png" />
-										<a href="https://www.linkedin.com/in/ilija-icevic-246136195/" target="_blank">
-											<h3 className="name">{t('about.team.vp_security.name')}</h3>
+										<img className="photo" src="images/team/ilija.png" alt="raptor-team-vp-security" />
+										<a href="https://www.linkedin.com/in/ilija-icevic-246136195/" rel="noreferrer" target="_blank">
+											<h2 className="name">{t('about.team.vp_security.name')}</h2>
 										</a>
 										<p className="title">{t('about.team.vp_security.title')}</p>
 									</div>
@@ -179,23 +112,23 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 							</Fade>
 							<Fade left>
 								<div className="row">
-									<div className="col-md-4 d-flex flex-column item"><img className="photo" src="images/team/rinor.png" />
-										<a href="https://www.linkedin.com/in/rinor-sherifi-b568bb20b/" target="_blank">
-											<h3 className="name">{t('about.team.social_media_manager.name')}</h3>
+									<div className="col-md-4 d-flex flex-column item"><img className="photo" src="images/team/rinor.png" alt="raptor-team-social-media-manager" />
+										<a href="https://www.linkedin.com/in/rinor-sherifi-b568bb20b/" rel="noreferrer" target="_blank">
+											<h2 className="name">{t('about.team.social_media_manager.name')}</h2>
 										</a>
 										<p className="title">{t('about.team.social_media_manager.title')}</p>
 									</div>
 									<div className="col-md-4 d-flex flex-column item">
-										<img className="photo" src="images/team/kyle.png" />
-										<a href="https://www.linkedin.com/in/kyle-marcos-a52781211/" target="_blank">
-											<h3 className="name">{t('about.team.content_manager.name')}</h3>
+										<img className="photo" src="images/team/kyle.png" alt="raptor-team-content-manager" />
+										<a href="https://www.linkedin.com/in/kyle-marcos-a52781211/" rel="noreferrer" target="_blank">
+											<h2 className="name">{t('about.team.content_manager.name')}</h2>
 										</a>
 										<p className="title">{t('about.team.content_manager.title')}</p>
 									</div>
 									<div className="col-md-4 d-flex flex-column item">
-										<img className="photo" src="images/team/romain.png" />
-										<a href="https://www.linkedin.com/in/romain-lambert-7a6a657a" target="_blank">
-											<h3 className="name">{t('about.team.graphics_designer.name')}</h3>
+										<img className="photo" src="images/team/romain.png" alt="raptor-team-graphics-designer" />
+										<a href="https://www.linkedin.com/in/romain-lambert-7a6a657a" rel="noreferrer" target="_blank">
+											<h2 className="name">{t('about.team.graphics_designer.name')}</h2>
 										</a>
 										<p className="title">{t('about.team.graphics_designer.title')}</p>
 									</div>
@@ -203,16 +136,12 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 							</Fade>
 							<Fade right>
 								<div className="row">
-									<div className="col-md-4 d-flex flex-column item"><img className="photo blank" src="images/team/blank.png" />
-										<h3 className="name">{t('about.team.graphics_team_manager.name')}</h3>
-										<p className="title">{t('about.team.graphics_team_manager.title')}</p>
-									</div>
-									<div className="col-md-4 d-flex flex-column item"><img className="photo blank" src="images/team/blank.png" />
-										<h3 className="name">{t('about.team.software_developer1.name')}</h3>
+									<div className="col-md-6 d-flex flex-column item"><img className="photo blank" src="images/team/blank.png" alt="raptor-team-blank" />
+										<h2 className="name">{t('about.team.software_developer1.name')}</h2>
 										<p className="title">{t('about.team.software_developer1.title')}</p>
 									</div>
-									<div className="col-md-4 d-flex flex-column item"><img className="photo blank" src="images/team/blank.png" />
-										<h3 className="name">{t('about.team.software_developer2.name')}</h3>
+									<div className="col-md-6 d-flex flex-column item"><img className="photo blank" src="images/team/blank.png" alt="raptor-team-blank" />
+										<h2 className="name">{t('about.team.software_developer2.name')}</h2>
 										<p className="title">{t('about.team.software_developer2.title')}</p>
 									</div>
 								</div>
@@ -223,10 +152,11 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 				<Slide right>
 					<div className="d-none d-lg-flex sticky-top col-3" id="sidebar">
 						<PulseDiv className="align-self-start gradient-card primary">
-							<div className="background"><img src="images/logo-rp-u.svg" /></div>
-							<h5><strong>{t('about.card_right.title')}</strong></h5>
+							<div className="background"><img src="images/logo-rp-u.svg" alt="raptor-logo-svg" /></div>
+							<h1><strong>{t('about.card_right.title')}</strong></h1>
 							<p>{t('about.card_right.desc')}</p>
 							<a className="link-dark" href="#mission">{t('about.card_right.mission')}</a>
+							<a className="link-dark" href="#products-overview">{t('about.card_right.products')}</a>
 							<a className="link-dark" href="#team">{t('about.card_right.team')}</a>
 						</PulseDiv>
 					</div>
@@ -236,4 +166,4 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 	}
 }
 
-export default withTranslation()(aboutComponent)
+export default withTranslation()(aboutComponent);

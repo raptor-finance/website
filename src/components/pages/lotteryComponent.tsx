@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as numeral from 'numeral';
 
-import { BaseComponent, ShellErrorHandler } from "../shellInterfaces";
-import { Wallet } from "../wallet";
-import { RaptorLottery } from "../contracts/lottery";
-import { fadeInLeft, fadeInRight, fadeInUp } from "react-animations";
-import styled, { keyframes } from "styled-components";
-import AnimatedNumber from "animated-number-react";
+import { BaseComponent, ShellErrorHandler } from '../shellInterfaces';
+import { Wallet } from '../wallet';
+import { RaptorLottery } from '../contracts/lottery';
+import { fadeInLeft, fadeInRight, fadeInUp } from 'react-animations';
+import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
+import styled, { keyframes } from 'styled-components';
+import AnimatedNumber from 'animated-number-react';
 
 import './lotteryComponent.css';
-import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
 
 export type LotteryProps = {}
 export type LotteryState = {
@@ -31,11 +31,11 @@ export type LotteryState = {
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
 const FadeInLeftDiv = styled.div`
-  animation: ease-out 0.6s ${FadeInLeftAnimation};
+  animation: ease-out 0.8s ${FadeInLeftAnimation};
 `;
 const FadeInRightAnimation = keyframes`${fadeInRight}`;
 const FadeInRightDiv = styled.div`
-  animation: ease-out 0.6s ${FadeInRightAnimation};
+  animation: ease-out 0.8s ${FadeInRightAnimation};
 `;
 const FadeInUpAnimation = keyframes`${fadeInUp}`;
 const FadeInUpDiv = styled.div`
@@ -54,6 +54,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 		// todo show message nicer
 		alert('You have successfully purchased a ticket. Your hash code is: ' + hash);
 	}
+
 	handleError(error) {
 		ShellErrorHandler.handle(error);
 	}
@@ -100,6 +101,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 		// 	this.handleError(e);
 		// }
 	}
+
 	componentWillUnmount() {
 		this.updateState({ lottery: null, looping: false });
 	}
@@ -190,7 +192,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 		return <div className="lottery-container">
 			<div className="container">
 				<div className="row text-white lottery-header">
-					<div className="col-md-12"><img src="images/lottery.svg" />
+					<div className="col-md-12"><img src="images/lottery.svg" alt="raptor-lottery-logo" />
 						{state.address ?
 							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
 								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
@@ -212,10 +214,10 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 				<div className="row lottery-body">
 					<FadeInLeftDiv className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
-							<h3>{t('lottery.your_info.title')}</h3>
-							<h5>{t('lottery.your_info.wallet_address')}</h5>
-							<p>{state.address || t('lottery.your_info.connect_wallet')}</p>
-							<h5>{t('lottery.your_info.wallet_balance')}</h5>
+							<h1>{t('lottery.your_info.title')}</h1>
+							<h2>{t('lottery.your_info.wallet_address')}</h2>
+							<p className="lottery-info">{state.address || t('lottery.your_info.connect_wallet')}</p>
+							<h2>{t('lottery.your_info.wallet_balance')}</h2>
 							<AnimatedNumber
 								value={numeral(state.balance || 0).format('0.00')}
 								duration="1000"
@@ -224,7 +226,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							>
 								0 Raptor
 							</AnimatedNumber>
-							<h5>{t('lottery.your_info.purchased')}</h5>
+							<h2>{t('lottery.your_info.purchased')}</h2>
 							<AnimatedNumber
 								value={numeral(state.tickets || 0).format('0.00')}
 								duration="1000"
@@ -233,7 +235,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							>
 								0 tickets
 								</AnimatedNumber>
-							<h5>{t('lottery.your_info.price_per_ticket')}</h5>
+							<h2>{t('lottery.your_info.price_per_ticket')}</h2>
 							<AnimatedNumber
 								value={numeral(state.price || 0).format('0.00')}
 								duration="1000"
@@ -246,8 +248,8 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 					</FadeInLeftDiv>
 					<FadeInRightDiv className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card light">
-							<h3>{t('lottery.status.title')}</h3>
-							<h5>{t('lottery.status.current_number')}</h5>
+							<h1>{t('lottery.status.title')}</h1>
+							<h2>{t('lottery.status.current_number')}</h2>
 							<AnimatedNumber
 								value={numeral(state.drawNumber || 0).format('0.00')}
 								duration="1000"
@@ -256,9 +258,9 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							>
 								{numeral(state.drawNumber).format('0,0') || t('lottery.status.nothing')}
 							</AnimatedNumber>
-							<h5>{t('lottery.status.winner')}</h5>
-							<p>{state.lastWinner || t('lottery.status.nobody')}</p>
-							<h5>{t('lottery.status.current_jackpot')}</h5>
+							<h2>{t('lottery.status.winner')}</h2>
+							<p className="lottery-info">{state.lastWinner || t('lottery.status.nobody')}</p>
+							<h2>{t('lottery.status.current_jackpot')}</h2>
 							<AnimatedNumber
 								value={numeral(state.jackpot || 0).format('0.00')}
 								duration="1000"
@@ -267,7 +269,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							>
 								{numeral(state.jackpot || 0).format('0,0.00')} Raptor Tokens
 							</AnimatedNumber>
-							<h5>{t('lottery.status.total_tickets')}</h5>
+							<h2>{t('lottery.status.total_tickets')}</h2>
 							<AnimatedNumber
 								value={numeral(state.totalTickets || 0).format('0.00')}
 								duration="1000"
@@ -291,4 +293,4 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 	}
 }
 
-export default withTranslation()(LotteryComponent)
+export default withTranslation()(LotteryComponent);

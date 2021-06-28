@@ -1,17 +1,17 @@
 import * as React from 'react';
 import * as numeral from 'numeral';
 
-import { BaseComponent, ShellErrorHandler } from "../shellInterfaces";
-import { Wallet } from "../wallet";
+import { BaseComponent, ShellErrorHandler } from '../shellInterfaces';
+import { Wallet } from '../wallet';
+import { Raptor } from '../contracts/raptor';
+import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
+import { fadeInLeft, fadeInRight, pulse } from 'react-animations';
+import styled, { keyframes } from 'styled-components';
+import AnimatedNumber from 'animated-number-react';
 
 import './stakingComponent.css';
-import { Raptor } from "../contracts/raptor";
-import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
-import { fadeInLeft, fadeInRight, pulse } from "react-animations";
-import styled, { keyframes } from "styled-components";
-import AnimatedNumber from "animated-number-react";
 
-export type StakingProps = {}
+export type StakingProps = {};
 export type StakingState = {
 	raptor?: Raptor,
 	wallet?: Wallet,
@@ -29,15 +29,15 @@ export type StakingState = {
 	ctPercentageUnstake?: number,
 	ctValueUnstake?: number,
 	pending?: boolean
-}
+};
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
 const FadeInLeftDiv = styled.div`
-  animation: ease-out 0.6s ${FadeInLeftAnimation};
+  animation: ease-out 0.8s ${FadeInLeftAnimation};
 `;
 const FadeInRightAnimation = keyframes`${fadeInRight}`;
 const FadeInRightDiv = styled.div`
-  animation: ease-out 0.6s ${FadeInRightAnimation};
+  animation: ease-out 0.8s ${FadeInRightAnimation};
 `;
 const PulseAnimation = keyframes`${pulse}`;
 const PulseDiv = styled.div`
@@ -261,6 +261,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 			ctValueStake: v,
 		});
 	}
+
 	setStakeValue(value) {
 		const r = this.readState().raptor;
 		if (!r) return;
@@ -272,6 +273,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 			ctValueStake: v,
 		});
 	}
+
 	setUnstakePercentage(percent) {
 		const r = this.readState().raptor;
 		if (!r) return;
@@ -284,6 +286,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 			ctValueUnstake: v,
 		});
 	}
+
 	setUnstakeValue(value) {
 		const r = this.readState().raptor;
 		if (!r) return;
@@ -304,17 +307,17 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 			<div className="container">
 				<div className="row text-white staking-header">
 					<div className="col-md-12">
-						<img src="images/staking.svg" />
+						<img src="images/staking.svg" alt="raptor-staking-logo" />
 						{state.address ?
-								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
-									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									{t('staking.disconnect_wallet')}
-								</a>)
+							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
+								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+								{t('staking.disconnect_wallet')}
+							</a>)
 							:
-								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}>
-									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									{t('staking.connect_wallet')}
-								</a>)
+							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}>
+								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+								{t('staking.connect_wallet')}
+							</a>)
 						}
 
 						<p>{t('staking.paragraph1')}</p>
@@ -327,10 +330,10 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 				<div className="row staking-body">
 					<FadeInLeftDiv className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
-							<h3>{t('staking.your_info.title')}</h3>
-							<h5>{t('staking.your_info.wallet_address')}</h5>
+							<h1>{t('staking.your_info.title')}</h1>
+							<h2>{t('staking.your_info.wallet_address')}</h2>
 							<p>{state.address || t('staking.your_info.connect_wallet')}</p>
-							<h5>{t('staking.your_info.tradeable')}</h5>
+							<h2>{t('staking.your_info.tradeable')}</h2>
 							<AnimatedNumber
 								value={numeral(state.balance || 0).format('0.00')}
 								duration="1000"
@@ -339,7 +342,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 							>
 								0 Raptor
 							</AnimatedNumber>
-							<h5>{t('staking.your_info.staked')}</h5>
+							<h2>{t('staking.your_info.staked')}</h2>
 							<AnimatedNumber
 								value={numeral(state.stakedBalance || 0).format('0.00')}
 								duration="1000"
@@ -348,7 +351,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 							>
 								0 Raptor
 							</AnimatedNumber>
-							<h5>{t('staking.your_info.pending_rewards')}</h5>
+							<h2>{t('staking.your_info.pending_rewards')}</h2>
 							<AnimatedNumber
 								value={numeral(state.pendingRewards || 0).format('0.00')}
 								duration="1000"
@@ -421,4 +424,4 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 	}
 }
 
-export default withTranslation()(StakingComponent)
+export default withTranslation()(StakingComponent);

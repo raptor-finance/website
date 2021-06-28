@@ -1,7 +1,7 @@
-import Web3 from "web3";
-import Web3Modal, { providers } from "web3modal";
-import WalletConnectProvider from "@walletconnect/web3-provider";
-import { Contract } from "web3-eth-contract";
+import Web3 from 'web3';
+import Web3Modal, { providers } from 'web3modal';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import { Contract } from 'web3-eth-contract';
 
 export class Wallet {
 	private _address: string = null;
@@ -38,8 +38,6 @@ export class Wallet {
 
 		return providerOptions;
 	};
-
-
 
 	public async connect(): Promise<boolean> {
 		const wnd: any = window;

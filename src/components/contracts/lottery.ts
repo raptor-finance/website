@@ -1,10 +1,10 @@
-import {Wallet} from "../wallet";
-import {Contract} from "web3-eth-contract";
-import {Raptor} from "./raptor";
+import {Wallet} from '../wallet';
+import {Contract} from 'web3-eth-contract';
+import {Raptor} from './raptor';
 
 export class RaptorLottery {
 
-	private static readonly address: string = "0x1309DA14640D58e64fe36591d1034cf464EFF104";
+	private static readonly address: string = "0x4aaD1aD8628003487623A61305dE7Fc4D6A887ff";
 
 	private readonly _ticketPrice = 10**9;
 
