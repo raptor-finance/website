@@ -92,7 +92,7 @@
 }
 
 
-#mainNav.show {
+#mainNav.collapse.show {
 	flex-direction: column;
 	height: calc(100% - 84px);
 	padding: 20px 30px 0px 30px;
@@ -114,6 +114,10 @@
 }
 
 @media (max-width: 990px) {
+	.navigation-wrapper #mainNav {
+		display: none;
+	}
+	
 	#mainNav.show {
 		padding: 20px 30px;
 		height: calc(100% - 84px);
@@ -158,13 +162,18 @@
 	.navigation-wrapper nav {
 		position: fixed;
 		background-color: #282B3A;
-		height: 0px;
+		height: 0px !important;
 		z-index: 11;
 		width: 100%;
 		max-height: inherit;
 		overflow-y: inherit;
 		overflow: hidden;
 	}
+
+	#mainNav.collapse.show {
+		height: calc(100% - 84px) !important;
+	}
+
 	.navigation-wrapper {
 		display: block;
 		height: auto;
