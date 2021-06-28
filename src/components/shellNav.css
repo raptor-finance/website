@@ -15,7 +15,7 @@
 }
 
 .navigation-wrapper #mainNav {
-	height: 92% !important;
+	height: calc(100% - 84px);
 	transition: all 0.25s;
 }
 
@@ -74,7 +74,7 @@
 }
 
 .btn-social {
-	font-size: 27px;
+	font-size: 26px;
 	color: white;
 	margin: 4px;
 }
@@ -94,7 +94,7 @@
 
 #mainNav.show {
 	flex-direction: column;
-	max-height: 100%;
+	height: calc(100% - 84px);
 	padding: 20px 30px 0px 30px;
 	display: flex !important;
 }
@@ -115,10 +115,9 @@
 
 @media (max-width: 990px) {
 	#mainNav.show {
-		max-height: 100%;
 		padding: 20px 30px;
-		height: 90.28%;
-		overflow-y: auto;
+		height: calc(100% - 84px);
+		overflow-y: scroll;
 	}
 	#mainNav.collapsing {
 		padding: 20px 30px;
@@ -202,10 +201,5 @@
 	}
 	.lang-select {
 		margin-top: 16px;
-	}
-
-	#mainNav.show {
-		height: calc(100% - 80px);
-		overflow-y: scroll;
 	}
 }
