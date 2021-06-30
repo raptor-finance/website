@@ -198,11 +198,11 @@
                 "line1": "Launch of the Raptor Finance smart contract",
                 "line2": "Team structure set up",
                 "line3": "Team Slack + Github set up",
-                "line4": "CMC & CG listings",
+                "line4": "CoinMarketCap & CoinGecko listings",
                 "line5": "Server migration (to green server hosting company)",
                 "line6": "New website",
-                "line7": "IndoEx listing",
-                "line8": "WhiteBit listing",
+                "line7": "IndoEx Exchange listing",
+                "line8": "WhiteBit Exchange listing",
                 "line9": "Listings on various tracking platforms",
                 "line10": "Global marketing expansion phase 1"
             },
@@ -211,7 +211,7 @@
                 "line1": "RaptorSwap",
                 "line2": "RaptorFarm",
                 "line3": "Smart contract security audit",
-                "line4": "Global marketing Expansion phase 2"                
+                "line4": "Global marketing expansion phase 2"                
             },
             "q4_2021": {
                 "title": "Q4 2021",
