@@ -53,8 +53,8 @@ class FaqComponent extends BaseComponent<FaqProps & WithTranslation, FaqState> {
           </Fade>
           <Fade bottom>
             <h1><span>{t('faq.faq6.title')}<br /></span></h1>
-            <p><Trans i18nKey='faq.faq6.desc'>Yes, the identity of the team members are revealed on <a href="about">our &quot;About&quot; page</a>. Our
-                    founder is called Ismail van Essen and you can find him <a href="https://www.linkedin.com/in/ismail-van-essen-b6936628/">on LinkedIn.</a></Trans></p>
+            <p><Trans i18nKey='faq.faq6.desc'>Yes, the identity of the team members are revealed on <a href="about">our &quot;About&quot; page</a>.
+            Our founder is called Ismail van Essen and you can find him <a href="https://www.linkedin.com/in/ismail-van-essen-b6936628/">on LinkedIn.</a></Trans></p>
           </Fade>
           <Fade bottom>
             <h1><span>{t('faq.faq7.title')}<br /></span></h1>
