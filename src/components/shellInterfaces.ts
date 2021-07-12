@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { NotificationManager } from 'react-notifications';
 
 export abstract class BaseComponent<TProps, TState> extends Component<TProps, TState> {
 
@@ -51,7 +52,6 @@ export class ShellErrorHandler {
 				message = "An unknown error occurred: " + error;
 			}
 		}
-
-		alert(message);
+		NotificationManager.error(message);
 	}
 }
