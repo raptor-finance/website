@@ -20,6 +20,7 @@ export type HomeState = {
 };
 
 const RoadmapDiv = React.lazy(() => import('../roadmap'));
+const RaptorAppDiv = React.lazy(() => import('../raptorApp'));
 const RaptorForestDiv = React.lazy(() => import('../raptorForest'));
 const TokenStatisticsDiv = React.lazy(() => import('../tokenStatistics'));
 
@@ -137,8 +138,13 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						<RoadmapDiv />
 					</Suspense>
 				</section>
+				<section className="raptor-app">
+					<Suspense fallback={<PropagateLoader color={'#ffffff'} />}>
+						<RaptorAppDiv />
+					</Suspense>
+				</section>
 			</div>
-		</div >
+			</div >
 	}
 }
 
