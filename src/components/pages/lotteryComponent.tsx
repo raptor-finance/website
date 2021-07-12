@@ -54,7 +54,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 
 	handlePurchase(hash) {
 		// todo show message nicer
-		alert('You have successfully purchased a ticket. Your hash code is: ' + hash);
+		NotificationManager.success('You have successfully purchased a ticket. Your hash code is: ' + hash);
 	}
 
 	handleError(error) {
