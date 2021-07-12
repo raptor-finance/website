@@ -8,6 +8,8 @@ import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18nex
 import { fadeInLeft, fadeInRight, pulse } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 import AnimatedNumber from 'animated-number-react';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 import './stakingComponent.css';
 
@@ -86,7 +88,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 				await state.raptor.stake(state.ctValueStake);
 			}
 			else {
-				alert("Can't stake a negative amount.");
+				NotificationManager.warning("Can't stake a negative amount.");
 				return;
 			}
 
@@ -107,7 +109,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 				await state.raptor.unstakeAndClaim(state.ctValueUnstake);
 			}
 			else {
-				alert("Can't unstake a negative amount.");
+				NotificationManager.warning("Can't unstake a negative amount.");
 				return;
 			}
 
@@ -420,6 +422,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 					</FadeInRightDiv>
 				</div>
 			</div>
+			<NotificationContainer/>
 		</div>
 	}
 }

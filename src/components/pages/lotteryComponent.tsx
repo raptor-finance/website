@@ -8,6 +8,8 @@ import { fadeInLeft, fadeInRight, fadeInUp } from 'react-animations';
 import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
 import styled, { keyframes } from 'styled-components';
 import AnimatedNumber from 'animated-number-react';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 import './lotteryComponent.css';
 
@@ -52,7 +54,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 
 	handlePurchase(hash) {
 		// todo show message nicer
-		alert('You have successfully purchased a ticket. Your hash code is: ' + hash);
+		NotificationManager.success('You have successfully purchased a ticket. Your hash code is: ' + hash);
 	}
 
 	handleError(error) {
@@ -66,7 +68,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 			const lottery = this.readState().lottery;
 
 			if (!lottery) {
-				throw 'Please connect your wallet first!';
+				throw "Please connect your wallet first!";
 			}
 
 			const hash = await lottery.buyTicket();
@@ -289,6 +291,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 					</FadeInUpDiv>
 				</div>
 			</div>
+			<NotificationContainer/>
 		</div>
 	}
 }
