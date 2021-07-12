@@ -60,6 +60,9 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 											<p>{t('about.products_overview.lottery.paragraph1')}</p>
 											<p>{t('about.products_overview.lottery.paragraph2')}</p>
 											<p>{t('about.products_overview.lottery.paragraph3')}</p>
+											<h2>{t('about.products_overview.app.title')}</h2>
+											<p>{t('about.products_overview.app.paragraph1')}</p>
+											<p>{t('about.products_overview.app.paragraph2')}</p>
 										</Fade>
 									</div>
 								</div>

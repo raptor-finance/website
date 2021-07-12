@@ -70,6 +70,20 @@
 	margin-bottom: 50px;
 }
 
+.raptor-app {
+	padding: 2% 0 2% 0;
+	width: 100%;
+	background-color: #181A24;
+}
+
+.raptor-app h1 {
+	color: var(--white);
+}
+
+.raptor-app a {
+	margin-right: 16px;
+}
+
 @media (max-width: 990px) {
 	.intro {
 		padding: 30% 10% 0 10%;
@@ -102,5 +116,15 @@
 	.home-container .large-button-image>img {
 		height: 40px;
 		width: 80px;
+	}
+
+	.raptor-app {
+		padding: 8% 0 8% 0;
+	}
+
+	.raptor-app img {
+		margin-left: auto !important;
+		margin-right: auto !important;
+		margin-bottom: 16px;
 	}
 }

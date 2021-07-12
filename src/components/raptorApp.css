@@ -1,0 +1,39 @@
+.raptor-app-container {
+	display: flex;
+	justify-content: center;
+}
+
+.app-img {
+	margin: 0;
+	width: 264px;
+}
+
+.app-text {
+	margin-top: 6%;
+}
+
+.store-badge {
+	height: 48px;
+}
+
+.final-p {
+	margin-bottom: 56px;
+}
+
+@media (max-width: 990px) {
+	.raptor-app-container {
+		display: block;
+	}
+
+	.app-text {
+		padding: 0 10% 0 10%;
+	}
+
+	.app-img {
+		margin-bottom: 0 !important;
+	}
+
+  .final-p {
+		margin-bottom: 24px;
+	}
+}
