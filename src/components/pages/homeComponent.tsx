@@ -10,6 +10,14 @@ import { Fade, Slide } from 'react-reveal';
 import { PuffLoader, PropagateLoader } from 'react-spinners';
 import styled, { keyframes } from 'styled-components';
 import AnimatedNumber from 'animated-number-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMedium, faTelegram, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook';
+import { faInstagram } from '@fortawesome/free-brands-svg-icons/faInstagram';
+import { faReddit } from '@fortawesome/free-brands-svg-icons/faReddit';
+import { faTiktok } from '@fortawesome/free-brands-svg-icons/faTiktok';
+import { faYoutube } from '@fortawesome/free-brands-svg-icons/faYoutube';
+import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord';
 
 import './homeComponent.css';
 
@@ -133,6 +141,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						</Fade>
 					</Suspense>
 				</section>
+				
 				<section>
 					<Suspense fallback={<PropagateLoader color={'#ffffff'} />}>
 						<RoadmapDiv />
@@ -141,6 +150,41 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 				<section className="raptor-app">
 					<Suspense fallback={<PropagateLoader color={'#ffffff'} />}>
 						<RaptorAppDiv />
+					</Suspense>
+				</section>
+				<section className="social-icons">
+					<Suspense fallback={<PropagateLoader color={'#ffffff'} />}>
+						<Fade>
+							<div className="social-medias text-center text-lg-left">
+								<a href="https://twitter.com/raptor_token" rel="noreferrer" className="btn-social" target="_blank">
+									<FontAwesomeIcon icon={faTwitter} />
+								</a>
+								<a href="https://t.me/PhilosoRaptorToken" rel="noreferrer" className="btn-social" target="_blank">
+									<FontAwesomeIcon icon={faTelegram} />
+								</a>
+								<a href="https://www.facebook.com/raptr.finance" rel="noreferrer" className="btn-social" target="_blank">
+									<FontAwesomeIcon icon={faFacebook} />
+								</a>
+								<a href="https://www.instagram.com/raptor_token/" rel="noreferrer" className="btn-social" target="_blank">
+									<FontAwesomeIcon icon={faInstagram} />
+								</a>
+								<a href="https://www.reddit.com/r/RaptorToken/" rel="noreferrer" className="btn-social" target="_blank">
+									<FontAwesomeIcon icon={faReddit} />
+								</a>
+								<a href="https://www.tiktok.com/@raptor.finance" rel="noreferrer" className="btn-social" target="_blank">
+									<FontAwesomeIcon icon={faTiktok} />
+								</a>
+								<a href="https://www.youtube.com/channel/UCQ-yByM7ECDvB1CIr_5Pafg" rel="noreferrer" className="btn-social" target="_blank">
+									<FontAwesomeIcon icon={faYoutube} />
+								</a>
+								<a href="https://discord.gg/EJwR3pjd9A" rel="noreferrer" className="btn-social" target="_blank">
+									<FontAwesomeIcon icon={faDiscord} />
+								</a>
+								<a href="https://raptor-finance.medium.com/" rel="noreferrer" className="btn-social" target="_blank">
+									<FontAwesomeIcon icon={faMedium} />
+								</a>
+							</div>
+						</Fade>
 					</Suspense>
 				</section>
 			</div>

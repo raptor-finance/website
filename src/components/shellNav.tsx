@@ -4,13 +4,6 @@ import { NavLink } from 'react-router-dom';
 import { BaseComponent, IShellPage } from './shellInterfaces';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { faMedium, faTelegram, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook';
-import { faInstagram } from '@fortawesome/free-brands-svg-icons/faInstagram';
-import { faReddit } from '@fortawesome/free-brands-svg-icons/faReddit';
-import { faTiktok } from '@fortawesome/free-brands-svg-icons/faTiktok';
-import { faYoutube } from '@fortawesome/free-brands-svg-icons/faYoutube';
-import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
 import { supportedLanguages, languageCodeOnly } from '../i18n';
 import './shellNav.css';
@@ -75,7 +68,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 						}
 					</ul>
 					<div className="navigation-footer">
-						<div className="social-medias text-center text-lg-left">
+						{/* <div className="social-medias text-center text-lg-left">
 							<a href="https://twitter.com/raptor_token" rel="noreferrer" className="btn-social" target="_blank">
 								<FontAwesomeIcon icon={faTwitter} />
 							</a>
@@ -103,7 +96,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							<a href="https://raptor-finance.medium.com/" rel="noreferrer" className="btn-social" target="_blank">
 								<FontAwesomeIcon icon={faMedium} />
 							</a>
-						</div>
+						</div> */}
 						<div>
 
 							<a href="https://coinmarketcap.com/currencies/raptor-token" className="btn btn-primary btn-block" target="_blank">{t('nav.coinmarketcap')}</a>

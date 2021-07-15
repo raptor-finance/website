@@ -84,6 +84,13 @@
 	margin-right: 16px;
 }
 
+.social-icons {
+	padding: 1% 0 0 0;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
 @media (max-width: 990px) {
 	.intro {
 		padding: 30% 10% 0 10%;
