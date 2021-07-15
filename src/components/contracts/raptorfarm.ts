@@ -10,6 +10,7 @@ export class RaptorFarm {
 	private readonly _contract: Contract;
 	private readonly _raptor: Raptor;
 
+	private _lpbalance: number = 0;
 	private _stakedlp: number = 0;
 	private _rewards: number = 0;
 
@@ -30,54 +31,67 @@ export class RaptorFarm {
 	get raptor(): Raptor {
 		return this._raptor;
 	}
+	
+	get lpbalance(): number {
+		return this._lpbalance;
+	}
+	
+	get rewards(): number {
+		return this._rewards;
+	}
+	
+	get stakedlp(): number {
+		return this._stakedlp;
+	}
 
 	async refresh(): Promise<void> {
 		await this._raptor.refresh();
-
-		const dec = (1.0 / 10**9)
-
-		this._rewards = await this.contract.methods.pendingCake(0, this._wallet.currentAddress).call()
-		this._rewards = await this.contract.methods.pendingCake(0, this._wallet.currentAddress).call()
-
+		const dec = (1.0 / 10**9);
+		const _lpToken: Contract = wallet.connectToContract(await this._contract.methods.poolInfo(0).call()).lpToken;
+		
+		this._rewards = await this.contract.methods.pendingCake(0, this._wallet.currentAddress).call();
+		this._lpbalance = await _lpToken.methods.balanceOf(this._wallet.currentAddress).call();
+		this._stakedlp = (await this._contract.methods.userInfo(pid, this._wallet.currentAddress).call()).amount;
 	}
-	async deposit(pid: number, amount: number): Promise<void> {
+	
+	async deposit(amount: number): Promise<void> {
 		await this._raptor.refresh()
-
+		const _lpToken: Contract = wallet.connectToContract(await this._contract.methods.poolInfo(0).call()).lpToken;
+		
 		const rawAmount: number = amount * 10 ** 9;
 
 		if (this._raptor.balance * 10 ** 9 >= rawAmount) {
-			const allowance = +(await this._raptor.contract.methods.allowance(this._wallet.currentAddress, RaptorLottery.address).call());
+			const allowance = (await _lptoken.methods.allowance(this._wallet.currentAddress, RaptorLottery.address).call());
 
 			if (allowance < rawAmount) {
 				// we need to give allowance to lottery contract first
 				const allowance = `${BigInt(2**256) - BigInt(1)}`;
-				await this._raptor.contract.methods.approve(RaptorLottery.address, allowance).send({'from': this._wallet.currentAddress});
+				await _lptoken.methods.approve(RaptorLottery.address, allowance).send({'from': this._wallet.currentAddress});
 			}
-			await this._contract.methods.deposit(pid, rawAmount).send({'from': this._wallet.currentAddress});
+			await this._contract.methods.deposit(0, rawAmount).send({'from': this._wallet.currentAddress}).send({'from': this._wallet.currentAddress});
 		}
 		else {
 			throw 'Your LP balance is not sufficient';
 		}
 	}
 	
-	async withdraw(pid: number, amount: number): Promise<void> {
+	async withdraw(amount: number): Promise<void> {
 		await this._raptor.refresh()
-		const rawAmount: number = amount * 10 ** 9;
-		const lpToken: Contract = wallet.connectToContract(await this._contract.methods.poolInfo(0).call()).lpToken;
-		
+		const rawAmount: number = amount * 10 ** 9;		
 		
 		if ((await this._contract.methods.userInfo(pid, this._wallet.currentAddress).call()).amount > rawAmount) {
 		
 			const rawAmount: number = amount * 10 ** 9;
-			await this._contract.methods.withdraw(pid, rawAmount).send({'from': this._wallet.currentAddress});
+			await this._contract.methods.withdraw(0, rawAmount).send({'from': this._wallet.currentAddress});
 		}
 		else {
 			throw 'Your staked LP balance is not sufficient to buy a ticket';
 		}
 	}
 	
-	async claim(pid: number): Promise<void> {
+	async claim(): Promise<void> {
 		await this._raptor.refresh();
-		await this._contract.methods.deposit(pid, 0).send({'from': this._wallet.currentAddress});
+		await this._contract.methods.deposit(0, 0).send({'from': this._wallet.currentAddress});
 	}
+	
 }
