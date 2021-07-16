@@ -36,6 +36,19 @@
 	margin-top: 8px;
 }
 
+.lp-input {
+	margin-top: 12px;
+	background-color: #54d47fcb;
+	border-radius: 8px;
+	border: none;
+	padding: 4px;
+	padding-left: 12px;
+}
+
+.ls-input:focus {
+	outline: none;
+}
+
 .farm-body .apr {
 	margin-bottom: 16px;
 }
@@ -46,7 +59,6 @@
 
 .wd-buttons {
 	margin-top: 16px;
-	margin-bottom: 16px;
 }
 
 .farm-body .gradient-card {
