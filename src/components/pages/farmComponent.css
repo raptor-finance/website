@@ -3,8 +3,17 @@
 	padding: 6% 10% 0% 10%;
 }
 
+.farm-title {
+	margin-bottom: 24px;
+}
+
+.farm-title span {
+	font-size: 2.6rem;
+	font-weight: bold;
+}
+
 @media (max-width: 900px) {
-	.staking-container {
+	.farm-container {
 		padding: 30% 10% 0 10%;
-	}
+  }
 }

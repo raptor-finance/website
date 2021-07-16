@@ -309,18 +309,21 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 			<div className="container">
 				<div className="row text-white staking-header">
 					<div className="col-md-12">
-						<img src="images/staking.svg" alt="raptor-staking-logo" />
-						{state.address ?
-							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
-								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-								{t('staking.disconnect_wallet')}
-							</a>)
-							:
-							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}>
-								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-								{t('staking.connect_wallet')}
-							</a>)
-						}
+						<div className="staking-title">
+							<span>Raptor</span>
+							<span style={{color: "#31c461"}}>Staking</span>
+							{state.address ?
+								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
+									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+									{t('staking.disconnect_wallet')}
+								</a>)
+								:
+								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}>
+									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+									{t('staking.connect_wallet')}
+								</a>)
+							}
+						</div>
 
 						<p>{t('staking.paragraph1')}</p>
 						<p><Trans i18nKey='staking.paragraph2'>In order to stake Raptor tokens, you need to connect your browser wallet (such as <a
@@ -422,7 +425,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 					</FadeInRightDiv>
 				</div>
 			</div>
-			<NotificationContainer/>
+			<NotificationContainer />
 		</div>
 	}
 }
