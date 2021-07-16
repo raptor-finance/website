@@ -46,21 +46,21 @@ export class RaptorFarm {
 
 	async refresh(): Promise<void> {
 		await this._raptor.refresh();
-		const dec = (1.0 / 10**9);
+		const dec = 10**18;
 		const _lpToken: Contract = wallet.connectToContract(await this._contract.methods.poolInfo(0).call()).lpToken;
 		
-		this._rewards = await this.contract.methods.pendingCake(0, this._wallet.currentAddress).call();
-		this._lpbalance = await _lpToken.methods.balanceOf(this._wallet.currentAddress).call();
-		this._stakedlp = (await this._contract.methods.userInfo(pid, this._wallet.currentAddress).call()).amount;
+		this._rewards = (await this.contract.methods.pendingCake(0, this._wallet.currentAddress).call()) / 10**9;
+		this._lpbalance = (await _lpToken.methods.balanceOf(this._wallet.currentAddress).call()) / 10**18;
+		this._stakedlp = (await this._contract.methods.userInfo(pid, this._wallet.currentAddress).call()).amount / 10**18;
 	}
 	
 	async deposit(amount: number): Promise<void> {
 		await this._raptor.refresh()
 		const _lpToken: Contract = wallet.connectToContract(await this._contract.methods.poolInfo(0).call()).lpToken;
 		
-		const rawAmount: number = amount * 10 ** 9;
+		const rawAmount: number = amount * 10 ** 18;
 
-		if (this._raptor.balance * 10 ** 9 >= rawAmount) {
+		if (this._raptor.balance * 10 ** 18 >= rawAmount) {
 			const allowance = (await _lptoken.methods.allowance(this._wallet.currentAddress, RaptorLottery.address).call());
 
 			if (allowance < rawAmount) {
@@ -77,11 +77,11 @@ export class RaptorFarm {
 	
 	async withdraw(amount: number): Promise<void> {
 		await this._raptor.refresh()
-		const rawAmount: number = amount * 10 ** 9;		
+		const rawAmount: number = amount * 10 ** 18;		
 		
-		if ((await this._contract.methods.userInfo(pid, this._wallet.currentAddress).call()).amount > rawAmount) {
+		if ((await this._contract.methods.userInfo(pid, this._wallet.currentAddress).call()).amount >= rawAmount) {
 		
-			const rawAmount: number = amount * 10 ** 9;
+			const rawAmount: number = amount * 10 ** 18;
 			await this._contract.methods.withdraw(0, rawAmount).send({'from': this._wallet.currentAddress});
 		}
 		else {
