@@ -95,9 +95,9 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 		Available lp : {state.lpbalance}</br>
 		Staked LP : {state.stakedlp}</br>
 		RAPTOR balance : {state.balance}
-		<input type="number" value={state.ctValue || 0} />
+		<input type="number" value={state.ctValue || 0} /></br>
 		<button type="button" onClick={async () => this.depositLP()}>Deposit</button>
-		<button type="button" onClick={async () => this.withdrawLP()}>Withdraw</button>
+		<button type="button" onClick={async () => this.withdrawLP()}>Withdraw</button></br>
 		<button type="button" onClick={async () => this.claimRaptor()}>Claim raptor</button>
     </div>
   }
