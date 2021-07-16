@@ -19,9 +19,8 @@ export type FarmState = {
 		stakedlp?: number,
 		rewards?: number,
 		ctValue?: number,
-		pending?:boolean,
-	}
-};
+		pending?:boolean
+}
 
 class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState> {
 
