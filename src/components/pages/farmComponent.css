@@ -38,7 +38,7 @@
 
 .lp-input {
 	margin-top: 12px;
-	background-color: var(--primary-alt);
+	background-color: #54d47fcb;
 	border-radius: 8px;
 	border: none;
 	padding: 4px;
@@ -59,7 +59,6 @@
 
 .wd-buttons {
 	margin-top: 16px;
-	margin-bottom: 16px;
 }
 
 .farm-body .gradient-card {
