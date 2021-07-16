@@ -260,6 +260,9 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
             >
               {state.stakedlp || 0}
             </AnimatedNumber>
+            <div className="d-flex justify-content-end">
+              <input className="lp-input" type="number" onChange={(event) => this.stakingValueChanged(event)} value={state.ctValue || 0} />
+            </div>
             <div className="wd-buttons d-flex justify-content-end">
               <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp <= 0 || state.stakedlp == null} type="button" onClick={async () => this.withdrawLP()}>Withdraw LP</button>
               <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.lpbalance <= 0 || state.stakedlp == null} type="button" onClick={async () => this.depositLP()} style={{ marginLeft: "16px" }}>Deposit LP</button>
@@ -268,7 +271,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
             <AnimatedNumber
               value={numeral(state.rewards || 0).format('0.00')}
               duration="1000"
-              formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
+              formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor`}
             >
               {state.rewards || 0}
             </AnimatedNumber>
