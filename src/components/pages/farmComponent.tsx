@@ -113,14 +113,17 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
           stakedlp: farm.stakedlp,
           lpbalance: farm.lpbalance,
           rewards: farm.rewards,
+		  apr: farm.apr,
         });
 
         if (resetCt) {
           this.updateState({
-            ctPercentageStake: 0,
-            ctValueStake: 0,
-            ctPercentageUnstake: 0,
-            ctValueUnstake: 0
+            address: "",
+            balance: 0,
+            lpbalance: 0,
+            lpbalance: 0,
+            rewards: 0,
+			apr: 0,
           })
         }
 
@@ -243,7 +246,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
             </div>
             <div className="d-flex justify-content-between apr">
               <h2>APR: </h2>
-              <h2>{state.apr || "0%"}</h2>
+              <h2>{state.apr || "Loading"} %</h2>
             </div>
             <h3>Available RAPTOR-BNB LP</h3>
             <AnimatedNumber
@@ -262,7 +265,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
               {state.rewards || 0}
             </AnimatedNumber>
             <div className="d-flex justify-content-end">
-              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp == null} type="button" onClick={async () => this.claimRaptor()} style={{ marginTop: "16px", marginBottom: "16px" }}>Harvest Raptor</button>
+              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.address == null} type="button" onClick={async () => this.claimRaptor()} style={{ marginTop: "16px", marginBottom: "16px" }}>Harvest Raptor</button>
             </div>
             <h3>RAPTOR-BNB LP Staked</h3>
             <AnimatedNumber
@@ -277,7 +280,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
             </div>
             <div className="wd-buttons d-flex justify-content-end">
               <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp <= 0 || state.stakedlp == null} type="button" onClick={async () => this.withdrawLP()}>Withdraw LP</button>
-              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.lpbalance <= 0 || state.stakedlp == null} type="button" onClick={async () => this.depositLP()} style={{ marginLeft: "16px" }}>Deposit LP</button>
+              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.lpbalance <= 0 || state.lpbalance == null} type="button" onClick={async () => this.depositLP()} style={{ marginLeft: "16px" }}>Deposit LP</button>
             </div>
           </div>
         </Slide>
