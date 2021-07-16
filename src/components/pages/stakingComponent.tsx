@@ -373,10 +373,10 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 											</div>
 											<label className="form-label">{t('staking.stake.amount')}</label>
 											<input type="number" className="form-control form-control-lg" disabled={state.pending} onChange={this.handleInputStake} value={state.ctValueStake || 0} />
-											<PulseDiv className="button-row">
-												<button className="btn btn-primary btn-lg link-dark align-self-center stake-confirm" disabled={state.ctValueStake <= 0 || state.pending} type="button" onClick={async () => this.confirmStake()}>{t('staking.stake.title')}</button>
-												<button className="btn btn-complementary btn-lg link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>{t('staking.stake.claim_rewards')}</button>
-											</PulseDiv>
+											<div className="d-flex justify-content-center button-row">
+												<button className="btn btn-primary btn-md link-dark align-self-center stake-confirm" disabled={state.ctValueStake <= 0 || state.pending} type="button" onClick={async () => this.confirmStake()}>{t('staking.stake.title')}</button>
+												<button className="btn btn-complementary btn-md link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>{t('staking.stake.claim_rewards')}</button>
+											</div>
 										</form>
 									</div>
 									<div role="tabpanel" className="tab-pane" id="ctl-unstake">
@@ -395,10 +395,10 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 											</div>
 											<label className="form-label">{t('staking.unstake.amount')}</label>
 											<input type="number" className="form-control form-control-lg" disabled={state.pending} onChange={this.handleInputUnstake} value={state.ctValueUnstake || 0} />
-											<PulseDiv className="button-row">
-												<button className="btn btn-primary btn-lg link-dark align-self-center stake-confirm" disabled={state.ctValueUnstake <= 0 || state.pending} type="button" onClick={async () => this.confirmUnstake()}>{t('staking.unstake.title')}</button>
-												<button className="btn btn-complementary btn-lg link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>{t('staking.stake.claim_rewards')}</button>
-											</PulseDiv>
+											<div className="d-flex justify-content-center button-row">
+												<button className="btn btn-primary btn-md link-dark align-self-center stake-confirm" disabled={state.ctValueUnstake <= 0 || state.pending} type="button" onClick={async () => this.confirmUnstake()}>{t('staking.unstake.title')}</button>
+												<button className="btn btn-complementary btn-md link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>{t('staking.stake.claim_rewards')}</button>
+											</div>
 										</form>
 									</div>
 								</div>

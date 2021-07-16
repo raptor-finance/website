@@ -51,7 +51,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
       }
 
       const farm = new RaptorFarm(wallet, 0);
-	  await farm.finishSetup();
+      await farm.finishSetup();
 
       this.updateState({ farm: farm, wallet: wallet, looping: true, pending: false });
       this.updateOnce(true).then();
@@ -65,7 +65,6 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
   }
 
   async disconnectWallet() {
-
     try {
       this.updateState({ pending: true });
       const result = await this.state.wallet.disconnect();
@@ -113,7 +112,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
           stakedlp: farm.stakedlp,
           lpbalance: farm.lpbalance,
           rewards: farm.rewards,
-		  apr: farm.apr,
+          apr: farm.apr,
         });
 
         if (resetCt) {
@@ -121,9 +120,8 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
             address: "",
             balance: 0,
             lpbalance: 0,
-            lpbalance: 0,
             rewards: 0,
-			apr: 0,
+            apr: 0,
           })
         }
 
@@ -131,8 +129,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
       catch (e) {
         console.warn('Unable to update farm status', e);
       }
-    }
-    else {
+    } else {
       return false;
     }
 
@@ -146,8 +143,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
       if (state.ctValue >= 0) {
         await state.farm.deposit(state.ctValue);
-      }
-      else {
+      } else {
         throw "Can't deposit a negative amount.";
         return;
       }
@@ -168,8 +164,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
       if (state.ctValue >= 0) {
         await state.farm.withdraw(state.ctValue);
-      }
-      else {
+      } else {
         throw "Can't withdraw a negative amount.";
         return;
       }
@@ -185,7 +180,6 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
   stakingValueChanged = (event) => {
     this.updateState({ ctValue: event.target.value });
-
   }
 
   async claimRaptor(): Promise<void> {
@@ -236,51 +230,53 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
       <div className="farm-body">
         <Slide left>
-          <div className="gradient-card primary">
-            <div className="d-flex justify-content-between pair-header">
-              <img className="lp-pair-icon" src="images/bnb-raptor.png" alt="bnb-raptor-pair" />
-              <div>
-                <h1 className="text-right"><strong>RAPTOR-BNB LP</strong></h1>
-                <h3 className="text-right">NO FEES</h3>
+          <div className="glow-div">
+            <div className="gradient-card primary">
+              <div className="d-flex justify-content-between pair-header">
+                <img className="lp-pair-icon" src="images/bnb-raptor.png" alt="bnb-raptor-pair" />
+                <div>
+                  <h1 className="text-right"><strong>RAPTOR-BNB LP</strong></h1>
+                  <h3 className="text-right">NO FEES</h3>
+                </div>
               </div>
-            </div>
-            <div className="d-flex justify-content-between apr">
-              <h2>APR: </h2>
-              <h2>{state.apr || "Loading"} %</h2>
-            </div>
-            <h3>Available RAPTOR-BNB LP</h3>
-            <AnimatedNumber
-              value={numeral(state.lpbalance || 0).format('0.000000')}
-              duration="1000"
-              formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
-            >
-              {state.lpbalance || 0}
-            </AnimatedNumber>
-            <h3>Pending Rewards</h3>
-            <AnimatedNumber
-              value={numeral(state.rewards || 0).format('0.00')}
-              duration="1000"
-              formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor`}
-            >
-              {state.rewards || 0}
-            </AnimatedNumber>
-            <div className="d-flex justify-content-end">
-              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.address == null} type="button" onClick={async () => this.claimRaptor()} style={{ marginTop: "16px", marginBottom: "16px" }}>Harvest Raptor</button>
-            </div>
-            <h3>RAPTOR-BNB LP Staked</h3>
-            <AnimatedNumber
-              value={numeral(state.stakedlp || 0).format('0.000000')}
-              duration="1000"
-              formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
-            >
-              {state.stakedlp || 0}
-            </AnimatedNumber>
-            <div className="d-flex justify-content-end">
-              <input className="lp-input" type="number" onChange={(event) => this.stakingValueChanged(event)} value={state.ctValue || 0} />
-            </div>
-            <div className="wd-buttons d-flex justify-content-end">
-              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp <= 0 || state.stakedlp == null} type="button" onClick={async () => this.withdrawLP()}>Withdraw LP</button>
-              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.lpbalance <= 0 || state.lpbalance == null} type="button" onClick={async () => this.depositLP()} style={{ marginLeft: "16px" }}>Deposit LP</button>
+              <div className="d-flex justify-content-between apr">
+                <h2>APR: </h2>
+                <h2>{state.apr || "Loading"} %</h2>
+              </div>
+              <h3>Available RAPTOR-BNB LP</h3>
+              <AnimatedNumber
+                value={numeral(state.lpbalance || 0).format('0.000000')}
+                duration="1000"
+                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
+              >
+                {state.lpbalance || 0}
+              </AnimatedNumber>
+              <h3>Pending Rewards</h3>
+              <AnimatedNumber
+                value={numeral(state.rewards || 0).format('0.00')}
+                duration="1000"
+                formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor`}
+              >
+                {state.rewards || 0}
+              </AnimatedNumber>
+              <div className="d-flex justify-content-end">
+                <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.address == null} type="button" onClick={async () => this.claimRaptor()} style={{ marginTop: "16px", marginBottom: "16px" }}>Harvest Raptor</button>
+              </div>
+              <h3>RAPTOR-BNB LP Staked</h3>
+              <AnimatedNumber
+                value={numeral(state.stakedlp || 0).format('0.000000')}
+                duration="1000"
+                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
+              >
+                {state.stakedlp || 0}
+              </AnimatedNumber>
+              <div className="d-flex justify-content-end">
+                <input className="lp-input" type="number" onChange={(event) => this.stakingValueChanged(event)} value={state.ctValue || 0} />
+              </div>
+              <div className="wd-buttons d-flex justify-content-end">
+                <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp <= 0 || state.stakedlp == null} type="button" onClick={async () => this.withdrawLP()}>Withdraw LP</button>
+                <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.lpbalance <= 0 || state.lpbalance == null} type="button" onClick={async () => this.depositLP()} style={{ marginLeft: "16px" }}>Deposit LP</button>
+              </div>
             </div>
           </div>
         </Slide>

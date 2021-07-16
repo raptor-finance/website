@@ -90,7 +90,8 @@
 }
 
 .staking-container .staking-body>div {
-	padding: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 .staking-container input::-webkit-outer-spin-button,
