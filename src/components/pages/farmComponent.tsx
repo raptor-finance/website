@@ -50,7 +50,8 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
         throw 'The wallet connection was cancelled.';
       }
 
-      const farm = new RaptorFarm(wallet);
+      const farm = new RaptorFarm(wallet, 0);
+	  await farm.finishSetup();
 
       this.updateState({ farm: farm, wallet: wallet, looping: true, pending: false });
       this.updateOnce(true).then();

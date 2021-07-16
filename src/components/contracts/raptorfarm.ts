@@ -6,7 +6,6 @@ import {RaptorStatistics} from './statistics'
 export class RaptorFarm {
 
 	private static readonly address: string = "0x1Ea708bF4De1d4CF94689d32D3a88a2aCAaB2CF9";
-	private static readonly raptorbnblp: string = "0xb10B52b7749632DBc0F55Dccb76C09Cd85326790";
 
 	private readonly _wallet: Wallet;
 	private readonly _contract: Contract;
@@ -18,17 +17,24 @@ export class RaptorFarm {
 	private _stakedlp: number = 0;
 	private _rewards: number = 0;
 	private _apr: number = 0;
+	private _pid: number = 0;
+	private _lpaddress: string = "";
 
-	constructor(wallet: Wallet) {
+
+	constructor(wallet: Wallet, pid: number) {
 		if (!wallet.isConnected) {
 			throw 'Wallet must be connected before this action can be executed.';
 		}
-
+		this._pid = pid;
 		this._wallet = wallet;
-		this._contract = wallet.connectToContract(RaptorFarm.address, require('./raptorfarm.abi.json'));
-		this._lpToken = wallet.connectToContract(RaptorFarm.raptorbnblp, require("./erc20.abi.json"));
 		this._raptor = new Raptor(wallet);
+		this._contract = wallet.connectToContract(RaptorFarm.address, require('./raptorfarm.abi.json'));
 		this._stats = new RaptorStatistics();
+	}
+
+	async finishSetup() {
+		this._lpaddress = (await this._contract.methods.poolInfo(this._pid).call()).lpToken;
+		this._lpToken = this._wallet.connectToContract(this._lpaddress, require("./erc20.abi.json"));
 	}
 
 	get wallet(): Wallet {
@@ -60,16 +66,16 @@ export class RaptorFarm {
 		const dec = 10**18;
 		
 		const _totalLp = (await this._lpToken.methods.totalSupply().call());
-		const raptorPerLPToken = (await this._raptor.contract.methods.balanceOf(RaptorFarm.raptorbnblp).call())/_totalLp;
+		const raptorPerLPToken = (await this._raptor.contract.methods.balanceOf(this._lpaddress).call())/_totalLp;
 		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(RaptorFarm.address).call()) * raptorPerLPToken;
 		
-		const raptorperyear = ((await this._contract.methods.raptorPerBlock().call())*10512000) * ((await this._contract.methods.poolInfo(0).call()).allocPoint / (await this._contract.methods.totalAllocPoint().call()))
+		const raptorperyear = ((await this._contract.methods.raptorPerBlock().call())*10512000) * ((await this._contract.methods.poolInfo(this._pid).call()).allocPoint / (await this._contract.methods.totalAllocPoint().call()))
 		
 		this._apr = ((raptorperyear/stakedRaptorInLPs)*50); // *50 for balancing that pooled bnb isn't counted (50/50 pool)
 		
-		this._rewards = (await this._contract.methods.pendingCake(0, this._wallet.currentAddress).call()) / 10**9;
+		this._rewards = (await this._contract.methods.pendingCake(this._pid, this._wallet.currentAddress).call()) / 10**9;
 		this._lpbalance = (await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) / 10**18;
-		this._stakedlp = (await this._contract.methods.userInfo(0, this._wallet.currentAddress).call()).amount / 10**18;
+		this._stakedlp = (await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount / 10**18;
 	}
 	
 	async deposit(amount: number): Promise<void> {
@@ -84,7 +90,7 @@ export class RaptorFarm {
 				const allowance = `${BigInt(2**256) - BigInt(1)}`;
 				await this._lpToken.methods.approve(RaptorFarm.address, allowance).send({'from': this._wallet.currentAddress});
 			}
-			await this._contract.methods.deposit(0, rawAmount).send({'from': this._wallet.currentAddress}).send({'from': this._wallet.currentAddress});
+			await this._contract.methods.deposit(this._pid, rawAmount).send({'from': this._wallet.currentAddress}).send({'from': this._wallet.currentAddress});
 		}
 		else {
 			throw 'Your LP balance is not sufficient';
@@ -93,12 +99,12 @@ export class RaptorFarm {
 	
 	async withdraw(amount: number): Promise<void> {
 		await this._raptor.refresh()
-		const rawAmount: number = amount * 10 ** 18;		
+		const rawAmount: number = amount * 10 ** 18;
 		
-		if ((await this._contract.methods.userInfo(0, this._wallet.currentAddress).call()).amount >= rawAmount) {
+		if ((await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount >= rawAmount) {
 		
 			const rawAmount: number = amount * 10 ** 18;
-			await this._contract.methods.withdraw(0, rawAmount).send({'from': this._wallet.currentAddress});
+			await this._contract.methods.withdraw(this._pid, rawAmount).send({'from': this._wallet.currentAddress});
 		}
 		else {
 			throw 'Your staked LP balance is not sufficient';
@@ -107,7 +113,7 @@ export class RaptorFarm {
 	
 	async claim(): Promise<void> {
 		await this._raptor.refresh();
-		await this._contract.methods.deposit(0, 0).send({'from': this._wallet.currentAddress});
+		await this._contract.methods.deposit(this._pid, 0).send({'from': this._wallet.currentAddress});
 	}
 	
 }
