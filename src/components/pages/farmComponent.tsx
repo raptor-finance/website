@@ -1,26 +1,29 @@
 import * as React from 'react';
+import * as numeral from 'numeral';
 
 import { BaseComponent, ShellErrorHandler } from '../shellInterfaces';
 import { Wallet } from '../wallet';
 import { RaptorFarm } from '../contracts/raptorfarm';
 import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
+import { Slide } from 'react-reveal';
+import AnimatedNumber from 'animated-number-react';
 
 import './farmComponent.css';
 
 export type FarmProps = {};
 export type FarmState = {
-		farm?: RaptorFarm,
-		wallet?: Wallet,
-		looping?: boolean,
-		apr?: number,
-		address?: string,
-		balance?: number,
-		lpbalance?: number,
-		stakedlp?: number,
-		amount?: number,
-		rewards?: number,
-		ctValue?: number,
-		pending?:boolean
+  farm?: RaptorFarm,
+  wallet?: Wallet,
+  looping?: boolean,
+  apr?: number,
+  address?: string,
+  balance?: number,
+  lpbalance?: number,
+  stakedlp?: number,
+  amount?: number,
+  rewards?: number,
+  ctValue?: number,
+  pending?: boolean
 }
 
 class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState> {
@@ -228,29 +231,52 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
       </div>
 
       <div className="farm-body">
-        <div className="gradient-card primary">
-          <div className="d-flex justify-content-between pair-header">
-            <img className="lp-pair-icon" src="images/bnb-raptor.png" alt="bnb-raptor-pair" />
-            <div>
-              <h1 className="text-right"><strong>RAPTOR-BNB LP</strong></h1>
-              <h3 className="text-right">NO FEES</h3>
+        <Slide left>
+          <div className="gradient-card primary">
+            <div className="d-flex justify-content-between pair-header">
+              <img className="lp-pair-icon" src="images/bnb-raptor.png" alt="bnb-raptor-pair" />
+              <div>
+                <h1 className="text-right"><strong>RAPTOR-BNB LP</strong></h1>
+                <h3 className="text-right">NO FEES</h3>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between apr">
+              <h2>APR: </h2>
+              <h2>{state.apr || "0%"}</h2>
+            </div>
+            <h3>Available RAPTOR-BNB LP</h3>
+            <AnimatedNumber
+              value={numeral(state.lpbalance || 0).format('0.000000')}
+              duration="1000"
+              formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
+            >
+              {state.lpbalance || 0}
+            </AnimatedNumber>
+            <h3>RAPTOR-BNB LP Staked</h3>
+            <AnimatedNumber
+              value={numeral(state.stakedlp || 0).format('0.000000')}
+              duration="1000"
+              formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
+            >
+              {state.stakedlp || 0}
+            </AnimatedNumber>
+            <div className="wd-buttons d-flex justify-content-end">
+              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp <= 0 || state.stakedlp == null} type="button" onClick={async () => this.withdrawLP()}>Withdraw LP</button>
+              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.lpbalance <= 0 || state.stakedlp == null} type="button" onClick={async () => this.depositLP()} style={{ marginLeft: "16px" }}>Deposit LP</button>
+            </div>
+            <h3>Pending Rewards</h3>
+            <AnimatedNumber
+              value={numeral(state.rewards || 0).format('0.00')}
+              duration="1000"
+              formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
+            >
+              {state.rewards || 0}
+            </AnimatedNumber>
+            <div className="d-flex justify-content-end">
+              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp <= 0 || state.stakedlp == null} type="button" onClick={async () => this.withdrawLP()} style={{ marginTop: "16px" }}>Harvest Raptor</button>
             </div>
           </div>
-          <h2>APR: </h2>
-          <h3>Available RAPTOR-BNB LP</h3>
-          <p>{state.lpbalance || 0}</p>
-          <h3>RAPTOR-BNB LP Staked</h3>
-          <p>{state.stakedlp || 0}</p>
-          <div className="wd-buttons d-flex justify-content-end">
-            <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp <= 0 || state.stakedlp == null} type="button" onClick={async () => this.withdrawLP()}>Withdraw LP</button>
-            <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.lpbalance <= 0 || state.stakedlp == null} type="button" onClick={async () => this.depositLP()} style={{ marginLeft: "16px" }}>Deposit LP</button>
-          </div>
-          <h3>Pending Rewards</h3>
-          <p>{state.rewards || 0}</p>
-          <div className="d-flex justify-content-end">
-            <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp <= 0 || state.stakedlp == null} type="button" onClick={async () => this.withdrawLP()}>Harvest Raptor</button>
-          </div>
-        </div>
+        </Slide>
       </div>
     </div>
   }

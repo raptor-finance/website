@@ -4,7 +4,7 @@
 }
 
 .farm-title {
-	margin-bottom: 24px;
+	margin-bottom: 48px;
 }
 
 .farm-title span {
@@ -15,6 +15,10 @@
 .lp-pair-icon {
 	width: 56px;
 	height: 56px;
+}
+
+.farm-body {
+	padding-top: 20px;
 }
 
 .farm-body h1 {
@@ -29,6 +33,11 @@
 .farm-body h3 {
 	font-size: 1.2rem;
 	font-weight: bold;
+	margin-top: 8px;
+}
+
+.farm-body .apr {
+	margin-bottom: 16px;
 }
 
 .farm-body .pair-header {
@@ -36,6 +45,7 @@
 }
 
 .wd-buttons {
+	margin-top: 16px;
 	margin-bottom: 16px;
 }
 
@@ -50,5 +60,47 @@
 @media (max-width: 900px) {
 	.farm-container {
 		padding: 30% 10% 0 10%;
+	}
+
+	.farm-container .farm-header a {
+		float: none !important;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+	.farm-title {
+		margin-bottom: 20px;
+	}
+
+	.farm-title span {
+		font-size: 2.4rem;
+	}
+
+	.lp-pair-icon {
+		width: 40px;
+		height: 40px;
+	}
+
+	.farm-body .gradient-card {
+		width: 100%;
+	}
+
+	.farm-body h1 {
+		font-size: 1.4rem;
+	}
+	
+	.farm-body h2 {
+		font-size: 1.2rem;
+		font-weight: bold;
+	}
+	
+	.farm-body h3 {
+		font-size: 1rem;
+		font-weight: bold;
+		margin-top: 8px;
+	}
+	
+	.farm-body button {
+		font-size: 0.88rem !important;
 	}
 }
