@@ -28,7 +28,7 @@ export class RaptorFarm {
 		this._contract = wallet.connectToContract(RaptorFarm.address, require('./raptorfarm.abi.json'));
 		this._raptor = new Raptor(wallet);
 		this._stats = new RaptorStatistics();
-		this._lpToken = wallet.connectToContract(require("erc20.abi.json"), this.raptorbnblp);
+		this._lpToken = wallet.connectToContract(require("./erc20.abi.json"), this.raptorbnblp);
 	}
 
 	get wallet(): Wallet {
