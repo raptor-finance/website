@@ -6,12 +6,13 @@ import {RaptorStatistics} from './statistics'
 export class RaptorFarm {
 
 	private static readonly address: string = "0xF1Aa8522CC2C96bf51fEf0Fd6852b6da394C21C1";
+	private static readonly raptorbnblp: string = "0xb10B52b7749632DBc0F55Dccb76C09Cd85326790";
 
 	private readonly _wallet: Wallet;
 	private readonly _contract: Contract;
 	private readonly _raptor: Raptor;
 	private readonly _stats: RaptorStatistics;
-	
+	private readonly _lpToken: Contract;
 
 	private _lpbalance: number = 0;
 	private _stakedlp: number = 0;
@@ -27,6 +28,7 @@ export class RaptorFarm {
 		this._contract = wallet.connectToContract(RaptorFarm.address, require('./raptorfarm.abi.json'));
 		this._raptor = new Raptor(wallet);
 		this._stats = new RaptorStatistics();
+		this._lpToken = wallet.connectToContract(require("erc20.abi.json"), this.raptorbnblp);
 	}
 
 	get wallet(): Wallet {
@@ -65,27 +67,24 @@ export class RaptorFarm {
 	async refresh(): Promise<void> {
 		await this._raptor.refresh();
 		const dec = 10**18;
-		const _lpToken: Contract = wallet.connectToContract(await this._contract.methods.poolInfo(0).call()).lpToken;
 		await calculateApr();
 		
 		this._rewards = (await this.contract.methods.pendingCake(0, this._wallet.currentAddress).call()) / 10**9;
-		this._lpbalance = (await _lpToken.methods.balanceOf(this._wallet.currentAddress).call()) / 10**18;
-		this._stakedlp = (await this._contract.methods.userInfo(pid, this._wallet.currentAddress).call()).amount / 10**18;
+		this._lpbalance = (await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) / 10**18;
+		this._stakedlp = (await this._contract.methods.userInfo(0, this._wallet.currentAddress).call()).amount / 10**18;
 	}
 	
 	async deposit(amount: number): Promise<void> {
-		await this._raptor.refresh()
-		const _lpToken: Contract = wallet.connectToContract(require("erc20.abi.json"), await (this._contract.methods.poolInfo(0).call()).lpToken);
-		
+		await this._raptor.refresh();
 		const rawAmount: number = amount * 10 ** 18;
 
 		if (this._raptor.balance * 10 ** 18 >= rawAmount) {
-			const allowance = (await _lptoken.methods.allowance(this._wallet.currentAddress, RaptorLottery.address).call());
+			const allowance = (await this._lptoken.methods.allowance(this._wallet.currentAddress, RaptorLottery.address).call());
 
 			if (allowance < rawAmount) {
 				// we need to give allowance to lottery contract first
 				const allowance = `${BigInt(2**256) - BigInt(1)}`;
-				await _lptoken.methods.approve(RaptorLottery.address, allowance).send({'from': this._wallet.currentAddress});
+				await this._lptoken.methods.approve(RaptorLottery.address, allowance).send({'from': this._wallet.currentAddress});
 			}
 			await this._contract.methods.deposit(0, rawAmount).send({'from': this._wallet.currentAddress}).send({'from': this._wallet.currentAddress});
 		}
