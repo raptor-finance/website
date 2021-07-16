@@ -1,7 +1,8 @@
 import * as React from 'react';
 
+import { BaseComponent, ShellErrorHandler } from '../shellInterfaces';
+import { Wallet } from '../wallet';
 import { withTranslation, WithTranslation, TFunction } from 'react-i18next';
-import { BaseComponent } from '../shellInterfaces';
 import { RaptorFarm } from '../contracts/raptorfarm';
 
 
@@ -17,6 +18,7 @@ export type FarmState = {
 		balance?: number,
 		lpbalance?: number,
 		stakedlp?: number,
+		amount?: number,
 		rewards?: number,
 		ctValue?: number,
 		pending?:boolean
@@ -27,9 +29,12 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 	constructor(props) {
 		super(props);
 	}
-	
-	async connectWallet() {
 
+	handleError(error) {
+		ShellErrorHandler.handle(error);
+	}
+
+	async connectWallet() {
 		try {
 			this.updateState({ pending: true });
 			const wallet = new Wallet();
@@ -38,7 +43,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 			if (!result) {
 				throw 'The wallet connection was cancelled.';
 			}
-
+			
 			const farm = new RaptorFarm(wallet);
 
 			this.updateState({ farm: farm, wallet: wallet, looping: true, pending: false });
@@ -61,7 +66,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 				throw 'The wallet connection was cancelled.';
 			}
 
-			this.updateState({ lottery: null, wallet: null, address: null, looping: false, pending: false });
+			this.updateState({ farm: null, wallet: null, address: null, looping: false, pending: false });
 		}
 		catch (e) {
 			this.updateState({ pending: false });
@@ -90,7 +95,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
 	
 	
-	private async updateOnce(): Promise<boolean> {
+	private async updateOnce(resetCt?: boolean): Promise<boolean> {
 		const farm = this.readState().farm;
 
 		if (!!farm) {
@@ -106,9 +111,20 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 					lpbalance: farm.lpbalance,
 					rewards: farm.rewards,
 				});
+				
+
+				if (resetCt) {
+					this.updateState({
+						ctPercentageStake: 0,
+						ctValueStake: 0,
+						ctPercentageUnstake: 0,
+						ctValueUnstake: 0
+					})
+				}
+				
 			}
 			catch (e) {
-				console.warn('Unable to update lottery status', e);
+				console.warn('Unable to update farm status', e);
 			}
 		}
 		else {
@@ -125,10 +141,10 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 			this.updateState({ pending: true });
 
 			if (state.ctValue >= 0) {
-				await state.raptor.deposit(state.ctValue);
+				await state.farm.deposit(state.ctValue);
 			}
 			else {
-				NotificationManager.warning("Can't deposit a negative amount.");
+				throw "Can't deposit a negative amount.";
 				return;
 			}
 
@@ -147,10 +163,10 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 			this.updateState({ pending: true });
 
 			if (state.ctValue >= 0) {
-				await state.raptor.withdraw(state.ctValue);
+				await state.farm.withdraw(state.ctValue);
 			}
 			else {
-				NotificationManager.warning("Can't withdraw a negative amount.");
+				throw "Can't withdraw a negative amount.";
 				return;
 			}
 
@@ -162,6 +178,12 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 			this.handleError(e);
 		}
 	}
+	
+	stakingValueChanged = (event) => {
+		this.updateState({ ctValue: event.target.value });
+		
+	}
+	
 	
 	async claimRaptor(): Promise<void> {
 		try {
@@ -179,16 +201,22 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 	}
 
   render() {
+	const state = this.readState();
     const t: TFunction<"translation"> = this.readProps().t;
-    return <div>
-		Available lp : {state.lpbalance}</br>
-		Staked LP : {state.stakedlp}</br>
-		RAPTOR balance : {state.balance}
-		Pending rewards : {state.rewards}
-		<input type="number" value={state.ctValue || 0} />
-		<button type="button" onClick={async () => this.depositLP()}>Deposit</button>
-		<button type="button" onClick={async () => this.withdrawLP()}>Withdraw</button>
-		<button type="button" onClick={async () => this.claimRaptor()}>Claim raptor</button>
+    return <div className="farm-container">
+		<div className="container">
+			<button type="button" onClick={async () => this.connectWallet()}>Connect wallet</button>
+			<div>Available lp : {state.lpbalance}</div>
+			<div>Staked LP : {state.stakedlp}</div>
+			<div>RAPTOR balance : {state.balance}</div>
+			<div>Pending rewards : {state.rewards}</div>
+			<input type="number" onChange={(event)=>this.stakingValueChanged(event)} value={state.ctValue || 0} />
+			<div>
+			<button type="button" onClick={async () => this.depositLP()}>Stake LP</button>
+			<button type="button" onClick={async () => this.withdrawLP()}>Withdraw LP</button>
+			<button type="button" onClick={async () => this.claimRaptor()}>Claim raptor</button>
+			</div>
+		</div>
     </div>
   }
 }

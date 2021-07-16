@@ -1,0 +1,10 @@
+.farm-container {
+	display: block;
+	padding: 6% 10% 0% 10%;
+}
+
+@media (max-width: 900px) {
+	.staking-container {
+		padding: 30% 10% 0 10%;
+	}
+}
