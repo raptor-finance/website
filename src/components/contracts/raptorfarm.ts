@@ -5,7 +5,7 @@ import {RaptorStatistics} from './statistics'
 
 export class RaptorFarm {
 
-	private static readonly address: string = "0xF1Aa8522CC2C96bf51fEf0Fd6852b6da394C21C1";
+	private static readonly address: string = "0x1Ea708bF4De1d4CF94689d32D3a88a2aCAaB2CF9";
 	private static readonly raptorbnblp: string = "0xb10B52b7749632DBc0F55Dccb76C09Cd85326790";
 
 	private readonly _wallet: Wallet;
@@ -62,7 +62,10 @@ export class RaptorFarm {
 		const _totalLp = (await this._lpToken.methods.totalSupply().call());
 		const raptorPerLPToken = (await this._raptor.contract.methods.balanceOf(RaptorFarm.raptorbnblp).call())/_totalLp;
 		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(RaptorFarm.address).call()) * raptorPerLPToken;
-		this._apr = ((157680000000000/stakedRaptorInLPs)*50); // *50 for balancing that pooled bnb isn't counted (50/50 pool)
+		
+		const raptorperyear = ((await this._contract.methods.raptorPerBlock().call())*10512000) * ((await this._contract.methods.poolInfo(0).call()).allocPoint / (await this._contract.methods.totalAllocPoint().call()))
+		
+		this._apr = ((raptorperyear/stakedRaptorInLPs)*50); // *50 for balancing that pooled bnb isn't counted (50/50 pool)
 		
 		this._rewards = (await this._contract.methods.pendingCake(0, this._wallet.currentAddress).call()) / 10**9;
 		this._lpbalance = (await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) / 10**18;

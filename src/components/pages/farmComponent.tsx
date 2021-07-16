@@ -13,7 +13,7 @@ export type FarmState = {
 		farm?: RaptorFarm,
 		wallet?: Wallet,
 		looping?: boolean,
-
+		apr?: number,
 		address?: string,
 		balance?: number,
 		lpbalance?: number,
@@ -110,6 +110,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 					stakedlp: farm.stakedlp,
 					lpbalance: farm.lpbalance,
 					rewards: farm.rewards,
+					apr: farm.apr,
 				});
 				
 
@@ -210,6 +211,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 			<div>Staked LP : {state.stakedlp}</div>
 			<div>RAPTOR balance : {state.balance}</div>
 			<div>Pending rewards : {state.rewards}</div>
+			<div>Current farm APR : {state.apr}%</div>
 			<input type="number" onChange={(event)=>this.stakingValueChanged(event)} value={state.ctValue || 0} />
 			<div>
 			<button type="button" onClick={async () => this.depositLP()}>Stake LP</button>
