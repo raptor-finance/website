@@ -262,7 +262,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
               {state.rewards || 0}
             </AnimatedNumber>
             <div className="d-flex justify-content-end">
-              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp <= 0 || state.stakedlp == null} type="button" onClick={async () => this.withdrawLP()} style={{ marginTop: "16px", marginBottom: "16px" }}>Harvest Raptor</button>
+              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp <= 0 || state.stakedlp == null} type="button" onClick={async () => this.claimRaptor()} style={{ marginTop: "16px", marginBottom: "16px" }}>Harvest Raptor</button>
             </div>
             <h3>RAPTOR-BNB LP Staked</h3>
             <AnimatedNumber
