@@ -21,6 +21,7 @@ import StakingComponent from './components/pages/stakingComponent';
 import AboutComponent from './components/pages/aboutComponent';
 import FaqComponent from './components/pages/faqComponent';
 import PlaceholderComponent from './components/pages/placeholderComponent';
+import FarmComponent from './components/pages/farmComponent';
 
 import './i18n';
 
@@ -28,6 +29,7 @@ const pagesInNavigator = [
 	{ id: 'home', title: 'Home', component: HomeComponent },
 	{ id: 'about', title: 'About', component: AboutComponent },
 	{ id: 'swap', title: 'Trade', component: PlaceholderComponent },
+	{ id: 'farm', title: 'Farm', component: FarmComponent },
 	{ id: 'staking', title: 'Staking', component: StakingComponent },
 	{ id: 'lottery', title: 'Lottery', component: LotteryComponent },
 	{ id: 'faq', title: 'FAQ', component: FaqComponent },

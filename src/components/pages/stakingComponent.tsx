@@ -100,6 +100,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 			this.handleError(e);
 		}
 	}
+
 	async confirmUnstake(): Promise<void> {
 		try {
 			const state = this.readState();
@@ -121,8 +122,8 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 			this.handleError(e);
 		}
 	}
-	async confirmClaimRewards(): Promise<void> {
 
+	async confirmClaimRewards(): Promise<void> {
 		try {
 			const state = this.readState();
 			this.updateState({ pending: true });
@@ -139,25 +140,8 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 	}
 
 	async componentDidMount() {
-		// try {
-		// 	const wallet = new Wallet();
-		// 	const result = await wallet.connect();
-
-		// 	if (!result) {
-		// 		throw 'The wallet connection was cancelled.';
-		// 	}
-
-		// 	const raptor = new Raptor(wallet);
-
-		// 	this.updateState({raptor: raptor, looping: true});
-		// 	this.updateOnce(true).then();
-
-		// 	this.loop().then();
-		// }
-		// catch(e) {
-		// 	this.handleError(e);
-		// }
 	}
+
 	componentWillUnmount() {
 		if (!!this._timeout) {
 			clearTimeout(this._timeout);
@@ -211,7 +195,6 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 	}
 
 	async connectWallet() {
-
 		try {
 			this.updateState({ pending: true });
 			const wallet = new Wallet();
@@ -235,7 +218,6 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 	}
 
 	async disconnectWallet() {
-
 		try {
 			this.updateState({ pending: true });
 			const result = await this.state.wallet.disconnect();
@@ -309,18 +291,21 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 			<div className="container">
 				<div className="row text-white staking-header">
 					<div className="col-md-12">
-						<img src="images/staking.svg" alt="raptor-staking-logo" />
-						{state.address ?
-							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
-								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-								{t('staking.disconnect_wallet')}
-							</a>)
-							:
-							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}>
-								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-								{t('staking.connect_wallet')}
-							</a>)
-						}
+						<div className="staking-title">
+							<span>Raptor</span>
+							<span style={{ color: "#31c461" }}>Staking</span>
+							{state.address ?
+								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
+									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+									{t('staking.disconnect_wallet')}
+								</a>)
+								:
+								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}>
+									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+									{t('staking.connect_wallet')}
+								</a>)
+							}
+						</div>
 
 						<p>{t('staking.paragraph1')}</p>
 						<p><Trans i18nKey='staking.paragraph2'>In order to stake Raptor tokens, you need to connect your browser wallet (such as <a
@@ -422,7 +407,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 					</FadeInRightDiv>
 				</div>
 			</div>
-			<NotificationContainer/>
+			<NotificationContainer />
 		</div>
 	}
 }
