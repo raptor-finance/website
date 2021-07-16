@@ -5,7 +5,7 @@ import {RaptorStatistics} from './statistics'
 
 export class RaptorFarm {
 
-	private static readonly address: string = "0x1Ea708bF4De1d4CF94689d32D3a88a2aCAaB2CF9";
+	private static readonly address: string = "0x994A361F603924A9357f6E2191C31829bf83fC21";
 
 	private readonly _wallet: Wallet;
 	private readonly _contract: Contract;
@@ -69,7 +69,7 @@ export class RaptorFarm {
 		const raptorPerLPToken = (await this._raptor.contract.methods.balanceOf(this._lpaddress).call())/_totalLp;
 		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(RaptorFarm.address).call()) * raptorPerLPToken;
 		
-		const raptorperyear = ((await this._contract.methods.raptorPerBlock().call())*10512000) * ((await this._contract.methods.poolInfo(this._pid).call()).allocPoint / (await this._contract.methods.totalAllocPoint().call()))
+		const raptorperyear = ((await this._contract.methods.raptorPerBlock().call())*10512000) * ((await this._contract.methods.poolInfo(this._pid).call()).allocPoint / (await this._contract.methods.totalAllocPoint().call())) * (await this._contract.methods.BONUS_MULTIPLIER().call())
 		
 		this._apr = ((raptorperyear/stakedRaptorInLPs)*50); // *50 for balancing that pooled bnb isn't counted (50/50 pool)
 		
