@@ -1,6 +1,7 @@
 import {Wallet} from '../wallet';
 import {Contract} from 'web3-eth-contract';
 import {Raptor} from './raptor';
+import {RaptorStatistics} from './statistics'
 
 export class RaptorFarm {
 
@@ -9,6 +10,8 @@ export class RaptorFarm {
 	private readonly _wallet: Wallet;
 	private readonly _contract: Contract;
 	private readonly _raptor: Raptor;
+	private readonly _stats: RaptorStatistics;
+	
 
 	private _lpbalance: number = 0;
 	private _stakedlp: number = 0;
@@ -23,6 +26,7 @@ export class RaptorFarm {
 		this._wallet = wallet;
 		this._contract = wallet.connectToContract(RaptorFarm.address, require('./raptorfarm.abi.json'));
 		this._raptor = new Raptor(wallet);
+		this._stats = new RaptorStatistics();
 	}
 
 	get wallet(): Wallet {
