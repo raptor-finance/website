@@ -194,18 +194,22 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 		return <div className="lottery-container">
 			<div className="container">
 				<div className="row text-white lottery-header">
-					<div className="col-md-12"><img src="images/lottery.svg" alt="raptor-lottery-logo" />
-						{state.address ?
-							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
-								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-								{t('lottery.disconnect_wallet')}
-							</a>)
-							:
-							(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}>
-								{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-								{t('lottery.connect_wallet')}
-							</a>)
-						}
+					<div className="col-md-12">
+						<div className="lottery-title">
+							<span>Raptor</span>
+							<span style={{ color: "#31c461" }}>Lottery</span>
+							{state.address ?
+								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
+									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+									{t('lottery.disconnect_wallet')}
+								</a>)
+								:
+								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}>
+									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+									{t('lottery.connect_wallet')}
+								</a>)
+							}
+						</div>
 						<p>{t('lottery.paragraph1')}</p>
 						<p><Trans i18nKey='lottery.paragraph2'>In order to stake Raptor tokens, you need to connect your browser wallet (such as <a
 							href="https://metamask.io/">Metamask</a>) and <a
@@ -291,7 +295,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 					</FadeInUpDiv>
 				</div>
 			</div>
-			<NotificationContainer/>
+			<NotificationContainer />
 		</div>
 	}
 }
