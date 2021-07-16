@@ -16,7 +16,7 @@ export class RaptorFarm {
 	private _lpbalance: number = 0;
 	private _stakedlp: number = 0;
 	private _rewards: number = 0;
-
+	private _apr: number = 0;
 
 	constructor(wallet: Wallet) {
 		if (!wallet.isConnected) {
@@ -48,10 +48,25 @@ export class RaptorFarm {
 		return this._stakedlp;
 	}
 
+	get apr(): number {
+		return this._apr;	
+	}
+	
+	async calculateApr(): Promise<void> {
+		const _lpToken: Contract = wallet.connectToContract(await this._contract.methods.poolInfo(0).call()).lpToken;
+		const _lpInterface: Contract = wallet.connectToContract(require("erc20.abi.json"), _lpToken);
+		const _totalLp = (await _lpToken.methods.totalSupply().call());
+		const raptorPerLPToken = (await this._raptor.methods.balanceOf(_lpToken).call())/_totalLp;
+		const stakedRaptorInLPs = (await _lpInterface.methods.balanceOf(this.address).call()) * raptorPerLPToken;
+		this._apr = ((157680000000000/stakedRaptorInLPs)*100)-100;
+	}
+	
+	
 	async refresh(): Promise<void> {
 		await this._raptor.refresh();
 		const dec = 10**18;
 		const _lpToken: Contract = wallet.connectToContract(await this._contract.methods.poolInfo(0).call()).lpToken;
+		await calculateApr();
 		
 		this._rewards = (await this.contract.methods.pendingCake(0, this._wallet.currentAddress).call()) / 10**9;
 		this._lpbalance = (await _lpToken.methods.balanceOf(this._wallet.currentAddress).call()) / 10**18;
@@ -60,7 +75,7 @@ export class RaptorFarm {
 	
 	async deposit(amount: number): Promise<void> {
 		await this._raptor.refresh()
-		const _lpToken: Contract = wallet.connectToContract(await this._contract.methods.poolInfo(0).call()).lpToken;
+		const _lpToken: Contract = wallet.connectToContract(require("erc20.abi.json"), await (this._contract.methods.poolInfo(0).call()).lpToken);
 		
 		const rawAmount: number = amount * 10 ** 18;
 
