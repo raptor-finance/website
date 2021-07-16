@@ -3,7 +3,7 @@
 	background: url("images/bg-main.jpg") no-repeat bottom right transparent;
 	background-size: cover;
 	display: grid;
-	grid-template-columns: 14.5% 85.5%;
+	grid-template-columns: 15% 85%;
 	grid-template-rows: 1;
 	width: 100%;
 }

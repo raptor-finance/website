@@ -1,24 +1,23 @@
 .placeholder-container {
-	padding: 16% 10%;
+    padding: 16% 10%;
 }
 
 .placeholder-container h1 {
-	text-align: center;
-	color: var(--primary);
-	font-size: 64px;
-	margin-bottom: 4%;
-	text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    color: var(--primary);
+    font-size: 64px;
+    margin-bottom: 4%;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 @media (max-width: 990px) {
-	.placeholder-container {
-		padding: 40% 10% 0 10%;
-		height: 96vh;
-		overflow-y: hidden;
-	}
-
-	.placeholder-container h1 {
-		font-size: 48px;
-		margin-bottom: 16%;
-	}
+    .placeholder-container {
+        padding: 40% 10% 0 10%;
+        height: 96vh;
+        overflow-y: hidden;
+    }
+    .placeholder-container h1 {
+        font-size: 48px;
+        margin-bottom: 16%;
+    }
 }

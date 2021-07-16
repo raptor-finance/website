@@ -46,14 +46,6 @@
             "price_bnb": "BNB价格："
         }
     },
-    "swap": {
-        "title": "RaptorSwap is coming soon"
-    },
-    "farm": {
-        "connect_wallet": "连接钱包",
-        "disconnect_wallet": "断开钱包",
-        "paragraph1": "RaptorFarm lets you stake LP tokens to earn greater yields."
-    },
     "staking": {
         "connect_wallet": "连接钱包",
         "disconnect_wallet": "断开钱包",

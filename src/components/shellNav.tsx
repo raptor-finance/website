@@ -60,7 +60,6 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 									'home': t('nav.home'),
 									'about': t('nav.about'),
 									'swap': t('nav.swap'),
-									'farm': t('nav.farm'),
 									'staking': t('nav.staking'),
 									'lottery': t('nav.lottery'),
 									'faq': t('nav.faq')

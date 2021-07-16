@@ -25,26 +25,26 @@ const PulseDiv = styled.div`
 
 class PlaceholderComponent extends BaseComponent<PlaceholderProps & WithTranslation, PlaceholderState> {
 
-  constructor(props) {
-    super(props);
-  }
+    constructor(props) {
+        super(props);
+    }
 
-  render() {
-    const t: TFunction<"translation"> = this.readProps().t;
+    render() {
+        const t: TFunction<"translation"> = this.readProps().t;
 
-    return <div className="placeholder-container">
-      <Bounce top>
-        <PulseDiv>
-          <h1>
-            <strong>
-              {t('swap.title')}
-            </strong>
-          </h1>
-        </PulseDiv>
-      </Bounce>
-      <ScaleLoader css={override} color={"#C43194"} width={16} height={40} margin={8} radius={4} speedMultiplier={1.2} />
-    </div>
-  }
+        return <div className="placeholder-container">
+            <Bounce top>
+                <PulseDiv>
+                    <h1>
+                        <strong>
+                            {t('swap.title')}
+                        </strong>
+                    </h1>
+                </PulseDiv>
+            </Bounce>
+            <ScaleLoader css={override} color={"#C43194"} width={16} height={40} margin={8} radius={4} speedMultiplier={1.2} />
+        </div>
+    }
 }
 
 export default withTranslation()(PlaceholderComponent);
