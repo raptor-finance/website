@@ -3,15 +3,6 @@
 	padding: 6% 10% 0 10%;
 }
 
-.lottery-title {
-	margin-bottom: 48px;
-}
-
-.lottery-title span {
-	font-size: 2.6rem;
-	font-weight: bold;
-}
-
 .lottery-container .lottery-header img {
 	margin-bottom: 50px;
 	height: 90px;
@@ -54,16 +45,8 @@
 		padding: 30% 10% 0 10%;
 	}
 
-	.lottery-title {
+	.lottery-container .lottery-header img {
 		margin-bottom: 20px;
-	}
-
-	.lottery-header .btn-wallet {
-		margin-top: 20px;
-	}
-
-	.lottery-title span {
-		font-size: 2.4rem;
 	}
 
 	.lottery-container .lottery-header a {

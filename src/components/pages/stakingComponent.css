@@ -28,15 +28,6 @@
 	margin-bottom: 8px;
 }
 
-.staking-title {
-	margin-bottom: 48px;
-}
-
-.staking-title span {
-	font-size: 2.6rem;
-	font-weight: bold;
-}
-
 .staking-info {
 	margin-bottom: 20px;
 }
@@ -108,16 +99,8 @@
 		padding: 30% 10% 0 10%;
 	}
 
-	.staking-title {
+	.staking-container .staking-header img {
 		margin-bottom: 20px;
-	}
-
-	.staking-header .btn-wallet {
-		margin-top: 20px;
-	}
-
-	.staking-title span {
-		font-size: 2.4rem;
 	}
 
 	.staking-container .staking-header a {
