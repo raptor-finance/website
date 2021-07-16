@@ -55,11 +55,9 @@ export class RaptorFarm {
 	}
 	
 	async calculateApr(): Promise<void> {
-		const _lpToken: Contract = wallet.connectToContract(await this._contract.methods.poolInfo(0).call()).lpToken;
-		const _lpInterface: Contract = wallet.connectToContract(require("erc20.abi.json"), _lpToken);
-		const _totalLp = (await _lpToken.methods.totalSupply().call());
-		const raptorPerLPToken = (await this._raptor.methods.balanceOf(_lpToken).call())/_totalLp;
-		const stakedRaptorInLPs = (await _lpInterface.methods.balanceOf(this.address).call()) * raptorPerLPToken;
+		const _totalLp = (await this._lpToken.methods.totalSupply().call());
+		const raptorPerLPToken = (await this._raptor.methods.balanceOf(this.raptorbnblp).call())/_totalLp;
+		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(this.address).call()) * raptorPerLPToken;
 		this._apr = ((157680000000000/stakedRaptorInLPs)*100)-100;
 	}
 	
