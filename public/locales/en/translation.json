@@ -58,7 +58,10 @@
         "title": "RaptorSwap is coming soon"
     },
     "farm": {
-        "paragraph1": "RaptorFarm lets you stake LP tokens to earn greater yields."
+        "connect_wallet": "Connect Wallet",
+        "disconnect_wallet": "Disconnect Wallet",
+        "paragraph1": "RaptorFarm lets you stake LP tokens to earn greater yields.",
+        "paragraph2": "In order to farm with LP tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>"
     },
     "staking": {
         "connect_wallet": "Connect Wallet",

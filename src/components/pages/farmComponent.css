@@ -12,8 +12,43 @@
 	font-weight: bold;
 }
 
+.lp-pair-icon {
+	width: 56px;
+	height: 56px;
+}
+
+.farm-body h1 {
+	font-size: 1.8rem;
+}
+
+.farm-body h2 {
+	font-size: 1.6rem;
+	font-weight: bold;
+}
+
+.farm-body h3 {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.farm-body .pair-header {
+	margin-bottom: 24px;
+}
+
+.wd-buttons {
+	margin-bottom: 16px;
+}
+
+.farm-body .gradient-card {
+	padding-top: 24px;
+	padding-bottom: 24px;
+	width: 32%;
+	box-shadow: 0 0 16px #d454a9b6;
+	border: none;
+}
+
 @media (max-width: 900px) {
 	.farm-container {
 		padding: 30% 10% 0 10%;
-  }
+	}
 }
