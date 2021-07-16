@@ -5,7 +5,7 @@ import {RaptorStatistics} from './statistics'
 
 export class RaptorFarm {
 
-	private static readonly address: string = "0x994A361F603924A9357f6E2191C31829bf83fC21";
+	private static readonly address: string = "0x540647470C039dD7c93b2dfe328264d1a56e3074";
 
 	private readonly _wallet: Wallet;
 	private readonly _contract: Contract;
