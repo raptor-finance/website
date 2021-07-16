@@ -189,7 +189,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 		try {
 			const state = this.readState();
 			this.updateState({ pending: true });
-			await state.raptor.claim();
+			await state.farm.claim();
 
 			this.updateState({ pending: false });
 			this.updateOnce(true).then();

@@ -98,7 +98,7 @@ export class RaptorFarm {
 			await this._contract.methods.withdraw(0, rawAmount).send({'from': this._wallet.currentAddress});
 		}
 		else {
-			throw 'Your staked LP balance is not sufficient to buy a ticket';
+			throw 'Your staked LP balance is not sufficient';
 		}
 	}
 	
