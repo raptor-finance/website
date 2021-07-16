@@ -58,7 +58,7 @@ export class RaptorFarm {
 		const _totalLp = (await this._lpToken.methods.totalSupply().call());
 		const raptorPerLPToken = (await this._raptor.methods.balanceOf(this.raptorbnblp).call())/_totalLp;
 		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(this.address).call()) * raptorPerLPToken;
-		this._apr = ((157680000000000/stakedRaptorInLPs)*100)-100;
+		this._apr = ((157680000000000/stakedRaptorInLPs)*50); // *50 for balancing that pooled bnb isn't counted (50/50 pool)
 	}
 	
 	
