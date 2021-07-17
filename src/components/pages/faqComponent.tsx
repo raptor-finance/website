@@ -18,6 +18,14 @@ class FaqComponent extends BaseComponent<FaqProps & WithTranslation, FaqState> {
   render() {
     const t = this.readProps().t
     return <div className="faq-container">
+      <div className="row text-white lottery-header">
+					<div className="col-md-12">
+						<div className="lottery-title">
+							<span>Raptor</span>
+							<span style={{ color: "#31c461" }}>FAQ</span>
+						</div>
+					</div>
+				</div>
       <div className="d-flex flex-row container">
         <div>
           <Fade bottom>

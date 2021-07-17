@@ -23,11 +23,13 @@
 }
 
 .lottery-container .lottery-body>div {
-	padding: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 .lottery-container .lottery-body .gradient-card {
-	padding: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 .lottery-container .lottery-body h1 {
@@ -53,24 +55,19 @@
 	.lottery-container {
 		padding: 30% 10% 0 10%;
 	}
-
 	.lottery-title {
 		margin-bottom: 20px;
 	}
-
 	.lottery-header .btn-wallet {
 		margin-top: 20px;
 	}
-
 	.lottery-title span {
 		font-size: 2.4rem;
 	}
-
 	.lottery-container .lottery-header a {
 		float: none !important;
 		margin-bottom: 20px;
 	}
-
 	.btn-lottery {
 		width: 100%;
 	}

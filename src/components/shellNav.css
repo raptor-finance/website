@@ -73,6 +73,11 @@
 	color: #31C461;
 }
 
+.navigation-wrapper select {
+	padding: 2px;
+	border-radius: 4px;
+}
+
 .btn-social {
 	font-size: 26px;
 	color: white;
@@ -90,7 +95,6 @@
 .lang-select {
 	margin-top: 20px;
 }
-
 
 #mainNav.collapse.show {
 	flex-direction: column;

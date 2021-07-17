@@ -111,9 +111,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						</div>
 						<div className="col-md-6">
 							<Suspense fallback={<PuffLoader color={'#ffffff'} />}>
-								<PulseDiv>
-									<RaptorForestDiv />
-								</PulseDiv>
+								<RaptorForestDiv />
 							</Suspense>
 						</div>
 					</div>
