@@ -82,7 +82,7 @@ export class RaptorFarm {
 		await this._raptor.refresh();
 		const rawAmount: number = amount * 10 ** 18;
 
-		if (this._raptor.balance * 10 ** 18 >= rawAmount) {
+		if ((await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) >= rawAmount) {
 			const allowance = (await this._lpToken.methods.allowance(this._wallet.currentAddress, RaptorFarm.address).call());
 
 			if (allowance < rawAmount) {
