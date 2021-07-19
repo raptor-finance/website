@@ -90,7 +90,7 @@ export class RaptorFarm {
 				const allowance = `${BigInt(2**256) - BigInt(1)}`;
 				await this._lpToken.methods.approve(RaptorFarm.address, allowance).send({'from': this._wallet.currentAddress});
 			}
-			await this._contract.methods.deposit(this._pid, rawAmount).send({'from': this._wallet.currentAddress}).send({'from': this._wallet.currentAddress});
+			await this._contract.methods.deposit(this._pid, String(rawAmount)).send({'from': this._wallet.currentAddress});
 		}
 		else {
 			throw 'Your LP balance is not sufficient';
@@ -104,7 +104,7 @@ export class RaptorFarm {
 		if ((await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount >= rawAmount) {
 		
 			const rawAmount: number = amount * 10 ** 18;
-			await this._contract.methods.withdraw(this._pid, rawAmount).send({'from': this._wallet.currentAddress});
+			await this._contract.methods.withdraw(this._pid, String(rawAmount)).send({'from': this._wallet.currentAddress});
 		}
 		else {
 			throw 'Your staked LP balance is not sufficient';
