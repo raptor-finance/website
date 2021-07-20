@@ -241,7 +241,15 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
               </div>
               <div className="d-flex justify-content-between apr">
                 <h2>APR: </h2>
-                <h2>{state.apr || "Loading"} %</h2>
+                <h2>
+                  <AnimatedNumber
+                    value={numeral(state.apr || 0).format('0.00')}
+                    duration="1000"
+                    formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}%`}
+                  >
+                    {state.apr || 0}
+                  </AnimatedNumber>
+                </h2>
               </div>
               <h3>Available RAPTOR-BNB LP</h3>
               <AnimatedNumber
@@ -266,12 +274,12 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
               <AnimatedNumber
                 value={numeral(state.stakedlp || 0).format('0.000000')}
                 duration="1000"
-                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
+                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })} LP Tokens`}
               >
                 {state.stakedlp || 0}
               </AnimatedNumber>
               <div className="d-flex justify-content-end">
-                <input className="lp-input" type="number" onChange={(event) => this.stakingValueChanged(event)} value={state.ctValue || 0} />
+                <input className="lp-input" type="number" step={0.1} onChange={(event) => this.stakingValueChanged(event)} value={state.ctValue || 0} />
               </div>
               <div className="wd-buttons d-flex justify-content-end">
                 <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp <= 0 || state.stakedlp == null} type="button" onClick={async () => this.withdrawLP()}>Withdraw LP</button>
