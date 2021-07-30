@@ -20,6 +20,10 @@
 	--primary-alt: #54D47E;
 	--complementary: #C43194;
 	--complementary-alt: #D454AA;
+	--gold: #F0B909;
+	--gold-alt: #F7C935;
+	--space: #1A222E;
+	--space-alt: #242f3f;
 	--secondary: #252836;
 	--success: #31c461;
 	--info: #17a2b8;
@@ -2827,6 +2831,48 @@ fieldset:disabled a.btn {
 .btn-complementary:not(:disabled):not(.disabled):active:focus,
 .btn-complementary:not(:disabled):not(.disabled).active:focus,
 .show>.btn-complementary.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0.2rem rgba(138, 150, 169, 0.5);
+}
+
+.btn-golden {
+	color: var(--dark);
+	background: var(--gold) linear-gradient(180deg, var(--gold), var(--gold-alt)) repeat-x;
+	border-color: var(--gold);
+}
+
+.btn-golden:hover {
+	color: var(--white);
+	background: #977814 repeat-x;
+	border-color: var(--gold);
+}
+
+.btn-golden:focus,
+.btn-golden.focus {
+	color: var(--white);
+	background: #977814 repeat-x;
+	border-color: var(--gold);
+}
+
+.btn-golden.disabled,
+.btn-golden:disabled {
+	color: var(--dark);
+	background-color: #9daabf;
+	border-color: #9daabf;
+	background-image: none;
+}
+
+.btn-golden:not(:disabled):not(.disabled):active,
+.btn-golden:not(:disabled):not(.disabled).active,
+.show>.btn-golden.dropdown-toggle {
+	color: var(--dark);
+	background-color: #7e8fab;
+	background-image: none;
+	border-color: #7689a6;
+}
+
+.btn-golden:not(:disabled):not(.disabled):active:focus,
+.btn-golden:not(:disabled):not(.disabled).active:focus,
+.show>.btn-golden.dropdown-toggle:focus {
 	box-shadow: 0 0 0 0.2rem rgba(138, 150, 169, 0.5);
 }
 

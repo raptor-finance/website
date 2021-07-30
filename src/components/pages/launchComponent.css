@@ -1,0 +1,174 @@
+.launch-container {
+	padding-top: 5%
+}
+
+.launch-header {
+	padding: 0 4%;
+}
+
+.launch-title {
+	margin-bottom: 32px;
+}
+
+.launch-title span {
+	font-size: 2.6rem;
+	font-weight: bold;
+}
+
+.launch-container .btn-golden {
+	border-radius: 32px;
+	width: 32vw;
+	margin: 16px 0 48px 0px;
+	box-shadow: 0px 0px 6px var(--gold-alt);
+}
+
+.upcoming-launches {
+	background-color: #141A24;
+	padding-bottom: 16px;
+}
+
+.upcoming-launches h1 {
+	color: var(--white);
+	font-weight: bold;
+	font-size: 1.6rem;
+	padding-top: 16px;
+	padding-left: 4%;
+	padding-right: 4%;
+}
+
+.upcoming-launches h1 u {
+	text-decoration-color: var(--complementary-alt);
+}
+
+.upcoming-launches h2 {
+	color: var(--primary-alt);
+	font-weight: bold;
+	font-size: 2rem;
+	margin-bottom: 0;
+}
+
+.upcoming-launches h3 {
+	color: var(--complementary-alt);
+	font-size: 1rem;
+}
+
+.upcoming-launches .upcoming-launch-header h2 {
+	font-size: 1.2rem;
+}
+
+.upcoming-launches .upcoming-launch-header h3 {
+	color: var(--complementary-alt);
+	font-size: 1rem;
+}
+
+.upcoming-launches .col-md-3 {
+	padding: 16px;
+}
+
+.upcoming-launches a:hover {
+	background-color: var(--space-alt);
+}
+
+.card-grid {
+	padding: 0 calc(4% - 16px);
+}
+
+.gradient-card.dark {
+	height: 480px;
+	border: none;
+}
+
+.launch-icon {
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+}
+
+.upcoming-launch-header {
+	text-align: right;
+	margin-bottom: 24px;
+}
+
+.upcoming-launch-body p {
+	margin-bottom: 2px;
+}
+
+.upcoming-launch-body h2 {
+	margin-bottom: 2px;
+}
+
+.upcoming-launch-body h4 {
+	font-size: 1rem;
+}
+
+.upcoming-launch-body .progress {
+	text-align: center;
+	margin: 32px 0;
+}
+
+.upcoming-launch-body span {
+	color: var(--gold-alt);
+}
+
+.launch-modal h1 {
+	color: var(--white);
+	font-size: 1.8rem;
+	font-weight: bold;
+	margin-bottom: 24px;
+}
+
+.launch-modal p {
+	margin: 0;
+}
+
+.launch-modal span {
+	font-weight: bold;
+	color: var(--primary-alt);
+}
+
+.launch-modal input {
+	background-color: var(--dark);
+	color: var(--gold-alt);
+	width: 100%;
+	border-style: solid;
+	border-radius: 4px;
+	margin: 16px 0;
+	padding: 2px 8px;
+}
+
+.launch-modal input[type="checkbox"] {
+	margin: 0;
+	width: auto;
+	width: 16px;
+	height: 16px;
+}
+
+.launch-modal .btn-complementary {
+	margin-left: 8px;
+}
+
+.launch-modal label {
+	margin-left: 8px;
+	margin-bottom: 0;
+	font-size: 0.8rem;
+}
+
+.launch-bullet {
+	background-color: var(--gold);
+	color: var(--white);
+	height: 24px;
+	width: 24px;
+	padding: 0;
+	border-radius: 50%;
+}
+
+.launch-bullet h2 {
+	text-align: center;
+	font-size: 1rem;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+
+.Collapsible {
+	margin-bottom: 24px;
+}

@@ -1,10 +1,14 @@
 .farm-container {
 	display: block;
-	padding: 6% 10% 0% 10%;
+	padding-top: 5%
+}
+
+.farm-header {
+	padding: 0 4%;
 }
 
 .farm-title {
-	margin-bottom: 48px;
+	margin-bottom: 32px;
 }
 
 .farm-title span {
@@ -13,33 +17,42 @@
 }
 
 .lp-pair-icon {
-	width: 56px;
-	height: 56px;
+	width: 64px;
+	height: 64px;
+	margin-right: 8px;
 }
 
 .farm-body {
 	padding-top: 20px;
+	padding-left: calc(4% - 16px);
+	padding-right: calc(4% - 16px);
 }
 
 .farm-body h1 {
-	font-size: 1.8rem;
+	color: var(--primary-alt);
+	font-size: 1.2rem;
+	font-weight: bold;
 }
 
 .farm-body h2 {
-	font-size: 1.6rem;
+	font-size: 1.2rem;
 	font-weight: bold;
 }
 
 .farm-body h3 {
-	font-size: 1.2rem;
+	color: var(--white);
+	font-size: 1rem;
 	font-weight: bold;
-	margin-top: 8px;
+}
+
+.pair-header h3 {
+	margin-top: 4px;
 }
 
 .lp-input {
 	margin-top: 12px;
 	background-color: #242936;
-	color: white;
+	color: var(--gold-alt);
 	border-radius: 8px;
 	border: none;
 	padding: 4px;
@@ -50,12 +63,29 @@
 	outline: none;
 }
 
-.farm-body .apr {
+.farm-body .pair-header {
+	margin-bottom: 24px;
+}
+
+.pair-header h3 {
+	color: var(--complementary-alt);
+}
+
+.apr h2 {
+	color: var(--gold-alt);
+}
+
+.pool {
 	margin-bottom: 16px;
 }
 
-.farm-body .pair-header {
-	margin-bottom: 24px;
+.pool h2 {
+	color: var(--white);
+}
+
+.pool u {
+	text-decoration-thickness: 2px;
+	text-decoration-color: var(--complementary-alt);
 }
 
 .wd-buttons {
@@ -69,13 +99,51 @@
 	padding-bottom: 24px;
 	border: none;
 	z-index: 2;
-	background: linear-gradient(rgba(48, 196, 97, 1), rgba(85, 211, 126, 1) 100%);
+}
+
+.farm-body .col-md-3 {
+	padding: 0 16px;
+}
+
+.farm-card-body {
+	height: 100%;
+	flex-direction: column;
+}
+
+.farm-card-body input {
+	width: 100%;
+}
+
+.rewards-block {
+	margin: 16px 0;
+}
+
+.rewards-block .col-md-2,
+.rewards-block .col-md-10 {
+	padding: 0;
+}
+
+.staked-lp-info {
+	margin-bottom: 16px;
+}
+
+.btn-harvest {
+	background-color: var(--gold);
+	padding: 8px;
+	border: none;
+	border-radius: 50%;
+}
+
+.btn-harvest:hover {
+	background-color: var(--gold-alt);
+}
+
+.btn-harvest img {
+	width: 32px;
+	height: 32px;
 }
 
 .glow-div {
-	min-width: 320px;
-	width: 30%;
-	height: 60%;
 	position: relative;
 	display: flex;
 }
@@ -86,16 +154,16 @@
 	left: 0;
 	top: 0;
 	width: 50%;
-	height: 50%;
-	-webkit-box-shadow: 0 0 17px 3px #F3BA2F, 0 0 4px 2px #F3BA2F;
-	box-shadow: 0 0 17px 3px #F3BA2F, 0 0 4px 2px #F3BA2F;
+	height: 100%;
+	-webkit-box-shadow: 0 0 17px 3px #29e267, 0 0 4px 2px #29e267;
+	box-shadow: 0 0 17px 3px #29e267, 0 0 4px 2px #29e267;
 	z-index: 1;
-	-webkit-animation-name: yellow-shadow;
-	animation-name: yellow-shadow;
+	-webkit-animation-name: gold-glow;
+	animation-name: gold-glow;
 	-webkit-animation-timing-function: ease;
 	animation-timing-function: ease;
-	-webkit-animation-duration: 3.2s;
-	animation-duration: 3.2s;
+	-webkit-animation-duration: 4s;
+	animation-duration: 4s;
 	-webkit-animation-iteration-count: infinite;
 	animation-iteration-count: infinite;
 	border-radius: 12px;
@@ -111,16 +179,16 @@
 	right: 0;
 	bottom: 0;
 	width: 50%;
-	height: 50%;
-	-webkit-box-shadow: 0 0 17px 3px var(--complementary-alt), 0 0 4px 2px var(--complementary-alt);
-	box-shadow: 0 0 17px 3px var(--complementary-alt), 0 0 4px 2px var(--complementary-alt);
-	z-index: 1;
-	-webkit-animation-name: cyan-shadow;
-	animation-name: cyan-shadow;
+	height: 100%;
+	-webkit-box-shadow: 0 0 17px 3px #ff46c1, 0 0 4px 2px #ff46c1;
+	box-shadow: 0 0 17px 3px #ff46c1, 0 0 4px 2px #ff46c1;
+	z-index: 0;
+	-webkit-animation-name: pink-glow;
+	animation-name: pink-glow;
 	-webkit-animation-timing-function: ease;
 	animation-timing-function: ease;
-	-webkit-animation-duration: 3.2s;
-	animation-duration: 3.2s;
+	-webkit-animation-duration: 4s;
+	animation-duration: 4s;
 	-webkit-animation-iteration-count: infinite;
 	animation-iteration-count: infinite;
 	border-radius: 12px;
@@ -130,111 +198,151 @@
 	-o-border-radius: 12px;
 }
 
-@-webkit-keyframes yellow-shadow {
+@keyframes gold-glow {
 	0% {
 		top: 0;
 		left: 0;
+		height: 50%;
+		width: 100%;
 	}
 
 	25% {
-		top: 50%;
-		left: 0;
+		top: 0;
+		left: 50%;
+		height: 100%;
+		width: 50%;
 	}
 
 	50% {
 		top: 50%;
-		left: 50%;
+		left: 0;
+		height: 50%;
+		width: 100%;
 	}
 
 	75% {
 		top: 0;
-		left: 50%;
+		left: 0;
+		height: 100%;
+		width: 50%;
 	}
 
 	100% {
 		top: 0;
 		left: 0;
+		height: 50%;
+		width: 100%;
 	}
 }
 
-@keyframes yellow-shadow {
+@-webkit-keyframes gold-glow {
 	0% {
 		top: 0;
 		left: 0;
+		height: 50%;
+		width: 100%;
 	}
 
 	25% {
-		top: 50%;
-		left: 0;
+		top: 0;
+		left: 50%;
+		height: 100%;
+		width: 50%;
 	}
 
 	50% {
 		top: 50%;
-		left: 50%;
+		left: 0;
+		height: 50%;
+		width: 100%;
 	}
 
 	75% {
 		top: 0;
-		left: 50%;
+		left: 0;
+		height: 100%;
+		width: 50%;
 	}
 
 	100% {
 		top: 0;
 		left: 0;
+		height: 50%;
+		width: 100%;
 	}
 }
 
-@-webkit-keyframes cyan-shadow {
+@keyframes pink-glow {
 	0% {
-		right: 0;
-		bottom: 0;
+		top: 50%;
+		left: 0;
+		height: 50%;
+		width: 100%;
 	}
 
 	25% {
-		right: 0;
-		bottom: 50%;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 50%;
 	}
 
 	50% {
-		right: 50%;
-		bottom: 50%;
+		top: 0;
+		left: 0;
+		height: 50%;
+		width: 100%;
 	}
 
 	75% {
-		right: 50%;
-		bottom: 0;
+		top: 0;
+		left: 50%;
+		height: 100%;
+		width: 50%;
 	}
 
 	100% {
-		right: 0;
-		bottom: 0;
+		top: 50%;
+		left: 0;
+		height: 50%;
+		width: 100%;
 	}
 }
 
-@keyframes cyan-shadow {
+@-webkit-keyframes pink-glow {
 	0% {
-		right: 0;
-		bottom: 0;
+		top: 50%;
+		left: 0;
+		height: 50%;
+		width: 100%;
 	}
 
 	25% {
-		right: 0;
-		bottom: 50%;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 50%;
 	}
 
 	50% {
-		right: 50%;
-		bottom: 50%;
+		top: 0;
+		left: 0;
+		height: 50%;
+		width: 100%;
 	}
 
 	75% {
-		right: 50%;
-		bottom: 0;
+		top: 0;
+		left: 50%;
+		height: 100%;
+		width: 50%;
 	}
 
 	100% {
-		right: 0;
-		bottom: 0;
+		top: 50%;
+		left: 0;
+		height: 50%;
+		width: 100%;
 	}
 }
 
@@ -242,7 +350,6 @@
 	.farm-container {
 		padding: 30% 10% 0 10%;
 	}
-
 
 	.farm-container .farm-header a {
 		float: none !important;
@@ -252,6 +359,10 @@
 
 	.glow-div {
 		min-width: 0;
+	}
+
+	.farm-header {
+		padding: 0;
 	}
 
 	.farm-title {
@@ -265,6 +376,15 @@
 	.lp-pair-icon {
 		width: 40px;
 		height: 40px;
+	}
+
+	.farm-body {
+		display: block !important;
+	}
+
+	.farm-body .col-md-3 {
+		padding: 0;
+		margin-bottom: 32px;
 	}
 
 	.farm-body .glow-div {
@@ -291,6 +411,10 @@
 	}
 
 	.farm-body button {
-		font-size: 0.88rem !important;
+		font-size: 1rem !important;
+	}
+	
+	.rewards-block {
+		justify-content: space-between;
 	}
 }

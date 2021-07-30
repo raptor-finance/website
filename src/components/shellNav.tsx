@@ -1,11 +1,12 @@
 import * as React from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { BaseComponent, IShellPage } from './shellInterfaces';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
 import { supportedLanguages, languageCodeOnly } from '../i18n';
+import Collapsible from 'react-collapsible';
 import './shellNav.css';
 import './shellNav.icons.css';
 
@@ -28,16 +29,52 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 			this.collapseRef.current.click();
 	}
 
+	collapsedNavItem(title) {
+		return <li className="sudo-nav-link">
+			<a href="" className={`d-flex justify-content-between nav-item ${title.toLowerCase()}`}>
+				<p>{title}</p>
+				<p>▼</p>
+			</a>
+		</li>
+	}
+
+	expandedNavItem(title) {
+		return <li className="sudo-nav-link">
+			<a href="" className={`d-flex justify-content-between nav-item ${title.toLowerCase()}`}>
+				<p>{title}</p>
+				<p>▲</p>
+			</a>
+		</li>
+	}
+
+	checkCurrentRoute() {
+		const location = window.location;
+
+		console.log(location);
+
+		if (location.pathname == "/launch" || location.pathname == "/lock" || location.pathname == "/swap" || location.pathname == "/liquidity") {
+			return true;
+		}
+		return false;
+	}
+
 	render() {
 		const pages: IShellPage[] = (this.readProps().pages || []);
 		const t: TFunction<"translation"> = this.readProps().t;
 		const i18n = this.readProps().i18n;
 
+		const pages1 = pages.slice(0, 2);
+		const pages2 = pages.slice(3, 7);
+
+		console.log(pages2);
+
+		// pages.pop(); WIP
+
 		return (
 			<div className="navigation-wrapper">
 				<div className="logo-wrapper">
 					<a href="/home">
-						<img src="images/logo.svg" className="img-logo" alt="Raptor Finance" />
+						<img src="images/updated-logo-title.svg" className="img-logo" alt="Raptor Finance" />
 					</a>
 					<button className="navbar-toggler" type="button" data-bs-target="#mainNav" data-bs-toggle="collapse"
 						aria-controls="navbarSupportedContent" aria-label="Toggle navigation" ref={this.collapseRef}>
@@ -47,31 +84,77 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 				<nav id="mainNav">
 					<ul className="navbar-nav">
 						{
-							pages.map(page => {
+							pages1.map(page => {
 								const classes = ['nav-item', page.id];
 								const menuMap = {
 									'home': t('nav.home'),
 									'about': t('nav.about'),
-									'swap': t('nav.swap'),
+								}
+								const menuName = (menuMap as any)[`${page.id}`];
+
+								return <li key={`${page.id}`}>
+									<NavLink to={page.id} activeClassName="active" className={classes.join(' ')} onClick={this.toggleMenu}>{menuName}</NavLink>
+								</li>;
+							})
+						}
+						
+
+						<Collapsible
+							trigger={this.collapsedNavItem("Trade")}
+							triggerWhenOpen={this.expandedNavItem("Trade")}
+							transitionTime={240}
+							transitionCloseTime={240}
+							open={this.checkCurrentRoute()}
+						>
+							<div className="collapsible-div">
+								<ul className="navbar-nav">
+									<li>
+										<NavLink to="swap" activeClassName="active" className="nav-item swap" onClick={this.toggleMenu}>Swap</NavLink>
+									</li>
+									<li>
+										<a href="https://swap.raptr.finance/#/pool" activeClassName="active" className="nav-item liquidity">Liquidity</a>
+									</li>
+								</ul>
+							</div>
+						</Collapsible>
+
+						{
+							pages2.map(page => {
+								const classes = ['nav-item', page.id];
+								const menuMap = {
 									'farm': t('nav.farm'),
 									'staking': t('nav.staking'),
 									'lottery': t('nav.lottery'),
 									'faq': t('nav.faq')
 								}
 								const menuName = (menuMap as any)[`${page.id}`];
+
 								return <li key={`${page.id}`}>
 									<NavLink to={page.id} activeClassName="active" className={classes.join(' ')} onClick={this.toggleMenu}>{menuName}</NavLink>
 								</li>;
 							})
 						}
+						{/* WIP */}
+						{/* <Collapsible
+							trigger={this.collapsedNavItem()}
+							triggerWhenOpen={this.expandedNavItem()}
+							transitionTime={240}
+							transitionCloseTime={240}
+							open={this.checkCurrentRoute()}
+						>
+							<div className="collapsible-div">
+								<ul className="navbar-nav">
+									<li>
+										<NavLink to="launch" activeClassName="active" className="nav-item launch" onClick={this.toggleMenu}>Launch</NavLink>
+									</li>
+									<li>
+										<NavLink to="lock" activeClassName="active" className="nav-item lock" onClick={this.toggleMenu}>Lock</NavLink>
+									</li>
+								</ul>
+							</div>
+						</Collapsible> */}
 					</ul>
 					<div className="navigation-footer">
-						<div>
-							<a href="https://coinmarketcap.com/currencies/raptor-token" className="btn btn-primary btn-block" target="_blank">{t('nav.coinmarketcap')}</a>
-						</div>
-						<div className="mt-2">
-							<a href="https://www.coingecko.com/en/coins/raptor-finance" className="btn btn-primary btn-block" target="_blank">{t('nav.coingecko')}</a>
-						</div>
 						<div className="mt-2">
 							<a href="https://whitebit.com/trade-pro/RAPTOR_DECL?type=spot" className="btn btn-primary btn-block" target="_blank">{t('nav.buyonwhitebit')}</a>
 						</div>

@@ -1,5 +1,14 @@
 .faq-container {
-	padding: 6% 10% 0% 10%;
+	padding: 5% 4% 0 4%;
+}
+
+.faq-title {
+	margin-bottom: 32px;
+}
+
+.faq-title span {
+	font-size: 2.6rem;
+	font-weight: bold;
 }
 
 .faq-container h1 {

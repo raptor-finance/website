@@ -27,7 +27,7 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 
 		return <div className="about-container">
 			<div className="d-flex flex-row container" style={{ padding: "0px" }}>
-				<div>
+				<div style={{ marginRight: "4%" }}>
 					<section id="mission">
 						<div className="container">
 							<div className="row">
@@ -53,6 +53,9 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 											<h2>{t('about.products_overview.swap.title')}</h2>
 											<p>{t('about.products_overview.swap.paragraph1')}</p>
 											<p>{t('about.products_overview.swap.paragraph2')}</p>
+											<h2>{t('about.products_overview.farm.title')}</h2>
+											<p>{t('about.products_overview.farm.paragraph1')}</p>
+											<p>{t('about.products_overview.farm.paragraph2')}</p>
 											<h2>{t('about.products_overview.staking.title')}</h2>
 											<p>{t('about.products_overview.staking.paragraph1')}</p>
 											<p>{t('about.products_overview.staking.paragraph2')}</p>

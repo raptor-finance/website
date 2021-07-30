@@ -5,24 +5,24 @@ import { BaseComponent, ShellErrorHandler } from '../shellInterfaces';
 import { Wallet } from '../wallet';
 import { RaptorFarm } from '../contracts/raptorfarm';
 import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
-import { Slide } from 'react-reveal';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import AnimatedNumber from 'animated-number-react';
 
 import './farmComponent.css';
 
 export type FarmProps = {};
 export type FarmState = {
-  farm?: RaptorFarm,
+  farm?,
   wallet?: Wallet,
   looping?: boolean,
-  apr?: number,
+  apr?,
   address?: string,
   balance?: number,
-  lpbalance?: number,
-  stakedlp?: number,
+  lpBalance?: number,
+  stakedLp?: number,
   amount?: number,
   rewards?: number,
-  ctValue?: number,
+  ctValue?,
   pending?: boolean
 }
 
@@ -33,6 +33,10 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
     this.connectWallet = this.connectWallet.bind(this);
     this.disconnectWallet = this.disconnectWallet.bind(this);
+    this.FarmCard = this.FarmCard.bind(this);
+    this.stakingValueChanged = this.stakingValueChanged.bind(this);
+    this.renderTooltip = this.renderTooltip.bind(this);
+
     this.state = {};
   }
 
@@ -50,11 +54,20 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
         throw 'The wallet connection was cancelled.';
       }
 
-      const farm = new RaptorFarm(wallet, 0);
-      await farm.finishSetup();
+      var farm = {};
+      farm[0] = new RaptorFarm(wallet, 0);
+      await farm[0].finishSetup();
+
+	  const poolLength = (await farm[0].contract.methods.poolLength().call());
+	  var i = 1;
+	  while (i < poolLength) {
+		farm[i] = new RaptorFarm(wallet, i);
+        await farm[i].finishSetup();
+		i += 1;
+	  }
 
       this.updateState({ farm: farm, wallet: wallet, looping: true, pending: false });
-      this.updateOnce(true).then();
+      this.updateOnce(false).then();
 
       this.loop().then();
     }
@@ -62,6 +75,55 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
       this.updateState({ pending: false });
       this.handleError(e);
     }
+  }
+
+  getLpBalance(pid: number): number {
+    const farmInfo = ((this.readState().farm || {})[pid]);
+    if (farmInfo == undefined) {
+      return 0;
+    }
+    else {
+      return (farmInfo.lpBalance || 0);
+    }
+  }
+
+  getStakedBalance(pid: number): number {
+    const farmInfo = ((this.readState().farm || {})[pid]);
+    if (farmInfo == undefined) {
+      return 0;
+    }
+    else {
+      return (farmInfo.stakedLp || 0);
+    }
+  }
+
+  getRewards(pid: number): number {
+    const farmInfo = ((this.readState().farm || {})[pid]);
+    if (farmInfo == undefined) {
+      return 0;
+    }
+    else {
+      return (farmInfo.rewards || 0);
+    }
+  }
+
+  getApr(pid: number): number {
+    const farmInfo = ((this.readState().farm || {})[pid]);
+    if (farmInfo == undefined) {
+      return 0;
+    }
+    else {
+      return (farmInfo.apr || 0);
+    }
+  }
+
+  getAmounts(pid: number) {
+    var amounts = {};
+    amounts["apr"] = this.getApr(pid);
+    amounts["lpBalance"] = this.getLpBalance(pid);
+    amounts["stakedLp"] = this.getStakedBalance(pid);
+    amounts["rewards"] = this.getRewards(pid);
+    return amounts;
   }
 
   async disconnectWallet() {
@@ -81,7 +143,9 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
   }
 
   async componentDidMount() {
-
+	if ((window.ethereum || {}).selectedAddress) {
+		this.connectWallet();
+	}
   }
 
   componentWillUnmount() {
@@ -102,26 +166,21 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
     if (!!farm) {
       try {
-        await farm.refresh();
+        var i = 0
+        while (farm[i] != undefined) {
+          await farm[i].refresh();
+          i += 1;
+        }
         if (!this.readState().looping) {
           return false;
         }
         this.updateState({
-          address: farm.wallet.currentAddress,
-          balance: farm.raptor.balance,
-          stakedlp: farm.stakedlp,
-          lpbalance: farm.lpbalance,
-          rewards: farm.rewards,
-          apr: farm.apr,
+          address: farm[0].wallet.currentAddress,
         });
 
         if (resetCt) {
           this.updateState({
             address: "",
-            balance: 0,
-            lpbalance: 0,
-            rewards: 0,
-            apr: 0,
           })
         }
 
@@ -136,20 +195,19 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     return true;
   }
 
-  async depositLP(): Promise<void> {
+  async depositLP(pid: number): Promise<void> {
     try {
       const state = this.readState();
       this.updateState({ pending: true });
 
-      if (state.ctValue >= 0) {
-        await state.farm.deposit(state.ctValue);
+      if (state.ctValue[pid] >= 0) {
+        await state.farm[pid].deposit(state.ctValue[pid]);
       } else {
         throw "Can't deposit a negative amount.";
-        return;
       }
 
       this.updateState({ pending: false });
-      this.updateOnce(true).then();
+      this.updateOnce(false).then();
     }
     catch (e) {
       this.updateState({ pending: false });
@@ -157,20 +215,34 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
 
-  async withdrawLP(): Promise<void> {
+  async withdrawLP(pid: number): Promise<void> {
     try {
       const state = this.readState();
       this.updateState({ pending: true });
 
-      if (state.ctValue >= 0) {
-        await state.farm.withdraw(state.ctValue);
+      if (state.ctValue[pid] >= 0) {
+        await state.farm[pid].withdraw(state.ctValue[pid]);
       } else {
         throw "Can't withdraw a negative amount.";
-        return;
       }
 
       this.updateState({ pending: false });
-      this.updateOnce(true).then();
+      this.updateOnce(false).then();
+    }
+    catch (e) {
+      this.updateState({ pending: false });
+      this.handleError(e);
+    }
+  }
+
+  async claimRaptor(pid: number): Promise<void> {
+    try {
+      const state = this.readState();
+      this.updateState({ pending: true });
+      await state.farm[pid].claim();
+
+      this.updateState({ pending: false });
+      this.updateOnce(false).then();
     }
     catch (e) {
       this.updateState({ pending: false });
@@ -179,22 +251,122 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
   }
 
   stakingValueChanged = (event) => {
-    this.updateState({ ctValue: event.target.value });
+    var _ctValue = (this.readState().ctValue || {});
+
+    _ctValue[event.target.id] = event.target.value;
+
+    console.log(this.state);
+
+    this.updateState({
+      ctValue: _ctValue,
+    });
   }
 
-  async claimRaptor(): Promise<void> {
-    try {
-      const state = this.readState();
-      this.updateState({ pending: true });
-      await state.farm.claim();
+  renderTooltip = (props) => {
+    return <Tooltip id="harvest-tooltip" {...props}>
+      Claim Rewards
+    </Tooltip>
+  }
 
-      this.updateState({ pending: false });
-      this.updateOnce(true).then();
-    }
-    catch (e) {
-      this.updateState({ pending: false });
-      this.handleError(e);
-    }
+  FarmCard({
+    logo,
+    pairName,
+    fees,
+    liquidityPool,
+    enableGlow,
+    pid
+  }) {
+    const ctValue = ((this.readState().ctValue || {})[pid]);
+    const amounts = this.getAmounts(pid);
+    const apr = amounts["apr"];
+    const lpBalance = amounts["lpBalance"];
+    const stakedLp = amounts["stakedLp"];
+    const rewards = amounts["rewards"];
+
+    return <div className="col-md-3">
+      <div className={`farm-card ${enableGlow ? "glow-div" : ""}`}>
+        <div className="gradient-card shadow dark">
+          <div className="farm-card-body d-flex justify-content-between">
+            <div>
+              <div className="d-flex justify-content-between pair-header">
+                <img className="lp-pair-icon" src={logo} alt="bnb-raptor-pair" />
+                <div>
+                  <h1 className="text-right">{pairName} LP</h1>
+                  <h3 className="text-right">{fees}</h3>
+                </div>
+              </div>
+              <hr />
+              <div className="d-flex justify-content-between apr">
+                <h2>APR: </h2>
+                <h2>
+                  <AnimatedNumber
+                    value={numeral(apr || 0).format('0.00')}
+                    duration="1000"
+                    formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}%`}
+                  >
+                    {apr || 0}
+                  </AnimatedNumber>
+                </h2>
+              </div>
+              <div className="d-flex justify-content-between pool">
+                <h2>Liquidity Pool: </h2>
+                <h2><u>{liquidityPool}</u></h2>
+              </div>
+              <h3>Available {pairName} LP</h3>
+              <AnimatedNumber
+                value={numeral(lpBalance || 0).format('0.000000')}
+                duration="1000"
+                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
+              >
+                {lpBalance || 0}
+              </AnimatedNumber>
+              <div className="rewards-block d-flex justify-content-between">
+                <div>
+                  <h3>Pending Rewards</h3>
+                  <AnimatedNumber
+                    value={numeral(rewards || 0).format('0.00')}
+                    duration="1000"
+                    formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor`}
+                  >
+                    {rewards || 0}
+                  </AnimatedNumber>
+                </div>
+                <div className="d-flex align-items-center">
+                  <OverlayTrigger
+                    placement="bottom-start"
+                    overlay={this.renderTooltip}
+                  >
+                    <button className="btn btn-harvest stake-claim shadow" disabled={rewards <= 0 || rewards == null} type="button" onClick={async () => this.claimRaptor(pid)}>
+                      <img src="images/harvest-icon.svg" />
+                    </button>
+                  </OverlayTrigger>
+                </div>
+              </div>
+              <div className="staked-lp-info">
+                <h3>{pairName} LP Staked</h3>
+                <AnimatedNumber
+                  value={numeral(stakedLp || 0).format('0.000000')}
+                  duration="1000"
+                  formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })} LP Tokens`}
+                >
+                  {stakedLp || 0}
+                </AnimatedNumber>
+              </div>
+            </div>
+            <hr />
+            <div>
+              <div className="d-flex">
+                <input className="lp-input" type="number" id={pid} onChange={(event) => this.stakingValueChanged(event)} value={ctValue || 0} />
+              </div>
+              <div className="wd-buttons d-flex justify-content-between">
+                <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={stakedLp <= 0 || stakedLp == null} type="button" onClick={async () => this.withdrawLP(pid)}>Withdraw LP</button>
+                <button className="btn btn-primary btn-small link-dark align-self-center stake-claim" disabled={lpBalance <= 0 || lpBalance == null} type="button" onClick={async () => this.depositLP(pid)} style={{ marginLeft: "16px" }}>Deposit LP</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   }
 
   render() {
@@ -228,66 +400,23 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
         </div>
       </div>
 
-      <div className="farm-body">
-        <Slide left>
-          <div className="glow-div">
-            <div className="gradient-card primary">
-              <div className="d-flex justify-content-between pair-header">
-                <img className="lp-pair-icon" src="images/bnb-raptor.png" alt="bnb-raptor-pair" />
-                <div>
-                  <h1 className="text-right"><strong>RAPTOR-BNB LP</strong></h1>
-                  <h3 className="text-right">NO FEES</h3>
-                </div>
-              </div>
-              <div className="d-flex justify-content-between apr">
-                <h2>APR: </h2>
-                <h2>
-                  <AnimatedNumber
-                    value={numeral(state.apr || 0).format('0.00')}
-                    duration="1000"
-                    formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}%`}
-                  >
-                    {state.apr || 0}
-                  </AnimatedNumber>
-                </h2>
-              </div>
-              <h3>Available RAPTOR-BNB LP</h3>
-              <AnimatedNumber
-                value={numeral(state.lpbalance || 0).format('0.000000')}
-                duration="1000"
-                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
-              >
-                {state.lpbalance || 0}
-              </AnimatedNumber>
-              <h3>Pending Rewards</h3>
-              <AnimatedNumber
-                value={numeral(state.rewards || 0).format('0.00')}
-                duration="1000"
-                formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor`}
-              >
-                {state.rewards || 0}
-              </AnimatedNumber>
-              <div className="d-flex justify-content-end">
-                <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.address == null} type="button" onClick={async () => this.claimRaptor()} style={{ marginTop: "16px", marginBottom: "16px" }}>Harvest Raptor</button>
-              </div>
-              <h3>RAPTOR-BNB LP Staked</h3>
-              <AnimatedNumber
-                value={numeral(state.stakedlp || 0).format('0.000000')}
-                duration="1000"
-                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })} LP Tokens`}
-              >
-                {state.stakedlp || 0}
-              </AnimatedNumber>
-              <div className="d-flex justify-content-end">
-                <input className="lp-input" type="number" step={0.1} onChange={(event) => this.stakingValueChanged(event)} value={state.ctValue || 0} />
-              </div>
-              <div className="wd-buttons d-flex justify-content-end">
-                <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.stakedlp <= 0 || state.stakedlp == null} type="button" onClick={async () => this.withdrawLP()}>Withdraw LP</button>
-                <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={state.lpbalance <= 0 || state.lpbalance == null} type="button" onClick={async () => this.depositLP()} style={{ marginLeft: "16px" }}>Deposit LP</button>
-              </div>
-            </div>
-          </div>
-        </Slide>
+      <div className="farm-body d-flex">
+        <this.FarmCard
+          logo="images/usdt-raptor.png"
+          pairName="RAPTOR-USDT"
+          fees="NO FEES"
+          liquidityPool="Raptor"
+          enableGlow={true}
+          pid={1}
+        />
+        <this.FarmCard
+          logo="images/bnb-raptor.png"
+          pairName="RAPTOR-BNB"
+          fees="NO FEES"
+          liquidityPool="Pancake"
+          enableGlow={false}
+          pid={0}
+        />
       </div>
     </div>
   }
