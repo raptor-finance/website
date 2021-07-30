@@ -41,7 +41,17 @@ export class Wallet {
 
 	public async connect(): Promise<boolean> {
 		const wnd: any = window;
-		this._provider = await this.web3Modal.connect();
+		if ((window.ethereum || {}).selectedAddress) {
+			try {
+				this._provider = window.ethereum;
+			}
+			catch (e) {
+				this._provider = await this.web3Modal.connect();
+			}
+		}
+		else {
+			this._provider = await this.web3Modal.connect();
+		}
 
 		// Subscribe to provider disconnection
 		this._provider.on("disconnect", async (error: { code: number; message: string }) => {

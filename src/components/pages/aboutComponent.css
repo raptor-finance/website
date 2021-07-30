@@ -1,5 +1,5 @@
 .about-container {
-	padding: 6% 10% 0 10%;
+	padding: 5% 4% 0 4%;
 }
 
 .about-container h1 {
@@ -19,7 +19,7 @@
 }
 
 .about-container h2 {
-	color: var(--complementary-alt);
+	color: var(--primary);
 }
 
 .about-container h3 {

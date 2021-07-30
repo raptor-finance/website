@@ -83,7 +83,9 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 	}
 
 	async componentDidMount() {
-
+		if ((window.ethereum || {}).selectedAddress) {
+			this.connectWallet();
+		}
 		// try {
 		// 	const wallet = new Wallet();
 		// 	const result = await wallet.connect();

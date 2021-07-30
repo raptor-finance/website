@@ -22,6 +22,8 @@ import AboutComponent from './components/pages/aboutComponent';
 import FaqComponent from './components/pages/faqComponent';
 import PlaceholderComponent from './components/pages/placeholderComponent';
 import FarmComponent from './components/pages/farmComponent';
+import LiquidityComponent from './components/pages/liquidityComponent';
+// import LaunchComponent from './components/pages/launchComponent'; WIP
 
 import './i18n';
 
@@ -33,6 +35,9 @@ const pagesInNavigator = [
 	{ id: 'staking', title: 'Staking', component: StakingComponent },
 	{ id: 'lottery', title: 'Lottery', component: LotteryComponent },
 	{ id: 'faq', title: 'FAQ', component: FaqComponent },
+	// Ignored on nav
+//	{ id: 'liquidity', title: 'Liquidity', component: LiquidityComponent },
+	// { id: 'launch', title: 'Launch', component: LaunchComponent },
 ];
 
 const overrideCss = css`

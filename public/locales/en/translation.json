@@ -57,6 +57,11 @@
     "swap": {
         "title": "RaptorSwap is coming soon"
     },
+    "liquidity": {
+        "connect_wallet": "Connect Wallet",
+        "disconnect_wallet": "Disconnect Wallet",
+        "paragraph1": "View and add liquidity tokens on the Raptor pool using the RaptorLiquidity tool. Connect your wallet to begin."
+    },
     "farm": {
         "connect_wallet": "Connect Wallet",
         "disconnect_wallet": "Disconnect Wallet",
@@ -141,6 +146,11 @@
                 "paragraph1": "A one of a kind DEX with CEX attributes, featuring live trading charts and live transaction feeds. Our one-of-a-kind non-KYC verified exchange allows you to reap the benefits of a traditional exchange without having to worry about the prying eyes of the regulation, and your tokens will always remain in your custody, off of an exchange. If you prefer a more simple swap style, we also provide that so our product is not exclusive to the tech-savvy consumer, but for everyone. A small set fee is applied to every transaction which partially goes to our donation wallet, by doing so we enable our trading platform to partake in saving the planet!",
                 "paragraph2": "New token owners will have the possibility to help save our planet by hosting their liquidity on RaptorSwap. Fees from liquidity pools and subsequent trading fees will go directly to our donation wallet!"
             },
+            "farm": {
+                "title": "RaptorFarm - NEW",
+                "paragraph1": "The RaptorFarm allows you to earn passive Raptor income with highly competitive returns. After simply exchanging for LP tokens, you can deposit these into one of our farms to begin earning Raptor Tokens. The earlier you join a farm, the better your chances are of taking advantage of a higher APR!",
+                "paragraph2": "Just like our RaptorStaking, we do not have a time lock on our RaptorFarm platform, you can unstake and claim your earned Raptor Tokens whenever you like, giving you the freedom to manage your own income."
+            },
             "staking": {
                 "title": "RaptorStaking",
                 "paragraph1": "With RaptorStaking you can earn additional Raptors Tokens. Deposit your Raptor Token into our specialized staking contract, and earn a sustainable 5% APR every epoch (3s).",
@@ -153,7 +163,7 @@
                 "paragraph3": "When you purchase a ticket 80% of the cost goes to the pot, and 20% goes to our donation wallet, each ticket purchase is also subject to the 7% transaction tax which also goes directly to our donation wallet! Not only making this a first-of-its-kind PoWRNG lottery, but also an exciting way to help save our planet!"
             },
             "app": {
-                "title": "Raptor Finance App - NEW",
+                "title": "Raptor Finance App",
                 "paragraph1": "Track your Raptor holdings live using the Raptor Finance app. Available now for iOS and Android.",
                 "paragraph2": "Get the latest information about the price of the token in multiple currencies, the status of the Raptor forest, and any other information you need to know about Raptor. Straight to your mobile device!"
             }
@@ -290,5 +300,16 @@
             "title": "What sets your project apart from all of the others?",
             "desc": "Plain and simple; we are the only project that is planning to divert a part of the fees from our upcoming RaptorSwap exchange to a donation wallet. The community will use this to decide what environmental organizations we should donate to throughout the year, instead of being greedy and pocketing everything."
         }
+    },
+    "launch": {
+        "paragraph1": "Start your project the right way, using Raptor's own launch platform.",
+        "paragraph2": "RaptorLaunch allows you to manage your project's initial sales as smooth as possible. Projects will also get listed on RaptorSwap instantly.",
+        "bnb": "BNB",
+        "raised": "Total Raised",
+        "soft_cap": "Soft Cap",
+        "min_cont": "Min",
+        "max_cont": "Max",
+        "participants": "Participants",
+        "countdown": "Presale Countdown"
     }
 }

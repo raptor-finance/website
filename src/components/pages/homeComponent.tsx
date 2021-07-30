@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { BaseComponent } from '../shellInterfaces';
 import { DonationWalletAddress } from '../contracts/raptor';
 import { RaptorStatistics } from '../contracts/statistics';
-import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
+import { withTranslation, WithTranslation, TFunction } from 'react-i18next';
 import { pulse } from 'react-animations';
 import { Fade, Slide } from 'react-reveal';
 import { PuffLoader, PropagateLoader } from 'react-spinners';
@@ -97,19 +97,18 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 		return <div className="home-container">
 			<div className="container">
 				<section className="intro">
-					<div className="row">
-						<div className="col-md-6">
+					<div className="row d-flex justify-content-between">
+						<div className="col-md-7">
 							<h1><strong className="title-white">{t('home.subtitle1')}</strong><br /></h1>
 							<p>{t('home.paragraph1')}</p>
 							<p>{t('home.paragraph1_end')}</p>
 							<div className="d-flex flex-sm-column flex-lg-row hero-buttons">
 								<Slide left>
-									<a className="shadow btn btn-primary btn-lg btn-about" role="button" href="about" style={{ marginLeft: "0" }}>{t('home.about_us')}</a>
-									<a className="shadow btn btn-complementary btn-lg" role="button" href="/whitepaper.pdf" target="_blank">{t('home.our_docs')}</a>
+									<a className="shadow btn btn-golden btn-lg" role="button" href="/whitepaper.pdf" target="_blank">{t('home.our_docs')}</a>
 								</Slide>
 							</div>
 						</div>
-						<div className="col-md-6">
+						<div className="col-md-5">
 							<Suspense fallback={<PuffLoader color={'#ffffff'} />}>
 								<RaptorForestDiv />
 							</Suspense>
@@ -117,7 +116,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 					</div>
 					<div className="second-paragraph">
 						<h1><strong className="title-white">{t('home.subtitle2')}</strong><br /></h1>
-						<p>{t('home.paragraph2')} <a href="about#roadmap">{t('home.roadmap')}</a> {t('home.for_details')}</p>
+						<p>{t('home.paragraph2')} <a href="home#roadmap">{t('home.roadmap')}</a> {t('home.for_details')}</p>
 						<p>{t('home.paragraph3')} <a href={`https://bscscan.com/address/${DonationWalletAddress}`} target="_blank" rel="noreferrer" style={{ fontFamily: 'monospace', wordBreak: "break-word" }}>{DonationWalletAddress}</a></p>
 						<p>
 							{t('home.paragraph4_1')}
@@ -140,7 +139,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 					</Suspense>
 				</section>
 
-				<section>
+				<section id="roadmap">
 					<Suspense fallback={<PropagateLoader color={'#ffffff'} />}>
 						<RoadmapDiv />
 					</Suspense>

@@ -140,6 +140,9 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 	}
 
 	async componentDidMount() {
+		if ((window.ethereum || {}).selectedAddress) {
+			this.connectWallet();
+		}
 	}
 
 	componentWillUnmount() {
