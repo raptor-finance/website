@@ -360,7 +360,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
               </div>
               <div className="wd-buttons d-flex justify-content-between">
                 <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={stakedLp <= 0 || stakedLp == null} type="button" onClick={async () => this.withdrawLP(pid)}>Withdraw LP</button>
-                <button className="btn btn-primary btn-small link-dark align-self-center stake-claim" disabled={lpBalance <= 0 || lpBalance == null} type="button" onClick={async () => this.depositLP(pid)} style={{ marginLeft: "16px" }}>Deposit LP</button>
+                <button className="btn btn-primary btn-small link-dark align-self-center stake-claim right" disabled={lpBalance <= 0 || lpBalance == null} type="button" onClick={async () => this.depositLP(pid)}>Deposit LP</button>
               </div>
             </div>
           </div>

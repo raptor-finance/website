@@ -143,6 +143,10 @@
 	height: 32px;
 }
 
+.wd-buttons .right {
+	margin-left: 16px;
+}
+
 .glow-div {
 	position: relative;
 	display: flex;
@@ -413,8 +417,41 @@
 	.farm-body button {
 		font-size: 1rem !important;
 	}
-	
+
 	.rewards-block {
 		justify-content: space-between;
+	}
+}
+
+@media (max-width: 1400px) {
+	.wd-buttons {
+		display: block !important;
+	}
+
+	.wd-buttons button {
+		width: 100%;
+	}
+
+	.wd-buttons .right {
+		margin-top: 16px;
+		margin-left: 0px;
+	}
+
+	.apr {
+		display: block !important;
+	}
+
+	.pool {
+		display: block !important;
+	}
+
+	.btn-harvest {
+		height: 40px;
+		width: 40px;
+	}
+
+	.btn-harvest img {
+		height: 24px;
+		width: 24px;
 	}
 }
