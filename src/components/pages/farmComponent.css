@@ -24,8 +24,8 @@
 
 .farm-body {
 	padding-top: 20px;
-	padding-left: calc(4% - 16px);
-	padding-right: calc(4% - 16px);
+	padding-left: 4%;
+	padding-right: 4%;
 }
 
 .farm-body h1 {
@@ -103,6 +103,10 @@
 
 .farm-body .col-md-3 {
 	padding: 0 16px;
+}
+
+.farm-card {
+	margin-bottom: 32px;
 }
 
 .farm-card-body {
@@ -423,7 +427,7 @@
 	}
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1200px) {
 	.wd-buttons {
 		display: block !important;
 	}
@@ -453,5 +457,10 @@
 	.btn-harvest img {
 		height: 24px;
 		width: 24px;
+	}
+
+	.lp-pair-icon {
+		width: 56px;
+		height: 56px;
 	}
 }

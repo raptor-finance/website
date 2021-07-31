@@ -5,10 +5,11 @@ import { BaseComponent, ShellErrorHandler } from '../shellInterfaces';
 import { Wallet } from '../wallet';
 import { RaptorFarm } from '../contracts/raptorfarm';
 import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger, Container, Row, Col } from 'react-bootstrap';
 import AnimatedNumber from 'animated-number-react';
 
 import './farmComponent.css';
+import { farmsList } from './listOfFarms';
 
 export type FarmProps = {};
 export type FarmState = {
@@ -283,85 +284,83 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     const stakedLp = amounts["stakedLp"];
     const rewards = amounts["rewards"];
 
-    return <div className="col-md-3">
-      <div className={`farm-card ${enableGlow ? "glow-div" : ""}`}>
-        <div className="gradient-card shadow dark">
-          <div className="farm-card-body d-flex justify-content-between">
-            <div>
-              <div className="d-flex justify-content-between pair-header">
-                <img className="lp-pair-icon" src={logo} alt="bnb-raptor-pair" />
-                <div>
-                  <h1 className="text-right">{pairName} LP</h1>
-                  <h3 className="text-right">{fees}</h3>
-                </div>
-              </div>
-              <hr />
-              <div className="d-flex justify-content-between apr">
-                <h2>APR: </h2>
-                <h2>
-                  <AnimatedNumber
-                    value={numeral(apr || 0).format('0.00')}
-                    duration="1000"
-                    formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}%`}
-                  >
-                    {apr || 0}
-                  </AnimatedNumber>
-                </h2>
-              </div>
-              <div className="d-flex justify-content-between pool">
-                <h2>Liquidity Pool: </h2>
-                <h2><u>{liquidityPool}</u></h2>
-              </div>
-              <h3>Available {pairName} LP</h3>
-              <AnimatedNumber
-                value={numeral(lpBalance || 0).format('0.000000')}
-                duration="1000"
-                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
-              >
-                {lpBalance || 0}
-              </AnimatedNumber>
-              <div className="rewards-block d-flex justify-content-between">
-                <div>
-                  <h3>Pending Rewards</h3>
-                  <AnimatedNumber
-                    value={numeral(rewards || 0).format('0.00')}
-                    duration="1000"
-                    formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor`}
-                  >
-                    {rewards || 0}
-                  </AnimatedNumber>
-                </div>
-                <div className="d-flex align-items-center">
-                  <OverlayTrigger
-                    placement="bottom-start"
-                    overlay={this.renderTooltip}
-                  >
-                    <button className="btn btn-harvest stake-claim shadow" disabled={rewards <= 0 || rewards == null} type="button" onClick={async () => this.claimRaptor(pid)}>
-                      <img src="images/harvest-icon.svg" />
-                    </button>
-                  </OverlayTrigger>
-                </div>
-              </div>
-              <div className="staked-lp-info">
-                <h3>{pairName} LP Staked</h3>
-                <AnimatedNumber
-                  value={numeral(stakedLp || 0).format('0.000000')}
-                  duration="1000"
-                  formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })} LP Tokens`}
-                >
-                  {stakedLp || 0}
-                </AnimatedNumber>
+    return <div className={`farm-card ${enableGlow ? "glow-div" : ""}`}>
+      <div className="gradient-card shadow dark">
+        <div className="farm-card-body d-flex justify-content-between">
+          <div>
+            <div className="d-flex justify-content-between pair-header">
+              <img className="lp-pair-icon" src={logo} alt="bnb-raptor-pair" />
+              <div>
+                <h1 className="text-right">{pairName} LP</h1>
+                <h3 className="text-right">{fees}</h3>
               </div>
             </div>
             <hr />
-            <div>
-              <div className="d-flex">
-                <input className="lp-input" type="number" id={pid} onChange={(event) => this.stakingValueChanged(event)} value={ctValue || 0} />
+            <div className="d-flex justify-content-between apr">
+              <h2>APR: </h2>
+              <h2>
+                <AnimatedNumber
+                  value={numeral(apr || 0).format('0.00')}
+                  duration="1000"
+                  formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}%`}
+                >
+                  {apr || 0}
+                </AnimatedNumber>
+              </h2>
+            </div>
+            <div className="d-flex justify-content-between pool">
+              <h2>Liquidity Pool: </h2>
+              <h2><u>{liquidityPool}</u></h2>
+            </div>
+            <h3>Available {pairName} LP</h3>
+            <AnimatedNumber
+              value={numeral(lpBalance || 0).format('0.000000')}
+              duration="1000"
+              formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
+            >
+              {lpBalance || 0}
+            </AnimatedNumber>
+            <div className="rewards-block d-flex justify-content-between">
+              <div>
+                <h3>Pending Rewards</h3>
+                <AnimatedNumber
+                  value={numeral(rewards || 0).format('0.00')}
+                  duration="1000"
+                  formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor`}
+                >
+                  {rewards || 0}
+                </AnimatedNumber>
               </div>
-              <div className="wd-buttons d-flex justify-content-between">
-                <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={stakedLp <= 0 || stakedLp == null} type="button" onClick={async () => this.withdrawLP(pid)}>Withdraw LP</button>
-                <button className="btn btn-primary btn-small link-dark align-self-center stake-claim right" disabled={lpBalance <= 0 || lpBalance == null} type="button" onClick={async () => this.depositLP(pid)}>Deposit LP</button>
+              <div className="d-flex align-items-center">
+                <OverlayTrigger
+                  placement="bottom-start"
+                  overlay={this.renderTooltip}
+                >
+                  <button className="btn btn-harvest stake-claim shadow" disabled={rewards <= 0 || rewards == null} type="button" onClick={async () => this.claimRaptor(pid)}>
+                    <img src="images/harvest-icon.svg" />
+                  </button>
+                </OverlayTrigger>
               </div>
+            </div>
+            <div className="staked-lp-info">
+              <h3>{pairName} LP Staked</h3>
+              <AnimatedNumber
+                value={numeral(stakedLp || 0).format('0.000000')}
+                duration="1000"
+                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })} LP Tokens`}
+              >
+                {stakedLp || 0}
+              </AnimatedNumber>
+            </div>
+          </div>
+          <hr />
+          <div>
+            <div className="d-flex">
+              <input className="lp-input" type="number" id={pid} onChange={(event) => this.stakingValueChanged(event)} value={ctValue || 0} />
+            </div>
+            <div className="wd-buttons d-flex justify-content-between">
+              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={stakedLp <= 0 || stakedLp == null} type="button" onClick={async () => this.withdrawLP(pid)}>Withdraw LP</button>
+              <button className="btn btn-primary btn-small link-dark align-self-center stake-claim right" disabled={lpBalance <= 0 || lpBalance == null} type="button" onClick={async () => this.depositLP(pid)}>Deposit LP</button>
             </div>
           </div>
         </div>
@@ -400,41 +399,23 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
         </div>
       </div>
 
-      <div className="farm-body d-flex">
-        <this.FarmCard
-          logo="images/dai-raptor.png"
-          pairName="RAPTOR-DAI"
-          fees="NO FEES"
-          liquidityPool="Raptor"
-          enableGlow={true}
-          pid={3}
-        />
-        <this.FarmCard
-          logo="images/busd-raptor.png"
-          pairName="RAPTOR-BUSD"
-          fees="NO FEES"
-          liquidityPool="Raptor"
-          enableGlow={true}
-          pid={2}
-        />
-        <this.FarmCard
-          logo="images/usdt-raptor.png"
-          pairName="RAPTOR-USDT"
-          fees="NO FEES"
-          liquidityPool="Raptor"
-          enableGlow={true}
-          pid={1}
-        />
-        <this.FarmCard
-          logo="images/bnb-raptor.png"
-          pairName="RAPTOR-BNB"
-          fees="NO FEES"
-          liquidityPool="Pancake"
-          enableGlow={false}
-          pid={0}
-        />
-      </div>
-    </div>
+      <Container className="farm-body">
+        <Row>
+          {farmsList.map(farm => {
+            return <Col xl={3} lg={4} >
+              <this.FarmCard
+                logo={farm.logo}
+                pairName={farm.pairName}
+                fees={farm.fees}
+                liquidityPool={farm.liquidityPool}
+                enableGlow={farm.enableGlow}
+                pid={farm.pid}
+              />
+            </Col>
+          })}
+        </Row>
+      </Container>
+    </div >
   }
 }
 
