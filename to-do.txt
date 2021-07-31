@@ -1,0 +1,9 @@
+- Update staking UI
+- Update lottery UI with countdown
+- Fix about text
+- Fix nav animation on mobile
+- Add max button to all inputs
+- DxLock UI
+- Fix heroku nginx
+- Design new home UI
+- Fix adaptiveness of site

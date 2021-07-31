@@ -58,13 +58,13 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
       farm[0] = new RaptorFarm(wallet, 0);
       await farm[0].finishSetup();
 
-	  const poolLength = (await farm[0].contract.methods.poolLength().call());
-	  var i = 1;
-	  while (i < poolLength) {
-		farm[i] = new RaptorFarm(wallet, i);
+      const poolLength = (await farm[0].contract.methods.poolLength().call());
+      var i = 1;
+      while (i < poolLength) {
+        farm[i] = new RaptorFarm(wallet, i);
         await farm[i].finishSetup();
-		i += 1;
-	  }
+        i += 1;
+      }
 
       this.updateState({ farm: farm, wallet: wallet, looping: true, pending: false });
       this.updateOnce(false).then();
@@ -143,9 +143,9 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
   }
 
   async componentDidMount() {
-	if ((window.ethereum || {}).selectedAddress) {
-		this.connectWallet();
-	}
+    if ((window.ethereum || {}).selectedAddress) {
+      this.connectWallet();
+    }
   }
 
   componentWillUnmount() {
@@ -401,6 +401,22 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
       </div>
 
       <div className="farm-body d-flex">
+        <this.FarmCard
+          logo="images/dai-raptor.png"
+          pairName="RAPTOR-DAI"
+          fees="NO FEES"
+          liquidityPool="Raptor"
+          enableGlow={true}
+          pid={3}
+        />
+        <this.FarmCard
+          logo="images/busd-raptor.png"
+          pairName="RAPTOR-BUSD"
+          fees="NO FEES"
+          liquidityPool="Raptor"
+          enableGlow={true}
+          pid={2}
+        />
         <this.FarmCard
           logo="images/usdt-raptor.png"
           pairName="RAPTOR-USDT"
