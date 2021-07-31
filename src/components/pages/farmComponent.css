@@ -24,8 +24,8 @@
 
 .farm-body {
 	padding-top: 20px;
-	padding-left: calc(4% - 16px);
-	padding-right: calc(4% - 16px);
+	padding-left: 4%;
+	padding-right: 4%;
 }
 
 .farm-body h1 {
@@ -105,6 +105,10 @@
 	padding: 0 16px;
 }
 
+.farm-card {
+	margin-bottom: 32px;
+}
+
 .farm-card-body {
 	height: 100%;
 	flex-direction: column;
@@ -141,6 +145,10 @@
 .btn-harvest img {
 	width: 32px;
 	height: 32px;
+}
+
+.wd-buttons .right {
+	margin-left: 16px;
 }
 
 .glow-div {
@@ -413,8 +421,46 @@
 	.farm-body button {
 		font-size: 1rem !important;
 	}
-	
+
 	.rewards-block {
 		justify-content: space-between;
+	}
+}
+
+@media (max-width: 1200px) {
+	.wd-buttons {
+		display: block !important;
+	}
+
+	.wd-buttons button {
+		width: 100%;
+	}
+
+	.wd-buttons .right {
+		margin-top: 16px;
+		margin-left: 0px;
+	}
+
+	.apr {
+		display: block !important;
+	}
+
+	.pool {
+		display: block !important;
+	}
+
+	.btn-harvest {
+		height: 40px;
+		width: 40px;
+	}
+
+	.btn-harvest img {
+		height: 24px;
+		width: 24px;
+	}
+
+	.lp-pair-icon {
+		width: 56px;
+		height: 56px;
 	}
 }
