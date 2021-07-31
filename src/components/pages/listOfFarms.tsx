@@ -13,7 +13,7 @@ export const farmsList = [
     "logo": "images/busd-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": true
+    "enableGlow": false
   },
   {
     "pid": 1,
