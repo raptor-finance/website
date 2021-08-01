@@ -6,6 +6,7 @@
 .app-img {
 	margin: 0;
 	width: 264px;
+	height: 469.33px;
 }
 
 .app-text {
@@ -14,6 +15,7 @@
 
 .store-badge {
 	height: 48px;
+	width: auto;
 }
 
 .final-p {

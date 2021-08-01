@@ -292,7 +292,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
               <img className="lp-pair-icon" src={logo} alt="bnb-raptor-pair" />
               <div>
                 <h1 className="text-right">{pairName} LP</h1>
-                <h3 className="text-right">{fees}</h3>
+                <h2 className="text-right">{fees}</h2>
               </div>
             </div>
             <hr />
@@ -336,8 +336,8 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
                   placement="bottom-start"
                   overlay={this.renderTooltip}
                 >
-                  <button className="btn btn-harvest stake-claim shadow" disabled={rewards <= 0 || rewards == null} type="button" onClick={async () => this.claimRaptor(pid)}>
-                    <img src="images/harvest-icon.svg" />
+                  <button aria-label="harvest button" className="btn btn-harvest stake-claim shadow" disabled={rewards <= 0 || rewards == null} type="button" onClick={async () => this.claimRaptor(pid)}>
+                    <img src="images/harvest-icon.svg" alt="harvest button icon" />
                   </button>
                 </OverlayTrigger>
               </div>
