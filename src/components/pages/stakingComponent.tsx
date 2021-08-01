@@ -241,7 +241,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 		if (!r) return;
 
 		const p = Math.max(0, Math.min(+(percent || 0), 100));
-		const v = Math.min(((r.balance) * (p * 0.01)), (r.balance * 0.999));
+		const v = ((r.balance) * (p * 0.01));
 
 		this.updateState({
 			ctPercentageStake: p,
@@ -266,7 +266,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 		if (!r) return;
 
 		const p = Math.max(0, Math.min(+(percent || 0), 100));
-		const v = Math.min(((r.stakedBalance) * (p * 0.01)), (r.stakedBalance * 0.999));
+		const v = ((r.stakedBalance) * (p * 0.01));
 
 		this.updateState({
 			ctPercentageUnstake: p,

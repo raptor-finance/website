@@ -2,6 +2,7 @@ import { Wallet } from '../wallet';
 import { Contract } from 'web3-eth-contract';
 import { Raptor } from './raptor';
 import { RaptorStatistics } from './statistics'
+import * as web3 from 'web3-utils';
 
 export class RaptorFarm {
 
@@ -99,17 +100,17 @@ export class RaptorFarm {
 
 	async deposit(amount: number): Promise<void> {
 		await this._raptor.refresh();
-		const rawAmount: number = amount * 10 ** 18;
+		const rawAmount = web3.toWei(amount);
 
 		if ((await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) >= rawAmount) {
 			const allowance = (await this._lpToken.methods.allowance(this._wallet.currentAddress, RaptorFarm.address).call());
 
-			if (allowance < rawAmount) {
+			if (allowance < Number(rawAmount)) {
 				// we need to give allowance to farming contract first
 				const allowance = `${BigInt(2 ** 256) - BigInt(1)}`;
 				await this._lpToken.methods.approve(RaptorFarm.address, allowance).send({ 'from': this._wallet.currentAddress });
 			}
-			await this._contract.methods.deposit(this._pid, String(this.toFixed(rawAmount))).send({ 'from': this._wallet.currentAddress });
+			await this._contract.methods.deposit(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
 		}
 		else {
 			throw 'Your LP balance is not sufficient';
@@ -118,12 +119,10 @@ export class RaptorFarm {
 
 	async withdraw(amount: number): Promise<void> {
 		await this._raptor.refresh()
-		const rawAmount: number = amount * 10 ** 18;
+		const rawAmount = web3.toWei(amount);
 
 		if ((await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount >= rawAmount) {
-
-			const rawAmount: number = amount * 10 ** 18;
-			await this._contract.methods.withdraw(this._pid, String(this.toFixed(rawAmount))).send({ 'from': this._wallet.currentAddress });
+			await this._contract.methods.withdraw(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
 		}
 		else {
 			throw 'Your staked LP balance is not sufficient';
