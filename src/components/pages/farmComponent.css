@@ -45,10 +45,6 @@
 	font-weight: bold;
 }
 
-.pair-header h3 {
-	margin-top: 4px;
-}
-
 .lp-input {
 	margin-top: 12px;
 	background-color: #242936;
@@ -67,8 +63,10 @@
 	margin-bottom: 24px;
 }
 
-.pair-header h3 {
+.pair-header h2 {
 	color: var(--complementary-alt);
+	font-size: 1rem;
+	margin-top: 4px;
 }
 
 .apr h2 {

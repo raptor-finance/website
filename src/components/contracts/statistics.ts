@@ -85,7 +85,7 @@ export class RaptorStatistics {
 			return new Promise<PriceInfo>(function (res) { res(prices) });
 		}
 		return new Promise<PriceInfo>(function (res, rej) {
-			axios.get('https://glacial-eyrie-20564.herokuapp.com/https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0xf9a3fda781c94942760860fc731c24301c83830a', {
+			axios.get('https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0xf9a3fda781c94942760860fc731c24301c83830a', {
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 					'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',

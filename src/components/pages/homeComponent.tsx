@@ -131,7 +131,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						</p>
 					</div>
 				</section>
-				{/*
+				
 				<section className="token-stats">
 					<Suspense fallback={<PropagateLoader color={'#ffffff'} />}>
 						<Fade>
@@ -139,7 +139,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						</Fade>
 					</Suspense>
 				</section>
-				*/}
+				
 				<section id="roadmap">
 					<Suspense fallback={<PropagateLoader color={'#ffffff'} />}>
 						<RoadmapDiv />
