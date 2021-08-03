@@ -8,6 +8,8 @@ import {
 } from 'react-router-dom';
 import { ShellHost } from './shellHost';
 import { BaseComponent, IShellPage } from './shellInterfaces';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import ShellNav from './shellNav';
 
 import './shell.css';
@@ -31,7 +33,10 @@ export class Shell extends BaseComponent<ShellProps, ShellState> {
 			<div className="main-wrapper">
 				<ShellNav pages={pages} />
 				<div className="content-wrapper">
-
+					<div className="listing-banner d-flex align-items-center shadow">
+						<FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
+						<h1>RaptorSwap is <strong>here</strong>! We are looking for projects to list on our exchange. Reach out to us on <a href="https://t.me/PhilosoRaptorToken">Telegram</a>.</h1>
+					</div>
 					<Switch>
 						{pages.map(page => (
 							<Route key={`${page.id}`} path={'/' + page.id}>

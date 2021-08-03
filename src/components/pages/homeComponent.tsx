@@ -18,6 +18,7 @@ import { faReddit } from '@fortawesome/free-brands-svg-icons/faReddit';
 import { faTiktok } from '@fortawesome/free-brands-svg-icons/faTiktok';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons/faYoutube';
 import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 import './homeComponent.css';
 
@@ -94,7 +95,11 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 		const state = this.readState();
 		const t: TFunction<"translation"> = this.readProps().t;
 
-		return <div className="home-container">
+		return <div className="home-container shadow">
+			{/* <div className="listing-banner d-flex align-items-center shadow">
+				<FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
+				<h1>RaptorSwap is <strong>here</strong>! We are looking for projects to list on our exchange. Reach out to us on <a href="https://t.me/PhilosoRaptorToken">Telegram</a>.</h1>
+			</div> */}
 			<div className="container">
 				<section className="intro">
 					<div className="row d-flex justify-content-between">
@@ -131,7 +136,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						</p>
 					</div>
 				</section>
-				
+
 				<section className="token-stats">
 					<Suspense fallback={<PropagateLoader color={'#ffffff'} />}>
 						<Fade>
@@ -139,7 +144,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
 						</Fade>
 					</Suspense>
 				</section>
-				
+
 				<section id="roadmap">
 					<Suspense fallback={<PropagateLoader color={'#ffffff'} />}>
 						<RoadmapDiv />

@@ -48,3 +48,27 @@ body {
 	width: 200px;
 	text-align: center;
 }
+
+.listing-banner {
+	position: fixed;
+	background-color: var(--gold);
+	width: 100%;
+	padding: 16px 4%;
+	z-index: 100;
+	top: 0;
+}
+
+.listing-banner h1 {
+	color: var(--space);
+	font-size: 1.2rem;
+	margin-left: 8px;
+	margin-bottom: 0 !important;
+}
+
+.listing-banner a {
+	color: var(--complementary);
+}
+
+.listing-banner .info-icon {
+	color: var(--space);
+}

@@ -1,5 +1,5 @@
 .about-container {
-	padding: 5% 4% 0 4%;
+	padding: 6% 4% 0 4%;
 }
 
 .about-container h1 {
@@ -68,7 +68,8 @@
 .about-container #sidebar .gradient-card {
 	min-height: 700px;
 	position: sticky;
-	top: 50px;
+	top: 96px;
+	z-index: 0;
 }
 
 .about-container #sidebar .background {
