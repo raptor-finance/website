@@ -62,8 +62,8 @@ export class Raptor {
 	}
 
 	async refresh(): Promise<void> {
-		this._balance = await this._contract.methods.balanceOf(this._wallet.currentAddress).call() / (10 ** 9);
-		this._stake = await this._contract.methods.stakedBalanceOf(this._wallet.currentAddress).call() / (10 ** 9);
-		this._pendingRewards = await this._contract.methods.pendingRewards(this._wallet.currentAddress).call() / (10 ** 9);
+		this._balance = web3.fromWei(await this._contract.methods.balanceOf(this._wallet.currentAddress).call(), "gwei");
+		this._stake = web3.fromWei(await this._contract.methods.stakedBalanceOf(this._wallet.currentAddress).call(), "gwei");
+		this._pendingRewards = web3.fromWei(await this._contract.methods.pendingRewards(this._wallet.currentAddress).call(), "gwei");
 	}
 }
