@@ -13,7 +13,6 @@
 	max-height: 100vh;
 	overflow-y: auto;
 	padding: 0 40px 0;
-	padding-bottom: 35px !important;
 	background: rgba(24, 32, 44, 0.9);
 	position: relative;
 }
