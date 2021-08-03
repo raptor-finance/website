@@ -281,8 +281,8 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 		const t = r.stakedBalance;
 		const v = Math.max(0, Math.min(+(value || 0), r.stakedBalance));
 		this.updateState({
-			ctPercentageStake: Math.floor(100 * v / t),
-			ctValueStake: v,
+			ctPercentageUnstake: Math.floor(100 * v / t),
+			ctValueUnstake: v,
 		});
 	}
 
