@@ -9,7 +9,7 @@ export const farmsList = [
   },
   {
     "pid": 5,
-    "pairName": "RAPTOR-wETH",
+    "pairName": "RAPTOR-ETH",
     "logo": "images/weth-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
