@@ -72,3 +72,9 @@ body {
 .listing-banner .info-icon {
 	color: var(--space);
 }
+
+@media (max-width: 900px) {
+	.listing-banner h1 {
+		font-size: 0.8rem;
+	}
+}
