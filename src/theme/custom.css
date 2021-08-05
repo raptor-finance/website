@@ -54,7 +54,7 @@ body {
 	background-color: var(--gold);
 	width: 100%;
 	padding: 16px 4%;
-	z-index: 100;
+	z-index: 5;
 	top: 0;
 }
 
@@ -74,6 +74,10 @@ body {
 }
 
 @media (max-width: 900px) {
+	.listing-banner {
+		top: 68px;
+	}
+
 	.listing-banner h1 {
 		font-size: 0.8rem;
 	}
