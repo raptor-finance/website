@@ -35,7 +35,7 @@ export class Shell extends BaseComponent<ShellProps, ShellState> {
 				<div className="content-wrapper">
 					<div className="listing-banner d-flex align-items-center shadow">
 						<FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
-						<h1>RaptorSwap is <strong>here</strong>! We are looking for projects to list on our exchange. Reach out to us on <a href="https://t.me/PhilosoRaptorToken">Telegram</a>.</h1>
+						<h1>RaptorSwap is <strong>almost here</strong>! We are looking for projects to list on our exchange. Reach out to us on <a href="https://t.me/PhilosoRaptorToken">Telegram</a>.</h1>
 					</div>
 					<Switch>
 						{pages.map(page => (
