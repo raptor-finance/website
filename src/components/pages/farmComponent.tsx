@@ -67,9 +67,9 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
         i += 1;
       }
 
-      this.updateState({ farm: farm, wallet: wallet, looping: true, pending: false });
-      this.updateOnce(false).then();
-
+      this.updateState({ farm: farm, wallet: wallet, looping: true });
+      await this.updateOnce(false);
+      this.updateState({ pending: false });
       this.loop().then();
     }
     catch (e) {
@@ -164,7 +164,6 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
   private async updateOnce(resetCt?: boolean): Promise<boolean> {
     const farm = this.readState().farm;
-
     if (!!farm) {
       try {
         var i = 0
