@@ -1,11 +1,43 @@
 export const farmsList = [
   {
+    "pid": 11,
+    "pairName": "ETH-USDT",
+    "logo": "images/usdt-weth.png",
+    "fees": "NO FEES",
+    "liquidityPool": "Raptor",
+    "enableGlow": true
+  },
+  {
+    "pid": 10,
+    "pairName": "DAI-BUSD",
+    "logo": "images/busd-dai.png",
+    "fees": "NO FEES",
+    "liquidityPool": "Raptor",
+    "enableGlow": true
+  },
+  {
+    "pid": 9,
+    "pairName": "BUSD-USDT",
+    "logo": "images/usdt-busd.png",
+    "fees": "NO FEES",
+    "liquidityPool": "Raptor",
+    "enableGlow": true
+  },
+  {
+    "pid": 8,
+    "pairName": "USDT-BNB",
+    "logo": "images/bnb-usdt.png",
+    "fees": "NO FEES",
+    "liquidityPool": "Raptor",
+    "enableGlow": true
+  },
+  {
     "pid": 7,
     "pairName": "RAPTOR-BNB",
     "logo": "images/bnb-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": true
+    "enableGlow": false
   },
   {
     "pid": 6,
@@ -13,7 +45,7 @@ export const farmsList = [
     "logo": "images/matic-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": true
+    "enableGlow": false
   },
   {
     "pid": 5,
@@ -21,7 +53,7 @@ export const farmsList = [
     "logo": "images/weth-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": true
+    "enableGlow": false
   },
   {
     "pid": 4,
@@ -29,7 +61,7 @@ export const farmsList = [
     "logo": "images/ada-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": true
+    "enableGlow": false
   },
   {
     "pid": 3,

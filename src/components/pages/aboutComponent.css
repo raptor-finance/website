@@ -1,5 +1,5 @@
 .about-container {
-	padding: 6% 4% 0 4%;
+	padding: 8% 4% 0 4%;
 }
 
 .about-container h1 {
@@ -106,7 +106,7 @@
 
 @media (max-width: 600px) {
 	.about-container {
-		padding: 30% 10% 0 10%;
+		padding: 40% 10% 0 10%;
 	}
 
 	.tab {
