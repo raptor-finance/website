@@ -284,6 +284,9 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     const stakedLp = amounts["stakedLp"];
     const rewards = amounts["rewards"];
 
+    console.log(pairName);
+    console.log(apr);
+
     return <div className={`farm-card ${enableGlow ? "glow-div" : ""}`}>
       <div className="gradient-card shadow dark">
         <div className="farm-card-body d-flex justify-content-between">

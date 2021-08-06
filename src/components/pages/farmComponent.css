@@ -1,6 +1,6 @@
 .farm-container {
 	display: block;
-	padding-top: 6%
+	padding-top: 8%
 }
 
 .farm-header {
@@ -354,7 +354,7 @@
 
 @media (max-width: 900px) {
 	.farm-container {
-		padding: 30% 10% 0 10%;
+		padding: 40% 10% 0 10%;
 	}
 
 	.farm-container .farm-header a {
@@ -386,6 +386,9 @@
 
 	.farm-body {
 		display: block !important;
+		padding-top: 20px;
+		padding-left: 0;
+		padding-right: 0;
 	}
 
 	.farm-body .col-md-3 {

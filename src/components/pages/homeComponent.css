@@ -10,7 +10,7 @@
 }
 
 .home-container {
-	padding-top: 6%;
+	padding-top: 8%;
 	width: 100%;
 	align-items: flex-end;
 }
@@ -90,7 +90,7 @@
 
 @media (max-width: 990px) {
 	.intro {
-		padding: 30% 10% 0 10%;
+		padding: 40% 10% 0 10%;
 	}
 
 	.token-stats {
