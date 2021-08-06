@@ -381,12 +381,12 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
             <span>Raptor</span>
             <span style={{ color: "#31c461" }}>Farm</span>
             {state.address ?
-              (<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.disconnectWallet}>
+              (<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
                 {state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
                 {t('farm.disconnect_wallet')}
               </a>)
               :
-              (<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" role="button" onClick={this.connectWallet}>
+              (<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.connectWallet}>
                 {state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
                 {t('farm.connect_wallet')}
               </a>)
