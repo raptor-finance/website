@@ -84,7 +84,7 @@ export class RaptorStatistics {
 	}
 	
 	public bnbToRaptor(bnbAmount?: number): number {
-		return (bnbAmount/(this._prices || {}).raptor.usd);
+		return (bnbAmount/(this._prices || {}).raptor.bnb);
 	}
 
 	private async retrievePriceApi() {
