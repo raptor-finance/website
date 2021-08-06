@@ -77,8 +77,8 @@ export class RaptorFarm {
 		}
 		else {
 			for(let n = 0; n < this._stablecoins.length; n++) {
-				if (tokensInPair.includes(this._stablecoins[n])) {
-					const _stablecoin = this._wallet.connectToContract(this._lpAddress, require("./erc20.abi.json"));
+				if (_tokensInPair.includes(this._stablecoins[n])) {
+					const _stablecoin = this._wallet.connectToContract(this._stablecoins[n], require("./erc20.abi.json"));
 					return (this._stats.usdToRaptor((await _stablecoin.methods.balanceOf(this._lpToken._address).call())/10**9));
 				}
 			}
