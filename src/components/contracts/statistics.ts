@@ -78,57 +78,39 @@ export class RaptorStatistics {
 	public get totalSupply(): number {
 		return (this._prices || {}).totalSupply.value;
 	}
+	
+	public usdToRaptor(usdAmount?: number): number {
+		return (usdAmount/(this._prices || {}).raptor.usd);
+	}
+	
+	public bnbToRaptor(bnbAmount?: number): number {
+		return (bnbAmount/(this._prices || {}).raptor.usd);
+	}
 
-	private getPrices(force: boolean): Promise<PriceInfo> {
+	private async retrievePriceApi() {
+		console.log("Retrieving prices...");
+		return (await (await fetch("https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0xf9a3fda781c94942760860fc731c24301c83830a")).json());
+	}
+
+	private async getPrices(force: boolean): PriceInfo {
 		if (!!this._prices && !force) {
-			const prices = this._prices;
-			return new Promise<PriceInfo>(function (res) { res(prices) });
+			return this._prices;
 		}
-		return new Promise<PriceInfo>(function (res, rej) {
-			axios.get('https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0xf9a3fda781c94942760860fc731c24301c83830a', {
-				headers: {
-					'Access-Control-Allow-Origin': '*',
-					'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
-					'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
-				}
-			})
-				.then(function (a) {
-					res({
-						raptor: {
-							usd: a.data.lastPrices.raptorusd,
-							bnb: a.data.lastPrices.raptorbnb,
-						},
-						bnb: {
-							usd: a.data.lastPrices.raptorusd
-						},
-						marketCap: {
-							usd: a.data.lastPrices.marketcapusd,
-						},
-						totalSupply: {
-							value: a.data.totalSupply,
-						}
-					});
-				})
-
-			// $.get({
-			// 	url: 'https://api.coingecko.com/api/v3/simple/price?ids=binancecoin,raptor-finance&vs_currencies=usd,bnb',
-			// 	dataType: 'json',
-			// 	success: function(a) {
-
-			// 		res({
-			// 			raptor: {
-			// 				usd: (a['raptor-finance']||{}).usd||0,
-			// 				bnb: (a['raptor-finance']||{}).bnb||0
-			// 			},
-			// 			bnb: {
-			// 				usd: (a['binancecoin']||{}).usd||0
-			// 			}
-			// 		});
-			// 	},
-			// 	error: function(err) {
-			// 		rej(err);
-			// 	}
-			// });
-		})
+		const a = await this.retrievePriceApi();
+		return {
+			raptor: {
+				usd: a.lastPrices.raptorusd,
+				bnb: a.lastPrices.raptorbnb,
+			},
+			bnb: {
+				usd: a.lastPrices.raptorusd
+			},
+			marketCap: {
+				usd: a.lastPrices.marketcapusd,
+			},
+			totalSupply: {
+				value: a.totalSupply,
+			}
+		};
 	}
 }

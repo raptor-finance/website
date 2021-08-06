@@ -1,36 +1,36 @@
 export const farmsList = [
-  // {
-    // "pid": 11,
-    // "pairName": "ETH-USDT",
-    // "logo": "images/usdt-weth.png",
-    // "fees": "NO FEES",
-    // "liquidityPool": "Raptor",
-    // "enableGlow": true
-  // },
-  // {
-    // "pid": 10,
-    // "pairName": "DAI-BUSD",
-    // "logo": "images/busd-dai.png",
-    // "fees": "NO FEES",
-    // "liquidityPool": "Raptor",
-    // "enableGlow": true
-  // },
-  // {
-    // "pid": 9,
-    // "pairName": "BUSD-USDT",
-    // "logo": "images/usdt-busd.png",
-    // "fees": "NO FEES",
-    // "liquidityPool": "Raptor",
-    // "enableGlow": true
-  // },
-  // {
-    // "pid": 8,
-    // "pairName": "USDT-BNB",
-    // "logo": "images/bnb-usdt.png",
-    // "fees": "NO FEES",
-    // "liquidityPool": "Raptor",
-    // "enableGlow": true
-  // },
+  {
+    "pid": 11,
+    "pairName": "ETH-USDT",
+    "logo": "images/usdt-weth.png",
+    "fees": "NO FEES",
+    "liquidityPool": "Raptor",
+    "enableGlow": true
+  },
+  {
+    "pid": 10,
+    "pairName": "DAI-BUSD",
+    "logo": "images/busd-dai.png",
+    "fees": "NO FEES",
+    "liquidityPool": "Raptor",
+    "enableGlow": true
+  },
+  {
+    "pid": 9,
+    "pairName": "BUSD-USDT",
+    "logo": "images/usdt-busd.png",
+    "fees": "NO FEES",
+    "liquidityPool": "Raptor",
+    "enableGlow": true
+  },
+  {
+    "pid": 8,
+    "pairName": "USDT-BNB",
+    "logo": "images/bnb-usdt.png",
+    "fees": "NO FEES",
+    "liquidityPool": "Raptor",
+    "enableGlow": true
+  },
   {
     "pid": 7,
     "pairName": "RAPTOR-BNB",
