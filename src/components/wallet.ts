@@ -41,7 +41,11 @@ export class Wallet {
 
 	public async connect(): Promise<boolean> {
 		const wnd: any = window;
-		this._provider = await this.web3Modal.connect();
+		try {
+			this._provider = await this.web3Modal.connect();
+		} catch (e) {
+			throw "Error connecting wallet. Please check if wallet is installed !";
+		}
 
 		// Subscribe to provider disconnection
 		this._provider.on("disconnect", async (error: { code: number; message: string }) => {
@@ -58,25 +62,30 @@ export class Wallet {
 		const selectedAccount = accounts[0];
 
 		const provider: any = this._provider;
-		if (!provider || ((provider.chainId != 56) && (provider.networkVersion != 56))) {
-			if (provider.isMetaMask) {
-				const networkinfo = [{
-					chainId: '0x38',
-					chainName: 'Binance Smart Chain',
-					nativeCurrency:
-					{
-						name: 'BNB',
-						symbol: 'BNB',
-						decimals: 18
-					},
-					rpcUrls: ['https://bsc-dataseed3.binance.org/'],
-					blockExplorerUrls: ['https://bscscan.com/'],
-				}]
-				await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Please choose the Binance Smart Chain as the current network in your wallet app !' })
+		if (provider) {
+			if ((provider.chainId != 56) && (provider.networkVersion != 56)) {
+				if (provider.isMetaMask) {
+					const networkinfo = [{
+						chainId: '0x38',
+						chainName: 'Binance Smart Chain',
+						nativeCurrency:
+						{
+							name: 'BNB',
+							symbol: 'BNB',
+							decimals: 18
+						},
+						rpcUrls: ['https://bsc-dataseed3.binance.org/'],
+						blockExplorerUrls: ['https://bscscan.com/'],
+					}]
+					await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Please choose the Binance Smart Chain as the current network in your wallet app !' })
+				}
+				else {
+					throw 'Please choose the Binance Smart Chain as the current network in your wallet app !';
+				}
 			}
-			else {
-				throw 'Please choose the Binance Smart Chain as the current network in your wallet app !';
-			}
+		}
+		else {
+			throw "Error connecting wallet. Please check if wallet is installed !";
 		}
 
 		this._address = selectedAccount;
