@@ -69,7 +69,7 @@ export class Wallet {
 						symbol: 'BNB',
 						decimals: 18
 					},
-					rpcUrls: ['https://bsc-dataseed1.binance.org/'],
+					rpcUrls: ['https://bsc-dataseed3.binance.org/'],
 					blockExplorerUrls: ['https://bscscan.com/'],
 				}]
 				await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Please choose the Binance Smart Chain as the current network in your wallet app !' })
