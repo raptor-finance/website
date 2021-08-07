@@ -8,7 +8,7 @@ export class Wallet {
 	private _provider: any = null;
 	private web3Modal = new Web3Modal({
 		network: "binance", // TODO: change this network option to be changable according
-		cacheProvider: false,
+		cacheProvider: true,
 		providerOptions: this.getProviderOptions()
 	});
 	private _web3: Web3 = null;
@@ -41,17 +41,7 @@ export class Wallet {
 
 	public async connect(): Promise<boolean> {
 		const wnd: any = window;
-		if ((window.ethereum || {}).selectedAddress) {
-			try {
-				this._provider = window.ethereum;
-			}
-			catch (e) {
-				this._provider = await this.web3Modal.connect();
-			}
-		}
-		else {
-			this._provider = await this.web3Modal.connect();
-		}
+		this._provider = await this.web3Modal.connect();
 
 		// Subscribe to provider disconnection
 		this._provider.on("disconnect", async (error: { code: number; message: string }) => {
@@ -127,4 +117,7 @@ export class Wallet {
 
 		return new this._web3.eth.Contract(abi, address);
 	}
-}
+	
+	public disconnectWallet() {
+		this.web3Modal.clearCachedProvider();
+	}
