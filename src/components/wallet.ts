@@ -44,7 +44,7 @@ export class Wallet {
 		try {
 			this._provider = await this.web3Modal.connect();
 		} catch (e) {
-			throw "Error connecting wallet. Please check if wallet is installed !";
+			throw 'No compatible wallet app was found. Please install a supported browser extension, such as Metamask.';
 		}
 
 		// Subscribe to provider disconnection
@@ -85,7 +85,7 @@ export class Wallet {
 			}
 		}
 		else {
-			throw "Error connecting wallet. Please check if wallet is installed !";
+			throw 'No compatible wallet app was found. Please install a supported browser extension, such as Metamask.';
 		}
 
 		this._address = selectedAccount;
