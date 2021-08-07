@@ -64,13 +64,13 @@ class RaptorForest extends BaseComponent <RaptorForestProps & WithTranslation, R
 			treeAge: dayDelta,
 		});
 
-		fetch("https://public.ecologi.com/users/raptorfinance/impact")
+		fetch("https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0xf9a3fda781c94942760860fc731c24301c83830a")
 			.then(res => res.json())
 			.then(
 				(result) => {
 					this.setState({
-						treeAmount: result.trees,
-						carbonOffset: result.carbonOffset
+						treeAmount: result.plantedTree.trees,
+						carbonOffset: result.plantedTree.carbonOffset
 					});
 				},
 				(err) => {
