@@ -57,7 +57,7 @@ export class Wallet {
 		const accounts = await this._web3.eth.getAccounts();
 		const selectedAccount = accounts[0];
 
-		const provider: any = this._web3.eth.currentProvider;
+		const provider: any = this._provider;
 		if (!provider || ((provider.chainId != 56) && (provider.networkVersion != 56))) {
 			if (provider.isMetaMask) {
 				const networkinfo = [{
@@ -92,14 +92,13 @@ export class Wallet {
 		this._address = null;
 		if (this._provider.close) {
 			await this._provider.close();
-
-			// If the cached provider is not cleared,
-			// WalletConnect will default to the existing session
-			// and does not allow to re-scan the QR code with a new wallet.
-			// Depending on your use case you may want or want not his behavir.
-			await this.web3Modal.clearCachedProvider();
-			this._provider = null;
 		}
+		// If the cached provider is not cleared,
+		// WalletConnect will default to the existing session
+		// and does not allow to re-scan the QR code with a new wallet.
+		// Depending on your use case you may want or want not his behavir.
+		await this.web3Modal.clearCachedProvider();
+		this._provider = null;
 		return this.isConnected;
 	}
 
@@ -117,7 +116,4 @@ export class Wallet {
 
 		return new this._web3.eth.Contract(abi, address);
 	}
-	
-	public disconnectWallet() {
-		this.web3Modal.clearCachedProvider();
-	}
+}
