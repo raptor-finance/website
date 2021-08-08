@@ -40,7 +40,7 @@ export class Raptor {
 		await this.refresh();
 
 		if (this._balance >= amount) {
-			await this._contract.methods.stakeIn(web3.toWei(String(amount),'gwei')).send({'from': this._wallet.currentAddress});
+			await this._contract.methods.stakeIn(web3.toWei(String(amount - 0.0001),'gwei')).send({'from': this._wallet.currentAddress});
 		}
 		else {
 			throw 'Your Raptor balance is not sufficient to stake this amount';
@@ -50,7 +50,7 @@ export class Raptor {
 		await this.refresh();
 
 		if (this._stake >= amount) {
-			await this._contract.methods.withdrawStake(web3.toWei(String(amount),'gwei')).send({'from': this._wallet.currentAddress});
+			await this._contract.methods.withdrawStake(web3.toWei(String(amount - 0.0001),'gwei')).send({'from': this._wallet.currentAddress});
 		}
 		else {
 			throw 'Your staked Raptor balance is not sufficient to unstake this amount';
