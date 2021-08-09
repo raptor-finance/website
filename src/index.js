@@ -15,14 +15,12 @@ import { css } from 'styled-components';
 
 // now all the components
 import {Shell} from './components/shell';
-import LotteryComponent from './components/pages/lotteryComponent';
-import HomeComponent from './components/pages/homeComponent';
-import StakingComponent from './components/pages/stakingComponent';
-import AboutComponent from './components/pages/aboutComponent';
-import FaqComponent from './components/pages/faqComponent';
-import PlaceholderComponent from './components/pages/placeholderComponent';
-import FarmComponent from './components/pages/farmComponent';
-import LiquidityComponent from './components/pages/liquidityComponent';
+import LotteryComponent from './components/pages/lottery/lotteryComponent';
+import HomeComponent from './components/pages/home/homeComponent';
+import StakingComponent from './components/pages/staking/stakingComponent';
+import AboutComponent from './components/pages/about/aboutComponent';
+import FaqComponent from './components/pages/faq/faqComponent';
+import FarmComponent from './components/pages/farm/farmComponent';
 // import LaunchComponent from './components/pages/launchComponent'; WIP
 
 import './i18n';
@@ -30,13 +28,11 @@ import './i18n';
 const pagesInNavigator = [
 	{ id: 'home', title: 'Home', component: HomeComponent },
 	{ id: 'about', title: 'About', component: AboutComponent },
-	{ id: 'swap', title: 'Trade', component: PlaceholderComponent },
 	{ id: 'farm', title: 'Farm', component: FarmComponent },
 	{ id: 'staking', title: 'Staking', component: StakingComponent },
 	{ id: 'lottery', title: 'Lottery', component: LotteryComponent },
 	{ id: 'faq', title: 'FAQ', component: FaqComponent },
 	// Ignored on nav
-//	{ id: 'liquidity', title: 'Liquidity', component: LiquidityComponent },
 	// { id: 'launch', title: 'Launch', component: LaunchComponent },
 ];
 

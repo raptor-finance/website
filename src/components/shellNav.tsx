@@ -64,11 +64,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 		const i18n = this.readProps().i18n;
 
 		const pages1 = pages.slice(0, 2);
-		const pages2 = pages.slice(3, 7);
-
-		console.log(pages2);
-
-		// pages.pop(); WIP
+		const pages2 = pages.slice(2, 7);
 
 		return (
 			<div className="navigation-wrapper">
@@ -97,7 +93,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 								</li>;
 							})
 						}
-						
+
 
 						<Collapsible
 							trigger={this.collapsedNavItem("Trade")}
@@ -159,7 +155,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							<a href="https://whitebit.com/trade-pro/RAPTOR_DECL?type=spot" className="btn btn-primary btn-block" target="_blank">{t('nav.buyonwhitebit')}</a>
 						</div>
 						<div className="mt-2">
-							<a href="https://exchange.pancakeswap.finance/#/swap?outputCurrency=0xf9A3FdA781c94942760860fc731c24301c83830A" className="btn btn-primary btn-block" target="_blank">{t('nav.buyonpancakeswap')}</a>
+							<a href="https://swap.raptr.finance/#/swap" className="btn btn-primary btn-block glow" target="_blank">{t('nav.buyonraptorswap')}</a>
 						</div>
 						<div className="mt-2">
 							<a href="https://bscscan.com/token/0xf9a3fda781c94942760860fc731c24301c83830a#balances" className="btn btn-complementary btn-block" target="_blank">{t('nav.viewonbscscan')}</a>

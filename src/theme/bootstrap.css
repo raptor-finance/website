@@ -2752,7 +2752,8 @@ fieldset:disabled a.btn {
 
 .btn-primary {
 	color: var(--white);
-	background: var(--primary) linear-gradient(180deg, var(--primary), var(--primary-alt)) repeat-x;
+	/* background: var(--primary) linear-gradient(180deg, var(--primary), var(--primary-alt)) repeat-x; */
+	background: var(--primary);
 	border-color: var(--primary);
 }
 

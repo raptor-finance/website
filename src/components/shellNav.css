@@ -81,6 +81,14 @@
 	padding: 0 16px;
 }
 
+.navigation-footer .btn {
+	border-radius: 64px;
+}
+
+.navigation-footer .glow {
+	box-shadow: 0 0 4px 2px rgba(84, 212, 126, 0.5);
+}
+
 .sudo-nav-link {
 	border-radius: 8px;
 }

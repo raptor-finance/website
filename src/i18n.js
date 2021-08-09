@@ -16,16 +16,8 @@ i18next
   .use(initReactI18next)
   .init({
 
-	supportedLngs: supportedLanguages.map((lang) => lang.code),
+    supportedLngs: supportedLanguages.map((lang) => lang.code),
 
-    // backend: {
-    //   loadPath: `./locales/{{lng}}.json`
-    // },
-    // react: {
-    //   	useSuspense: true,
-	  // 	transSupportBasicHtmlNodes: true,
-		// transKeepBasicHtmlNodesFor: ['u', 'a']
-    // },
     fallbackLng: defaultLanguage,
     keySeparator: '.',
     interpolation: { escapeValue: false }
@@ -34,5 +26,5 @@ i18next
 export default i18next
 
 export function languageCodeOnly(fullyQualifiedCode) {
-	return fullyQualifiedCode.split("-")[0];
+  return fullyQualifiedCode.split("-")[0];
 }

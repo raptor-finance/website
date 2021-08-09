@@ -1,0 +1,114 @@
+.about-container {
+	padding: 8% 4% 0 4%;
+}
+
+.about-container h1 {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	color: var(--white);
+}
+
+.about-container h1>img {
+	height: 50px;
+	margin: 0 20px;
+}
+
+.about-container h1>span {
+	line-height: 50px;
+}
+
+.about-container h2 {
+	color: var(--primary);
+}
+
+.about-container h3 {
+	color: var(--primary);
+}
+
+#mission #products-overview {
+	margin-top: 40px;
+}
+
+#team {
+	margin-top: 40px;
+}
+
+.about-container #sidebar h1 {
+	color: var(--dark);
+	font-size: x-large;
+	padding-top: 0px;
+}
+
+.about-container #team-members .photo {
+	width: 250px;
+	height: 250px;
+	margin: 30px 0;
+	max-width: 250px;
+	align-self: center;
+}
+
+.about-container #team-members .name {
+	font-size: 28px;
+	color: var(--white);
+	text-align: center;
+}
+
+.about-container #team-members .title {
+	font-size: large;
+	color: var(--complementary-alt);
+	text-align: center;
+}
+
+.about-container #team-members .photo.blank {
+	filter: saturate(0%);
+	opacity: 0.22;
+}
+
+.about-container #sidebar .gradient-card {
+	min-height: 700px;
+	position: sticky;
+	top: 96px;
+	z-index: 0;
+}
+
+.about-container #sidebar .background {
+	position: absolute;
+	left: 10px;
+	bottom: 10px;
+	right: 0;
+	height: auto;
+	opacity: 0.5;
+}
+
+.about-container #sidebar .background>img {
+	width: 100%;
+}
+
+.about-container #sidebar a {
+	color: var(--dark) !important;
+	font-weight: 600;
+	padding: 15px 0;
+	display: block;
+}
+
+.about-container #sidebar a:hover {
+	text-decoration: underline !important;
+}
+
+.memberCard {
+	align-items: center;
+}
+
+.link-dark {
+	text-decoration: none !important;
+}
+
+@media (max-width: 600px) {
+	.about-container {
+		padding: 40% 10% 0 10%;
+	}
+	.tab {
+		align-items: center;
+	}
+}
