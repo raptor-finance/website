@@ -91,18 +91,6 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 										<p className="description">{t('about.team.founder.desc4')}</p>
 										<p className="description">{t('about.team.founder.desc5')}<br /><br /></p>
 									</div>
-									<div className="col-md-6 d-flex flex-column item">
-										<img className="photo" src="images/team/jonathan.png" alt="raptor-team-vp-marketing" />
-										<a href="http://linkedin.com/in/jonathan-g-51bb35109" rel="noreferrer" target="_blank">
-											<h2 className="name">{t('about.team.vp_marketing.name')}</h2>
-										</a>
-										<p className="title">{t('about.team.vp_marketing.title')}</p>
-										<p className="description">{t('about.team.vp_marketing.desc1')}</p>
-										<p className="description">{t('about.team.vp_marketing.desc2')}</p>
-										<p className="description">{t('about.team.vp_marketing.desc3')}</p>
-										<p className="description">{t('about.team.vp_marketing.desc4')}</p>
-										<p className="description">{t('about.team.vp_marketing.desc5')}<br /></p>
-									</div>
 								</div>
 							</Fade>
 							<Fade bottom>
@@ -118,19 +106,6 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
 							</Fade>
 							<Fade left>
 								<div className="row">
-									<div className="col-md-4 d-flex flex-column item"><img className="photo" src="images/team/rinor.png" alt="raptor-team-social-media-manager" />
-										<a href="https://www.linkedin.com/in/rinor-sherifi-b568bb20b/" rel="noreferrer" target="_blank">
-											<h2 className="name">{t('about.team.social_media_manager.name')}</h2>
-										</a>
-										<p className="title">{t('about.team.social_media_manager.title')}</p>
-									</div>
-									<div className="col-md-4 d-flex flex-column item">
-										<img className="photo" src="images/team/kyle.png" alt="raptor-team-content-manager" />
-										<a href="https://www.linkedin.com/in/kyle-marcos-a52781211/" rel="noreferrer" target="_blank">
-											<h2 className="name">{t('about.team.content_manager.name')}</h2>
-										</a>
-										<p className="title">{t('about.team.content_manager.title')}</p>
-									</div>
 									<div className="col-md-4 d-flex flex-column item">
 										<img className="photo" src="images/team/romain.png" alt="raptor-team-graphics-designer" />
 										<a href="https://www.linkedin.com/in/romain-lambert-7a6a657a" rel="noreferrer" target="_blank">
