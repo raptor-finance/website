@@ -19,6 +19,10 @@ export class RaptorFarm {
 	private _rewards: number = 0;
 	private _apr: number = 0;
 	private _pid: number = 0;
+	private _usdbalanceavbl: number = 0;
+	private _usdbalancestaked: number = 0;
+	private _usdpendingrewards: number = 0;
+	private _tvl: number = 0;
 	private _lpAddress: string = "";
 	private _stablecoins = ["0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", "0x55d398326f99059fF775485246999027B3197955", "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3", "0x23396cF899Ca06c4472205fC903bDB4de249D6fC"];
 
@@ -62,6 +66,22 @@ export class RaptorFarm {
 		return this._apr;
 	}
 	
+	get tvl(): number {
+		return this._tvl;
+	}
+	
+	get usdavailable(): number {
+		return this._usdbalanceavbl;
+	}
+	
+	get usdstaked(): number {
+		return this._usdbalancestaked;
+	}
+
+	get usdrewards(): number {
+		return this._usdpendingrewards;
+	}
+	
 	get contract(): Contract {
 		return this._contract;
 	}
@@ -88,7 +108,7 @@ export class RaptorFarm {
 
 	async refresh(): Promise<void> {
 		await this._raptor.refresh();
-
+		const _raptorUsd = this._stats.raptorUsdPrice;
 		const _totalLp = (await this._lpToken.methods.totalSupply().call());
 		const raptorPerLPToken = (await this.raptorInLp()) / _totalLp;
 		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(RaptorFarm.address).call()) * raptorPerLPToken;
@@ -100,6 +120,11 @@ export class RaptorFarm {
 		this._rewards = (await this._contract.methods.pendingCake(this._pid, this._wallet.currentAddress).call()) / 10 ** 9;
 		this._lpBalance = (await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) / 10 ** 18;
 		this._stakedLp = (await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount / 10 ** 18;
+		this._usdbalancestaked = _raptorUsd*raptorPerLPToken*(10**9)*2*this._stakedLp;
+
+		this._usdbalanceavbl = _raptorUsd*raptorPerLPToken*(10**9)*2*this._lpBalance;
+		this._usdpendingrewards = _raptorUsd*this._rewards;
+		this._tvl = (_raptorUsd*stakedRaptorInLPs*2)/10**9;
 	}
 
 	async deposit(amount: number): Promise<void> {

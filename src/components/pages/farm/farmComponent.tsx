@@ -117,6 +117,46 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
       return (farmInfo.apr || 0);
     }
   }
+  
+  getTVL(pid: number): number {
+    const farmInfo = ((this.readState().farm || {})[pid]);
+    if (farmInfo == undefined) {
+      return 0;
+    }
+    else {
+      return (farmInfo.tvl || 0);
+    }
+  }
+  
+  getUsdAvbl(pid: number): number {
+    const farmInfo = ((this.readState().farm || {})[pid]);
+    if (farmInfo == undefined) {
+      return 0;
+    }
+    else {
+      return (farmInfo.usdavailable || 0);
+    }
+  }
+  
+  getUsdStaked(pid: number): number {
+    const farmInfo = ((this.readState().farm || {})[pid]);
+    if (farmInfo == undefined) {
+      return 0;
+    }
+    else {
+      return (farmInfo.usdstaked || 0);
+    }
+  }
+  
+  getUsdRewards(pid: number): number {
+    const farmInfo = ((this.readState().farm || {})[pid]);
+    if (farmInfo == undefined) {
+      return 0;
+    }
+    else {
+      return (farmInfo.usdrewards || 0);
+    }
+  }
 
   getAmounts(pid: number) {
     var amounts = {};
@@ -124,6 +164,10 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     amounts["lpBalance"] = this.getLpBalance(pid);
     amounts["stakedLp"] = this.getStakedBalance(pid);
     amounts["rewards"] = this.getRewards(pid);
+    amounts["tvl"] = this.getTVL(pid);
+    amounts["usdavailable"] = this.getUsdAvbl(pid);
+    amounts["usdstaked"] = this.getUsdStaked(pid);
+    amounts["usdrewards"] = this.getUsdRewards(pid);
     return amounts;
   }
 
@@ -282,6 +326,10 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     const lpBalance = amounts["lpBalance"];
     const stakedLp = amounts["stakedLp"];
     const rewards = amounts["rewards"];
+	const tvl = amounts["tvl"];
+	const usdavailable = amounts["usdavailable"];
+	const usdstaked = amounts["usdstaked"];
+	const usdrewards = amounts["usdrewards"];
 
     return <div className={`farm-card ${enableGlow ? "glow-div" : ""}`}>
       <div className="gradient-card shadow dark">
@@ -307,6 +355,18 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
                 </AnimatedNumber>
               </h2>
             </div>
+			<div className="d-flex justify-content-between apr">
+			  <h2>TVL: </h2>
+			  <h2>
+                <AnimatedNumber
+                  value={numeral(tvl || 0).format('0.00')}
+                  duration="1000"
+                  formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}$`}
+                >
+                  {apr || 0}
+                </AnimatedNumber>
+			  </h2>
+			</div>
             <div className="d-flex justify-content-between pool">
               <h2>Liquidity Pool: </h2>
               <h2><u>{liquidityPool}</u></h2>
@@ -318,7 +378,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
               formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
             >
               {lpBalance || 0}
-            </AnimatedNumber>
+            </AnimatedNumber><AnimatedNumber value={numeral(usdavailable || 0).format('0.00')} formatValue={value => ` (= ${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}$)`}> (= {usdavailable || 0}$)</AnimatedNumber>
             <div className="rewards-block d-flex justify-content-between">
               <div>
                 <h3>Pending Rewards</h3>
@@ -328,7 +388,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
                   formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor`}
                 >
                   {rewards || 0}
-                </AnimatedNumber>
+                </AnimatedNumber><AnimatedNumber value={numeral(usdrewards || 0).format('0.00')} formatValue={value => ` (= ${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}$`}> (= {usdrewards || 0}$)</AnimatedNumber>)
               </div>
               <div className="d-flex align-items-center">
                 <OverlayTrigger
@@ -346,9 +406,16 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
               <AnimatedNumber
                 value={numeral(stakedLp || 0).format('0.000000')}
                 duration="1000"
-                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })} LP Tokens`}
+                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })} LP`}
               >
                 {stakedLp || 0}
+              </AnimatedNumber>
+              <AnimatedNumber
+                value={numeral(usdstaked || 0).format('0.00')}
+                duration="1000"
+                formatValue={value => ` (= ${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}$)`}
+              >
+                ({usdstaked || 0}$)
               </AnimatedNumber>
             </div>
           </div>
