@@ -24,7 +24,8 @@ export type FarmState = {
   amount?: number,
   rewards?: number,
   ctValue?,
-  pending?: boolean
+  pending?: boolean,
+  tvl?: number
 }
 
 class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState> {
@@ -48,6 +49,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
   async connectWallet() {
     try {
       this.updateState({ pending: true });
+	  var tvl = 0;
       const wallet = new Wallet();
       const result = await wallet.connect();
 
@@ -57,17 +59,16 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
       var farm = {};
       farm[0] = new RaptorFarm(wallet, 0);
-      await farm[0].finishSetup();
+      // await farm[0].finishSetup();
 
       const poolLength = (await farm[0].contract.methods.poolLength().call());
       var i = 1;
       while (i < poolLength) {
         farm[i] = new RaptorFarm(wallet, i);
-        await farm[i].finishSetup();
         i += 1;
       }
 
-      this.updateState({ farm: farm, wallet: wallet, looping: true });
+      this.updateState({ farm: farm, wallet: wallet, looping: true, tvl:tvl });
       await this.updateOnce(false);
       this.updateState({ pending: false });
       this.loop().then();

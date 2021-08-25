@@ -26,6 +26,11 @@ export class RaptorFarm {
 	private _lpAddress: string = "";
 	private _stablecoins = ["0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", "0x55d398326f99059fF775485246999027B3197955", "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3", "0x23396cF899Ca06c4472205fC903bDB4de249D6fC"];
 
+	async finishSetup() {
+		this._lpAddress = (await this._contract.methods.poolInfo(this._pid).call()).lpToken;
+		this._lpToken = this._wallet.connectToContract(this._lpAddress, require("./lptoken.abi.json"));
+	}
+
 	constructor(wallet: Wallet, pid: number) {
 		if (!wallet.isConnected) {
 			throw 'Wallet must be connected before this action can be executed.';
@@ -36,11 +41,7 @@ export class RaptorFarm {
 		this._contract = wallet.connectToContract(RaptorFarm.address, require('./raptorfarm.abi.json'));
 		this._stats = new RaptorStatistics();
 		this._stats.refresh();
-	}
-
-	async finishSetup() {
-		this._lpAddress = (await this._contract.methods.poolInfo(this._pid).call()).lpToken;
-		this._lpToken = this._wallet.connectToContract(this._lpAddress, require("./lptoken.abi.json"));
+		this.finishSetup();
 	}
 
 	get wallet(): Wallet {
