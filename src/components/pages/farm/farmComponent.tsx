@@ -209,13 +209,15 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
   private async updateOnce(resetCt?: boolean): Promise<boolean> {
     const farm = this.readState().farm;
+	const poolLength = (await farm[0].contract.methods.poolLength().call());
     if (!!farm) {
       try {
         var i = 0
-        while (farm[i] != undefined) {
-          await farm[i].refresh();
+        while (i < poolLength) {
+          farm[i].refresh();
           i += 1;
         }
+		await farm[poolLength-1].refresh();
         if (!this.readState().looping) {
           return false;
         }
@@ -356,7 +358,8 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
                 </AnimatedNumber>
               </h2>
             </div>
-			<div className="d-flex justify-content-between apr">
+			/*
+			<div className="d-flex justify-content-between tvl">
 			  <h2>TVL: </h2>
 			  <h2>
                 <AnimatedNumber
@@ -368,6 +371,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
                 </AnimatedNumber>
 			  </h2>
 			</div>
+			*/
             <div className="d-flex justify-content-between pool">
               <h2>Liquidity Pool: </h2>
               <h2><u>{liquidityPool}</u></h2>
