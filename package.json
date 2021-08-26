@@ -11,7 +11,7 @@
 		"@fortawesome/free-solid-svg-icons": "^5.15.3",
 		"@fortawesome/react-fontawesome": "^0.1.14",
 		"@popperjs/core": "^2.9.2",
-		"@walletconnect/web3-provider": "^1.4.1",
+		"@walletconnect/web3-provider": "^1.6.4",
 		"animated-number-react": "^0.1.2",
 		"axios": "^0.21.1",
 		"bootstrap": "^5.0.1",

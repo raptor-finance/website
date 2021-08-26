@@ -14,6 +14,7 @@ export class RaptorFarm {
 	private readonly _stats: RaptorStatistics;
 	private readonly _lpToken: Contract;
 
+	private _setupFinished: any;
 	private _lpBalance: number = 0;
 	private _stakedLp: number = 0;
 	private _rewards: number = 0;
@@ -27,6 +28,7 @@ export class RaptorFarm {
 	private _stablecoins = ["0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", "0x55d398326f99059fF775485246999027B3197955", "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3", "0x23396cF899Ca06c4472205fC903bDB4de249D6fC"];
 
 	async finishSetup() {
+		await this._stats.refresh();
 		this._lpAddress = (await this._contract.methods.poolInfo(this._pid).call()).lpToken;
 		this._lpToken = this._wallet.connectToContract(this._lpAddress, require("./lptoken.abi.json"));
 	}
@@ -40,8 +42,7 @@ export class RaptorFarm {
 		this._raptor = new Raptor(wallet);
 		this._contract = wallet.connectToContract(RaptorFarm.address, require('./raptorfarm.abi.json'));
 		this._stats = new RaptorStatistics();
-		this._stats.refresh();
-		this.finishSetup();
+		this._setupFinished = this.finishSetup();
 	}
 
 	get wallet(): Wallet {
@@ -108,6 +109,7 @@ export class RaptorFarm {
 	}
 
 	async refresh(): Promise<void> {
+		await this._setupFinished;
 		await this._raptor.refresh();
 		const _raptorUsd = this._stats.raptorUsdPrice;
 		const _totalLp = (await this._lpToken.methods.totalSupply().call());
