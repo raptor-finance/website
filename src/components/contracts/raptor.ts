@@ -17,6 +17,12 @@ export class Raptor {
 	constructor(wallet: Wallet) {
 		this._wallet = wallet;
 		this._contract = wallet.connectToContract(RaptorAddress, require('./raptor.abi.json'));
+		try {
+			this._contractv3 = wallet.connectToContract(RaptorAddressv3, require('./raptor.abi.json'));
+		}
+		catch (e) {
+			// throw "Raptor v3 not yet deployed"
+		}
 	}
 
 	get contract(): Contract {

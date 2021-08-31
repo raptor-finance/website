@@ -21,6 +21,7 @@ import StakingComponent from './components/pages/staking/stakingComponent';
 import AboutComponent from './components/pages/about/aboutComponent';
 import FaqComponent from './components/pages/faq/faqComponent';
 import FarmComponent from './components/pages/farm/farmComponent';
+import MigrationComponent from './components/pages/migration/migrationComponent';
 // import LaunchComponent from './components/pages/launchComponent'; WIP
 
 import './i18n';
@@ -32,6 +33,7 @@ const pagesInNavigator = [
 	{ id: 'staking', title: 'Staking', component: StakingComponent },
 	{ id: 'lottery', title: 'Lottery', component: LotteryComponent },
 	{ id: 'faq', title: 'FAQ', component: FaqComponent },
+	{ id: 'migrate', title:'Migration', component: MigrationComponent },
 	// Ignored on nav
 	// { id: 'launch', title: 'Launch', component: LaunchComponent },
 ];
