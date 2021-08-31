@@ -52,9 +52,6 @@ class aboutComponent extends BaseComponent<AboutProps & WithTranslation, AboutSt
               </div>
             </div>
           </section>
-          <section id="team">
-            <TeamDiv />
-          </section>
         </div>
         <Slide right>
           <div className="d-none d-lg-flex sticky-top col-3" id="sidebar">
