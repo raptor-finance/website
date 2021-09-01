@@ -109,6 +109,15 @@ class MigrationComponent extends BaseComponent<MigrationProps & WithTranslation,
 
 	componentWillUnmount() {
 	}
+	
+	handleAmountUpdate(event) {
+		this.updateState({ ctValue:event.target.value });
+	}
+	
+	async migrate() {
+		raptor = this.readState().raptor;
+		await raptor.migrate(ctValue);
+	}
 
 	render() {
 		const t: TFunction<"translation"> = this.readProps().t;
@@ -139,6 +148,9 @@ class MigrationComponent extends BaseComponent<MigrationProps & WithTranslation,
 			<div className="container">
 				<div>
 					Old raptor balance : {state.balance || 0}
+				</div>
+				<div>
+					<input onChange={this.handleAmountUpdate} value={state.ctValue}></input><button onClick={this.migrate}>Migrate</button>
 				</div>
 			</div>
 		</div>
