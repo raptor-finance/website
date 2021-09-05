@@ -4,6 +4,7 @@ import * as numeral from 'numeral';
 import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
 import { Wallet } from '../../wallet';
 import { RaptorFarm } from '../../contracts/raptorfarm';
+import { RaptorFarmNew } from '../../contracts/raptorfarmnew';
 import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
 import { Tooltip, OverlayTrigger, Container, Row, Col } from 'react-bootstrap';
 import AnimatedNumber from 'animated-number-react';
@@ -58,13 +59,21 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
       }
 
       var farm = {};
-      farm[0] = new RaptorFarm(wallet, 0);
+      farm[`0,0`] = new RaptorFarm(wallet, 0);
+      farm[`1,0`] = new RaptorFarmNew(wallet, 0);
       // await farm[0].finishSetup();
 
-      const poolLength = (await farm[0].contract.methods.poolLength().call());
+      const poolLengthOld = (await farm[`0,0`].contract.methods.poolLength().call());
       var i = 1;
-      while (i < poolLength) {
-        farm[i] = new RaptorFarm(wallet, i);
+      while (i < poolLengthOld) {
+        farm[`0,${i}`] = new RaptorFarm(wallet, i);
+        i += 1;
+      }
+	  
+      const poolLengthNew = (await farm[`1,0`].contract.methods.poolLength().call());
+      var i = 1;
+      while (i < poolLengthNew) {
+        farm[`1,${i}`] = new RaptorFarm(wallet, i);
         i += 1;
       }
 
@@ -79,7 +88,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
 
-  getLpBalance(pid: number): number {
+  getLpBalance(pid: string): number {
     const farmInfo = ((this.readState().farm || {})[pid]);
     if (farmInfo == undefined) {
       return 0;
@@ -89,7 +98,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
 
-  getStakedBalance(pid: number): number {
+  getStakedBalance(pid: string): number {
     const farmInfo = ((this.readState().farm || {})[pid]);
     if (farmInfo == undefined) {
       return 0;
@@ -99,7 +108,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
 
-  getRewards(pid: number): number {
+  getRewards(pid: string): number {
     const farmInfo = ((this.readState().farm || {})[pid]);
     if (farmInfo == undefined) {
       return 0;
@@ -109,7 +118,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
 
-  getApr(pid: number): number {
+  getApr(pid: string): number {
     const farmInfo = ((this.readState().farm || {})[pid]);
     if (farmInfo == undefined) {
       return 0;
@@ -119,7 +128,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
   
-  getTVL(pid: number): number {
+  getTVL(pid: string): number {
     const farmInfo = ((this.readState().farm || {})[pid]);
     if (farmInfo == undefined) {
       return 0;
@@ -129,7 +138,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
   
-  getUsdAvbl(pid: number): number {
+  getUsdAvbl(pid: string): number {
     const farmInfo = ((this.readState().farm || {})[pid]);
     if (farmInfo == undefined) {
       return 0;
@@ -139,7 +148,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
   
-  getUsdStaked(pid: number): number {
+  getUsdStaked(pid: string): number {
     const farmInfo = ((this.readState().farm || {})[pid]);
     if (farmInfo == undefined) {
       return 0;
@@ -149,7 +158,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
   
-  getUsdRewards(pid: number): number {
+  getUsdRewards(pid: string): number {
     const farmInfo = ((this.readState().farm || {})[pid]);
     if (farmInfo == undefined) {
       return 0;
@@ -159,16 +168,16 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
 
-  getAmounts(pid: number) {
+  getAmounts(version: number, pid: number) {
     var amounts = {};
     amounts["apr"] = this.getApr(pid);
-    amounts["lpBalance"] = this.getLpBalance(pid);
-    amounts["stakedLp"] = this.getStakedBalance(pid);
-    amounts["rewards"] = this.getRewards(pid);
-    amounts["tvl"] = this.getTVL(pid);
-    amounts["usdavailable"] = this.getUsdAvbl(pid);
-    amounts["usdstaked"] = this.getUsdStaked(pid);
-    amounts["usdrewards"] = this.getUsdRewards(pid);
+    amounts["lpBalance"] = this.getLpBalance(`${version},${pid}`);
+    amounts["stakedLp"] = this.getStakedBalance(`${version},${pid}`);
+    amounts["rewards"] = this.getRewards(`${version},${pid}`);
+    amounts["tvl"] = this.getTVL(`${version},${pid}`);
+    amounts["usdavailable"] = this.getUsdAvbl(`${version},${pid}`);
+    amounts["usdstaked"] = this.getUsdStaked(`${version},${pid}`);
+    amounts["usdrewards"] = this.getUsdRewards(`${version},${pid}`);
     return amounts;
   }
 
@@ -209,20 +218,26 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
   private async updateOnce(resetCt?: boolean): Promise<boolean> {
     const farm = this.readState().farm;
-	const poolLength = (await farm[0].contract.methods.poolLength().call());
+	const poolLengthOld = (await farm["0,0"].contract.methods.poolLength().call());
+	const poolLengthNew = (await farm["1,0"].contract.methods.poolLength().call());
     if (!!farm) {
       try {
-        var i = 0
-        while (i < poolLength) {
-          farm[i].refresh();
+        let i = 0;
+		let j = 0;
+        while (i < poolLengthOld) {
+          farm[`0,${i}`].refresh();
           i += 1;
+        }
+        while (j < poolLengthNew) {
+          farm[`1,${j}`].refresh();
+          j += 1;
         }
 		await farm[poolLength-1].refresh();
         if (!this.readState().looping) {
           return false;
         }
         this.updateState({
-          address: farm[0].wallet.currentAddress,
+          address: farm["0,0"].wallet.currentAddress,
         });
 
         if (resetCt) {
@@ -242,13 +257,13 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     return true;
   }
 
-  async depositLP(pid: number): Promise<void> {
+  async depositLP(version: number, pid: number): Promise<void> {
     try {
       const state = this.readState();
       this.updateState({ pending: true });
 
-      if (state.ctValue[pid] >= 0) {
-        await state.farm[pid].deposit(state.ctValue[pid]);
+      if (state.ctValue[`${version},${pid}`] >= 0) {
+        await state.farm[`${version},${pid}`].deposit(state.ctValue[`${version},${pid}`]);
       } else {
         throw "Can't deposit a negative amount.";
       }
@@ -262,13 +277,13 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
 
-  async withdrawLP(pid: number): Promise<void> {
+  async withdrawLP(version: number, pid: number): Promise<void> {
     try {
       const state = this.readState();
       this.updateState({ pending: true });
 
-      if (state.ctValue[pid] >= 0) {
-        await state.farm[pid].withdraw(state.ctValue[pid]);
+      if (state.ctValue[`${version},${pid}`] >= 0) {
+        await state.farm[`${version},${pid}`].withdraw(state.ctValue[`${version},${pid}`]);
       } else {
         throw "Can't withdraw a negative amount.";
       }
@@ -282,11 +297,11 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
 
-  async claimRaptor(pid: number): Promise<void> {
+  async claimRaptor(version: number, pid: number): Promise<void> {
     try {
       const state = this.readState();
       this.updateState({ pending: true });
-      await state.farm[pid].claim();
+      await state.farm[`${version},${pid}`].claim();
 
       this.updateState({ pending: false });
       this.updateOnce(false).then();
@@ -321,10 +336,11 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     fees,
     liquidityPool,
     enableGlow,
-    pid
+    pid,
+	version
   }) {
-    const ctValue = ((this.readState().ctValue || {})[pid]);
-    const amounts = this.getAmounts(pid);
+    const ctValue = ((this.readState().ctValue || {})[`${version},${pid}`]);
+    const amounts = this.getAmounts(version, pid);
     const apr = amounts["apr"];
     const lpBalance = amounts["lpBalance"];
     const stakedLp = amounts["stakedLp"];
@@ -400,7 +416,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
                   placement="bottom-start"
                   overlay={this.renderTooltip}
                 >
-                  <button aria-label="harvest button" className="btn btn-harvest stake-claim shadow" disabled={rewards <= 0 || rewards == null} type="button" onClick={async () => this.claimRaptor(pid)}>
+                  <button aria-label="harvest button" className="btn btn-harvest stake-claim shadow" disabled={rewards <= 0 || rewards == null} type="button" onClick={async () => this.claimRaptor(versiom, pid)}>
                     <img src="images/harvest-icon.svg" alt="harvest button icon" />
                   </button>
                 </OverlayTrigger>
@@ -427,11 +443,11 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
           <hr />
           <div>
             <div className="d-flex">
-              <input className="lp-input" type="number" id={pid} onChange={(event) => this.stakingValueChanged(event)} value={ctValue || 0} />
+              <input className="lp-input" type="number" id={`${version},${pid}`} onChange={(event) => this.stakingValueChanged(event)} value={ctValue || 0} />
             </div>
             <div className="wd-buttons d-flex justify-content-between">
-              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={stakedLp <= 0 || stakedLp == null} type="button" onClick={async () => this.withdrawLP(pid)}>Withdraw LP</button>
-              <button className="btn btn-primary btn-small link-dark align-self-center stake-claim right" disabled={lpBalance <= 0 || lpBalance == null} type="button" onClick={async () => this.depositLP(pid)}>Deposit LP</button>
+              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={stakedLp <= 0 || stakedLp == null} type="button" onClick={async () => this.withdrawLP(version, pid)}>Withdraw LP</button>
+              <button className="btn btn-primary btn-small link-dark align-self-center stake-claim right" disabled={lpBalance <= 0 || lpBalance == null} type="button" onClick={async () => this.depositLP(version, pid)}>Deposit LP</button>
             </div>
           </div>
         </div>
