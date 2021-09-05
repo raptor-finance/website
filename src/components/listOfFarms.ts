@@ -5,7 +5,8 @@ export const farmsList = [
     "logo": "images/farm/usdt-weth.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": true
+    "enableGlow": true,
+	"version":0
   },
   {
     "pid": 10,
@@ -13,7 +14,8 @@ export const farmsList = [
     "logo": "images/farm/busd-dai.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": true
+    "enableGlow": true,
+	"version":0
   },
   {
     "pid": 9,
@@ -21,7 +23,8 @@ export const farmsList = [
     "logo": "images/farm/usdt-busd.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": true
+    "enableGlow": true,
+	"version":0
   },
   {
     "pid": 8,
@@ -29,7 +32,8 @@ export const farmsList = [
     "logo": "images/farm/bnb-usdt.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": true
+    "enableGlow": true,
+	"version":0
   },
   {
     "pid": 7,
@@ -37,7 +41,8 @@ export const farmsList = [
     "logo": "images/farm/bnb-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": false
+    "enableGlow": false,
+	"version":0
   },
   {
     "pid": 6,
@@ -45,7 +50,8 @@ export const farmsList = [
     "logo": "images/farm/matic-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": false
+    "enableGlow": false,
+	"version":0
   },
   {
     "pid": 5,
@@ -53,7 +59,8 @@ export const farmsList = [
     "logo": "images/farm/weth-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": false
+    "enableGlow": false,
+	"version":0
   },
   {
     "pid": 4,
@@ -61,7 +68,8 @@ export const farmsList = [
     "logo": "images/farm/ada-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": false
+    "enableGlow": false,
+	"version":0
   },
   {
     "pid": 3,
@@ -69,7 +77,8 @@ export const farmsList = [
     "logo": "images/farm/dai-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": false
+    "enableGlow": false,
+	"version":0
   },
   {
     "pid": 2,
@@ -77,7 +86,8 @@ export const farmsList = [
     "logo": "images/farm/busd-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": false
+    "enableGlow": false,
+	"version":0
   },
   {
     "pid": 1,
@@ -85,7 +95,8 @@ export const farmsList = [
     "logo": "images/farm/usdt-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Raptor",
-    "enableGlow": false
+    "enableGlow": false,
+	"version":0
   },
   {
     "pid": 0,
@@ -93,6 +104,7 @@ export const farmsList = [
     "logo": "images/farm/bnb-raptor.png",
     "fees": "NO FEES",
     "liquidityPool": "Pancake",
-    "enableGlow": false
+    "enableGlow": false,
+	"version":0
   },
 ]

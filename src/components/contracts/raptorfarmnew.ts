@@ -4,7 +4,7 @@ import { Raptor } from './raptor';
 import { RaptorStatistics } from './statistics'
 import * as web3 from 'web3-utils';
 
-export class RaptorFarm {
+export class RaptorFarmNew {
 
 	private static readonly address: string = "0x540647470C039dD7c93b2dfe328264d1a56e3074";
 
@@ -40,7 +40,7 @@ export class RaptorFarm {
 		this._pid = pid;
 		this._wallet = wallet;
 		this._raptor = new Raptor(wallet);
-		this._contract = wallet.connectToContract(RaptorFarm.address, require('./raptorfarm.abi.json'));
+		this._contract = wallet.connectToContract(RaptorFarmNew.address, require('./raptorfarm.abi.json'));
 		this._stats = new RaptorStatistics();
 		this._setupFinished = this.finishSetup();
 	}
@@ -114,7 +114,7 @@ export class RaptorFarm {
 		const _raptorUsd = this._stats.raptorUsdPrice;
 		const _totalLp = (await this._lpToken.methods.totalSupply().call());
 		const raptorPerLPToken = (await this.raptorInLp()) / _totalLp;
-		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(RaptorFarm.address).call()) * raptorPerLPToken;
+		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(RaptorFarmNew.address).call()) * raptorPerLPToken;
 
 		const raptorPerYear = ((await this._contract.methods.raptorPerBlock().call()) * 10512000) * ((await this._contract.methods.poolInfo(this._pid).call()).allocPoint / (await this._contract.methods.totalAllocPoint().call())) * (await this._contract.methods.BONUS_MULTIPLIER().call())
 
@@ -135,12 +135,12 @@ export class RaptorFarm {
 		const rawAmount = web3.toWei(amount);
 
 		if ((await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) >= rawAmount) {
-			const allowance = (await this._lpToken.methods.allowance(this._wallet.currentAddress, RaptorFarm.address).call());
+			const allowance = (await this._lpToken.methods.allowance(this._wallet.currentAddress, RaptorFarmNew.address).call());
 
 			if (allowance < Number(rawAmount)) {
 				// we need to give allowance to farming contract first
 				const allowance = `${BigInt(2 ** 256) - BigInt(1)}`;
-				await this._lpToken.methods.approve(RaptorFarm.address, allowance).send({ 'from': this._wallet.currentAddress });
+				await this._lpToken.methods.approve(RaptorFarmNew.address, allowance).send({ 'from': this._wallet.currentAddress });
 			}
 			await this._contract.methods.deposit(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
 		}

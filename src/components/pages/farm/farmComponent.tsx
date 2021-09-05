@@ -170,7 +170,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
   getAmounts(version: number, pid: number) {
     var amounts = {};
-    amounts["apr"] = this.getApr(pid);
+    amounts["apr"] = this.getApr(`${version},${pid}`);
     amounts["lpBalance"] = this.getLpBalance(`${version},${pid}`);
     amounts["stakedLp"] = this.getStakedBalance(`${version},${pid}`);
     amounts["rewards"] = this.getRewards(`${version},${pid}`);
@@ -228,11 +228,11 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
           farm[`0,${i}`].refresh();
           i += 1;
         }
-        while (j < poolLengthNew) {
+        while (j < poolLengthNew-1) {
           farm[`1,${j}`].refresh();
           j += 1;
         }
-		await farm[poolLength-1].refresh();
+		await farm[`1,${poolLengthNew-1}`].refresh();
         if (!this.readState().looping) {
           return false;
         }
@@ -497,6 +497,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
                 liquidityPool={farm.liquidityPool}
                 enableGlow={farm.enableGlow}
                 pid={farm.pid}
+				version={farm.version}
               />
             </Col>
           })}
