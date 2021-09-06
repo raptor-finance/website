@@ -6,7 +6,7 @@ import * as web3 from 'web3-utils';
 
 export class RaptorFarmNew {
 
-	private static readonly address: string = "0x540647470C039dD7c93b2dfe328264d1a56e3074";
+	private static readonly address: string = "0xA21F55B2195aF7942B33372aF8a078F3c22f9F75";
 
 	private readonly _wallet: Wallet;
 	private readonly _contract: Contract;
@@ -89,6 +89,9 @@ export class RaptorFarmNew {
 	}
 	
 	async raptorInLp() {
+		if (this._lpToken._address == "0x44C99Ca267C2b2646cEEc72e898273085aB87ca5") {
+			return (await this._lpToken.methods.totalSupply().call()/2);
+		}
 		var _tokensInPair = [(await this._lpToken.methods.token0().call()), await this._lpToken.methods.token1().call()]
 		if (_tokensInPair.includes(this._raptor.contract._address)) {
 			return (await this._raptor.contract.methods.balanceOf(this._lpAddress).call());
@@ -109,9 +112,10 @@ export class RaptorFarmNew {
 	}
 
 	async refresh(): Promise<void> {
+		console.log(`Updating pid ${this._pid}`)
 		await this._setupFinished;
 		await this._raptor.refresh();
-		const _raptorUsd = this._stats.raptorUsdPrice;
+		const _raptorUsd = this._stats.raptorUsdPrice/1000;
 		const _totalLp = (await this._lpToken.methods.totalSupply().call());
 		const raptorPerLPToken = (await this.raptorInLp()) / _totalLp;
 		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(RaptorFarmNew.address).call()) * raptorPerLPToken;
@@ -133,7 +137,6 @@ export class RaptorFarmNew {
 	async deposit(amount: number): Promise<void> {
 		await this._raptor.refresh();
 		const rawAmount = web3.toWei(amount);
-
 		if ((await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) >= rawAmount) {
 			const allowance = (await this._lpToken.methods.allowance(this._wallet.currentAddress, RaptorFarmNew.address).call());
 

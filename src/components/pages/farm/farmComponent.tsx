@@ -261,7 +261,6 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     try {
       const state = this.readState();
       this.updateState({ pending: true });
-
       if (state.ctValue[`${version},${pid}`] >= 0) {
         await state.farm[`${version},${pid}`].deposit(state.ctValue[`${version},${pid}`]);
       } else {
@@ -281,7 +280,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     try {
       const state = this.readState();
       this.updateState({ pending: true });
-
+      console.log(`${version},${pid}`)
       if (state.ctValue[`${version},${pid}`] >= 0) {
         await state.farm[`${version},${pid}`].withdraw(state.ctValue[`${version},${pid}`]);
       } else {

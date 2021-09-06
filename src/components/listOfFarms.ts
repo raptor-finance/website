@@ -1,5 +1,14 @@
 export const farmsList = [
+
   {
+    "pid": 0,
+    "pairName": "RAPTOR Test",
+    "logo": "images/farm/bnb-raptor.png",
+    "fees": "NO FEES",
+    "liquidityPool": "NoPool",
+    "enableGlow": false,
+	"version":1
+  },  {
     "pid": 11,
     "pairName": "ETH-USDT",
     "logo": "images/farm/usdt-weth.png",
