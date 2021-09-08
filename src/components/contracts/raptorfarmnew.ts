@@ -135,7 +135,7 @@ export class RaptorFarmNew {
 	}
 
 	async deposit(amount: number): Promise<void> {
-		await this._raptor.refresh();
+		// await this._raptor.refresh();
 		const rawAmount = web3.toWei(amount);
 		if ((await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) >= rawAmount) {
 			const allowance = (await this._lpToken.methods.allowance(this._wallet.currentAddress, RaptorFarmNew.address).call());
@@ -153,7 +153,7 @@ export class RaptorFarmNew {
 	}
 
 	async withdraw(amount: number): Promise<void> {
-		await this._raptor.refresh()
+		// await this._raptor.refresh()
 		const rawAmount = web3.toWei(amount);
 
 		if ((await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount >= rawAmount) {
@@ -165,7 +165,7 @@ export class RaptorFarmNew {
 	}
 
 	async claim(): Promise<void> {
-		await this._raptor.refresh();
+		// await this._raptor.refresh();
 		await this._contract.methods.deposit(this._pid, 0).send({ 'from': this._wallet.currentAddress });
 	}
 }

@@ -75,7 +75,7 @@ export class Raptor {
 	
 	async migrate(amount:number): Promise<void> {
 		if (this._balance >= _amount) {
-			await.this._contract.methods.approveAndCall(this._contractv3._address,web3.toWei(String(amount),'gwei'),"0x0");
+			await this._contract.methods.approveAndCall(this._contractv3._address,web3.toWei(String(amount),'gwei'),"0x0");
 		}
 		else {
 			throw `Your balance isn't sufficient to migrate this amount, maximum : ${this._balance}`;
