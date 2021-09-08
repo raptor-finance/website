@@ -16,7 +16,7 @@ export type MigrationState = {
 	balance?: number
 };
 
-class MigrationComponent extends BaseComponent<MigrationProps & WithTranslation, MigrationState> {
+class MigrationComponent extends BaseComponent<MigrationProps & withTranslation, MigrationState> {
 	constructor(props: MigrationProps & WithTranslation) {
 		super(props);
 		this.connectWallet = this.connectWallet.bind(this);
@@ -117,6 +117,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & WithTranslation,
 	async migrate() {
 		raptor = this.readState().raptor;
 		await raptor.migrate(ctValue);
+		await raptor.refresh();
 	}
 
 	render() {
@@ -128,17 +129,16 @@ class MigrationComponent extends BaseComponent<MigrationProps & WithTranslation,
 				<div className="row text-white migration-header">
 					<div className="col-md-12">
 						<div className="migration-title">
-							<span>Raptor</span>
-							<span style={{ color: "#31c461" }}>Migration</span>
+							<span>Raptor</span><span style={{ color: "#31c461" }}> Migration</span>
 							{state.address ?
 								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
 									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									{t('staking.disconnect_wallet')}
+									Disonnect wallet
 								</a>)
 								:
 								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.connectWallet}>
 									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									{t('staking.connect_wallet')}
+									Connect wallet
 								</a>)
 							}
 						</div>
@@ -148,6 +148,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & WithTranslation,
 			<div className="container">
 				<div>
 					Old raptor balance : {state.balance || 0}
+					New raptor balance : {state.balancev3 || 0}
 				</div>
 				<div>
 					<input onChange={this.handleAmountUpdate} value={state.ctValue}></input><button onClick={this.migrate}>Migrate</button>
