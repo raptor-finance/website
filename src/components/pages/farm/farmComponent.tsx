@@ -415,7 +415,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
                   placement="bottom-start"
                   overlay={this.renderTooltip}
                 >
-                  <button aria-label="harvest button" className="btn btn-harvest stake-claim shadow" disabled={rewards <= 0 || rewards == null} type="button" onClick={async () => this.claimRaptor(versiom, pid)}>
+                  <button aria-label="harvest button" className="btn btn-harvest stake-claim shadow" disabled={rewards <= 0 || rewards == null} type="button" onClick={async () => this.claimRaptor(version, pid)}>
                     <img src="images/harvest-icon.svg" alt="harvest button icon" />
                   </button>
                 </OverlayTrigger>

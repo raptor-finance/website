@@ -21,6 +21,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 		super(props);
 		this.connectWallet = this.connectWallet.bind(this);
 		this.disconnectWallet = this.disconnectWallet.bind(this);
+		this.migrate = this.migrate.bind(this);
 		this.state = {};
 	}
 	
