@@ -13,6 +13,7 @@ export class Raptor {
 	private readonly _contractv3: Contract;
 
 	private _balance: number = 0;
+	private _balancev3: number = 0;
 	private _stake: number = 0;
 	private _pendingRewards: number = 0;
 
@@ -40,6 +41,9 @@ export class Raptor {
 	}
 	get balance(): number {
 		return this._balance;
+	}
+	get balancev3(): number {
+		return this._balancev3;
 	}
 	get stakedBalance(): number {
 		return this._stake;
@@ -74,16 +78,17 @@ export class Raptor {
 	}
 	
 	async migrate(amount:number): Promise<void> {
-		if (this._balance >= _amount) {
-			await this._contract.methods.approveAndCall(this._contractv3._address,web3.toWei(String(amount),'gwei'),"0x0");
+		if (this._balance >= amount) {
+			await this._contract.methods.approveAndCall(this._contractv3._address,web3.toWei(String(amount),'gwei'),"0x0").send({'from': this._wallet.currentAddress});
 		}
 		else {
-			throw `Your balance isn't sufficient to migrate this amount, maximum : ${this._balance}`;
+			throw `Your balance isn't sufficient to migrate ${amount} raptors, maximum : ${this._balance}`;
 		}
 	}
 
 	async refresh(): Promise<void> {
 		this._balance = web3.fromWei(await this._contract.methods.balanceOf(this._wallet.currentAddress).call(), "gwei");
+		this._balancev3 = web3.fromWei(await this._contractv3.methods.balanceOf(this._wallet.currentAddress).call(), "ether");
 		this._stake = web3.fromWei(await this._contract.methods.stakedBalanceOf(this._wallet.currentAddress).call(), "gwei");
 		this._pendingRewards = web3.fromWei(await this._contract.methods.pendingRewards(this._wallet.currentAddress).call(), "gwei");
 	}

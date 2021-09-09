@@ -13,7 +13,9 @@ export type MigrationState = {
 	pending?: boolean,
 	looping?: boolean,
 	address?: string,
-	balance?: number
+	balance?: number,
+	balancev3?: number,
+	ctValue?: number
 };
 
 class MigrationComponent extends BaseComponent<MigrationProps & withTranslation, MigrationState> {
@@ -22,6 +24,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 		this.connectWallet = this.connectWallet.bind(this);
 		this.disconnectWallet = this.disconnectWallet.bind(this);
 		this.migrate = this.migrate.bind(this);
+		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
 		this.state = {};
 	}
 	
@@ -49,6 +52,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 				this.updateState({
 					address: raptor.wallet.currentAddress,
 					balance: raptor.balance,
+					balancev3: raptor.balancev3,
 				});
 
 				if (resetCt) {
@@ -58,7 +62,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 
 			}
 			catch (e) {
-				console.warn('Unable to update staking status', e);
+				console.warn('Unable to update migration status', e);
 			}
 		}
 		else {
@@ -78,7 +82,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 
 			const raptor = new Raptor(wallet);
 
-			this.updateState({ raptor: raptor, wallet: wallet, looping: true, pending: false });
+			this.updateState({ raptor: raptor, wallet: wallet, looping: true, pending: false, ctValue: 0 });
 			this.updateOnce(true).then();
 
 			this.loop().then();
@@ -116,9 +120,11 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 	}
 	
 	async migrate() {
-		raptor = this.readState().raptor;
-		await raptor.migrate(ctValue);
-		await raptor.refresh();
+		let state = this.readState();
+		console.log(state);
+		await state.raptor.migrate(state.ctValue);
+		await state.raptor.refresh();
+		this.updateOnce(true);
 	}
 
 	render() {
@@ -134,7 +140,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 							{state.address ?
 								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
 									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									Disonnect wallet
+									Disconnect wallet
 								</a>)
 								:
 								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.connectWallet}>
@@ -148,8 +154,8 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 			</div>
 			<div className="container">
 				<div>
-					Old raptor balance : {state.balance || 0}
-					New raptor balance : {state.balancev3 || 0}
+					<div>Old raptor balance : {state.balance || 0}</div>
+					<div>New raptor balance : {state.balancev3 || 0}</div>
 				</div>
 				<div>
 					<input onChange={this.handleAmountUpdate} value={state.ctValue}></input><button onClick={this.migrate}>Migrate</button>
