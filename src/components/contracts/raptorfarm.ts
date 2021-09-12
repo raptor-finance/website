@@ -16,6 +16,7 @@ export class RaptorFarm {
 
 	private _setupFinished: any;
 	private _lpBalance: number = 0;
+	private _raptorPerYear: number = 0;
 	private _stakedLp: number = 0;
 	private _rewards: number = 0;
 	private _apr: number = 0;
@@ -84,6 +85,10 @@ export class RaptorFarm {
 		return this._usdpendingrewards;
 	}
 	
+	get raptorPerYear(): number {
+		return this._raptorPerYear;
+	}
+	
 	get contract(): Contract {
 		return this._contract;
 	}
@@ -117,10 +122,16 @@ export class RaptorFarm {
 		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(RaptorFarm.address).call()) * raptorPerLPToken;
 
 		const raptorPerYear = ((await this._contract.methods.raptorPerBlock().call()) * 10512000) * ((await this._contract.methods.poolInfo(this._pid).call()).allocPoint / (await this._contract.methods.totalAllocPoint().call())) * (await this._contract.methods.BONUS_MULTIPLIER().call())
+		this._raptorPerYear = raptorPerYear;
 
 		this._apr = ((raptorPerYear / stakedRaptorInLPs) * 50);
 
-		this._rewards = (await this._contract.methods.pendingCake(this._pid, this._wallet.currentAddress).call()) / 10 ** 9;
+		if (raptorPerYear == 0) {
+			this._rewards = 0;
+		}
+		else {
+			this._rewards = (await this._contract.methods.pendingCake(this._pid, this._wallet.currentAddress).call()) / 10 ** 9;
+		}
 		this._lpBalance = (await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) / 10 ** 18;
 		this._stakedLp = (await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount / 10 ** 18;
 		this._usdbalancestaked = _raptorUsd*raptorPerLPToken*(10**9)*2*this._stakedLp;
@@ -154,7 +165,12 @@ export class RaptorFarm {
 		const rawAmount = web3.toWei(amount);
 
 		if ((await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount >= rawAmount) {
-			await this._contract.methods.withdraw(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
+			if (this._raptorPerYear == 0) {
+				await this._contract.methods.withdraw(this._pid).send({ 'from': this._wallet.currentAddress });
+			}
+			else {
+				await this._contract.methods.withdraw(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
+			}
 		}
 		else {
 			throw 'Your staked LP balance is not sufficient';

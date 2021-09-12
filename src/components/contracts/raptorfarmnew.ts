@@ -124,13 +124,13 @@ export class RaptorFarmNew {
 
 		this._apr = ((raptorPerYear / stakedRaptorInLPs) * 50);
 
-		this._rewards = (await this._contract.methods.pendingCake(this._pid, this._wallet.currentAddress).call()) / 10 ** 9;
+		this._rewards = (await this._contract.methods.pendingCake(this._pid, this._wallet.currentAddress).call()) / 10 ** 18;
 		this._lpBalance = (await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) / 10 ** 18;
 		this._stakedLp = (await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount / 10 ** 18;
 		this._usdbalancestaked = _raptorUsd*raptorPerLPToken*(10**9)*2*this._stakedLp;
 
 		this._usdbalanceavbl = _raptorUsd*raptorPerLPToken*(10**9)*2*this._lpBalance;
-		this._usdpendingrewards = _raptorUsd*this._rewards;
+		this._usdpendingrewards = _raptorUsd*this._rewards*10**6;
 		this._tvl = (_raptorUsd*stakedRaptorInLPs*2)/10**9;
 	}
 
