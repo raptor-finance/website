@@ -115,7 +115,7 @@ export class RaptorFarmNew {
 		console.log(`Updating pid ${this._pid}`)
 		await this._setupFinished;
 		await this._raptor.refresh();
-		const _raptorUsd = this._stats.raptorUsdPrice/1000;
+		const _raptorUsd = this._stats.raptorUsdPrice*10**6;
 		const _totalLp = (await this._lpToken.methods.totalSupply().call());
 		const raptorPerLPToken = (await this.raptorInLp()) / _totalLp;
 		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(RaptorFarmNew.address).call()) * raptorPerLPToken;
@@ -127,11 +127,11 @@ export class RaptorFarmNew {
 		this._rewards = (await this._contract.methods.pendingCake(this._pid, this._wallet.currentAddress).call()) / 10 ** 18;
 		this._lpBalance = (await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) / 10 ** 18;
 		this._stakedLp = (await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount / 10 ** 18;
-		this._usdbalancestaked = _raptorUsd*raptorPerLPToken*(10**9)*2*this._stakedLp;
+		this._usdbalancestaked = _raptorUsd*raptorPerLPToken*2*this._stakedLp;
 
-		this._usdbalanceavbl = _raptorUsd*raptorPerLPToken*(10**9)*2*this._lpBalance;
-		this._usdpendingrewards = _raptorUsd*this._rewards*10**6;
-		this._tvl = (_raptorUsd*stakedRaptorInLPs*2)/10**9;
+		this._usdbalanceavbl = _raptorUsd*raptorPerLPToken*2*this._lpBalance;
+		this._usdpendingrewards = _raptorUsd*this._rewards;
+		this._tvl = (_raptorUsd*stakedRaptorInLPs*2)/10**18;
 	}
 
 	async deposit(amount: number): Promise<void> {
