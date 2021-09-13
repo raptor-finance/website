@@ -93,18 +93,21 @@ export class RaptorFarmNew {
 			return (await this._lpToken.methods.totalSupply().call()/2);
 		}
 		var _tokensInPair = [(await this._lpToken.methods.token0().call()), await this._lpToken.methods.token1().call()]
-		if (_tokensInPair.includes(this._raptor.contract._address)) {
-			return (await this._raptor.contract.methods.balanceOf(this._lpAddress).call());
+		if (_tokensInPair.includes(this._raptorv3.contract._address)) {
+			return (await this._raptor.contractv3.methods.balanceOf(this._lpAddress).call());
+		}
+		else if (_tokensInPair.includes(this._raptor.contract._address)) {
+			return (await this._raptor.contract.methods.balanceOf(this._lpAddress).call())*10**3;
 		}
 		else if (_tokensInPair.includes("0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")) {
 			const _wbnb = this._wallet.connectToContract("0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", require("./erc20.abi.json"));
-			return (this._stats.bnbToRaptor((await _wbnb.methods.balanceOf(this._lpToken._address).call())/10**9));
+			return (this._stats.bnbToRaptor((await _wbnb.methods.balanceOf(this._lpToken._address).call())/10**15));
 		}
 		else {
 			for(let n = 0; n < this._stablecoins.length; n++) {
 				if (_tokensInPair.includes(this._stablecoins[n])) {
 					const _stablecoin = this._wallet.connectToContract(this._stablecoins[n], require("./erc20.abi.json"));
-					return (this._stats.usdToRaptor((await _stablecoin.methods.balanceOf(this._lpToken._address).call())/10**9));
+					return (this._stats.usdToRaptor((await _stablecoin.methods.balanceOf(this._lpToken._address).call())/10**15));
 				}
 			}
 			return 0;

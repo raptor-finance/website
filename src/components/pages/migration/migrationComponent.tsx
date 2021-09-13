@@ -5,6 +5,7 @@ import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
 import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
 import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
+// import './migrationComponent.css';
 
 export type MigrationProps = {};
 export type MigrationState = {
@@ -131,7 +132,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 		const t: TFunction<"translation"> = this.readProps().t;
 		const state = this.readState();
 		return <div>
-			<div className="container">
+			<div className="migration-container">
 				<br/><br/><br/>
 				<div className="row text-white migration-header">
 					<div className="col-md-12">
