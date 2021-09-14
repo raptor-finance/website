@@ -16,16 +16,21 @@ export type MigrationState = {
 	address?: string,
 	balance?: number,
 	balancev3?: number,
-	ctValue?: number
+	ctValue?: number,
+	ctValueOut?: number
 };
 
 class MigrationComponent extends BaseComponent<MigrationProps & withTranslation, MigrationState> {
+	
+	private lock: boolean;
+	
 	constructor(props: MigrationProps & WithTranslation) {
 		super(props);
 		this.connectWallet = this.connectWallet.bind(this);
 		this.disconnectWallet = this.disconnectWallet.bind(this);
 		this.migrate = this.migrate.bind(this);
 		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
+		this.handleAmountOutUpdate = this.handleAmountOutUpdate.bind(this);
 		this.state = {};
 	}
 	
@@ -117,7 +122,15 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 	}
 	
 	handleAmountUpdate(event) {
-		this.updateState({ ctValue:event.target.value });
+		let valueIn = event.target.value;
+		let valueOut = (event.target.value/10**6);
+		this.updateState({ ctValue:valueIn, ctValueOut:valueOut });
+	}
+	
+	handleAmountOutUpdate(event) {
+		let valueIn = (event.target.value*(10**6));
+		let valueOut = event.target.value;
+		this.updateState({ ctValue:valueIn, ctValueOut:valueOut });
 	}
 	
 	async migrate() {
@@ -136,7 +149,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 				<div className="row text-white migration-header">
 					<div className="col-md-12">
 						<div className="migration-title">
-							<span>Raptor</span><span style={{ color: "#31c461" }}> Migration</span>
+							<b><font size="6"><span>Raptor</span><span style={{ color: "#31c461" }}> Migration</span></font></b>
 							{state.address ?
 								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
 									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
@@ -157,7 +170,13 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 						<div>New raptor balance : {state.balancev3 || 0}</div>
 					</div>
 					<div>
-						<input onChange={this.handleAmountUpdate} value={state.ctValue}></input><button className="btn-migrate" onClick={this.migrate}>Migrate</button>
+						OLD Raptor Amount : <input onChange={this.handleAmountUpdate} value={state.ctValue}></input>
+					</div>
+					<div>
+						NEW Raptor Amount : <input onChange={this.handleAmountOutUpdate} value={state.ctValueOut}></input>
+					</div>
+					<div>
+						<button className="btn-migrate" onClick={this.migrate}>Migrate</button>					
 					</div>
 				</div>
 			</div>
