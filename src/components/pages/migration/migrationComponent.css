@@ -1,4 +1,9 @@
 .migration-container {
 	display: block;
-	padding-top: 8%
+	padding-top: 8%;
+	padding-left: 20px
+}
+
+.btn-migrate {
+	background-color: "#31c461";
 }

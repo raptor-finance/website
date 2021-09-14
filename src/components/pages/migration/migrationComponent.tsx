@@ -5,7 +5,7 @@ import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
 import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
 import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
-// import './migrationComponent.css';
+import './migrationComponent.css';
 
 export type MigrationProps = {};
 export type MigrationState = {
@@ -133,7 +133,6 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 		const state = this.readState();
 		return <div>
 			<div className="migration-container">
-				<br/><br/><br/>
 				<div className="row text-white migration-header">
 					<div className="col-md-12">
 						<div className="migration-title">
@@ -152,14 +151,14 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 						</div>
 					</div>
 				</div>
-			</div>
-			<div className="container">
-				<div>
-					<div>Old raptor balance : {state.balance || 0}</div>
-					<div>New raptor balance : {state.balancev3 || 0}</div>
-				</div>
-				<div>
-					<input onChange={this.handleAmountUpdate} value={state.ctValue}></input><button onClick={this.migrate}>Migrate</button>
+				<div className="migration-body">
+					<div>
+						<div>Old raptor balance : {state.balance || 0}</div>
+						<div>New raptor balance : {state.balancev3 || 0}</div>
+					</div>
+					<div>
+						<input onChange={this.handleAmountUpdate} value={state.ctValue}></input><button className="btn-migrate" onClick={this.migrate}>Migrate</button>
+					</div>
 				</div>
 			</div>
 		</div>
