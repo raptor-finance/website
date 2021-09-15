@@ -193,7 +193,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 					</div>
 				</div>
 				<div className="migration-footer">
-					<font size="2"><i>Note : Migration is only old to new ! If rate is better, feel free to trade (old to new) on RaptorSwap or PancakeSwap</i></font>
+					<font size="2"><i>Note : Migration is only old to new !</i></font>
 				</div>
 			</div>
 		</div>
