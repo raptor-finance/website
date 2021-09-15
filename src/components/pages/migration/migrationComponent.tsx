@@ -31,6 +31,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 		this.migrate = this.migrate.bind(this);
 		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
 		this.handleAmountOutUpdate = this.handleAmountOutUpdate.bind(this);
+		this.setMaxAmount = this.setMaxAmount.bind(this);
 		this.state = {};
 	}
 	
@@ -133,6 +134,13 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 		this.updateState({ ctValue:valueIn, ctValueOut:valueOut });
 	}
 	
+	setMaxAmount() {
+		const state = this.readState();
+		let valueIn = state.balance;
+		let valueOut = state.balance/10**6;
+		this.updateState({ ctValue:valueIn, ctValueOut:valueOut });
+	}
+	
 	async migrate() {
 		let state = this.readState();
 		console.log(state);
@@ -170,14 +178,17 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 						<div>New raptor balance : {state.balancev3 || 0}</div>
 					</div>
 					<div>
-						<input placeholder="OLD Raptor Amount" onChange={this.handleAmountUpdate} value={state.ctValue}></input>
+						<input className="input-amount" placeholder="OLD Raptor Amount" onChange={this.handleAmountUpdate} value={state.ctValue}></input><button id="btn-max" onClick={this.setMaxAmount}>Max</button>
 					</div>
 					<div>
-						<input placeHolder="NEW Raptor Amount" onChange={this.handleAmountOutUpdate} value={state.ctValueOut}></input>
+						<input className="input-amount" placeHolder="NEW Raptor Amount" onChange={this.handleAmountOutUpdate} value={state.ctValueOut}></input>
 					</div>
 					<div>
-						<button className="btn-migrate" onClick={this.migrate}>Migrate</button>					
+						<button id="btn-migrate" className="shadow btn btn-primary ladda-button" onClick={this.migrate}>Migrate</button>
 					</div>
+				</div>
+				<div className="migration-footer">
+					<font size="2"><i>Note : Migration is only old to new ! If rate is better, feel free to trade (old to new) on RaptorSwap or PancakeSwap</i></font>
 				</div>
 			</div>
 		</div>
