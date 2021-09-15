@@ -178,13 +178,13 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 						<div>New raptor balance : {state.balancev3 || 0}</div>
 					</div>
 					<div>
-						<input className="input-amount" placeholder="OLD Raptor Amount" onChange={this.handleAmountUpdate} value={state.ctValue}></input><button id="btn-max" onClick={this.setMaxAmount}>Max</button>
+						<input className="input-amount" placeholder="OLD Raptor Amount" onChange={this.handleAmountUpdate} value={state.ctValue}></input><button className="btns-migrate" id="btn-max" onClick={this.setMaxAmount}>Max</button>
 					</div>
 					<div>
 						<input className="input-amount" placeHolder="NEW Raptor Amount" onChange={this.handleAmountOutUpdate} value={state.ctValueOut}></input>
 					</div>
 					<div>
-						<button id="btn-migrate" className="shadow btn btn-primary ladda-button" onClick={this.migrate}>Migrate</button>
+						<button id="btn-migrate" className="btns-migrate" onClick={this.migrate}>Migrate</button>
 					</div>
 				</div>
 				<div className="migration-footer">
