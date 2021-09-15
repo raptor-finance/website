@@ -57,6 +57,10 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 		}
 		return false;
 	}
+	
+	async addToMetamask() {
+		await ethereum.request({method: 'wallet_watchAsset',params: {type: 'ERC20',options: {address: "0x44c99ca267c2b2646ceec72e898273085ab87ca5",symbol: "RPTR",decimals: 18,image: "http://localhost:3000/images/logo.png",},},});	
+	}
 
 	render() {
 		const pages: IShellPage[] = (this.readProps().pages || []);
@@ -157,6 +161,9 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 						</div>
 						<div className="mt-2">
 							<a href="https://swap.raptr.finance/#/swap" className="btn btn-primary btn-block glow" target="_blank">{t('nav.buyonraptorswap')}</a>
+						</div>
+						<div className="mt-2">
+							<button onClick={this.addToMetamask} className="btn btn-primary btn-block glow" target="_blank">{t('nav.addtometamask')}</button>
 						</div>
 						<div className="mt-2">
 							<a href="https://bscscan.com/token/0xf9a3fda781c94942760860fc731c24301c83830a#balances" className="btn btn-complementary btn-block" target="_blank">{t('nav.viewonbscscan')}</a>

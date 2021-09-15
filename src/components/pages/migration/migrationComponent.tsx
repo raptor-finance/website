@@ -188,7 +188,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 						<div>New raptor (avbl. : {state.balancev3 || 0})</div>
 						<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.ctValueOut}></input>
 					</div>
-					<div>
+					<div id="buttons">
 						<button id="btn-migrate" className="btns-migrate" onClick={this.migrate}>Migrate</button><button id="btn-addtometa" className="btns-migrate" onClick={this.addToMetamask}>Add to metamask</button>
 					</div>
 				</div>
