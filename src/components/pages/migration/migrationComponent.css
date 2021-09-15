@@ -1,0 +1,46 @@
+.migration-container {
+	display: block;
+	padding-top: 5%;
+	padding-left: 0px;
+}
+
+.migration-body {
+	padding-left: 1%;
+}
+
+#buttons {
+	padding-bottom: 1%;
+	padding-top: 0.5%;
+}
+
+#btn-migrate {
+	border-radius: 10px;
+	padding: 10px 18px;
+	text-align: center;
+	font-size: 18px;
+}
+
+#btn-addtometa {
+	border-radius: 10px;
+	padding: 10px 18px;
+	text-align: center;
+	font-size: 18px;
+}
+
+input {
+	border-radius: 5px;
+	padding: 6px 10px;
+}
+
+.btns-migrate {
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	display: inline-block;
+	text-align: center;	
+}
+
+#btn-max {
+	border-radius: 5px;
+	font-size: 20px;
+}
