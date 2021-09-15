@@ -30,10 +30,10 @@ const pagesInNavigator = [
 	{ id: 'home', title: 'Home', component: HomeComponent },
 	{ id: 'about', title: 'About', component: AboutComponent },
 	{ id: 'farm', title: 'Farm', component: FarmComponent },
+	{ id: 'migrate', title:'Migration', component: MigrationComponent },
 	{ id: 'staking', title: 'Staking', component: StakingComponent },
 	{ id: 'lottery', title: 'Lottery', component: LotteryComponent },
 	{ id: 'faq', title: 'FAQ', component: FaqComponent },
-	{ id: 'migrate', title:'Migration', component: MigrationComponent },
 	// Ignored on nav
 	// { id: 'launch', title: 'Launch', component: LaunchComponent },
 ];
