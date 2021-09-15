@@ -117,6 +117,9 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 	}
 	
 	async componentDidMount() {
+		if ((window.ethereum || {}).selectedAddress) {
+		  this.connectWallet();
+		}
 	}
 
 	componentWillUnmount() {
@@ -148,6 +151,10 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 		await state.raptor.refresh();
 		this.updateOnce(true);
 	}
+	
+	async addToMetamask() {
+		await ethereum.request({method: 'wallet_watchAsset',params: {type: 'ERC20',options: {address: "0x44c99ca267c2b2646ceec72e898273085ab87ca5",symbol: "RPTR",decimals: 18,image: "http://localhost:3000/images/logo.png",},},});
+	}
 
 	render() {
 		const t: TFunction<"translation"> = this.readProps().t;
@@ -174,17 +181,15 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 				</div>
 				<div className="migration-body">
 					<div>
-						<div>Old raptor balance : {state.balance || 0}</div>
-						<div>New raptor balance : {state.balancev3 || 0}</div>
+						<div>Old raptor (avbl. : {state.balance || 0})</div>
+						<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.ctValue}></input><button className="btns-migrate" id="btn-max" onClick={this.setMaxAmount}>Max</button>
 					</div>
 					<div>
-						<input className="input-amount" placeholder="OLD Raptor Amount" onChange={this.handleAmountUpdate} value={state.ctValue}></input><button className="btns-migrate" id="btn-max" onClick={this.setMaxAmount}>Max</button>
+						<div>New raptor (avbl. : {state.balancev3 || 0})</div>
+						<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.ctValueOut}></input>
 					</div>
 					<div>
-						<input className="input-amount" placeholder="NEW Raptor Amount" onChange={this.handleAmountOutUpdate} value={state.ctValueOut}></input>
-					</div>
-					<div>
-						<button id="btn-migrate" className="btns-migrate" onClick={this.migrate}>Migrate</button>
+						<button id="btn-migrate" className="btns-migrate" onClick={this.migrate}>Migrate</button><button id="btn-addtometa" className="btns-migrate" onClick={this.addToMetamask}>Add to metamask</button>
 					</div>
 				</div>
 				<div className="migration-footer">
