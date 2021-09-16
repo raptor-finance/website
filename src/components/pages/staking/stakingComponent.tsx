@@ -317,7 +317,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 								target="_blank">Switch to the Binance Smart Chain</a></Trans>.
 						</p>
 						<p>
-							<i>Note : will be deprecated soon, v3 (new) staking is on farming page !</i>
+							<font color="red"><i>Note : will be deprecated soon, v3 (new) staking is on farming page !</i></font>
 						</p>
 					</div>
 				</div>
