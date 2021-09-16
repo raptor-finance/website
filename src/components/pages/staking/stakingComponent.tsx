@@ -10,6 +10,7 @@ import styled, { keyframes } from 'styled-components';
 import AnimatedNumber from 'animated-number-react';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import './stakingComponent.css';
 
@@ -317,7 +318,7 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 								target="_blank">Switch to the Binance Smart Chain</a></Trans>.
 						</p>
 						<p>
-							<font color="red"><i>Note : will be deprecated soon, v3 (new) staking is on farming page !</i></font>
+							<font size="6" color="red"><i>Note : will be deprecated soon, v3 (new) staking is on <u><NavLink to="/farm" activeClassName="active">farming page</NavLink></u> !</i></font>
 						</p>
 					</div>
 				</div>
