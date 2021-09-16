@@ -157,9 +157,6 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 					</ul>
 					<div className="navigation-footer">
 						<div className="mt-2">
-							<a href="https://whitebit.com/trade-pro/RAPTOR_DECL?type=spot" className="btn btn-primary btn-block" target="_blank">{t('nav.buyonwhitebit')}</a>
-						</div>
-						<div className="mt-2">
 							<a href="https://swap.raptr.finance/#/swap" className="btn btn-primary btn-block glow" target="_blank">{t('nav.buyonraptorswap')}</a>
 						</div>
 						<div className="mt-2">
