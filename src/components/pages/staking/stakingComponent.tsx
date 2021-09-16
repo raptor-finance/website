@@ -314,7 +314,11 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 						<p><Trans i18nKey='staking.paragraph2'>In order to stake Raptor tokens, you need to connect your browser wallet (such as <a
 							href="https://metamask.io/">Metamask</a>) and <a
 								href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
-								target="_blank">Switch to the Binance Smart Chain</a></Trans>.</p>
+								target="_blank">Switch to the Binance Smart Chain</a></Trans>.
+						</p>
+						<p>
+							<i>Note : will be deprecated soon, v3 (new) staking is on farming page !</i>
+						</p>
 					</div>
 				</div>
 				<div className="row staking-body">
