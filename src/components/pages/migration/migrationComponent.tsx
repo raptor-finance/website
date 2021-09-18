@@ -5,6 +5,8 @@ import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
 import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
 import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
+import AnimatedNumber from 'animated-number-react';
+import { fadeInLeft, fadeInRight, pulse } from 'react-animations';
 import './migrationComponent.css';
 
 export type MigrationProps = {};
@@ -164,36 +166,41 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 				<div className="row text-white migration-header">
 					<div className="col-md-12">
 						<div className="migration-title">
-							<b><font size="6"><span>Raptor</span><span style={{ color: "#31c461" }}> Migration</span></font></b>
+							<span>Raptor</span>
+							<span style={{ color: "#31c461" }}>Migration</span>
 							{state.address ?
 								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
 									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									Disconnect wallet
+									{t('staking.disconnect_wallet')}
 								</a>)
 								:
 								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.connectWallet}>
 									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									Connect wallet
+									{t('staking.connect_wallet')}
 								</a>)
 							}
 						</div>
 					</div>
 				</div>
-				<div className="migration-body">
-					<div>
-						<div>Old raptor (avbl. : {state.balance || 0})</div>
-						<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.ctValue}></input><button className="btns-migrate" id="btn-max" onClick={this.setMaxAmount}>Max</button>
+				<div className="row migration-body text-center">
+					<div className="col-md-6 d-flex">
+						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
+							<div>
+								<div>Old raptor (avbl. : {state.balance || 0})</div>
+								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.ctValue}></input><button className="btns-migrate" id="btn-max" onClick={this.setMaxAmount}>Max</button>
+							</div>
+							<div>
+								<div>New raptor (avbl. : {state.balancev3 || 0})</div>
+								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.ctValueOut}></input>
+							</div>
+							<div id="buttons">
+								<button id="btn-migrate" className="btns-migrate" onClick={this.migrate}>Migrate</button><button id="btn-addtometa" className="btns-migrate" onClick={this.addToMetamask}>Add to metamask</button>
+							</div>
+							<div className="migration-footer text-center">
+								<font size="2"><i>Note : Migration is only old to new !</i></font>
+							</div>
+						</div>
 					</div>
-					<div>
-						<div>New raptor (avbl. : {state.balancev3 || 0})</div>
-						<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.ctValueOut}></input>
-					</div>
-					<div id="buttons">
-						<button id="btn-migrate" className="btns-migrate" onClick={this.migrate}>Migrate</button><button id="btn-addtometa" className="btns-migrate" onClick={this.addToMetamask}>Add to metamask</button>
-					</div>
-				</div>
-				<div className="migration-footer">
-					<font size="2"><i>Note : Migration is only old to new !</i></font>
 				</div>
 			</div>
 		</div>
