@@ -11,6 +11,8 @@ import AnimatedNumber from 'animated-number-react';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { NavLink, useLocation } from 'react-router-dom';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 
 import './stakingComponent.css';
 
@@ -292,6 +294,12 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 		const t: TFunction<"translation"> = this.readProps().t;
 
 		return <div className="staking-container">
+			<div className="listing-banner d-flex align-items-center shadow">
+				<FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
+				<h1>We are currently migrating to <strong>Raptor V3</strong> - V2 Staking will shut down <strong>September 20th!</strong><br/>
+					You will need to <strong>remove your staked tokens before than</strong>, and move them to the V3 staking pool<br/>
+					Raptor V3 staking <strong>is available now via the Farm page.</strong></h1>
+			</div>
 			<div className="container">
 				<div className="row text-white staking-header">
 					<div className="col-md-12">

@@ -10,6 +10,8 @@ import { Tooltip, OverlayTrigger, Container, Row, Col } from 'react-bootstrap';
 import AnimatedNumber from 'animated-number-react';
 
 import './farmComponent.css';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import { farmsList } from '../../listOfFarms';
 
 export type FarmProps = {};
@@ -459,6 +461,12 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     const t: TFunction<"translation"> = this.readProps().t;
 
     return <div className="farm-container">
+      <div className="listing-banner d-flex align-items-center shadow">
+        <FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
+        <h1>We are currently migrating to <strong>Raptor V3</strong> - V2 Farms will shut down <strong>September 20th!</strong><br/>
+          You will need to <strong>remove your liquidity before than</strong>, and prepare to move to the new V3 farms<br/>
+          Raptor V3 farms will <strong>release September 20th.</strong></h1>
+      </div>
       <div className="row text-white farm-header">
         <div className="col-md-12">
           <div className="farm-title">
