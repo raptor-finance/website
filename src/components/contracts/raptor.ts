@@ -53,14 +53,7 @@ export class Raptor {
 	}
 
 	async stake(amount: number): Promise<void> {
-		await this.refresh();
-
-		if (this._balance >= amount) {
-			await this._contract.methods.stakeIn(web3.toWei(String(amount - 0.0001),'gwei')).send({'from': this._wallet.currentAddress});
-		}
-		else {
-			throw 'Your Raptor balance is not sufficient to stake this amount';
-		}
+		throw "Staking will be deprecated soon, please migrate to v3 tokens and stake them on farm page !";
 	}
 	async unstakeAndClaim(amount: number): Promise<void> {
 		await this.refresh();
