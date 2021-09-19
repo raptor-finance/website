@@ -166,10 +166,10 @@ export class RaptorFarm {
 
 		if ((await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount >= rawAmount) {
 			if (this._raptorPerYear == 0) {
-				await this._contract.methods.withdraw(this._pid).send({ 'from': this._wallet.currentAddress });
+				await this._contract.methods.emergencyWithdraw(this._pid).send({ 'from': this._wallet.currentAddress });
 			}
 			else {
-				await this._contract.methods.emergencyWithdraw(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
+				await this._contract.methods.withdraw(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
 			}
 		}
 		else {
