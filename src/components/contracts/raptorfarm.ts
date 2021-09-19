@@ -169,7 +169,7 @@ export class RaptorFarm {
 				await this._contract.methods.withdraw(this._pid).send({ 'from': this._wallet.currentAddress });
 			}
 			else {
-				await this._contract.methods.withdraw(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
+				await this._contract.methods.emergencyWithdraw(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
 			}
 		}
 		else {
