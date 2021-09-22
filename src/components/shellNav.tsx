@@ -109,10 +109,10 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							<div className="collapsible-div">
 								<ul className="navbar-nav">
 									<li>
-										<a href="https://swap.raptr.finance/#/swap" activeClassName="active" className="nav-item swap">Swap BETA</a>
+										<a href="https://swap.raptorswap.com/#/swap" activeClassName="active" className="nav-item swap">Swap BETA</a>
 									</li>
 									<li>
-										<a href="https://swap.raptr.finance/#/pool" activeClassName="active" className="nav-item liquidity">Liquidity</a>
+										<a href="https://swap.raptorswap.com/#/pool" activeClassName="active" className="nav-item liquidity">Liquidity</a>
 									</li>
 								</ul>
 							</div>
