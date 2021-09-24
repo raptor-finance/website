@@ -5,7 +5,7 @@ import * as web3 from 'web3-utils';
 
 export const RaptorAddress = "0xf9A3FdA781c94942760860fc731c24301c83830A";
 export const RaptorAddressv3 = "0x44C99Ca267C2b2646cEEc72e898273085aB87ca5";
-export const DonationWalletAddress = "0x50dF6f99c75Aeb6739CB69135ABc6dA77C588f93"
+export const DonationWalletAddress = "0xf933DB8A663FdE971FA95c4a2bfb4fC3F797F8a5"
 
 export class Raptor {
 	private readonly _wallet: Wallet;
