@@ -96,7 +96,7 @@ export class RaptorFarm {
 	async raptorInLp() {
 		var _tokensInPair = [(await this._lpToken.methods.token0().call()), await this._lpToken.methods.token1().call()]
 		if (_tokensInPair.includes(this._raptor.contract._address)) {
-			return (await this._raptor.contract.methods.balanceOf(this._lpAddress).call());
+			return (await this._raptor.contract.methods.balanceOf(this._lpAddress).call())/10**6;
 		}
 		else if (_tokensInPair.includes("0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")) {
 			const _wbnb = this._wallet.connectToContract("0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", require("./erc20.abi.json"));

@@ -118,7 +118,7 @@ export class RaptorFarmNew {
 		console.log(`Updating pid ${this._pid}`)
 		await this._setupFinished;
 		await this._raptor.refresh();
-		const _raptorUsd = this._stats.raptorUsdPrice*10**6;
+		const _raptorUsd = this._stats.raptorUsdPrice;
 		const _totalLp = (await this._lpToken.methods.totalSupply().call());
 		const raptorPerLPToken = (await this.raptorInLp()) / _totalLp;
 		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(RaptorFarmNew.address).call()) * raptorPerLPToken;
