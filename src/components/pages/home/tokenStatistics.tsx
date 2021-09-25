@@ -108,7 +108,7 @@ class TokenStatistics extends BaseComponent<TokenStatisticsProps & WithTranslati
       </div>
       <div className="stat">
         <PulseDiv>
-          <AnimatedNumber value={this.convert(+state.priceUsd)} duration="1000" formatValue={value => `$${Number(value).toFixed(14)}`} className="stat-value">
+          <AnimatedNumber value={this.convert(+state.priceUsd)} duration="1000" formatValue={value => `$${Number(value).toFixed(7)}`} className="stat-value">
             0
           </AnimatedNumber>
         </PulseDiv>
@@ -116,7 +116,7 @@ class TokenStatistics extends BaseComponent<TokenStatisticsProps & WithTranslati
       </div>
       <div className="stat">
         <PulseDiv>
-          <AnimatedNumber value={28} duration="2000" formatValue={value => `${Number(value).toFixed(0)}k +`} className="stat-value">
+          <AnimatedNumber value={1} duration="2000" formatValue={value => `${Number(value).toFixed(0)}k +`} className="stat-value">
             0
           </AnimatedNumber>
         </PulseDiv>

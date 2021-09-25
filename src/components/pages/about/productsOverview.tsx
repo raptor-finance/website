@@ -29,6 +29,12 @@ const ProductsOverview: React.FC = ({ }) => {
         <h2>{t('about.products_overview.app.title')}</h2>
         <p>{t('about.products_overview.app.paragraph1')}</p>
         <p>{t('about.products_overview.app.paragraph2')}</p>
+        <h2>{t('about.products_overview.docs.title')}</h2>
+        <p>{t('about.products_overview.docs.paragraph1')}</p>
+        <p>{t('about.products_overview.docs.paragraph2')}</p>
+        <h2>{t('about.products_overview.anon.title')}</h2>
+        <p>{t('about.products_overview.anon.paragraph1')}</p>
+        <p>{t('about.products_overview.anon.paragraph2')}</p>
       </Fade>
     </div>
   )

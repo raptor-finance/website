@@ -151,32 +151,29 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
                   <p>Join our socials</p>
                 </div>
                 <div className="social-medias text-center text-lg-left">
-                  <a href="https://twitter.com/raptor_token" rel="noreferrer" className="btn-social" target="_blank">
+                  <a href="https://twitter.com/Raptorswap" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faTwitter} />
                   </a>
-                  <a href="https://t.me/PhilosoRaptorToken" rel="noreferrer" className="btn-social" target="_blank">
+                  <a href="https://t.me/RaptorSwap" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faTelegram} />
                   </a>
-                  <a href="https://www.facebook.com/raptr.finance" rel="noreferrer" className="btn-social" target="_blank">
+                  <a href="https://www.facebook.com/RaptorSwap  " rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faFacebook} />
                   </a>
-                  <a href="https://www.instagram.com/raptor_token/" rel="noreferrer" className="btn-social" target="_blank">
+                  <a href="https://www.instagram.com/raptorswapfinance/" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faInstagram} />
                   </a>
                   <a href="https://www.reddit.com/r/RaptorToken/" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faReddit} />
                   </a>
-                  <a href="https://www.tiktok.com/@raptor.finance" rel="noreferrer" className="btn-social" target="_blank">
+                  <a href="https://tiktok.com/@raptorswap" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faTiktok} />
                   </a>
-                  <a href="https://www.youtube.com/channel/UCQ-yByM7ECDvB1CIr_5Pafg" rel="noreferrer" className="btn-social" target="_blank">
+                  <a href="https://www.youtube.com/channel/UCgLBdvV2BiTy6nwTuWdUeKg" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faYoutube} />
                   </a>
                   <a href="https://discord.gg/EJwR3pjd9A" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faDiscord} />
-                  </a>
-                  <a href="https://raptor-finance.medium.com/" rel="noreferrer" className="btn-social" target="_blank">
-                    <FontAwesomeIcon icon={faMedium} />
                   </a>
                 </div>
               </div>
