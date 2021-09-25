@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { RaptorAddress, DonationWalletAddress } from './raptor';
+import { RaptorAddressv3, DonationWalletAddress } from './raptor';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 
@@ -49,7 +49,7 @@ export class RaptorStatistics {
 
 		this._web3 = new Web3(new Web3.providers.HttpProvider('https://bsc-dataseed1.binance.org:443'));
 		this._usd = new this._web3.eth.Contract(erc20, "0xe9e7cea3dedca5984780bafc599bd69add087d56");
-		this._raptor = new this._web3.eth.Contract(erc20, RaptorAddress);
+		this._raptor = new this._web3.eth.Contract(erc20, RaptorAddressv3);
 	}
 
 	public async refresh() {
@@ -89,7 +89,7 @@ export class RaptorStatistics {
 
 	private async retrievePriceApi() {
 		console.log("Retrieving prices...");
-		return (await (await fetch("https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0xf9a3fda781c94942760860fc731c24301c83830a")).json());
+		return (await (await fetch("https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0x44c99ca267c2b2646ceec72e898273085ab87ca5")).json());
 	}
 
 	private async getPrices(force: boolean): PriceInfo {
