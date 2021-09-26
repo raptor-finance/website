@@ -16,6 +16,10 @@ import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 
 import './stakingComponent.css';
 
+//tabs
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+
 export type StakingProps = {};
 export type StakingState = {
 	raptor?: Raptor,
@@ -294,18 +298,21 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 		const t: TFunction<"translation"> = this.readProps().t;
 
 		return <div className="staking-container">
-			<div className="listing-banner d-flex align-items-center shadow">
-				<FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
-				<h1>We are currently migrating to <strong>Raptor V3</strong> - V2 Staking will shut down <strong>September 20th!</strong><br/>
-					You will need to <strong>remove your staked tokens before than</strong>, and move them to the V3 staking pool<br/>
-					Raptor V3 staking <strong>is available now via the Farm page.</strong></h1>
-			</div>
-			<div className="container">
-				<div className="row text-white staking-header">
+
+        <Tabs>
+           <TabList>
+             <Tab className="shadow btn btn-primary ladda-button btn-md btn-wallet">Staking V3</Tab>
+	         <Tab className="shadow btn btn-primary ladda-button btn-md btn-wallet">Staking V2 (Deprecated)</Tab>
+           </TabList>
+
+	       <TabPanel>
+               <div className="container">
+				 <div className="row text-white staking-header">
 					<div className="col-md-12">
 						<div className="staking-title">
 							<span>Raptor</span>
-							<span style={{ color: "#31c461" }}>Staking</span>
+							<span style={{ color: "#31c461" }}>Staking </span>
+							<span>V3</span>
 							{state.address ?
 								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
 									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
@@ -325,8 +332,128 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 								href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
 								target="_blank">Switch to the Binance Smart Chain</a></Trans>.
 						</p>
+
+					</div>
+			       </div>
+				<div className="row staking-body">
+					<FadeInLeftDiv className="col-md-6 d-flex">
+						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
+							<h1>{t('staking.your_info.title')}</h1>
+							<h2>{t('staking.your_info.wallet_address')}</h2>
+							<p>{state.address || t('staking.your_info.connect_wallet')}</p>
+							<h2>{t('staking.your_info.tradeable')}</h2>
+							<AnimatedNumber
+								value={numeral(state.balance || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
+								className="staking-info"
+							>
+								0 Raptor
+							</AnimatedNumber>
+							<h2>{t('staking.your_info.staked')}</h2>
+							<AnimatedNumber
+								value={numeral(state.stakedBalance || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
+								className="staking-info"
+							>
+								0 Raptor
+							</AnimatedNumber>
+							<h2>{t('staking.your_info.pending_rewards')}</h2>
+							<AnimatedNumber
+								value={numeral(state.pendingRewards || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
+								className="staking-info"
+							>
+								0 Raptor
+							</AnimatedNumber>
+						</div>
+					</FadeInLeftDiv>
+					<FadeInRightDiv className="col-md-6 d-flex">
+						<div className="shadow d-flex flex-column flex-fill gradient-card dark">
+							<div style={{ margin: "-20px" }}>
+								<ul role="tablist" className="nav nav-tabs" style={{ padding: "10px", paddingBottom: "0" }}>
+									<li role="presentation" className="nav-item"><a role="tab" data-bs-toggle="tab" className="nav-link active" href="#ctl-stake">{t('staking.stake.title')}</a></li>
+									<li role="presentation" className="nav-item"><a role="tab" data-bs-toggle="tab" className="nav-link" href="#ctl-unstake">{t('staking.unstake.title')}</a></li>
+								</ul>
+								<div className="tab-content">
+									<div role="tabpanel" className="tab-pane active" id="ctl-stake">
+										<form id="staking-form">
+											<label className="form-label">{t('staking.stake.percentage')}</label>
+											<div className="d-flex flex-row align-items-baseline staking-slider-wrapper">
+												<input type="range" className="form-range form-control" min="0" max="100" step="1" disabled={state.pending} value={state.ctPercentageStake || 0} onChange={this.handleStakeSlider} style={{ border: "none", background: "none" }} />
+												<label className="form-label align-self-center">{numeral(state.ctPercentageStake || 0).format('0')}%</label>
+											</div>
+											<div className="d-flex flex-row justify-content-evenly staking-percentages">
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(0)}>0%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(25)}>25%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(50)}>50%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(75)}>75%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setStakePercentage(100)}>100%</button>
+											</div>
+											<label className="form-label">{t('staking.stake.amount')}</label>
+											<input type="number" className="form-control form-control-lg" disabled={state.pending} onChange={this.handleInputStake} value={state.ctValueStake || 0} />
+											<div className="d-flex justify-content-center button-row">
+												<button className="btn btn-primary btn-md link-dark align-self-center stake-confirm" disabled={state.ctValueStake <= 0 || state.pending} type="button" onClick={async () => this.confirmStake()}>{t('staking.stake.title')}</button>
+												<button className="btn btn-complementary btn-md link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>{t('staking.stake.claim_rewards')}</button>
+											</div>
+										</form>
+									</div>
+									<div role="tabpanel" className="tab-pane" id="ctl-unstake">
+										<form id="unstaking-form">
+											<label className="form-label">{t('staking.unstake.percentage')}</label>
+											<div className="d-flex flex-row align-items-baseline staking-slider-wrapper">
+												<input type="range" className="form-range form-control" min="0" max="100" step="1" disabled={state.pending} value={state.ctPercentageUnstake || 0} onChange={this.handleUnstakeSlider} style={{ border: "none", background: "none" }} />
+												<label className="form-label align-self-center">{numeral(state.ctPercentageUnstake || 0).format('0')}%</label>
+											</div>
+											<div className="d-flex flex-row justify-content-evenly staking-percentages">
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setUnstakePercentage(0)}>0%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setUnstakePercentage(25)}>25%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setUnstakePercentage(50)}>50%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setUnstakePercentage(75)}>75%</button>
+												<button className="btn btn-dark btn-sm flex-grow-1 flex-shrink-0 flex-fill" type="button" disabled={state.pending} onClick={() => this.setUnstakePercentage(100)}>100%</button>
+											</div>
+											<label className="form-label">{t('staking.unstake.amount')}</label>
+											<input type="number" className="form-control form-control-lg" disabled={state.pending} onChange={this.handleInputUnstake} value={state.ctValueUnstake || 0} />
+											<div className="d-flex justify-content-center button-row">
+												<button className="btn btn-primary btn-md link-dark align-self-center stake-confirm" disabled={state.ctValueUnstake <= 0 || state.pending} type="button" onClick={async () => this.confirmUnstake()}>{t('staking.unstake.title')}</button>
+												<button className="btn btn-complementary btn-md link-dark align-self-center stake-claim" disabled={state.pendingRewards <= 0} type="button" onClick={async () => this.confirmClaimRewards()}>{t('staking.stake.claim_rewards')}</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</FadeInRightDiv>
+				</div>
+		       </div>
+           </TabPanel>
+           <TabPanel>
+               <div className="container">
+				  <div className="row text-white staking-header">
+				  	<div className="col-md-12">
+						<div className="staking-title">
+							<span>Raptor</span>
+							<span style={{ color: "#31c461" }}>Staking </span>
+							<span>V2 (Deprecated)</span>
+							{state.address ?
+								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
+									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+									{t('staking.disconnect_wallet')}
+								</a>)
+								:
+								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.connectWallet}>
+									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
+									{t('staking.connect_wallet')}
+								</a>)
+							}
+						</div>
+
+						<p>{t('staking.paragraph1old')}</p>
+
 						<p>
-							<font size="6" color="red"><i>Note : will be deprecated soon, v3 (new) staking is on <u><NavLink to="/farm" activeClassName="active">farming page</NavLink></u> !</i></font>
+							<font size="6" color="red"><i>Please unstake and <u><NavLink to="/migrate" activeClassName="active">Migrate</NavLink></u> to Raptor V3</i></font>
 						</p>
 					</div>
 				</div>
@@ -422,9 +549,11 @@ class StakingComponent extends BaseComponent<StakingProps & WithTranslation, Sta
 						</div>
 					</FadeInRightDiv>
 				</div>
-			</div>
-			<NotificationContainer />
-		</div>
+		       </div>
+           </TabPanel>
+        </Tabs>
+	  <NotificationContainer />
+	</div>
 	}
 }
 

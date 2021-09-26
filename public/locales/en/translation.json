@@ -73,8 +73,10 @@
     "staking": {
         "connect_wallet": "Connect Wallet",
         "disconnect_wallet": "Disconnect Wallet",
-        "paragraph1": "Using Raptor staking, you can easily earn more Raptor tokens over time while the blockchain is running. Earn passive income on your Raptor holdings with Raptor staking.",
+        "paragraph1": "Using Raptor staking, you can easily earn more Raptor tokens over time while the blockchain is running. Earn passive income, 10% APR, on your Raptor holdings with Raptor staking.",
         "paragraph2": "In order to stake Raptor tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>",
+        "paragraph1old": "Please note that V2 is currently deprecated. Please unstake and Migrate to V3.",
+
         "your_info": {
             "title": "Your Information",
             "wallet_address": "Wallet address",
