@@ -68,7 +68,8 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 		const i18n = this.readProps().i18n;
 
 		const pages1 = pages.slice(0, 2);
-		const pages2 = pages.slice(2, 7);
+		const pages2 = pages.slice(2, 4);
+		const pages3 = pages.slice(7, 9);
 
 		return (
 			<div className="navigation-wrapper">
@@ -83,6 +84,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 				</div>
 				<nav id="mainNav">
 					<ul className="navbar-nav">
+		
 						{
 							pages1.map(page => {
 								const classes = ['nav-item', page.id];
@@ -98,7 +100,8 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							})
 						}
 
-
+						
+						
 						<Collapsible
 							trigger={this.collapsedNavItem("Trade")}
 							triggerWhenOpen={this.expandedNavItem("Trade")}
@@ -112,18 +115,60 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 										<a href="https://swap.raptorswap.com/#/swap" activeClassName="active" className="nav-item swap">Swap BETA</a>
 									</li>
 									<li>
-										<a href="https://swap.raptorswap.com/#/pool" activeClassName="active" className="nav-item liquidity">Liquidity</a>
+									    <a href="https://swap.raptorswap.com/#/pool" activeClassName="active" className="nav-item liquidity">Liquidity</a>
+									</li>
+								</ul>
+							</div>
+						</Collapsible>
+
+						
+
+						<Collapsible
+							trigger={this.collapsedNavItem("Products")}
+							triggerWhenOpen={this.expandedNavItem("Products")}
+							transitionTime={240}
+							transitionCloseTime={240}
+							open={this.checkCurrentRoute()}
+						>
+							<div className="collapsible-div">
+								<ul className="navbar-nav">
+									<li>
+									    <NavLink to="/farm" activeClassName="active">Yield Farm</NavLink>
+									</li>
+									<li>
+										<NavLink to="/staking" activeClassName="active">Staking</NavLink>
+									</li>
+								</ul>
+							</div>
+						</Collapsible>
+
+				 		<li>
+							<NavLink to="/Migrate" activeClassName="active" className='nav-item migrate'>Migrate to V3</NavLink>
+						</li>
+
+						<Collapsible
+							trigger={this.collapsedNavItem("Deprecated Products")}
+							triggerWhenOpen={this.expandedNavItem("Deprecated Products")}
+							transitionTime={240}
+							transitionCloseTime={240}
+							open={this.checkCurrentRoute()}
+						>
+							<div className="collapsible-div">
+								<ul className="navbar-nav">
+									<li>
+									    <NavLink to="/farmv2" activeClassName="active">Yield Farm V2</NavLink>
+									</li>
+									<li>
+										<NavLink to="/stakingv2" activeClassName="active">Staking V2</NavLink>
 									</li>
 								</ul>
 							</div>
 						</Collapsible>
 
 						{
-							pages2.map(page => {
+							pages3.map(page => {
 								const classes = ['nav-item', page.id];
 								const menuMap = {
-									'farm': t('nav.farm'),
-									'staking': t('nav.staking'),
 									'migrate': t('nav.migration'),
 									'lottery': t('nav.lottery'),
 									'faq': t('nav.faq')
@@ -135,6 +180,8 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 								</li>;
 							})
 						}
+
+
 						{/* WIP */}
 						{/* <Collapsible
 							trigger={this.collapsedNavItem()}
@@ -157,13 +204,16 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 					</ul>
 					<div className="navigation-footer">
 						<div className="mt-2">
-							<a href="https://swap.raptr.finance/#/swap" className="btn btn-primary btn-block glow" target="_blank">{t('nav.buyonraptorswap')}</a>
+							<a href="https://pancakeswap.finance/swap?outputCurrency=0x44c99ca267c2b2646ceec72e898273085ab87ca5" className="btn btn-primary btn-block glow" target="_blank">{t('nav.buyonpancake')}</a>
+						</div>
+						<div className="mt-2">
+							<a href="https://swap.raptorswap.com/#/swap" className="btn btn-primary btn-block glow" target="_blank">{t('nav.buyonraptorswap')}</a>
 						</div>
 						<div className="mt-2">
 							<button onClick={this.addToMetamask} className="btn btn-primary btn-block glow" target="_blank">{t('nav.addtometamask')}</button>
 						</div>
 						<div className="mt-2">
-							<a href="https://bscscan.com/token/0xf9a3fda781c94942760860fc731c24301c83830a#balances" className="btn btn-complementary btn-block" target="_blank">{t('nav.viewonbscscan')}</a>
+							<a href="https://bscscan.com/token/0x44c99ca267c2b2646ceec72e898273085ab87ca5#balances" className="btn btn-complementary btn-block" target="_blank">{t('nav.viewonbscscan')}</a>
 						</div>
 						<select
 							value={languageCodeOnly(i18n.language)}

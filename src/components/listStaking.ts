@@ -2,10 +2,10 @@ export const farmsList = [
 
   {
     "pid": 0,
-    "pairName": "Farms coming soon...",
+    "pairName": "Staking Pool",
     "logo": "images/farm/raptor.png",
     "fees": "NO FEES",
-    "liquidityPool": "TBD",
+    "liquidityPool": "Staking",
     "enableGlow": true,
 	"version":1
   },

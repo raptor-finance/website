@@ -18,9 +18,11 @@ import {Shell} from './components/shell';
 import LotteryComponent from './components/pages/lottery/lotteryComponent';
 import HomeComponent from './components/pages/home/homeComponent';
 import StakingComponent from './components/pages/staking/stakingComponent';
+import StakingComponentv2 from './components/pages/stakingv2/stakingComponentv2';
 import AboutComponent from './components/pages/about/aboutComponent';
 import FaqComponent from './components/pages/faq/faqComponent';
 import FarmComponent from './components/pages/farm/farmComponent';
+import farmComponentv2 from './components/pages/farmv2/farmComponentv2';
 import MigrationComponent from './components/pages/migration/migrationComponent';
 // import LaunchComponent from './components/pages/launchComponent'; WIP
 
@@ -30,8 +32,10 @@ const pagesInNavigator = [
 	{ id: 'home', title: 'Home', component: HomeComponent },
 	{ id: 'about', title: 'About', component: AboutComponent },
 	{ id: 'farm', title: 'Farm', component: FarmComponent },
+	{ id: 'farmv2', title: 'Farmv2', component: farmComponentv2 },
 	{ id: 'migrate', title:'Migration', component: MigrationComponent },
 	{ id: 'staking', title: 'Staking', component: StakingComponent },
+	{ id: 'stakingv2', title: 'StakingV2', component: StakingComponentv2 },
 	{ id: 'lottery', title: 'Lottery', component: LotteryComponent },
 	{ id: 'faq', title: 'FAQ', component: FaqComponent },
 	// Ignored on nav

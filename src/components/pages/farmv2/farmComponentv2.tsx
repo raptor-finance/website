@@ -9,10 +9,10 @@ import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18nex
 import { Tooltip, OverlayTrigger, Container, Row, Col } from 'react-bootstrap';
 import AnimatedNumber from 'animated-number-react';
 
-import './stakingComponent.css';
+import './farmComponent.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
-import { farmsList } from '../../listStaking';
+import { farmsList } from '../../listOfFarmsv2';
 
 export type FarmProps = {};
 export type FarmState = {
@@ -31,9 +31,9 @@ export type FarmState = {
   tvl?: number
 }
 
-class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmState> {
+class FarmComponentv2 extends BaseComponent<FarmProps & WithTranslation, FarmState> {
 
-	constructor(props: FarmProps & WithTranslation) {
+  constructor(props: FarmProps & WithTranslation) {
     super(props);
 
     this.connectWallet = this.connectWallet.bind(this);
@@ -466,7 +466,8 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
         <div className="col-md-12">
           <div className="farm-title">
             <span>Raptor</span>
-            <span style={{ color: "#31c461" }}>Staking</span>
+            <span style={{ color: "#31c461" }}>Farm</span>
+            <span> V2 (Deprecated)</span>
             {state.address ?
               (<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
                 {state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
@@ -480,8 +481,8 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
             }
           </div>
 
-          <p>{t('staking.paragraph3')}</p>
-          <p><Trans i18nKey='staking.paragraph2'>In order to farm with LP tokens, you need to connect your browser wallet (such as <a
+          <p>{t('farm.paragraph1old')}</p>
+          <p><Trans i18nKey='farm.paragraph2'>In order to farm with LP tokens, you need to connect your browser wallet (such as <a
             href="https://metamask.io/">Metamask</a>) and <a
               href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
               target="_blank">Switch to the Binance Smart Chain</a></Trans>.</p>
@@ -509,5 +510,4 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
   }
 }
 
-
-export default withTranslation()(StakingComponent);
+export default withTranslation()(FarmComponentv2);
