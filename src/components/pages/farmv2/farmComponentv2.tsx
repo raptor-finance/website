@@ -12,7 +12,7 @@ import AnimatedNumber from 'animated-number-react';
 import './farmComponent.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
-import { farmsList } from '../../listOfFarms';
+import { farmsList } from '../../listOfFarmsv2';
 
 export type FarmProps = {};
 export type FarmState = {
@@ -31,7 +31,7 @@ export type FarmState = {
   tvl?: number
 }
 
-class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState> {
+class FarmComponentv2 extends BaseComponent<FarmProps & WithTranslation, FarmState> {
 
   constructor(props: FarmProps & WithTranslation) {
     super(props);
@@ -467,6 +467,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
           <div className="farm-title">
             <span>Raptor</span>
             <span style={{ color: "#31c461" }}>Farm</span>
+            <span> V2 (Deprecated)</span>
             {state.address ?
               (<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
                 {state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
@@ -480,7 +481,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
             }
           </div>
 
-          <p>{t('farm.paragraph1')}</p>
+          <p>{t('farm.paragraph1old')}</p>
           <p><Trans i18nKey='farm.paragraph2'>In order to farm with LP tokens, you need to connect your browser wallet (such as <a
             href="https://metamask.io/">Metamask</a>) and <a
               href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
@@ -509,4 +510,4 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
   }
 }
 
-export default withTranslation()(FarmComponent);
+export default withTranslation()(FarmComponentv2);
