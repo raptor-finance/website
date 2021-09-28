@@ -3,16 +3,16 @@
         "home": "Home",
         "about": "About",
         "swap": "Swap",
-        "farm": "Farm/Stake V3",
+        "farm": "Farm",
 		"migration": "Migration",
-        "staking": "Staking V2",
+        "staking": "Staking",
         "lottery": "Lottery",
         "faq": "FAQ",
 		"addtometamask": "Add to MetaMask",
         "coinmarketcap": "CoinMarketCap",
         "coingecko": "CoinGecko",
         "buyonraptorswap": "Buy on RaptorSwap",
-        "buyonpancake": "Buy on PancakeSwap",
+        "buyonwhitebit": "Buy on WhiteBIT",
         "viewonbscscan": "View on BSCscan",
         "copyright": "Raptor Finance 2021+"
     },
@@ -68,18 +68,15 @@
         "connect_wallet": "Connect Wallet",
         "disconnect_wallet": "Disconnect Wallet",
         "paragraph1": "RaptorFarm lets you stake LP tokens to earn greater yields. Connect your wallet to view the APR.",
-        "paragraph1old": "We have migrated our Liquidity to Raptor V3. The current Farms are not available. Please remove your LP.",
         "paragraph2": "In order to farm with LP tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>"
     },
     "staking": {
         "connect_wallet": "Connect Wallet",
         "disconnect_wallet": "Disconnect Wallet",
-<<<<<<< Updated upstream
         "paragraph1": "Using Raptor staking, you can easily earn more Raptor tokens over time while the blockchain is running. Earn passive income, 10% APR, on your Raptor holdings with Raptor staking.",
-=======
-        "paragraph1": "The Staking functionality was moved to the Farming page. The current Staking V2 platform offers 0% APR. This page will be removed in the future.",
->>>>>>> Stashed changes
         "paragraph2": "In order to stake Raptor tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>",
+        "paragraph3": "Using Raptor staking, you can easily earn more Raptor tokens over time while the blockchain is running. Earn passive income, ~10% APR, on your Raptor holdings with Raptor staking.",
+
         "paragraph1old": "Please note that V2 is currently deprecated. Please unstake and Migrate to V3.",
 
         "your_info": {
