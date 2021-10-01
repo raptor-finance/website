@@ -6,11 +6,6 @@ import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18nex
 import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import './migrationComponent.css';
-import './stakingComponent.css';
-import AnimatedNumber from 'animated-number-react';
-import { fadeInLeft, fadeInRight, pulse } from 'react-animations';
-import styled, { keyframes } from 'styled-components';
-
 
 export type MigrationProps = {};
 export type MigrationState = {
@@ -24,12 +19,6 @@ export type MigrationState = {
 	ctValue?: number,
 	ctValueOut?: number
 };
-
-const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
-const FadeInLeftDiv = styled.div`
-  animation: ease-out 0.8s ${FadeInLeftAnimation};
-`;
-
 
 class MigrationComponent extends BaseComponent<MigrationProps & withTranslation, MigrationState> {
 	
@@ -167,14 +156,14 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 		await ethereum.request({method: 'wallet_watchAsset',params: {type: 'ERC20',options: {address: "0x44c99ca267c2b2646ceec72e898273085ab87ca5",symbol: "RPTR",decimals: 18,image: "https://raptorswap.com/images/logo.png",},},});
 	}
 
-	render() {
-		const state = this.readState();
+		render() {
 		const t: TFunction<"translation"> = this.readProps().t;
+		const state = this.readState();
 
-		return <div className="staking-container">
+		return <div className="migration-container">
 
 			<div className="container">
-				<div className="row text-white staking-header">
+				<div className="row text-white migration-header">
 					<div className="col-md-12">
 							<div className="migration-title">
 							<b><font size="6"><span>Raptor</span><span style={{ color: "#31c461" }}> Migration</span></font></b>
@@ -192,51 +181,22 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 					        </div>
 				     </div>
 		       	</div>
-
-
-
-                    <FadeInLeftDiv className="col-md-6 d-flex">
-						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
-							<h2>{t('migration.wallet.wallet_address')}</h2>
-							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
-							<h2>{t('migration.wallet.v2')}</h2>
-							<AnimatedNumber
-								value={numeral(state.balance || 0).format('0.00')}
-								duration="1000"
-								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
-								className="staking-info"
-							>
-								0 Raptor
-							</AnimatedNumber>
-							<p>Enter the amount that you want to migrate:</p>
-							<div>		
-								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.ctValue}></input><button className="btns-migrate" id="btn-max" onClick={this.setMaxAmount}>Max</button>
-                            </div>
-							<br/>
-							<h2>{t('migration.wallet.v3')}</h2>
-							<AnimatedNumber
-								value={numeral(state.balancev3 || 0).format('0.00')}
-								duration="1000"
-								formatValue={value => `${Number(parseFloat(value)).toLocaleString('en')}`}
-								className="staking-info"
-							>
-								0 Raptor
-							</AnimatedNumber>
-                            <div className="d-flex justify-content-center button-row">
-					         	<button id="btn-migrate" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.migrate}>Migrate</button>
-								<button id="btn-addtometa" className="btn btn-complementary btn-md link-dark align-self-center stake-claim" onClick={this.addToMetamask}>Add to metamask</button>
-					        </div>
-						</div>
-
-
-					</FadeInLeftDiv>
-
-                          <div className="migration-footer">
-					        <font size="2"><i>Note : With the above form you can migrate to the latest Raptor V3. No additional fees are applied.</i></font>
-				          </div>
-
-
-
+				<div className="migration-body">
+					<div>
+						<div>Old raptor (avbl. : {state.balance || 0})</div>
+						<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.ctValue}></input><button className="btns-migrate" id="btn-max" onClick={this.setMaxAmount}>Max</button>
+					</div>
+					<div>
+						<div>New raptor (avbl. : {state.balancev3 || 0})</div>
+						<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.ctValueOut}></input>
+					</div>
+					<div id="buttons">
+						<button id="btn-migrate" className="btns-migrate" onClick={this.migrate}>Migrate</button><button id="btn-addtometa" className="btns-migrate" onClick={this.addToMetamask}>Add to metamask</button>
+					</div>
+				</div>
+				<div className="migration-footer">
+					<font size="2"><i>Note : Migration is only old to new !</i></font>
+				</div>
 			</div>
 		</div>
 	}

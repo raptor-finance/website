@@ -65,12 +65,12 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
       farm[`1,0`] = new RaptorFarmNew(wallet, 0);
       // await farm[0].finishSetup();
 
-      const poolLengthOld = (await farm[`0,0`].contract.methods.poolLength().call());
-      var i = 1;
-      while (i < poolLengthOld) {
-        farm[`0,${i}`] = new RaptorFarm(wallet, i);
-        i += 1;
-      }
+      // const poolLengthOld = (await farm[`0,0`].contract.methods.poolLength().call());
+      // var i = 1;
+      // while (i < poolLengthOld) {
+        // farm[`0,${i}`] = new RaptorFarm(wallet, i);
+        // i += 1;
+      // }
 	  
       const poolLengthNew = (await farm[`1,0`].contract.methods.poolLength().call());
       var i = 1;
@@ -220,16 +220,16 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
 
   private async updateOnce(resetCt?: boolean): Promise<boolean> {
     const farm = this.readState().farm;
-	const poolLengthOld = (await farm["0,0"].contract.methods.poolLength().call());
+	// const poolLengthOld = (await farm["0,0"].contract.methods.poolLength().call());
 	const poolLengthNew = (await farm["1,0"].contract.methods.poolLength().call());
     if (!!farm) {
       try {
-        let i = 0;
+        // let i = 0;
 		let j = 0;
-        while (i < poolLengthOld) {
-          farm[`0,${i}`].refresh();
-          i += 1;
-        }
+        // while (i < poolLengthOld) {
+          // farm[`0,${i}`].refresh();
+          // i += 1;
+        // }
         while (j < poolLengthNew-1) {
           farm[`1,${j}`].refresh();
           j += 1;

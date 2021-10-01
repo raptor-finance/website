@@ -100,6 +100,20 @@
             "claim_rewards": "Claim rewards"
         }
     },
+
+    "migration": {
+        "connect_wallet": "Connect Wallet",
+        "disconnect_wallet": "Disconnect Wallet",
+
+        "wallet": {
+            "title": "Your Information",
+            "wallet_address": "Wallet address",
+            "connect_wallet": "Please connect your wallet",
+            "v2": "Raptor V2 Balance",
+            "v3": "Raptor V3 Balance"
+        },
+
+    },
     "lottery": {
         "connect_wallet": "Connect Wallet",
         "disconnect_wallet": "Disconnect Wallet",
