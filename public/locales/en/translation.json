@@ -111,7 +111,7 @@
             "connect_wallet": "Please connect your wallet",
             "v2": "Raptor V2 Balance",
             "v3": "Raptor V3 Balance"
-        },
+        }
 
     },
     "lottery": {
