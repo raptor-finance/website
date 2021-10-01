@@ -68,7 +68,8 @@
         "connect_wallet": "Connect Wallet",
         "disconnect_wallet": "Disconnect Wallet",
         "paragraph1": "RaptorFarm lets you stake LP tokens to earn greater yields. Connect your wallet to view the APR.",
-        "paragraph2": "In order to farm with LP tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>"
+        "paragraph2": "In order to farm with LP tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>",
+        "paragraph1old": "Please note that V2 is currently deprecated. Please unstake and Migrate to V3."
     },
     "staking": {
         "connect_wallet": "Connect Wallet",
@@ -111,7 +112,7 @@
             "connect_wallet": "Please connect your wallet",
             "v2": "Raptor V2 Balance",
             "v3": "Raptor V3 Balance"
-        },
+        }
 
     },
     "lottery": {
