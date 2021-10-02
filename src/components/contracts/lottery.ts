@@ -6,10 +6,10 @@ export class RaptorLottery {
 
 	private static readonly address: string = "0x4aaD1aD8628003487623A61305dE7Fc4D6A887ff";
 
-	private readonly _ticketPrice = 10**9;
+	private readonly _ticketPrice = 10**3;
 
 	private readonly _wallet: Wallet;
-	private readonly _contract: Contract;
+	private readonly _contractv3: Contract;
 	private readonly _raptor: Raptor;
 
 	private _tickets: number = 0;
@@ -24,7 +24,7 @@ export class RaptorLottery {
 		}
 
 		this._wallet = wallet;
-		this._contract = wallet.connectToContract(RaptorLottery.address, require('./lottery.abi.json'));
+		this._contractv3 = wallet.connectToContract(RaptorLottery.address, require('./lottery.abi.json'));
 		this._raptor = new Raptor(wallet);
 	}
 
@@ -56,32 +56,32 @@ export class RaptorLottery {
 	async refresh(): Promise<void> {
 		await this._raptor.refresh();
 
-		const dec = (1.0 / 10**9)
+		const dec = (1.0 / 10**3)
 
-		this._tickets = await this._contract.methods.ticketBalanceOf(this._wallet.currentAddress).call();
-		this._jackpot = await this._contract.methods.currentJackpot().call() * dec
+		this._tickets = await this._contractv3.methods.ticketBalanceOf(this._wallet.currentAddress).call();
+		this._jackpot = await this._contractv3.methods.currentJackpot().call() * dec
 
-		this._drawNumber = await this._contract.methods.currentDraw().call();
+		this._drawNumber = await this._contractv3.methods.currentDraw().call();
 
-		this._totalTickets = await this._contract.methods.ticketsPerRound(this._drawNumber).call();
-		this._lastWinner = await this._contract.methods.winnerOfRound(this._drawNumber - 1).call();
+		this._totalTickets = await this._contractv3.methods.ticketsPerRound(this._drawNumber).call();
+		this._lastWinner = await this._contractv3.methods.winnerOfRound(this._drawNumber - 1).call();
 
 	}
 	async buyTicket(): Promise<string> {
 		await this._raptor.refresh()
 
-		const rawPrice: number = this._ticketPrice * 10 ** 9;
+		const rawPrice: number = this._ticketPrice * 10 ** 3;
 
-		if (this._raptor.balance * 10 ** 9 >= rawPrice) {
-			const allowance = +(await this._raptor.contract.methods.allowance(this._wallet.currentAddress, RaptorLottery.address).call());
+		if (this._raptor.balance * 10 ** 3 >= rawPrice) {
+			const allowance = +(await this._raptor.contractv3.methods.allowance(this._wallet.currentAddress, RaptorLottery.address).call());
 
 			if (allowance < rawPrice) {
 				// we need to give allowance to lottery contract first
 				const allowance = `${BigInt(2**256) - BigInt(1)}`;
-				await this._raptor.contract.methods.approve(RaptorLottery.address, allowance).send({'from': this._wallet.currentAddress});
+				await this._raptor.contractv3.methods.approve(RaptorLottery.address, allowance).send({'from': this._wallet.currentAddress});
 			}
 
-			const receipt = await this._contract.methods.getTicket().send({'from': this._wallet.currentAddress});
+			const receipt = await this._contractv3.methods.getTicket().send({'from': this._wallet.currentAddress});
 			return receipt.events.NewTicket.returnValues.hash;
 		}
 		else {

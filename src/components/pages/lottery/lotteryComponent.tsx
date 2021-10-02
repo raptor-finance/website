@@ -105,7 +105,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 				}
 				this.updateState({
 					address: lottery.wallet.currentAddress,
-					balance: lottery.raptor.balance,
+					balance: lottery.raptor.balancev3,
 					jackpot: lottery.jackpot,
 					price: lottery.ticketPrice,
 					lastWinner: lottery.lastWinner,
@@ -205,7 +205,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							<AnimatedNumber
 								value={numeral(state.balance || 0).format('0.00')}
 								duration="1000"
-								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en')}`}
 								className="lottery-info"
 							>
 								0 Raptor
@@ -223,7 +223,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							<AnimatedNumber
 								value={numeral(state.price || 0).format('0.00')}
 								duration="1000"
-								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor Tokens`}
+								formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en')} Raptor Tokens`}
 								className="lottery-info"
 							>
 								{numeral(state.price || 0).format('0,0.00')} Raptor Tokens
@@ -237,7 +237,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							<AnimatedNumber
 								value={numeral(state.drawNumber || 0).format('0.00')}
 								duration="1000"
-								formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })}`}
+								formatValue={value => `${Number(parseFloat(value)).toLocaleString('en', { minimumFractionDigits: 0 })}`}
 								className="lottery-info"
 							>
 								{numeral(state.drawNumber).format('0,0') || t('lottery.status.nothing')}
@@ -248,7 +248,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							<AnimatedNumber
 								value={numeral(state.jackpot || 0).format('0.00')}
 								duration="1000"
-								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor Tokens`}
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en')} Raptor Tokens`}
 								className="lottery-info"
 							>
 								{numeral(state.jackpot || 0).format('0,0.00')} Raptor Tokens
@@ -257,7 +257,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							<AnimatedNumber
 								value={numeral(state.totalTickets || 0).format('0.00')}
 								duration="1000"
-								formatValue={value => `${Number(parseFloat(value).toFixed(0)).toLocaleString('en', { minimumFractionDigits: 0 })} Tickets`}
+								formatValue={value => `${Number(parseFloat(value)).toLocaleString('en', { minimumFractionDigits: 0 })} Tickets`}
 								className="lottery-info"
 							>
 								{numeral(state.totalTickets || 0).format('0,0')} Tickets
