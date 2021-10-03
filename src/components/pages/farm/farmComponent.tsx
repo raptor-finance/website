@@ -65,12 +65,12 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
       farm[`1,0`] = new RaptorFarmNew(wallet, 0);
       // await farm[0].finishSetup();
 
-      const poolLengthOld = (await farm[`0,0`].contract.methods.poolLength().call());
-      var i = 1;
-      while (i < poolLengthOld) {
-        farm[`0,${i}`] = new RaptorFarm(wallet, i);
-        i += 1;
-      }
+      // const poolLengthOld = (await farm[`0,0`].contract.methods.poolLength().call());
+      // var i = 1;
+      // while (i < poolLengthOld) {
+        // farm[`0,${i}`] = new RaptorFarm(wallet, i);
+        // i += 1;
+      // }
 	  
       const poolLengthNew = (await farm[`1,0`].contract.methods.poolLength().call());
       var i = 1;
@@ -224,12 +224,12 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 	const poolLengthNew = (await farm["1,0"].contract.methods.poolLength().call());
     if (!!farm) {
       try {
-        let i = 0;
+        // let i = 0;
 		let j = 0;
-        while (i < poolLengthOld) {
-          farm[`0,${i}`].refresh();
-          i += 1;
-        }
+        // while (i < poolLengthOld) {
+          // farm[`0,${i}`].refresh();
+          // i += 1;
+        // }
         while (j < poolLengthNew-1) {
           farm[`1,${j}`].refresh();
           j += 1;
@@ -239,7 +239,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
           return false;
         }
         this.updateState({
-          address: farm["0,0"].wallet.currentAddress,
+          address: farm["1,0"].wallet.currentAddress,
         });
 
         if (resetCt) {
@@ -358,7 +358,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
             <div className="d-flex justify-content-between pair-header">
               <img className="lp-pair-icon" src={logo} alt="bnb-raptor-pair" />
               <div>
-                <h1 className="text-right">{pairName}</h1>
+                <h1 className="text-right">{pairName} LP</h1>
                 <h2 className="text-right">{fees}</h2>
               </div>
             </div>
@@ -366,8 +366,6 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
             <div className="d-flex justify-content-between apr">
               <h2>APR: </h2>
               <h2>
-              TBD
-              	{/*
                 <AnimatedNumber
                   value={numeral(apr || 0).format('0.00')}
                   duration="1000"
@@ -375,10 +373,8 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
                 >
                   {apr || 0}
                 </AnimatedNumber>
-                */}
               </h2>
             </div>
-			{/*
 			<div className="d-flex justify-content-between tvl">
 			  <h2>TVL: </h2>
 			  <h2>
@@ -391,17 +387,29 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
                 </AnimatedNumber>
 			  </h2>
 			</div>
-			*/}
             <div className="d-flex justify-content-between pool">
               <h2>Liquidity Pool: </h2>
               <h2><u>{liquidityPool}</u></h2>
             </div>
-            <h3>Available {pairName} </h3>
-          0.000000
-          <div className="rewards-block d-flex justify-content-between">
+            <h3>Available {pairName} LP</h3>
+            <AnimatedNumber
+              value={numeral(lpBalance || 0).format('0.000000')}
+              duration="1000"
+              formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })}`}
+            >
+              {lpBalance || 0}
+            </AnimatedNumber><AnimatedNumber value={numeral(usdavailable || 0).format('0.00')} formatValue={value => ` (= ${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}$)`}> (= {usdavailable || 0}$)</AnimatedNumber>
+            <div className="rewards-block d-flex justify-content-between">
               <div>
                 <h3>Pending Rewards</h3>
-            0.000000 </div>
+                <AnimatedNumber
+                  value={numeral(rewards || 0).format('0.00')}
+                  duration="1000"
+                  formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} Raptor`}
+                >
+                  {rewards || 0}
+                </AnimatedNumber><AnimatedNumber value={numeral(usdrewards || 0).format('0.00')} formatValue={value => ` (= ${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}$`}> (= {usdrewards || 0}$)</AnimatedNumber>)
+              </div>
               <div className="d-flex align-items-center">
                 <OverlayTrigger
                   placement="bottom-start"
@@ -415,7 +423,20 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
             </div>
             <div className="staked-lp-info">
               <h3>{pairName} LP Staked</h3>
-                 0.000000  
+              <AnimatedNumber
+                value={numeral(stakedLp || 0).format('0.000000')}
+                duration="1000"
+                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })} LP`}
+              >
+                {stakedLp || 0}
+              </AnimatedNumber>
+              <AnimatedNumber
+                value={numeral(usdstaked || 0).format('0.00')}
+                duration="1000"
+                formatValue={value => ` (= ${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}$)`}
+              >
+                ({usdstaked || 0}$)
+              </AnimatedNumber>
             </div>
           </div>
           <hr />
@@ -424,12 +445,8 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
               <input className="lp-input" type="number" id={`${version},${pid}`} onChange={(event) => this.stakingValueChanged(event)} value={ctValue || 0} />
             </div>
             <div className="wd-buttons d-flex justify-content-between">
-            {/*button enabled
               <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={stakedLp <= 0 || stakedLp == null} type="button" onClick={async () => this.withdrawLP(version, pid)}>Withdraw LP</button>
               <button className="btn btn-primary btn-small link-dark align-self-center stake-claim right" disabled={lpBalance <= 0 || lpBalance == null} type="button" onClick={async () => this.depositLP(version, pid)}>Deposit LP</button>
-            */}
-              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled='true' type="button" onClick={async () => this.withdrawLP(version, pid)}>Withdraw LP</button>
-              <button className="btn btn-primary btn-small link-dark align-self-center stake-claim right" disabled='true' type="button" onClick={async () => this.depositLP(version, pid)}>Deposit LP</button>
             </div>
           </div>
         </div>
