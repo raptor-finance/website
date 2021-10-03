@@ -5,6 +5,7 @@ import {Raptor} from './raptor';
 export class RaptorLottery {
 
 	private static readonly address: string = "0x995f9cdA8184f1cCd70CE3C299a886cb58015Fe9";
+	//private static readonly address: string = "0x4aaD1aD8628003487623A61305dE7Fc4D6A887ff";
 
 	private readonly _ticketPrice = 10**3;
 
@@ -63,10 +64,11 @@ export class RaptorLottery {
 
 		this._drawNumber = await this._contractv3.methods.currentDraw().call();
 
-		this._totalTickets = await this._contractv3.methods.ticketsPerRound(this._drawNumber).call();
-		this._lastWinner = await this._contractv3.methods.winnerOfRound(this._drawNumber - 1).call();
-
+        round = await this._contractv3.methods.round(this._drawNumber-1).call();
+        this._totalTickets = round.tickets;
+        this._lastWinner = round.winner;
 	}
+
 	async buyTicket(): Promise<string> {
 		await this._raptor.refresh()
 
