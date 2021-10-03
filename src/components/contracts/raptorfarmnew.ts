@@ -93,7 +93,7 @@ export class RaptorFarmNew {
 			return (await this._lpToken.methods.totalSupply().call()/2);
 		}
 		var _tokensInPair = [(await this._lpToken.methods.token0().call()), await this._lpToken.methods.token1().call()]
-		if (_tokensInPair.includes(this._raptorv3.contract._address)) {
+		if (_tokensInPair.includes("0x44C99Ca267C2b2646cEEc72e898273085aB87ca5")) {
 			return (await this._raptor.contractv3.methods.balanceOf(this._lpAddress).call());
 		}
 		else if (_tokensInPair.includes(this._raptor.contract._address)) {
