@@ -81,7 +81,7 @@ export class RaptorLottery {
 
 			const receipt = await this._raptor._contractv3.methods.approveAndCall(RaptorLottery.address, "1000000000000000000000", "0x0").send({'from': this._wallet.currentAddress});
 			console.log(receipt);
-			return receipt.events.NewTicket.returnValues.hash;
+			return receipt.events["0"].raw.topics[2];
 		}
 		else {
 			throw 'Your Raptor balance is not sufficient to buy a ticket';
