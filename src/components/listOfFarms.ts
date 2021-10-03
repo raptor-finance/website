@@ -2,10 +2,10 @@ export const farmsList = [
 
   {
     "pid": 0,
-    "pairName": "Farms coming soon...",
+    "pairName": "RPTR-BNB",
     "logo": "images/farm/raptor.png",
     "fees": "NO FEES",
-    "liquidityPool": "TBD",
+    "liquidityPool": "Pancake",
     "enableGlow": true,
 	"version":1
   },
