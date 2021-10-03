@@ -75,7 +75,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
       const poolLengthNew = (await farm[`1,0`].contract.methods.poolLength().call());
       var i = 1;
       while (i < poolLengthNew) {
-        farm[`1,${i}`] = new RaptorFarm(wallet, i);
+        farm[`1,${i}`] = new RaptorFarmNew(wallet, i);
         i += 1;
       }
 
