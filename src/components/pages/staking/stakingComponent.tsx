@@ -358,7 +358,7 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
             <div className="d-flex justify-content-between pair-header">
               <img className="lp-pair-icon" src={logo} alt="bnb-raptor-pair" />
               <div>
-                <h1 className="text-right">{pairName} LP</h1>
+                <h1 className="text-right">{pairName}</h1>
                 <h2 className="text-right">{fees}</h2>
               </div>
             </div>
@@ -391,7 +391,7 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
               <h2>Liquidity Pool: </h2>
               <h2><u>{liquidityPool}</u></h2>
             </div>
-            <h3>Available {pairName} LP</h3>
+            <h3>Available {pairName}</h3>
             <AnimatedNumber
               value={numeral(lpBalance || 0).format('0.000000')}
               duration="1000"
@@ -422,7 +422,7 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
               </div>
             </div>
             <div className="staked-lp-info">
-              <h3>{pairName} LP Staked</h3>
+              <h3>{pairName} Staked</h3>
               <AnimatedNumber
                 value={numeral(stakedLp || 0).format('0.000000')}
                 duration="1000"
