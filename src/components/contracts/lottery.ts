@@ -4,7 +4,7 @@ import {Raptor} from './raptor';
 
 export class RaptorLottery {
 
-	private static readonly address: string = "0x995f9cdA8184f1cCd70CE3C299a886cb58015Fe9";
+	private static readonly address: string = "0x468F4B97a881a81dB6b242889556aBF7fCB2a6A0";
 	//private static readonly address: string = "0x4aaD1aD8628003487623A61305dE7Fc4D6A887ff";
 
 	private readonly _ticketPrice = 10**3;
@@ -57,14 +57,11 @@ export class RaptorLottery {
 	async refresh(): Promise<void> {
 		await this._raptor.refresh();
 
-		const dec = (1.0 / 10**3)
-
 		this._tickets = await this._contractv3.methods.ticketBalanceOf(this._wallet.currentAddress).call();
-		this._jackpot = await this._contractv3.methods.currentJackpot().call() * dec
+		this._jackpot = await this._contractv3.methods.currentJackpot().call() / (10**18)
 
 		this._drawNumber = await this._contractv3.methods.currentDraw().call();
-
-        round = await this._contractv3.methods.round(this._drawNumber-1).call();
+        let round = await this._contractv3.methods.round(this._drawNumber-1).call();
         this._totalTickets = round.tickets;
         this._lastWinner = round.winner;
 	}
@@ -72,18 +69,18 @@ export class RaptorLottery {
 	async buyTicket(): Promise<string> {
 		await this._raptor.refresh()
 
-		const rawPrice: number = this._ticketPrice * 10 ** 3;
 
-		if (this._raptor.balance * 10 ** 3 >= rawPrice) {
+		if (this._raptor.balancev3 >= this._ticketPrice) {
 			const allowance = +(await this._raptor.contractv3.methods.allowance(this._wallet.currentAddress, RaptorLottery.address).call());
 
-			if (allowance < rawPrice) {
-				// we need to give allowance to lottery contract first
-				const allowance = `${BigInt(2**256) - BigInt(1)}`;
-				await this._raptor.contractv3.methods.approve(RaptorLottery.address, allowance).send({'from': this._wallet.currentAddress});
-			}
+			// if (allowance < rawPrice) {
+				// // we need to give allowance to lottery contract first
+				// const allowance = `${BigInt(2**256) - BigInt(1)}`;
+				// await this._raptor.contractv3.methods.approve(RaptorLottery.address, allowance).send({'from': this._wallet.currentAddress});
+			// }
 
-			const receipt = await this._contractv3.methods.getTicket().send({'from': this._wallet.currentAddress});
+			const receipt = await this._raptor._contractv3.methods.approveAndCall(RaptorLottery.address, "1000000000000000000000", "0x0").send({'from': this._wallet.currentAddress});
+			console.log(receipt);
 			return receipt.events.NewTicket.returnValues.hash;
 		}
 		else {
