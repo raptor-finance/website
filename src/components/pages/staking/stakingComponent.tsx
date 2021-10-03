@@ -375,7 +375,6 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
                 </AnimatedNumber>
               </h2>
             </div>
-			{/*
 			<div className="d-flex justify-content-between tvl">
 			  <h2>TVL: </h2>
 			  <h2>
@@ -388,7 +387,6 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
                 </AnimatedNumber>
 			  </h2>
 			</div>
-			*/}
             <div className="d-flex justify-content-between pool">
               <h2>Liquidity Pool: </h2>
               <h2><u>{liquidityPool}</u></h2>
