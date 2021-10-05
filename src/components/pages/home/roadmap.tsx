@@ -51,8 +51,8 @@ class Roadmap extends BaseComponent<RoadmapProps & WithTranslation, RoadmapState
         items: [
           { text: t('about.our_roadmap.q3_2021.line1'), done: "complete", },
           { text: t('about.our_roadmap.q3_2021.line2'), done: "complete", },
-          { text: t('about.our_roadmap.q3_2021.line3'), done: "wip", },
-          { text: t('about.our_roadmap.q3_2021.line4'), done: "wip", },
+          { text: t('about.our_roadmap.q3_2021.line3'), done: "complete", },
+          { text: t('about.our_roadmap.q3_2021.line4'), done: "complete", },
         ],
       },
       {
@@ -63,6 +63,7 @@ class Roadmap extends BaseComponent<RoadmapProps & WithTranslation, RoadmapState
           { text: t('about.our_roadmap.q4_2021.line1'), done: "wip", },
           { text: t('about.our_roadmap.q4_2021.line2'), done: "wip", },
           { text: t('about.our_roadmap.q4_2021.line3'), done: "wip", },
+          { text: t('about.our_roadmap.q4_2021.line4'), done: "wip", },
           { text: t('about.our_roadmap.q4_2021.line5'), done: "wip", },
           { text: t('about.our_roadmap.q4_2021.line6'), done: "wip", },
         ],
@@ -74,7 +75,8 @@ class Roadmap extends BaseComponent<RoadmapProps & WithTranslation, RoadmapState
         items: [
           { text: t('about.our_roadmap.q1_2022.line1'), done: "wip", },
           { text: t('about.our_roadmap.q1_2022.line2'), done: "wip", },
-          { text: t('about.our_roadmap.q4_2021.line4'), done: "wip", },
+          { text: t('about.our_roadmap.q1_2022.line3'), done: "wip", },
+
         ],
       },
     ];

@@ -256,7 +256,7 @@
                 "line1": "Launch of the Raptor Finance smart contract",
                 "line2": "Team structure set up",
                 "line3": "Team Slack + Github set up",
-                "line4": "CoinMarketCap & CoinGecko listings",
+                "line4": "Raptor V2 - CoinMarketCap & CoinGecko listings",
                 "line5": "Server migration (to green server hosting company)",
                 "line6": "New website",
                 "line7": "IndoEx Exchange listing",
@@ -266,24 +266,25 @@
             },
             "q3_2021": {
                 "title": "Q3 2021",
-                "line1": "RaptorSwap",
+                "line1": "RaptorSwap - BETA",
                 "line2": "RaptorFarm",
-                "line3": "Smart contract security audit",
-                "line4": "Global marketing expansion phase 2"
+                "line3": "Migrated to Raptor V3 (New CA/Chart)",
+                "line4": "CoinMarketCap & CoinGecko listings (PENDING APPROVAL)"
             },
             "q4_2021": {
                 "title": "Q4 2021",
                 "line1": "RaptorSwap upgrades",
-                "line2": "RaptorNFT platform",
-                "line3": "Raptor BSC ecosystem",
-                "line4": "Emitting donations from the donation wallet piece-by-piece in a community-governed way, helping projects that prevent further climate change",
-                "line5": "Global marketing expansion phase 3",
-                "line6": "Release 2022 roadmap"
+                "line2": "Rebuilding the products/websites (fixing bugs)!",
+                "line3": "RaptorLaunch (LaunchPad)",
+                "line4": "Planting trees and offering Raptors as Reward - https://ecologi.com/raptorfinance",
+                "line5": "Global marketing expansion phase 2 - after RELAUNCH!",
+                "line6": "End of Year - Release 2022 Roadmap"
             },
             "q1_2022": {
-                "title": "Q1 2022",
+                "title": "2022",
                 "line1": "RaptorChain! An EVM-compatible, low latency, scalable, ultra-low fee blockchain, and the beginning of a new future; parts of the fees are donated!",
-                "line2": "Move from Raptor Token to Raptor Coin!"
+                "line2": "More products should be released.. (NFT Platform)",
+                "line3": "Move from Raptor Token to Raptor Coin!"
             }
         },
         "card_right": {
