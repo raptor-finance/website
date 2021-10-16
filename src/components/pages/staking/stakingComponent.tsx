@@ -426,7 +426,7 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
               <AnimatedNumber
                 value={numeral(stakedLp || 0).format('0.000000')}
                 duration="1000"
-                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })} LP`}
+                formatValue={value => `${Number(parseFloat(value).toFixed(6)).toLocaleString('en', { minimumFractionDigits: 6 })} RPTR`}
               >
                 {stakedLp || 0}
               </AnimatedNumber>
@@ -445,8 +445,8 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
               <input className="lp-input" type="number" id={`${version},${pid}`} onChange={(event) => this.stakingValueChanged(event)} value={ctValue || 0} />
             </div>
             <div className="wd-buttons d-flex justify-content-between">
-              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={stakedLp <= 0 || stakedLp == null} type="button" onClick={async () => this.withdrawLP(version, pid)}>Withdraw LP</button>
-              <button className="btn btn-primary btn-small link-dark align-self-center stake-claim right" disabled={lpBalance <= 0 || lpBalance == null} type="button" onClick={async () => this.depositLP(version, pid)}>Deposit LP</button>
+              <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={stakedLp <= 0 || stakedLp == null} type="button" onClick={async () => this.withdrawLP(version, pid)}>Withdraw RPTR</button>
+              <button className="btn btn-primary btn-small link-dark align-self-center stake-claim right" disabled={lpBalance <= 0 || lpBalance == null} type="button" onClick={async () => this.depositLP(version, pid)}>Deposit RPTR</button>
             </div>
           </div>
         </div>
@@ -479,7 +479,7 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
           </div>
 
           <p>{t('staking.paragraph3')}</p>
-          <p><Trans i18nKey='staking.paragraph2'>In order to farm with LP tokens, you need to connect your browser wallet (such as <a
+          <p><Trans i18nKey='staking.paragraph2'>In order to stake your raptors, you need to connect your browser wallet (such as <a
             href="https://metamask.io/">Metamask</a>) and <a
               href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
               target="_blank">Switch to the Binance Smart Chain</a></Trans>.</p>
