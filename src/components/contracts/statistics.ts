@@ -52,8 +52,8 @@ export class RaptorStatistics {
 		this._raptor = new this._web3.eth.Contract(erc20, RaptorAddressv3);
 	}
 
-	public async refresh() {
-		const prices: PriceInfo = await this.getPrices(false);
+	public async refresh() {	
+		const prices: PriceInfo = await this.getPrices(true);
 
 		const bnbBalance: number = +this._web3.utils.fromWei(await this._web3.eth.getBalance(DonationWalletAddress), 'ether');
 		const usdBalance: number = await this._usd.methods.balanceOf(DonationWalletAddress).call() * Math.pow(10, -(await this._usd.methods.decimals().call()));
