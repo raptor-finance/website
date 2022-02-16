@@ -87,26 +87,28 @@ export class RaptorStatistics {
 		return (bnbAmount/(this._prices || {}).raptor.bnb);
 	}
 
-	private async retrievePriceApi() {
-		console.log("Retrieving prices...");
-		return (await (await fetch("https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0x44c99ca267c2b2646ceec72e898273085ab87ca5")).json());
-	}
+	// private async retrievePriceApi() {
+		// console.log("Retrieving prices...");
+		// return (await (await fetch("https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0x44c99ca267c2b2646ceec72e898273085ab87ca5")).json());
+	// }
 
 	private async getPrices(force: boolean): PriceInfo {
 		if (!!this._prices && !force) {
 			return this._prices;
 		}
-		const a = await this.retrievePriceApi();
+		// const a = (await (await fetch("https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0x44c99ca267c2b2646ceec72e898273085ab87ca5")).json());
+		const a = (await (await fetch("https://api.pancakeswap.info/api/v2/tokens/0x44c99ca267c2b2646ceec72e898273085ab87ca5")).json());
+		const bnbPrice = (await (await fetch("https://api.pancakeswap.info/api/v2/tokens/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")).json());
 		return {
 			raptor: {
-				usd: a.lastPrices.raptorusd,
-				bnb: a.lastPrices.raptorbnb,
+				usd: a.data.price,
+				bnb: a.data.price_BNB
 			},
 			bnb: {
-				usd: a.lastPrices.raptorusd
+				usd: bnbPrice.data.price
 			},
 			marketCap: {
-				usd: a.lastPrices.marketcapusd,
+				usd: a.data.price*650000000000,
 			},
 			totalSupply: {
 				value: a.totalSupply,
