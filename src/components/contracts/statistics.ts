@@ -108,10 +108,10 @@ export class RaptorStatistics {
 				usd: bnbPrice.data.price
 			},
 			marketCap: {
-				usd: a.data.price*650000000000,
+				usd: a.data.price*0,
 			},
 			totalSupply: {
-				value: a.totalSupply,
+				value: 0,
 			}
 		};
 	}
