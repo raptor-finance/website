@@ -41,6 +41,13 @@ export class RaptorStatistics {
 			{
 				"constant": true,
 				"inputs": [],
+				"name": "totalSupply",
+				"outputs": [{ "name": "supply", "type": "uint256" }],
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
 				"name": "decimals",
 				"outputs": [{ "name": "", "type": "uint8" }],
 				"type": "function"
@@ -99,6 +106,7 @@ export class RaptorStatistics {
 		// const a = (await (await fetch("https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0x44c99ca267c2b2646ceec72e898273085ab87ca5")).json());
 		const a = (await (await fetch("https://api.pancakeswap.info/api/v2/tokens/0x44c99ca267c2b2646ceec72e898273085ab87ca5")).json());
 		const bnbPrice = (await (await fetch("https://api.pancakeswap.info/api/v2/tokens/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")).json());
+		const _totalSupply = this._web3.utils.fromWei(await this._raptor.methods.totalSupply().call());
 		return {
 			raptor: {
 				usd: a.data.price,
@@ -108,10 +116,10 @@ export class RaptorStatistics {
 				usd: bnbPrice.data.price
 			},
 			marketCap: {
-				usd: a.data.price*0,
+				usd: a.data.price*_totalSupply,
 			},
 			totalSupply: {
-				value: 0,
+				value: _totalSupply,
 			}
 		};
 	}
