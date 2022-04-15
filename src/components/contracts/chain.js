@@ -9,9 +9,9 @@ export class RaptorTestnetInterface {
 	private readonly node: string;
 	
 	
-	constructor(walletInstance: Wallet, nodeURL: string) {
+	constructor(walletInstance: Wallet, nodeAddress: string) {
 		this.wallet = walletInstance;
-		this.node = nodeURL;
+		this.node = nodeAddress;
 	}
 	
 	convertFromHex(hex) {
@@ -78,7 +78,11 @@ export class RaptorTestnetInterface {
 		return (await (await fetch(`${this.node}/send/rawtransaction/?tx=${signedTx}`)).json()).result;
 	}
 	
-	getVrs(sig) {
+	sigToVRS(sig) {
 		return (('0x' + sig.substring(2).substring(128, 130)), ('0x' + sig.substring(2).substring(0, 64)), ('0x' + sig.substring(2).substring(64, 128)))
+	}
+	
+	public get connectedNode() {
+		return this.node;
 	}
 }
