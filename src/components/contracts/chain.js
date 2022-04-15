@@ -43,9 +43,29 @@ class RaptorTestnetInterface {
 		return accountInfo.transactions[accountInfo.transactions.length-1];
 	}
 
-	async buildLegacyTransferTx(to, tokens) {
+	async transferTx(to, tokens) { // shall return a valid transfer transaction (legacy way, aka non-web3)
 		const parent = (await getHeadTx(this.wallet.currentAddress));
 		let data = {"from":this.wallet.currentAddress, "to":web3.toChecksumAddress(to), "tokens":tokens, "parent": parent, "epoch": (await this.getCurrentEpoch()),"type": 0};
+		let strdata = JSON.stringify(data);
+		const hash = web3.soliditySha3(strdata);
+		const signature = (await this.wallet.sign(strdata));
+		const tx = {"data": data, "sig": signature, "hash": hash, "nodeSigs": {}};
+		return this.convertToHex(JSON.stringify(tx));
+	}
+	
+	async createMNTx(operator) { // shall generate a masternode registration transaction
+		const parent = (await getHeadTx(this.wallet.currentAddress));
+		let data = {"from":this.wallet.currentAddress, "to":web3.toChecksumAddress(operator), "tokens": 0, "parent": parent, "epoch": (await this.getCurrentEpoch()),"type": 4};
+		let strdata = JSON.stringify(data);
+		const hash = web3.soliditySha3(strdata);
+		const signature = (await this.wallet.sign(strdata));
+		const tx = {"data": data, "sig": signature, "hash": hash, "nodeSigs": {}};
+		return this.convertToHex(JSON.stringify(tx));
+	}
+	
+	async destroyMNTx(operator) {
+		const parent = (await getHeadTx(this.wallet.currentAddress));
+		let data = {"from":this.wallet.currentAddress, "to":web3.toChecksumAddress(operator), "tokens": 0, "parent": parent, "epoch": (await this.getCurrentEpoch()),"type": 5};
 		let strdata = JSON.stringify(data);
 		const hash = web3.soliditySha3(strdata);
 		const signature = (await this.wallet.sign(strdata));
