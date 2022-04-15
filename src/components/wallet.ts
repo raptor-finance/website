@@ -125,4 +125,11 @@ export class Wallet {
 
 		return new this._web3.eth.Contract(abi, address);
 	}
+	
+	public async sign(strdata: string): string {
+		if (!this._web3) {
+			throw 'Wallet is not connected';
+		}
+		return (await this._web3.eth.personal.sign(strdata, this._address));
+	}
 }
