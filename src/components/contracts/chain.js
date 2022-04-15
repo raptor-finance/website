@@ -63,7 +63,7 @@ export class RaptorTestnetInterface {
 		return this.convertToHex(JSON.stringify(tx));
 	}
 	
-	async destroyMNTx(operator) {
+	async destroyMNTx(operator) { // shall generate a masternode destruction transaction (aka remove masternode and withdraw collateral)
 		const parent = (await getHeadTx(this.wallet.currentAddress));
 		let data = {"from":this.wallet.currentAddress, "to":web3.toChecksumAddress(operator), "tokens": 0, "parent": parent, "epoch": (await this.getCurrentEpoch()),"type": 5};
 		let strdata = JSON.stringify(data);
