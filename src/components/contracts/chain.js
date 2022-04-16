@@ -4,7 +4,7 @@ import {Contract} from 'web3-eth-contract';
 import * as web3 from 'web3-utils';
 
 
-export class RaptorTestnetInterface {
+export class RaptorChainInterface {
 	private readonly wallet: Wallet;
 	private readonly node: string;
 	
