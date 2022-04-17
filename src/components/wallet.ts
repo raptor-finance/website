@@ -64,7 +64,7 @@ export class Wallet {
 
 		const provider: any = this._provider;
 		if (provider) {
-			if (((provider.chainId != 56) && (provider.networkVersion != 56)) || ((provider.chainId != this._raptorChainID) && (provider.networkVersion != this._raptorChainID))) {
+			if (((provider.chainId != 56) && (provider.networkVersion != 56)) && ((provider.chainId != this._raptorChainID) && (provider.networkVersion != this._raptorChainID))) {
 				if (provider.isMetaMask) {
 					const networkinfo = [{
 						chainId: '0x38',
