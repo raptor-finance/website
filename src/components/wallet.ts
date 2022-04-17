@@ -6,6 +6,7 @@ import { Contract } from 'web3-eth-contract';
 export class Wallet {
 	private _address: string = null;
 	private _provider: any = null;
+	private _raptorChainID: number = 69420; // gonna change (chain ID already taken lol)
 	private web3Modal = new Web3Modal({
 		network: "binance", // TODO: change this network option to be changable according
 		cacheProvider: true,
@@ -63,7 +64,7 @@ export class Wallet {
 
 		const provider: any = this._provider;
 		if (provider) {
-			if ((provider.chainId != 56) && (provider.networkVersion != 56)) {
+			if (((provider.chainId != 56) && (provider.networkVersion != 56)) || ((provider.chainId != this._raptorChainID) && (provider.networkVersion != this._raptorChainID))) {
 				if (provider.isMetaMask) {
 					const networkinfo = [{
 						chainId: '0x38',
