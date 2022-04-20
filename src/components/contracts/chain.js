@@ -1,17 +1,23 @@
 import {Wallet} from '../wallet';
+import {Raptor} from './raptor';
 import {Contract} from 'web3-eth-contract';
 // import { ethers } from 'ethers';
 import * as web3 from 'web3-utils';
 
+export const CustodyAddressTestnet = "0xA9A78DA37ec5643C823559C5e773399452bf8d51";
 
 export class RaptorChainInterface {
 	private readonly wallet: Wallet;
 	private readonly node: string;
+	private readonly raptor: Raptor;
+	private readonly _custody: Contract;
 	
 	
 	constructor(walletInstance: Wallet, nodeAddress: string) {
 		this.wallet = walletInstance;
 		this.node = nodeAddress;
+		this.raptor = (new Raptor(this.wallet));
+		this._custody = wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
 	}
 	
 	convertFromHex(hex) {
@@ -78,11 +84,26 @@ export class RaptorChainInterface {
 		return (await (await fetch(`${this.node}/send/rawtransaction/?tx=${signedTx}`)).json()).result;
 	}
 	
+	
+	async crossChainDeposit(amount: number) {
+		if (this.raptor.balance >= amount) {
+			await this.raptor.contractv3.methods.approveAndCall(this._custody._address, web3.toWei(String(amount),'gwei'),"0x0").send({'from': this.wallet.currentAddress});
+		}
+		else {
+			throw `Your balance isn't sufficient to migrate ${amount} raptors, maximum : ${this._balance}`;
+		}
+	}
+	}
+	
 	sigToVRS(sig) {
 		return (('0x' + sig.substring(2).substring(128, 130)), ('0x' + sig.substring(2).substring(0, 64)), ('0x' + sig.substring(2).substring(64, 128)))
 	}
 	
-	public get connectedNode() {
+	get connectedNode() {
 		return this.node;
+	}
+	
+	get custodyContract() {
+		return this._custody;
 	}
 }

@@ -112,6 +112,10 @@ export class Wallet {
 		return this.isConnected;
 	}
 
+	public get chainId(): number {
+		return this._provider.chainId;
+	}
+
 	public get isConnected(): boolean {
 		return !!this._address;
 	}
