@@ -7,7 +7,7 @@ import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
 
-// import './migrationComponent.css';
+import './migrationComponent.css';
 import './stakingComponent.css';
 import AnimatedNumber from 'animated-number-react';
 import { fadeInLeft, fadeInRight, pulse } from 'react-animations';
@@ -40,6 +40,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 		this.connectWallet = this.connectWallet.bind(this);
 		this.disconnectWallet = this.disconnectWallet.bind(this);
 		this.deposit = this.deposit.bind(this);
+		this.withdraw = this.withdraw.bind(this);
 		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
 		this.setMaxAmount = this.setMaxAmount.bind(this);
 		this.state = {};
@@ -156,6 +157,15 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 		this.updateOnce(true);
 	}
 	
+	async withdraw() {
+		let state = this.readState();
+		console.log(state);
+		await state.chain.crossChainWithdrawal(state.ctValue);
+		await state.raptor.refresh();
+		await state.chain.refresh();
+		this.updateOnce(true);
+	}
+	
 	async addTestnetToMetamask() {
 		const networkinfo = [{
 			chainId: '0x10f2c',
@@ -177,9 +187,6 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 		const state = this.readState();
 		const t: TFunction<"translation"> = this.readProps().t;
 		const tokenBalance = (!!state.raptor) ? state.raptor.balancev3 : 0;
-		if (!!state.chain) {
-			state.chain.refresh();
-		}
 		const coinBalance = (!!state.chain) ? state.chain.balance : 0;
 
 		return <div className="staking-container">
@@ -234,7 +241,8 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 								0 Raptor
 							</AnimatedNumber>
                             <div className="d-flex justify-content-center button-row">
-					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.deposit}>Transfer</button>
+					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.deposit}>Deposit</button>
+					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.withdraw}>Withdraw</button>
 								<button id="btn-addtometa" className="btn btn-complementary btn-md link-dark align-self-center stake-claim" onClick={this.addTestnetToMetamask}>Add Testnet to metamask</button>
 					        </div>
 						</div>

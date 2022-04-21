@@ -56,7 +56,7 @@ export class RaptorChainInterface {
 	}
 
 	async transferTx(to, tokens) { // shall return a valid transfer transaction (legacy way, aka non-web3)
-		const parent = (await getHeadTx(this.wallet.currentAddress));
+		const parent = (await this.getHeadTx(this.wallet.currentAddress));
 		let data = {"from":this.wallet.currentAddress, "to":web3.toChecksumAddress(to), "tokens":tokens, "parent": parent, "epoch": (await this.getCurrentEpoch()),"type": 0};
 		let strdata = JSON.stringify(data);
 		const hash = web3.soliditySha3(strdata);
@@ -66,7 +66,7 @@ export class RaptorChainInterface {
 	}
 	
 	async createMNTx(operator) { // shall generate a masternode registration transaction
-		const parent = (await getHeadTx(this.wallet.currentAddress));
+		const parent = (await this.getHeadTx(this.wallet.currentAddress));
 		let data = {"from":this.wallet.currentAddress, "to":web3.toChecksumAddress(operator), "tokens": 0, "parent": parent, "epoch": (await this.getCurrentEpoch()),"type": 4};
 		let strdata = JSON.stringify(data);
 		const hash = web3.soliditySha3(strdata);
@@ -76,7 +76,7 @@ export class RaptorChainInterface {
 	}
 	
 	async destroyMNTx(operator) { // shall generate a masternode destruction transaction (aka remove masternode and withdraw collateral)
-		const parent = (await getHeadTx(this.wallet.currentAddress));
+		const parent = (await this.getHeadTx(this.wallet.currentAddress));
 		let data = {"from":this.wallet.currentAddress, "to":web3.toChecksumAddress(operator), "tokens": 0, "parent": parent, "epoch": (await this.getCurrentEpoch()),"type": 5};
 		let strdata = JSON.stringify(data);
 		const hash = web3.soliditySha3(strdata);
@@ -99,6 +99,11 @@ export class RaptorChainInterface {
 		else {
 			throw `Your balance isn't sufficient to deposit ${amount} raptors, maximum : ${this.raptor.balancev3}`;
 		}
+	}
+	
+	async crossChainWithdrawal(amount: number) {
+		const signedTx = (await this.transferTx("0x0000000000000000000000000000000000000097", web3.toWei(String(amount))));
+		await this.sendTransaction(signedTx);
 	}
 	
 	sigToVRS(sig) {
