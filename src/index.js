@@ -24,6 +24,7 @@ import FaqComponent from './components/pages/faq/faqComponent';
 import FarmComponent from './components/pages/farm/farmComponent';
 import farmComponentv2 from './components/pages/farmv2/farmComponentv2';
 import MigrationComponent from './components/pages/migration/migrationComponent';
+import CrossChainComponent from './components/pages/crosschain/crosschainComponent';
 // import LaunchComponent from './components/pages/launchComponent'; WIP
 
 import './i18n';
@@ -31,6 +32,7 @@ import './i18n';
 const pagesInNavigator = [
 	{ id: 'home', title: 'Home', component: HomeComponent },
 	{ id: 'about', title: 'About', component: AboutComponent },
+	{ id: 'cross-chain', title: 'FAQ', component: CrossChainComponent },
 	{ id: 'farm', title: 'Farm', component: FarmComponent },
 	{ id: 'farmv2', title: 'Farmv2', component: farmComponentv2 },
 	{ id: 'migrate', title:'Migration', component: MigrationComponent },

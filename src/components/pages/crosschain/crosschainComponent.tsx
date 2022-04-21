@@ -14,8 +14,8 @@ import { fadeInLeft, fadeInRight, pulse } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 
 
-export type MigrationProps = {};
-export type MigrationState = {
+export type CrossChainProps = {};
+export type CrossChainState = {
 	raptor?: Raptor,
 	wallet?: Wallet,
 	pending?: boolean,
@@ -30,11 +30,11 @@ const FadeInLeftDiv = styled.div`
 `;
 
 
-class MigrationComponent extends BaseComponent<MigrationProps & withTranslation, MigrationState> {
+class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslation, CrossChainState> {
 	
 	private lock: boolean;
 	
-	constructor(props: MigrationProps & WithTranslation) {
+	constructor(props: CrossChainProps & WithTranslation) {
 		super(props);
 		this.connectWallet = this.connectWallet.bind(this);
 		this.disconnectWallet = this.disconnectWallet.bind(this);
@@ -89,6 +89,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 			this.updateState({ pending: true });
 			const wallet = new Wallet();
 			const result = await wallet.connect();
+			const chain = new RaptorChainInterface(wallet, "http://136.244.119.124:2022/")
 
 			if (!result) {
 				throw 'The wallet connection was cancelled.';
@@ -96,7 +97,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 
 			const raptor = new Raptor(wallet);
 
-			this.updateState({ raptor: raptor, wallet: wallet, looping: true, pending: false, ctValue: 0 });
+			this.updateState({ raptor: raptor, wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0 });
 			this.updateOnce(true).then();
 
 			this.loop().then();
@@ -231,4 +232,4 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 	}
 }
 
-export default withTranslation()(MigrationComponent);
+export default withTranslation()(CrossChainComponent);

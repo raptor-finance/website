@@ -99,10 +99,9 @@ export class RaptorChainInterface {
 			throw `Your balance isn't sufficient to migrate ${amount} raptors, maximum : ${this._balance}`;
 		}
 	}
-	}
 	
 	sigToVRS(sig) {
-		return (('0x' + sig.substring(2).substring(128, 130)), ('0x' + sig.substring(2).substring(0, 64)), ('0x' + sig.substring(2).substring(64, 128)))
+		return (('0x' + sig.substring(2).substring(128, 130)), ('0x' + sig.substring(2).substring(0, 64)), ('0x' + sig.substring(2).substring(64, 128)));
 	}
 	
 	get connectedNode() {
