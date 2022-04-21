@@ -188,7 +188,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 				<div className="row text-white staking-header">
 					<div className="col-md-12">
 							<div className="migration-title">
-							<b><font size="6"><span>Raptor</span><span style={{ color: "#31c461" }}> Migration</span></font></b>
+							<b><font size="6"><span>Raptor</span><span style={{ color: "#31c461" }}> Chain</span></font></b>
 							{state.address ?
 								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
 									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
