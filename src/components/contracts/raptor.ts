@@ -5,6 +5,7 @@ import * as web3 from 'web3-utils';
 
 export const RaptorAddress = "0xf9A3FdA781c94942760860fc731c24301c83830A";
 export const RaptorAddressv3 = "0x44C99Ca267C2b2646cEEc72e898273085aB87ca5";
+export const TestnetRaptorAddressv3 = "0xC64518Fb9D74fabA4A748EA1Db1BdDA71271Dc21";
 export const DonationWalletAddress = "0xf933DB8A663FdE971FA95c4a2bfb4fC3F797F8a5"
 
 export class Raptor {
@@ -19,12 +20,13 @@ export class Raptor {
 
 	constructor(wallet: Wallet) {
 		this._wallet = wallet;
-		this._contract = wallet.connectToContract(RaptorAddress, require('./raptor.abi.json'));
-		try {
+		if (this._wallet.chainId == 56) {
+			this._contract = wallet.connectToContract(RaptorAddress, require('./raptor.abi.json'));
 			this._contractv3 = wallet.connectToContract(RaptorAddressv3, require('./raptor.abi.json'));
 		}
-		catch (e) {
-			// throw "Raptor v3 not yet deployed"
+		else {
+			this._contract = wallet.connectToContract(TestnetRaptorAddressv3, require('./raptor.abi.json'));
+			this._contractv3 = wallet.connectToContract(TestnetRaptorAddressv3, require('./raptor.abi.json'));
 		}
 	}
 
