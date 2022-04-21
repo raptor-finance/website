@@ -11,6 +11,7 @@ export class RaptorChainInterface {
 	private readonly node: string;
 	private readonly raptor: Raptor;
 	private readonly _custody: Contract;
+	private _balance: number;
 	
 	
 	constructor(walletInstance: Wallet, nodeAddress: string) {
@@ -18,6 +19,7 @@ export class RaptorChainInterface {
 		this.node = nodeAddress;
 		this.raptor = (new Raptor(this.wallet));
 		this._custody = wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
+		this._balance = 0;
 	}
 	
 	convertFromHex(hex) {
@@ -42,6 +44,10 @@ export class RaptorChainInterface {
 	
 	async getAccountInfo(account) {
 		return (await (await fetch(`${this.node}/accounts/accountInfo/${account}`)).json()).result;
+	}
+	
+	async refresh() {
+		this._balance = (await getAccountInfo(this.wallet.currentAddress)).balance;
 	}
 
 	async getHeadTx(account) {
@@ -105,5 +111,9 @@ export class RaptorChainInterface {
 	
 	get custodyContract() {
 		return this._custody;
+	}
+	
+	get balance() {
+		return this._balance;
 	}
 }
