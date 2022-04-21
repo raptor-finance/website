@@ -243,7 +243,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 					</FadeInLeftDiv>
 
                           <div className="migration-footer">
-					        <font size="2"><i>Note : That page allows to swap raptor token and coin (currently only token) !<br/>Funds take about 15 minutes to arrive, please be patient !</i></font>
+					        <font size="2"><i>Note : Funds take about 15 minutes to arrive, please be patient !</i></font>
 				          </div>
 
 
