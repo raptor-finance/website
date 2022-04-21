@@ -23,6 +23,7 @@ export class Raptor {
 		if (this._wallet.chainId == 56) {
 			this._contract = wallet.connectToContract(RaptorAddress, require('./raptor.abi.json'));
 			this._contractv3 = wallet.connectToContract(RaptorAddressv3, require('./raptor.abi.json'));
+			this._te
 		}
 		else {
 			this._contract = wallet.connectToContract(TestnetRaptorAddressv3, require('./raptor.abi.json'));
@@ -84,7 +85,13 @@ export class Raptor {
 	async refresh(): Promise<void> {
 		this._balance = web3.fromWei(await this._contract.methods.balanceOf(this._wallet.currentAddress).call(), "gwei");
 		this._balancev3 = web3.fromWei(await this._contractv3.methods.balanceOf(this._wallet.currentAddress).call(), "ether");
-		this._stake = web3.fromWei(await this._contract.methods.stakedBalanceOf(this._wallet.currentAddress).call(), "gwei");
-		this._pendingRewards = web3.fromWei(await this._contract.methods.pendingRewards(this._wallet.currentAddress).call(), "gwei");
+		try {
+			if (this._wallet.chainId == 56) {
+				this._stake = web3.fromWei(await this._contract.methods.stakedBalanceOf(this._wallet.currentAddress).call(), "gwei");
+				this._pendingRewards = web3.fromWei(await this._contract.methods.pendingRewards(this._wallet.currentAddress).call(), "gwei");
+			}
+		}
+		catch (e) {
+		}
 	}
 }

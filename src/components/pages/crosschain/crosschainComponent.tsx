@@ -18,6 +18,7 @@ export type CrossChainProps = {};
 export type CrossChainState = {
 	raptor?: Raptor,
 	wallet?: Wallet,
+	chain?: RaptorChainInterface,
 	pending?: boolean,
 	looping?: boolean,
 	address?: string,
@@ -59,9 +60,11 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	
 	private async updateOnce(resetCt?: boolean): Promise<boolean> {
 		const raptor = this.readState().raptor;
+		const chain = this.readState().chain;
 		if (!!raptor) {
 			try {
 				await raptor.refresh();
+				await chain.refresh();
 				if (!this.readState().looping) {
 					return false;
 				}
@@ -134,7 +137,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	}
 	
 	handleAmountUpdate(event) {
-		let valueIn = event.target.value;
+		let tokens = event.target.value;
 		this.updateState({ ctValue:tokens });
 	}
 	
@@ -144,7 +147,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 		this.updateState({ ctValue:valueIn});
 	}
 	
-	async transfer() {
+	async deposit() {
 		let state = this.readState();
 		console.log(state);
 		await state.chain.crossChainDeposit(state.ctValue);
@@ -153,13 +156,31 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 		this.updateOnce(true);
 	}
 	
-	async addToMetamask() {
-		await ethereum.request({method: 'wallet_watchAsset',params: {type: 'ERC20',options: {address: "0x44c99ca267c2b2646ceec72e898273085ab87ca5",symbol: "RPTR",decimals: 18,image: "https://raptorswap.com/images/logo.png",},},});
+	async addTestnetToMetamask() {
+		const networkinfo = [{
+			chainId: '0x10f2c',
+			chainName: 'RaptorChain Testnetn',
+			nativeCurrency:
+			{
+				name: 'Testnet RPTR',
+				symbol: 'tRPTR',
+				decimals: 18
+			},
+			rpcUrls: ['http://136.244.119.124:2022/web3'],
+			blockExplorerUrls: [],
+		}]
+		await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
 	}
 
 	render() {
+		this.updateOnce(false);
 		const state = this.readState();
 		const t: TFunction<"translation"> = this.readProps().t;
+		const tokenBalance = (!!state.raptor) ? state.raptor.balancev3 : 0;
+		if (!!state.chain) {
+			state.chain.refresh();
+		}
+		const coinBalance = (!!state.chain) ? state.chain.balance : 0;
 
 		return <div className="staking-container">
 
@@ -191,7 +212,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
 							<h2>BSC-side balance</h2>
 							<AnimatedNumber
-								value={numeral(raptor.balancev3 || 0).format('0.00')}
+								value={numeral(tokenBalance || 0).format('0.00')}
 								duration="1000"
 								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
 								className="staking-info"
@@ -205,7 +226,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 							<br/>
 							<h2>RaptorChain-side balance</h2>
 							<AnimatedNumber
-								value={numeral(state.chain.balance || 0).format('0.00')}
+								value={numeral(coinBalance || 0).format('0.00')}
 								duration="1000"
 								formatValue={value => `${Number(parseFloat(value)).toLocaleString('en')}`}
 								className="staking-info"
@@ -213,8 +234,8 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 								0 Raptor
 							</AnimatedNumber>
                             <div className="d-flex justify-content-center button-row">
-					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.deposit}>Migrate</button>
-								<button id="btn-addtometa" className="btn btn-complementary btn-md link-dark align-self-center stake-claim" onClick={this.addToMetamask}>Add to metamask</button>
+					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.deposit}>Transfer</button>
+								<button id="btn-addtometa" className="btn btn-complementary btn-md link-dark align-self-center stake-claim" onClick={this.addTestnetToMetamask}>Add Testnet to metamask</button>
 					        </div>
 						</div>
 

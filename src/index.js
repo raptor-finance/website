@@ -32,7 +32,7 @@ import './i18n';
 const pagesInNavigator = [
 	{ id: 'home', title: 'Home', component: HomeComponent },
 	{ id: 'about', title: 'About', component: AboutComponent },
-	{ id: 'cross-chain', title: 'FAQ', component: CrossChainComponent },
+	{ id: 'crosschain', title: 'Cross-Chain', component: CrossChainComponent },
 	{ id: 'farm', title: 'Farm', component: FarmComponent },
 	{ id: 'farmv2', title: 'Farmv2', component: farmComponentv2 },
 	{ id: 'migrate', title:'Migration', component: MigrationComponent },

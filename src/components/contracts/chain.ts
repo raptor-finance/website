@@ -18,7 +18,7 @@ export class RaptorChainInterface {
 		this.wallet = walletInstance;
 		this.node = nodeAddress;
 		this.raptor = (new Raptor(this.wallet));
-		this._custody = wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
+		this._custody = this.wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
 		this._balance = 0;
 	}
 	
@@ -47,11 +47,11 @@ export class RaptorChainInterface {
 	}
 	
 	async refresh() {
-		this._balance = (await getAccountInfo(this.wallet.currentAddress)).balance;
+		this._balance = (await this.getAccountInfo(this.wallet.currentAddress)).balance;
 	}
 
 	async getHeadTx(account) {
-		let accountInfo = (await getAccountInfo(account));
+		let accountInfo = (await this.getAccountInfo(account));
 		return accountInfo.transactions[accountInfo.transactions.length-1];
 	}
 
@@ -92,11 +92,12 @@ export class RaptorChainInterface {
 	
 	
 	async crossChainDeposit(amount: number) {
-		if (this.raptor.balance >= amount) {
-			await this.raptor.contractv3.methods.approveAndCall(this._custody._address, web3.toWei(String(amount),'gwei'),"0x0").send({'from': this.wallet.currentAddress});
+		await this.raptor.refresh();
+		if (this.raptor.balancev3 >= amount) {
+			await this.raptor.contractv3.methods.approveAndCall(this._custody._address, web3.toWei(String(amount)),"0x0").send({'from': this.wallet.currentAddress});
 		}
 		else {
-			throw `Your balance isn't sufficient to migrate ${amount} raptors, maximum : ${this._balance}`;
+			throw `Your balance isn't sufficient to deposit ${amount} raptors, maximum : ${this.raptor.balancev3}`;
 		}
 	}
 	
@@ -113,6 +114,6 @@ export class RaptorChainInterface {
 	}
 	
 	get balance() {
-		return this._balance;
+		return (this._balance/10**18);
 	}
 }
