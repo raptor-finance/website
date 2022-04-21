@@ -1,0 +1,137 @@
+.staking-container {
+	display: block;
+	padding: 8% 4% 0% 4%;
+}
+
+.staking-container #staking-form label {
+	margin-bottom: 20px;
+}
+
+.staking-container .staking-footer {
+	padding: 50px;
+}
+
+.staking-container .staking-body h1 {
+	font-size: 1.8rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.staking-container .staking-body h2 {
+	font-size: 1.2rem;
+	margin-bottom: 8px;
+}
+
+.staking-title {
+	margin-bottom: 32px;
+}
+
+.staking-title span {
+	font-size: 2.6rem;
+	font-weight: bold;
+}
+
+.staking-info {
+	margin-bottom: 20px;
+}
+
+.staking-container form label {
+	margin-bottom: 20px;
+}
+
+.staking-container form {
+	display: flex;
+	flex-direction: column;
+	margin: 20px;
+}
+
+.staking-container form .button-row {
+	margin-top: 20px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.staking-container ul.nav-tabs {
+	background-color: #141414;
+	border-radius: 10px 10px 0 0;
+}
+
+.staking-container a.nav-link {
+	color: var(--white);
+}
+
+.staking-container form .button-row>button {
+	margin: 0 4px;
+}
+
+.staking-container form .staking-percentages {
+	margin-bottom: 20px;
+	margin-right: 60px;
+}
+
+.staking-container form .staking-slider-wrapper {
+	line-height: 35px;
+}
+
+.staking-container form .staking-slider-wrapper input {
+	height: 35px;
+}
+
+.staking-container form .staking-slider-wrapper label {
+	width: 60px;
+	text-align: right;
+}
+
+.staking-container .staking-body>div {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.staking-container input::-webkit-outer-spin-button,
+.staking-container input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.staking-container input[type=number] {
+	-moz-appearance: textfield;
+}
+
+@media (max-width: 900px) {
+	.staking-container {
+		padding: 40% 10% 0 10%;
+	}
+
+	.staking-title {
+		margin-bottom: 20px;
+	}
+
+	.staking-header .btn-wallet {
+		margin-top: 20px;
+	}
+
+	.staking-title span {
+		font-size: 2.4rem;
+	}
+
+	.staking-container .staking-header a {
+		float: none !important;
+		margin-bottom: 20px;
+	}
+
+	.staking-container form .staking-percentages {
+		margin: 0px 0px 10px 0px;
+	}
+
+	.staking-container form .button-row {
+		margin-top: 20px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.staking-container form .button-row button {
+		width: 50vw;
+		margin-bottom: 10px;
+	}
+}

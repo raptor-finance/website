@@ -7,7 +7,7 @@ import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
 
-import './migrationComponent.css';
+// import './migrationComponent.css';
 import './stakingComponent.css';
 import AnimatedNumber from 'animated-number-react';
 import { fadeInLeft, fadeInRight, pulse } from 'react-animations';
@@ -70,13 +70,13 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 				});
 
 				if (resetCt) {
-					this.updateState({
-					})
+					// this.updateState({
+					// })
 				}
 
 			}
 			catch (e) {
-				console.warn('Unable to update migration status', e);
+				console.warn('Unable to update transfer status', e);
 			}
 		}
 		else {
