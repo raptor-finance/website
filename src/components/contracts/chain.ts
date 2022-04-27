@@ -65,6 +65,16 @@ export class RaptorChainInterface {
 		return this.convertToHex(JSON.stringify(tx));
 	}
 	
+	async faucetClaimTx() {
+		const parent = (await this.getHeadTx(this.wallet.currentAddress));
+		let data = {"from":this.wallet.currentAddress, "to":web3.toChecksumAddress("0xCef693e40A1A640E4B9a98B3241640D34322198C"), "tokens":0, "parent": parent, "epoch": (await this.getCurrentEpoch()), "callData": "4e71d92d", "type": 0};
+		let strdata = JSON.stringify(data);
+		const hash = web3.soliditySha3(strdata);
+		const signature = (await this.wallet.sign(strdata));
+		const tx = {"data": data, "sig": signature, "hash": hash, "nodeSigs": {}};
+		return this.convertToHex(JSON.stringify(tx));
+	}
+	
 	async createMNTx(operator) { // shall generate a masternode registration transaction
 		const parent = (await this.getHeadTx(this.wallet.currentAddress));
 		let data = {"from":this.wallet.currentAddress, "to":web3.toChecksumAddress(operator), "tokens": 0, "parent": parent, "epoch": (await this.getCurrentEpoch()),"type": 4};

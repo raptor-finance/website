@@ -7,22 +7,21 @@ import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
 
-import './migrationComponent.css';
-import './stakingComponent.css';
+// import './migrationComponent.css';
+// import './stakingComponent.css';
 import AnimatedNumber from 'animated-number-react';
 import { fadeInLeft, fadeInRight, pulse } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 
 
-export type CrossChainProps = {};
-export type CrossChainState = {
+export type TestnetFaucetProps = {};
+export type TestnetFaucetState = {
 	raptor?: Raptor,
 	wallet?: Wallet,
 	chain?: RaptorChainInterface,
 	pending?: boolean,
 	looping?: boolean,
 	address?: string,
-	ctValue?: number
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -31,7 +30,7 @@ const FadeInLeftDiv = styled.div`
 `;
 
 
-class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslation, CrossChainState> {
+class TestnetFaucetComponent extends BaseComponent<TestnetFaucetProps & withTranslation, TestnetFaucetState> {
 	
 	private lock: boolean;
 	
@@ -39,11 +38,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 		super(props);
 		this.connectWallet = this.connectWallet.bind(this);
 		this.disconnectWallet = this.disconnectWallet.bind(this);
-		this.deposit = this.deposit.bind(this);
-		this.withdraw = this.withdraw.bind(this);
-		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
-		this.setMaxDepositAmount = this.setMaxDepositAmount.bind(this);
-		this.setMaxWithdrawalAmount = this.setMaxWithdrawalAmount.bind(this);
+		this.claim = this.claim.bind(this);
 		this.state = {};
 	}
 	
@@ -137,26 +132,12 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 
 	componentWillUnmount() {
 	}
-	
-	handleAmountUpdate(event) {
-		let tokens = event.target.value;
-		this.updateState({ ctValue:tokens });
-	}
-	
-	setMaxDepositAmount() {
-		const state = this.readState();
-		this.updateState({ ctValue: ((!!state.raptor) ? state.raptor.balancev3 : 0) });
-	}
-	
-	setMaxWithdrawalAmount() {
-		const state = this.readState();
-		this.updateState({ ctValue: ((!!state.chain) ? state.chain.balance : 0) });
-	}
-	
-	async deposit() {
+	async claim() {
 		let state = this.readState();
 		console.log(state);
-		await state.chain.crossChainDeposit(state.ctValue);
+		const tx = (await state.chain.faucetClaimTx());
+		const feedback = await state.chain.sendTransaction(tx);
+		console.log(`Faucet claim txid : ${feedback[0]}`)
 		await state.raptor.refresh();
 		await state.chain.refresh();
 		this.updateOnce(true);
@@ -174,7 +155,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	async addTestnetToMetamask() {
 		const networkinfo = [{
 			chainId: '0x10f2c',
-			chainName: 'RaptorChain Testnetn',
+			chainName: 'RaptorChain Testnet',
 			nativeCurrency:
 			{
 				name: 'Testnet RPTR',
@@ -222,46 +203,24 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
-							<h2>Balance breakdown</h2>
-							<div onClick={this.setMaxDepositAmount}>
-								<AnimatedNumber
-									value={numeral(tokenBalance || 0).format('0.00')}
-									duration="1000"
-									formatValue={value => `BSC-side : ${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
-									// className="staking-info"
-									onclick={this.setMaxDepositAmount}
-								>
-									0 Raptor
-								</AnimatedNumber>
-							</div>
-							<div onClick={this.setMaxWithdrawalAmount}>
-								<AnimatedNumber
-									value={numeral(coinBalance || 0).format('0.00')}
-									duration="1000"
-									formatValue={value => `RaptorChain-side : ${Number(parseFloat(value)).toLocaleString('en')}`}
-									// className="staking-info"
-									onclick={this.setMaxWithdrawalAmount}
-								>
-									0 Raptor
-								</AnimatedNumber>
-							</div>
-							<p>Enter the amount that you want to transfer:</p>
-							<div>		
-								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.ctValue}></input>
-                            </div>
-							<br/>
-                            <div className="d-flex justify-content-center button-row">
-					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.deposit}>Deposit</button>
-					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.withdraw}>Withdraw</button>
+							<h2>Balance</h2>
+							<AnimatedNumber
+								value={numeral(coinBalance || 0).format('0.00')}
+								duration="1000"
+								formatValue={value => `${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
+								// className="staking-info"
+							>
+								0 Raptor
+							</AnimatedNumber>
+					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.claim}>Claim 1000 testnet RPTR</button>
 								<button id="btn-addtometa" className="btn btn-complementary btn-md link-dark align-self-center stake-claim" onClick={this.addTestnetToMetamask}>Add Testnet to metamask</button>
 					        </div>
-						</div>
 
 
 					</FadeInLeftDiv>
 
                           <div className="migration-footer">
-					        <font size="2"><i>Note : Funds take about 15 minutes to arrive, please be patient !</i></font>
+					        <font size="2"><i>Note : These RPTR are test coins and don't have a monetary value !</i></font>
 				          </div>
 
 
@@ -271,4 +230,4 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	}
 }
 
-export default withTranslation()(CrossChainComponent);
+export default withTranslation()(TestnetFaucetComponent);
