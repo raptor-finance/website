@@ -261,7 +261,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 					</FadeInLeftDiv>
 
                           <div className="migration-footer">
-					        <font size="2"><i>Note : Funds take about 15 minutes to arrive, please be patient !</i></font>
+					        <font size="2"><i>Note : Funds usually take about 15 minutes to arrive, please be patient !</i></font>
 				          </div>
 
 
