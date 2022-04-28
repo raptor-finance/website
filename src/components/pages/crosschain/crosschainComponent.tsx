@@ -182,7 +182,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 				decimals: 18
 			},
 			rpcUrls: ['https://rptr-testnet-1.dynamic-dns.net/web3'],
-			blockExplorerUrls: [],
+			blockExplorerUrls: null,
 		}]
 		await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
 	}
