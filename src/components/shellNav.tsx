@@ -110,6 +110,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							<div className="collapsible-div">
 								<ul className="navbar-nav">
 									<li>
+									    <NavLink to="/faucet" activeClassName="active">Testnet Faucet</NavLink>
 									    <NavLink to="/crosschain" activeClassName="active">Bridge</NavLink>
 									</li>
 								</ul>
@@ -177,19 +178,19 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 						</Collapsible>
 
 						{
-							pages3.map(page => {
-								const classes = ['nav-item', page.id];
-								const menuMap = {
-									'migrate': t('nav.migration'),
-									'lottery': t('nav.lottery'),
-									'faq': t('nav.faq')
-								}
-								const menuName = (menuMap as any)[`${page.id}`];
+							// pages3.map(page => {
+								// const classes = ['nav-item', page.id];
+								// const menuMap = {
+									// 'migrate': t('nav.migration'),
+									// 'lottery': t('nav.lottery'),
+									// 'faq': t('nav.faq')
+								// }
+								// const menuName = (menuMap as any)[`${page.id}`];
 
-								return <li key={`${page.id}`}>
-									<NavLink to={page.id} activeClassName="active" className={classes.join(' ')} onClick={this.toggleMenu}>{menuName}</NavLink>
-								</li>;
-							})
+								// return <li key={`${page.id}`}>
+									// <NavLink to={page.id} activeClassName="active" className={classes.join(' ')} onClick={this.toggleMenu}>{menuName}</NavLink>
+								// </li>;
+							// })
 						}
 
 
