@@ -6,7 +6,7 @@ import { Contract } from 'web3-eth-contract';
 export class Wallet {
 	private _address: string = null;
 	private _provider: any = null;
-	private _raptorChainID: number = 69420; // gonna change (chain ID already taken lol)
+	private _raptorChainID: number = 499597202514; // gonna change (chain ID already taken lol)
 	private web3Modal = new Web3Modal({
 		network: "binance", // TODO: change this network option to be changable according
 		cacheProvider: true,
