@@ -119,6 +119,7 @@ export class Wallet {
 	public get isConnected(): boolean {
 		return !!this._address;
 	}
+	
 	public get currentAddress(): string {
 		return this._address;
 	}
@@ -136,5 +137,16 @@ export class Wallet {
 			throw 'Wallet is not connected';
 		}
 		return (await this._web3.eth.personal.sign(strdata, this._address));
+	}
+	
+	public async eth_getBalance(address) {
+		if (!this._web3) {
+			return 0;
+		}
+		return (await this._web3.eth.getBalance(address));
+	}
+	
+	public get raptorChainID(): number {
+		return this._raptorChainID;
 	}
 }

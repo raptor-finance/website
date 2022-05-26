@@ -83,7 +83,12 @@ export class Raptor {
 	}
 
 	async refresh(): Promise<void> {
-		this._balance = web3.fromWei(await this._contract.methods.balanceOf(this._wallet.currentAddress).call(), "gwei");
+		if (this._wallet.chainId == this._wallet.raptorChainID) {
+			this._balance = 0;
+			this._balancev3 = web3.fromWei(String(await this._wallet.eth_getBalance(this._wallet.currentAddress)));
+			return
+		}
+		this._balance = 0;
 		this._balancev3 = web3.fromWei(await this._contractv3.methods.balanceOf(this._wallet.currentAddress).call(), "ether");
 		try {
 			if (this._wallet.chainId == 56) {
@@ -92,6 +97,7 @@ export class Raptor {
 			}
 		}
 		catch (e) {
+			throw e;
 		}
 	}
 }
