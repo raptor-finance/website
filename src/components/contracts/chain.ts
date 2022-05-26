@@ -4,7 +4,7 @@ import {Contract} from 'web3-eth-contract';
 // import { ethers } from 'ethers';
 import * as web3 from 'web3-utils';
 
-export const CustodyAddressTestnet = "0xA9A78DA37ec5643C823559C5e773399452bf8d51";
+export const CustodyAddressTestnet = "0x121C64598b58318cFF4cD9AB8a209F9537dCAe0d";
 
 export class RaptorChainInterface {
 	private readonly wallet: Wallet;
