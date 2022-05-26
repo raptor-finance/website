@@ -154,8 +154,8 @@ class TestnetFaucetComponent extends BaseComponent<TestnetFaucetProps & withTran
 	
 	async addTestnetToMetamask() {
 		const networkinfo = [{
-			chainId: '0x10f2c',
-			chainName: 'RaptorChain Testnet',
+			chainId: '0x7452505452',
+			chainName: 'RaptorChain v0.4 testnet',
 			nativeCurrency:
 			{
 				name: 'Testnet RPTR',
