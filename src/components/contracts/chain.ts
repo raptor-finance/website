@@ -67,7 +67,7 @@ export class RaptorChainInterface {
 	
 	async faucetClaimTx() {
 		const parent = (await this.getHeadTx(this.wallet.currentAddress));
-		let data = {"from":this.wallet.currentAddress, "to":web3.toChecksumAddress("0xC33709e45ED521E498856E1d1B0DF279e60A418a"), "tokens":0, "parent": parent, "epoch": (await this.getCurrentEpoch()), "callData": "4e71d92d", "type": 0};
+		let data = {"from":this.wallet.currentAddress, "to":web3.toChecksumAddress("0xE939B52727e35Cf1798D9b06241Bb2fe7881D845"), "tokens":0, "parent": parent, "epoch": (await this.getCurrentEpoch()), "callData": "4e71d92d", "type": 0};
 		let strdata = JSON.stringify(data);
 		const hash = web3.soliditySha3(strdata);
 		const signature = (await this.wallet.sign(strdata));
