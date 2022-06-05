@@ -338,7 +338,8 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     liquidityPool,
     enableGlow,
     pid,
-	version
+	version,
+	addLiquidityURL
   }) {
     const ctValue = ((this.readState().ctValue || {})[`${version},${pid}`]);
     const amounts = this.getAmounts(version, pid);
@@ -389,7 +390,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 			</div>
             <div className="d-flex justify-content-between pool">
               <h2>Liquidity Pool: </h2>
-              <h2><u>{liquidityPool}</u></h2>
+              <h2><a href={addLiquidityURL}><u>{liquidityPool}</u></a></h2>
             </div>
             <h3>Available {pairName} LP</h3>
             <AnimatedNumber
@@ -498,6 +499,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
                 enableGlow={farm.enableGlow}
                 pid={farm.pid}
 				version={farm.version}
+				addLiquidityURL={farm.addLiquidityURL}
               />
             </Col>
           })}
