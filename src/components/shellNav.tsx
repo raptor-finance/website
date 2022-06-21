@@ -216,7 +216,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 					</ul>
 					<div className="navigation-footer">
 						<div className="mt-2">
-							<a href="https://mobula.fi/asset/raptor-finance" className="btn btn-primary btn-block glow" target="_blank">See on Mobula</a>
+							<a href="https://mobula.fi/asset/raptor-finance?utm_source=partner&utm_medium=raptor&utm_campaign=partner-page" className="btn btn-primary btn-block glow" target="_blank">See on Mobula</a>
 						</div>
 						<div className="mt-2">
 							<a href="https://pancakeswap.finance/swap?outputCurrency=0x44c99ca267c2b2646ceec72e898273085ab87ca5" className="btn btn-primary btn-block glow" target="_blank">{t('nav.buyonpancake')}</a>
