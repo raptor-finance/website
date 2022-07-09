@@ -101,8 +101,8 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 						}
 
 						<Collapsible
-							trigger={this.collapsedNavItem("RaptorChain")}
-							triggerWhenOpen={this.expandedNavItem("RaptorChain")}
+							trigger={this.collapsedNavItem("Testnet")}
+							triggerWhenOpen={this.expandedNavItem("Testnet")}
 							transitionTime={240}
 							transitionCloseTime={240}
 							open={this.checkCurrentRoute()}
@@ -110,7 +110,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							<div className="collapsible-div">
 								<ul className="navbar-nav">
 									<li>
-									    <NavLink to="/faucet" activeClassName="active">Testnet Faucet</NavLink>
+									    <NavLink to="/faucet" activeClassName="active">Faucet</NavLink>
 									    <NavLink to="/crosschain" activeClassName="active">Bridge</NavLink>
 									</li>
 								</ul>
