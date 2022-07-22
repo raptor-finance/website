@@ -177,7 +177,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 			chainName: 'RaptorChain Mainnet Beta',
 			nativeCurrency:
 			{
-				name: 'Raptor Coin',
+				name: 'Raptor',
 				symbol: 'RPTR',
 				decimals: 18
 			},
