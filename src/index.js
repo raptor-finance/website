@@ -25,6 +25,7 @@ import FarmComponent from './components/pages/farm/farmComponent';
 import farmComponentv2 from './components/pages/farmv2/farmComponentv2';
 import MigrationComponent from './components/pages/migration/migrationComponent';
 import CrossChainComponent from './components/pages/crosschain/crosschainComponent';
+import CrossChainComponentMainnet from './components/pages/crosschain/crosschainComponentMainnet';
 import TestnetFaucetComponent from './components/pages/faucet/testnetFaucetComponent';
 // import LaunchComponent from './components/pages/launchComponent'; WIP
 
@@ -34,7 +35,8 @@ const pagesInNavigator = [
 	{ id: 'home', title: 'Home', component: HomeComponent },
 	{ id: 'about', title: 'About', component: AboutComponent },
 	{ id: 'faucet', title: 'Faucet', component: TestnetFaucetComponent },
-	{ id: 'crosschain', title: 'Cross-Chain', component: CrossChainComponent },
+	{ id: 'crosschain', title: 'Cross-Chain Testnet', component: CrossChainComponent },
+	{ id: 'bridge', title: 'Cross-Chain Mainnet', component: CrossChainComponentMainnet },
 	{ id: 'farm', title: 'Farm', component: FarmComponent },
 	{ id: 'farmv2', title: 'Farmv2', component: farmComponentv2 },
 	{ id: 'migrate', title:'Migration', component: MigrationComponent },
