@@ -5,6 +5,7 @@ import {Contract} from 'web3-eth-contract';
 import * as web3 from 'web3-utils';
 
 export const CustodyAddressTestnet = "0x121C64598b58318cFF4cD9AB8a209F9537dCAe0d";
+export const CustodyAddressMainnet = "0x6a200e1aA7D31F17211CD569C788Ac1d3Ab1B9f9";
 
 export class RaptorChainInterface {
 	private readonly wallet: Wallet;
@@ -14,11 +15,11 @@ export class RaptorChainInterface {
 	private _balance: number;
 	
 	
-	constructor(walletInstance: Wallet, nodeAddress: string) {
+	constructor(walletInstance: Wallet, nodeAddress: string, mainnet?: boolean) {
 		this.wallet = walletInstance;
 		this.node = nodeAddress;
 		this.raptor = (new Raptor(this.wallet));
-		this._custody = this.wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
+		this._custody = mainnet ? this.wallet.connectToContract(CustodyAddressMainnet, require('./custody.abi.json')) : this.wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
 		this._balance = 0;
 	}
 	
