@@ -151,7 +151,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
                   <p>Join our socials</p>
                 </div>
                 <div className="social-medias text-center text-lg-left">
-                  <a href="https://twitter.com/Raptorswap" rel="noreferrer" className="btn-social" target="_blank">
+                  <a href="https://twitter.com/raptorchainio" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faTwitter} />
                   </a>
                   <a href="https://t.me/RaptorSwap" rel="noreferrer" className="btn-social" target="_blank">
@@ -160,7 +160,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
                   <a href="https://www.facebook.com/RaptorSwap  " rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faFacebook} />
                   </a>
-                  <a href="https://www.instagram.com/raptorswapfinance/" rel="noreferrer" className="btn-social" target="_blank">
+                  <a href="https://www.instagram.com/rptrarmy/" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faInstagram} />
                   </a>
                   <a href="https://www.reddit.com/r/RaptorToken/" rel="noreferrer" className="btn-social" target="_blank">
