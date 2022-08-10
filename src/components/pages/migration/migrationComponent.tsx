@@ -211,7 +211,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 							<p>Enter the amount that you want to migrate:</p>
 							<div>		
 								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.ctValue}></input><button className="btns-migrate" id="btn-max" onClick={this.setMaxAmount}>Max</button>
-                            </div>
+                            </div><div>You will get {(state.ctValue/1000000)} RPTR</div>
 							<br/>
 							<h2>{t('migration.wallet.v3')}</h2>
 							<AnimatedNumber
