@@ -104,7 +104,7 @@ export class RaptorChainInterface {
 	
 	async crossChainDeposit(amount: number) {
 		await this.raptor.refresh();
-		if (this.raptor.balancev3 >= amount) {
+		if (Number(this.raptor.balancev3) >= Number(amount)) {
 			await this.raptor.contractv3.methods.approveAndCall(this._custody._address, web3.toWei(String(amount)),"0x0").send({'from': this.wallet.currentAddress});
 		}
 		else {
