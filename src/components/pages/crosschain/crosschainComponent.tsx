@@ -93,7 +93,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 		try {
 			this.updateState({ pending: true });
 			const wallet = new Wallet();
-			const result = await wallet.connect();
+			const result = await wallet.connect(97);
 			const chain = new RaptorChainInterface(wallet, "https://rptr-testnet-1.dynamic-dns.net/")
 
 			if (!result) {
