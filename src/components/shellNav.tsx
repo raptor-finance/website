@@ -110,6 +110,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 								<ul className="navbar-nav">
 									<li>
 									    <NavLink to="/bridge" activeClassName="active">Bridge</NavLink>
+									    <NavLink to="/yourtoken" activeClassName="active">Your token</NavLink>
 									</li>
 								</ul>
 							</div>
