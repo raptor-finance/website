@@ -27,7 +27,7 @@ import MigrationComponent from './components/pages/migration/migrationComponent'
 import CrossChainComponent from './components/pages/crosschain/crosschainComponent';
 import CrossChainComponentMainnet from './components/pages/crosschain/crosschainComponentMainnet';
 import TestnetFaucetComponent from './components/pages/faucet/testnetFaucetComponent';
-import YourTokenComponent from './components/pages/yourToken/yourTokenComponent';
+import YourTokenComponent from './components/pages/yourtoken/yourTokenComponent';
 // import LaunchComponent from './components/pages/launchComponent'; WIP
 
 import './i18n';
