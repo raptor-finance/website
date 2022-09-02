@@ -184,18 +184,18 @@ class YourTokenComponent extends BaseComponent<YourTokenProps & withTranslation,
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
-							<h2>Balance</h2>
 							<AnimatedNumber
 								value={numeral(coinBalance || 0).format('0.00')}
 								duration="1000"
-								formatValue={value => `RaptorChain-side Raptor Balance : ${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
+								formatValue={value => `Mainnet balance : ${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })} RPTR`}
 								// className="staking-info"
 							>
-								0 Raptor
+								0 RPTR
 							</AnimatedNumber>
-								Name : <input onChange={this.onNameChanged} value={state.name}></input>
-								Symbol : <input onChange={this.onSymbolChanged} value={state.symbol}></input>
-								Supply : <input type="number" onChange={this.onSupplyChanged} value={state.supply}></input>
+							<h2>Deploy your token</h2>
+								Name<input placeholder="Ex: Bitcoin" onChange={this.onNameChanged} value={state.name}></input>
+								Ticker<input placeholder="Ex: BTC" onChange={this.onSymbolChanged} value={state.symbol}></input>
+								Total Supply<input placeholder="Ex: 21000000" type="number" onChange={this.onSupplyChanged} value={state.supply}></input>
 					         	<button id="btn-deploy" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.deploy}>Deploy</button>
 								<div>{state.tokenAddress}</div>
 					        </div>
