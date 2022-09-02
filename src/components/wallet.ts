@@ -40,6 +40,26 @@ export class Wallet {
 		return providerOptions;
 	};
 
+	public async addMainnetToMetamask() {
+		const networkinfo = [{
+			chainId: '0x52505452',
+			chainName: 'RaptorChain Mainnet Beta',
+			nativeCurrency:
+			{
+				name: 'Raptor',
+				symbol: 'RPTR',
+				decimals: 18
+			},
+			rpcUrls: ['https://rpc.raptorchain.io/web3'],
+			blockExplorerUrls: ["https://explorer.raptorchain.io/"],
+		}]
+		try {
+			await this._provider.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
+		} catch (e) {
+			throw "Failed to add mainnet to metamask !"
+		}
+	}
+
 	public async connect(): Promise<boolean> {
 		const wnd: any = window;
 		try {
