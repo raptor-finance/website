@@ -7,6 +7,7 @@ export class Wallet {
 	private _address: string = null;
 	private _provider: any = null;
 	private _raptorChainID: number = 499597202514;
+	private _chainId: number = 0;
 	private web3Modal = new Web3Modal({
 		network: "binance", // TODO: change this network option to be changable according
 		cacheProvider: true,
@@ -59,8 +60,64 @@ export class Wallet {
 			throw "Failed to add mainnet to metamask !"
 		}
 	}
+	
+	async switchNetwork(chainID: number) {
+		const networks = {56 : [{
+			chainId: '0x38',
+			chainName: 'Binance Smart Chain',
+			nativeCurrency:
+			{
+				name: 'BNB',
+				symbol: 'BNB',
+				decimals: 18
+			},
+			rpcUrls: ['https://bsc-dataseed3.binance.org/'],
+			blockExplorerUrls: ['https://bscscan.com/'],
+			}], 97 : [{
+				chainId: '0x61',
+				chainName: 'Binance Smart Chain Testnet',
+				nativeCurrency:
+				{
+					name: 'tBNB',
+					symbol: 'tBNB',
+					decimals: 18
+				},
+				rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+				blockExplorerUrls: ['https://testnet.bscscan.com/'],
+			}], 1380996178 : [{
+				chainId: '0x52505452',
+				chainName: 'RaptorChain',
+				nativeCurrency:
+				{
+					name: 'RPTR',
+					symbol: 'RPTR',
+					decimals: 18
+				},
+				rpcUrls: ['https://rpc.raptorchain.io/'],
+				blockExplorerUrls: ['https://explorer.raptorchain.io/'],
+			}], 499597202514 : [{
+				chainId: '0x7452505452',
+				chainName: 'RaptorChain Testnet',
+				nativeCurrency:
+				{
+					name: 'tRPTR',
+					symbol: 'tRPTR',
+					decimals: 18
+				},
+				rpcUrls: ['https://rpc-testnet.raptorchain.io/'],
+				blockExplorerUrls: ['https://explorer-testnet.raptorchain.io/'],
+			}]
+		}
+		if (this._provider.isMetaMask) {
+			await ethereum.request({ method: 'wallet_addEthereumChain', params: networks[chainID] }).catch(function () { throw 'Please choose the Binance Smart Chain as the current network in your wallet app !' })
+		}
+		else {
+			throw 'Please choose the Binance Smart Chain as the current network in your wallet app !';
+		}
+	}
 
-	public async connect(): Promise<boolean> {
+	public async connect(expectedChainID: number): Promise<boolean> {
+		console.log(`expectedChainID value : ${expectedChainID || 56}`);
 		const wnd: any = window;
 		try {
 			this._provider = await this.web3Modal.connect();
@@ -84,25 +141,10 @@ export class Wallet {
 
 		const provider: any = this._provider;
 		if (provider) {
-			if (((provider.chainId != 1380996178) && (provider.networkVersion != 1380996178)) && ((provider.chainId != 56) && (provider.networkVersion != 56)) && ((provider.chainId != this._raptorChainID) && (provider.networkVersion != this._raptorChainID)) && ((provider.chainId != 97) && (provider.networkVersion != 97))) {
-				if (provider.isMetaMask) {
-					const networkinfo = [{
-						chainId: '0x38',
-						chainName: 'Binance Smart Chain',
-						nativeCurrency:
-						{
-							name: 'BNB',
-							symbol: 'BNB',
-							decimals: 18
-						},
-						rpcUrls: ['https://bsc-dataseed3.binance.org/'],
-						blockExplorerUrls: ['https://bscscan.com/'],
-					}]
-					await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Please choose the Binance Smart Chain as the current network in your wallet app !' })
-				}
-				else {
-					throw 'Please choose the Binance Smart Chain as the current network in your wallet app !';
-				}
+			this._chainId = provider.chainId;
+			// if (!ignoreChain && ((provider.chainId != 1380996178) && (provider.networkVersion != 1380996178)) && ((provider.chainId != 56) && (provider.networkVersion != 56)) && ((provider.chainId != this._raptorChainID) && (provider.networkVersion != this._raptorChainID)) && ((provider.chainId != 97) && (provider.networkVersion != 97))) {
+			if ((expectedChainID || 56) != provider.chainId) {
+				this.switchNetwork(expectedChainID || 56);
 			}
 		}
 		else {
@@ -168,5 +210,9 @@ export class Wallet {
 	
 	public get raptorChainID(): number {
 		return this._raptorChainID;
+	}
+	
+	public get chainId(): number {
+		return this._chainId;
 	}
 }

@@ -26,7 +26,9 @@ export class YourTokenBackend {
 	
 	async deploy(name: string, symbol: string, supply: number) {
 		await this._contract.methods.deploy(name, symbol, web3.toWei(String(supply)), "18").send({'from': this._wallet.currentAddress});
-		return (await this._contract.methods.lastTokenByUser(this._wallet.currentAddress));
+		const addr = (await this._contract.methods.lastTokenByUser(this._wallet.currentAddress).call());
+		console.log(addr);
+		return addr;
 	}
 
 	get contract(): Contract {
@@ -41,6 +43,9 @@ export class YourTokenBackend {
 	}
 
 	async refresh(): Promise<void> {
+		if (!this._wallet) {
+			return;
+		}
 		try {
 			if (this._wallet.chainId == 1380996178) {
 				this._balance = web3.fromWei(String(await this._wallet.eth_getBalance(this._wallet.currentAddress)));
