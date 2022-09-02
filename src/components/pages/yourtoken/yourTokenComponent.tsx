@@ -204,7 +204,7 @@ class YourTokenComponent extends BaseComponent<YourTokenProps & withTranslation,
 					</FadeInLeftDiv>
 
                           <div className="migration-footer">
-					        <font size="2"><i>Note : These RPTR are test coins and don't have a monetary value !</i></font>
+					        <font size="2"><i>Made with &#x2764;&#xFE0F; and &#9749; by <a href="https://github.com/ygboucherk">Yanis</a> from <a href="https://raptorchain.io">RaptorChain</a></i></font>
 				          </div>
 
 
