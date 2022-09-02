@@ -197,7 +197,7 @@ class YourTokenComponent extends BaseComponent<YourTokenProps & withTranslation,
 								Ticker<input placeholder="Ex: BTC" onChange={this.onSymbolChanged} value={state.symbol}></input>
 								Total Supply<input placeholder="Ex: 21000000" type="number" onChange={this.onSupplyChanged} value={state.supply}></input>
 					         	<button id="btn-deploy" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.deploy}>Deploy</button>
-								<div>{state.tokenAddress}</div>
+								<div>Token address : {state.tokenAddress || "Please deploy token first !"}</div>
 					        </div>
 
 
