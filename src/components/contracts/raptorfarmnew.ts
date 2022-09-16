@@ -139,11 +139,11 @@ export class RaptorFarmNew {
 
 	async deposit(amount: number): Promise<void> {
 		// await this._raptor.refresh();
-		const rawAmount = web3.toWei(amount);
-		if ((await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) >= rawAmount) {
-			const allowance = (await this._lpToken.methods.allowance(this._wallet.currentAddress, RaptorFarmNew.address).call());
+		const rawAmount = BigInt(web3.toWei(amount));
+		if (BigInt(await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) >= rawAmount) {
+			const allowance = BigInt(await this._lpToken.methods.allowance(this._wallet.currentAddress, RaptorFarmNew.address).call());
 
-			if (allowance < Number(rawAmount)) {
+			if (allowance < BigInt(rawAmount)) {
 				// we need to give allowance to farming contract first
 				const allowance = `${BigInt(2 ** 256) - BigInt(1)}`;
 				await this._lpToken.methods.approve(RaptorFarmNew.address, allowance).send({ 'from': this._wallet.currentAddress });
