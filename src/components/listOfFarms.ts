@@ -21,7 +21,7 @@ export const farmsList = [
 	"version":1
   },
   {
-    "pid": 1,
+    "pid": 3,
     "pairName": "RPTR-BUSD",
     "logo": "images/farm/busd-raptor.png",
     "fees": "NO FEES",
