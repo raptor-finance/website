@@ -284,7 +284,7 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
       this.updateState({ pending: true });
       console.log(`${version},${pid}`)
       if (Number(state.ctValue[`${version},${pid}`]) >= 0) {
-        await state.farm[`${version},${pid}`].withdraw(Number(state.ctValue[`${version},${pid}`)]);
+        await state.farm[`${version},${pid}`].withdraw(Number(state.ctValue[`${version},${pid}`]));
       } else {
         throw "Can't withdraw a negative amount.";
       }
