@@ -157,9 +157,9 @@ export class RaptorFarmNew {
 
 	async withdraw(amount: number): Promise<void> {
 		// await this._raptor.refresh()
-		const rawAmount = web3.toWei(amount);
+		const rawAmount = BigInt(web3.toWei(amount));
 
-		if ((await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount >= rawAmount) {
+		if (BigInt((await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount) >= rawAmount) {
 			await this._contract.methods.withdraw(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
 		}
 		else {
