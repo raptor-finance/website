@@ -93,7 +93,7 @@ export class Wallet {
 					symbol: 'RPTR',
 					decimals: 18
 				},
-				rpcUrls: ['https://rpc.raptorchain.io/'],
+				rpcUrls: ['https://rpc.raptorchain.io/web3'],
 				blockExplorerUrls: ['https://explorer.raptorchain.io/'],
 			}], 499597202514 : [{
 				chainId: '0x7452505452',
@@ -104,7 +104,7 @@ export class Wallet {
 					symbol: 'tRPTR',
 					decimals: 18
 				},
-				rpcUrls: ['https://rpc-testnet.raptorchain.io/'],
+				rpcUrls: ['https://rpc-testnet.raptorchain.io/web3'],
 				blockExplorerUrls: ['https://explorer-testnet.raptorchain.io/'],
 			}]
 		}
