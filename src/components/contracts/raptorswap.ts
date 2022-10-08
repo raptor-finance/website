@@ -9,8 +9,7 @@ export class RaptorSwap {
 	private readonly _wallet: Wallet;
 	private readonly _router: Contract;
 
-	constructor(wallet: Wallet, router) {
+	constructor(wallet: Wallet) {
 		this._wallet = wallet;
-		t
 	}
 }
