@@ -6,6 +6,7 @@ import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18nex
 import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
+import { RaptorSwap } from '../../contracts/raptorswap';
 
 import './migrationComponent.css';
 import './stakingComponent.css';
@@ -18,6 +19,7 @@ export type RaptorSwapProps = {};
 export type RaptorSwapState = {
 	wallet?: Wallet,
 	chain?: RaptorChainInterface,
+	swap?: RaptorSwap,
 	pending?: boolean,
 	looping?: boolean,
 	address?: string,
@@ -67,7 +69,8 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 			this.updateState({ pending: true });
 			const wallet = new Wallet();
 			const result = await wallet.connect(0x52505452);
-			const chain = new RaptorChainInterface(wallet, "https://rpc.raptorchain.io/")
+			const chain = new RaptorChainInterface(wallet, "https://rpc.raptorchain.io/");
+			const swap = new RaptorSwap(wallet);
 
 			if (!result) {
 				throw 'The wallet connection was cancelled.';
@@ -75,7 +78,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 
 //			const raptor = new Raptor(wallet);
 
-			this.updateState({ wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0 });
+			this.updateState({ wallet: wallet, chain: chain, swap: swap, looping: true, pending: false, ctValue: 0 });
 			this.updateOnce(true).then();
 
 			this.loop().then();
