@@ -34,7 +34,7 @@ export class RaptorSwap {
 		// type 0 = RPTR to token
 		// type 1 = token to RPTR
 		// type 2 = token to token
-		return (tokenA == "RPTR")?0: ((tokenA == "RPTR")? 1: 2);
+		return (tokenA == "RPTR")?0: ((tokenB == "RPTR")? 1: 2);
 	}
 	
 	async getAmountOut(amountIn, path) {
