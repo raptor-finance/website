@@ -23,7 +23,8 @@ export type RaptorSwapState = {
 	pending?: boolean,
 	looping?: boolean,
 	address?: string,
-	ctValue?: number
+	valueIn?: number
+	valueOut?: number
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -40,11 +41,10 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		super(props);
 		this.connectWallet = this.connectWallet.bind(this);
 		this.disconnectWallet = this.disconnectWallet.bind(this);
-		this.deposit = this.deposit.bind(this);
-		this.withdraw = this.withdraw.bind(this);
 		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
-		this.setMaxDepositAmount = this.setMaxDepositAmount.bind(this);
-		this.setMaxWithdrawalAmount = this.setMaxWithdrawalAmount.bind(this);
+		this.handleAmountOutUpdate = this.handleAmountOutUpdate.bind(this);
+		// this.setMaxDepositAmount = this.setMaxDepositAmount.bind(this);
+		// this.setMaxWithdrawalAmount = this.setMaxWithdrawalAmount.bind(this);
 		this.state = {};
 	}
 	
@@ -78,7 +78,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 
 //			const raptor = new Raptor(wallet);
 
-			this.updateState({ wallet: wallet, chain: chain, swap: swap, looping: true, pending: false, ctValue: 0 });
+			this.updateState({ wallet: wallet, chain: chain, swap: swap, address: wallet.currentAddress, looping: true, pending: false, ctValue: 0 });
 			this.updateOnce(true).then();
 
 			this.loop().then();
@@ -86,6 +86,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		catch (e) {
 			this.updateState({ pending: false });
 			this.handleError(e);
+			throw e;
 		}
 	}
 
@@ -114,35 +115,31 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 	componentWillUnmount() {
 	}
 	
-	handleAmountUpdate(event) {
+	async handleAmountUpdate(event) {
 		let tokens = event.target.value;
-		this.updateState({ ctValue:tokens });
+		let valueOut = await this.readState().swap.getOutput(tokens, "RPTR", "fuckitlol");
+		this.updateState({ valueIn:tokens, valueOut: valueOut });
 	}
 	
-	setMaxDepositAmount() {
-		const state = this.readState();
-		this.updateState({ ctValue: ((!!state.raptor) ? state.raptor.balancev3 : 0) });
+	async handleAmountOutUpdate(event) {getAmountIn
+		let tokens = event.target.value;getAmountIn
+		let valueIn = await this.readState().swap.getInput(tokens, "RPTR", "fuckitlol");
+		this.updateState({ valueOut:tokens, valueIn: valueIn });
 	}
 	
-	setMaxWithdrawalAmount() {
-		const state = this.readState();
-		this.updateState({ ctValue: ((!!state.chain) ? state.chain.balance : 0) });
-	}
+	// setMaxDepositAmount() {
+		// const state = this.readState();
+		// this.updateState({ ctValue: ((!!state.raptor) ? state.raptor.balancev3 : 0) });
+	// }
 	
-	async deposit() {
+	// setMaxWithdrawalAmount() {
+		// const state = this.readState();
+		// this.updateState({ ctValue: ((!!state.chain) ? state.chain.balance : 0) });
+	// }
+	
+	async swap() {
 		let state = this.readState();
 		console.log(state);
-		await state.chain.crossChainDeposit(state.ctValue);
-		await state.raptor.refresh();
-		await state.chain.refresh();
-		this.updateOnce(true);
-	}
-	
-	async withdraw() {
-		let state = this.readState();
-		console.log(state);
-		await state.chain.crossChainWithdrawal(state.ctValue);
-		await state.raptor.refresh();
 		await state.chain.refresh();
 		this.updateOnce(true);
 	}
@@ -200,8 +197,11 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
 							<h2>Balance breakdown</h2>
 							<p>Enter the amount that you want to swap:</p>
-							<div>		
-								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.ctValue}></input>
+							<div>
+								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.valueIn}></input>
+                            </div>
+							<div>
+								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.valueOut}></input>
                             </div>
 							<br/>
                             <div className="d-flex justify-content-center button-row">
