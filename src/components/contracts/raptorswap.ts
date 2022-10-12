@@ -9,9 +9,12 @@ export const WRPTRAddress = "0xeF7cADE66695f4cD8a535f7916fBF659936818C4";
 export class RaptorSwap {
 	private readonly _wallet: Wallet;
 	private readonly _router: Contract;
+	private readonly _factory: Contract;
 
 	constructor(wallet: Wallet) {
 		this._wallet = wallet;
+		this._factory = wallet.connectToContract(FactoryAddress, require('./swapfactory.abi.json'))
+		this._router = wallet.connectToContract(RouterAddress, require('./swaprouter.abi.json'))
 	}
 	
 	calcName(tokenName) {
@@ -38,7 +41,8 @@ export class RaptorSwap {
 	}
 	
 	async getAmountOut(amountIn, path) {
-		return 0;
+		const amts = await this._router.methods.getAmountsOut(amountIn, path).call();
+		return amts[amts.length-1];
 	}
 	
 	async getAmountIn(expectedAmountOut, path) {
@@ -71,8 +75,13 @@ export class RaptorSwap {
 	}
 	
 	async getOutput(amountIn, assetFrom, assetTo) {
-		const _path = this.getPath(assetFrom, assetTo);
-		return (await this.getAmountOut(amountIn, _path));
+		try {
+			const _path = this.getPath(assetFrom, assetTo);
+			return (await this.getAmountOut(amountIn, _path));
+		} catch (e) {
+			console.error(e);
+			return 0;
+		}
 	}
 	
 	async getInput(expectedAmountOut, assetFrom, assetTo) {
