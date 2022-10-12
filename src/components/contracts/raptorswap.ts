@@ -85,7 +85,12 @@ export class RaptorSwap {
 	}
 	
 	async getInput(expectedAmountOut, assetFrom, assetTo) {
-		const _path = this.getPath(assetFrom, assetTo);
-		return (await this.getAmountIn(expectedAmountOut, _path));
+		try {
+			const _path = this.getPath(assetFrom, assetTo);
+			return (await this.getAmountIn(expectedAmountOut, _path));
+		} catch (e) {
+			console.error(e);
+			return 0;
+		}
 	}
 }
