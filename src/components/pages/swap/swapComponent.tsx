@@ -121,8 +121,8 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		this.updateState({ valueIn:tokens, valueOut: valueOut });
 	}
 	
-	async handleAmountOutUpdate(event) {getAmountIn
-		let tokens = event.target.value;getAmountIn
+	async handleAmountOutUpdate(event) {
+		let tokens = event.target.value;
 		let valueIn = await this.readState().swap.getInput(tokens, "RPTR", "fuckitlol");
 		this.updateState({ valueOut:tokens, valueIn: valueIn });
 	}
