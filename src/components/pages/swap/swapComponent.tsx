@@ -43,6 +43,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		this.disconnectWallet = this.disconnectWallet.bind(this);
 		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
 		this.handleAmountOutUpdate = this.handleAmountOutUpdate.bind(this);
+		this.swap = this.swap.bind(this);
 		// this.setMaxDepositAmount = this.setMaxDepositAmount.bind(this);
 		// this.setMaxWithdrawalAmount = this.setMaxWithdrawalAmount.bind(this);
 		this.state = {};
@@ -141,6 +142,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		let state = this.readState();
 		console.log(state);
 		await state.chain.refresh();
+		await state.swap.swap(state.valueIn, "RPTR", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32");
 		this.updateOnce(true);
 	}
 	

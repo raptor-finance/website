@@ -58,26 +58,28 @@ export class RaptorSwap {
 	}
 
 	async swapRPTRToToken(amountIn, path) {
-		return 0;
+		return (await this._router.methods.swapExactETHForTokens(0, path, this._wallet.currentAddress, "115792089237316195423570985008687907853269984665640564039457584007913129639935").send({"from": this._wallet.currentAddress, "value": amountIn, "gas": 500000}))
 	}
 	
-	async swap(amountIn, assetFrom, assetTo) {
+	async swap(_amountIn, assetFrom, assetTo) {
+		const amountIn = web3.toWei(_amountIn);
 		const _tType = this.getTradeType(assetFrom, assetTo);
 		const _path = this.getPath(assetFrom, assetTo);
 		switch (_tType) {
 			case 0:
-				await swapRPTRToToken(amountIn, _path);
+				await this.swapRPTRToToken(amountIn, _path);
 			case 1:
-				await swapTokenToRPTR(amountIn, _path);
+				await this.swapTokenToRPTR(amountIn, _path);
 			case 2:
-				await swapTokenToToken(amountIn, _path);
+				await this.swapTokenToToken(amountIn, _path);
 		}
 	}
 	
 	async getOutput(amountIn, assetFrom, assetTo) {
+		const _amountIn = web3.toWei(amountIn);
 		try {
 			const _path = this.getPath(assetFrom, assetTo);
-			return (await this.getAmountOut(amountIn, _path));
+			return web3.fromWei(await this.getAmountOut(_amountIn, _path));
 		} catch (e) {
 			console.error(e);
 			return 0;
@@ -85,9 +87,10 @@ export class RaptorSwap {
 	}
 	
 	async getInput(expectedAmountOut, assetFrom, assetTo) {
+		const _expectedAmountOut = web3.toWei(expectedAmountOut);
 		try {
 			const _path = this.getPath(assetFrom, assetTo);
-			return (await this.getAmountIn(expectedAmountOut, _path));
+			return web3.fromWei(await this.getAmountIn(_expectedAmountOut, _path));
 		} catch (e) {
 			console.error(e);
 			return 0;
