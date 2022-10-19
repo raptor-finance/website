@@ -74,15 +74,15 @@ export class RaptorSwap {
 	}
 	
 	async addLiquidity(tokenA, tokenB, amountA, amountB, amountAmin, amountBmin) {
-		let _approvalA = this.ensureApproval(tokenA);
-		let _approvalB = this.ensureApproval(tokenB);
+		let _approvalA = this.ensureApproval(tokenA, amountA);
+		let _approvalB = this.ensureApproval(tokenB, amountB);
 		await _approvalA;
 		await _approvalB;
 		return (await this._router.methods.addLiquidity(tokenA, tokenB, amountA, amountB, amountAmin, amountBmin, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "gas": 500000}));
 	}
 	
 	async addLiquidityRPTR(tokenAddr, amountRPTR, amountToken, amountMinRPTR, amountMinToken) {
-		await this.ensureApproval(tokenAddr);
+		await this.ensureApproval(tokenAddr, amountToken);
 		return (await this._router.methods.addLiquidityETH(tokenAddr, amountToken, amountMinToken, amountMinRPTR, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "value": amountRPTR, "gas": 500000}));
 	}
 	
