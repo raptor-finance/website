@@ -60,10 +60,12 @@ export class RaptorSwap {
 	}
 	
 	async swapTokenToToken(amountIn, path) {
+		ensureApproval(path[0], amountIn);
 		return 0;
 	}
 	
 	async swapTokenToRPTR(amountIn, path) {
+		ensureApproval(path[0], amountIn);
 		return 0;
 	}
 
