@@ -61,12 +61,12 @@ export class RaptorSwap {
 	
 	async swapTokenToToken(amountIn, path) {
 		ensureApproval(path[0], amountIn);
-		return 0;
+		return (await this._router.methods.swapExactTokensForTokens(amountIn, 0, path, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "gas": 500000}));
 	}
 	
 	async swapTokenToRPTR(amountIn, path) {
 		ensureApproval(path[0], amountIn);
-		return 0;
+		return (await this._router.methods.swapExactTokensForETH(amountIn, 0, path, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "gas": 500000}));
 	}
 
 	async swapRPTRToToken(amountIn, path) {
