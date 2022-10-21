@@ -93,10 +93,13 @@ export class RaptorSwap {
 		switch (_tType) {
 			case 0:
 				await this.swapRPTRToToken(amountIn, _path);
+				break;
 			case 1:
 				await this.swapTokenToRPTR(amountIn, _path);
+				break;
 			case 2:
 				await this.swapTokenToToken(amountIn, _path);
+				break;
 		}
 	}
 	
