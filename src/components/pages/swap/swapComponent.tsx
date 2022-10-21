@@ -23,8 +23,10 @@ export type RaptorSwapState = {
 	pending?: boolean,
 	looping?: boolean,
 	address?: string,
-	valueIn?: number
-	valueOut?: number
+	valueIn?: number,
+	valueOut?: number,
+	assetIn?: string,
+	assetOut?: string
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -117,15 +119,21 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 	}
 	
 	async handleAmountUpdate(event) {
+		const state = this.readState();
 		let tokens = event.target.value;
-		const valueOut = await this.readState().swap.getOutput(tokens, "RPTR", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32");
+		const valueOut = await this.readState().swap.getOutput(tokens, state.assetIn, state.assetOut);
 		this.updateState({ valueIn:tokens, valueOut: valueOut });
 	}
 	
 	async handleAmountOutUpdate(event) {
+		const state = this.readState();
 		let tokens = event.target.value;
-		let valueIn = await this.readState().swap.getInput(tokens, "RPTR", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32");
+		let valueIn = await this.readState().swap.getInput(tokens, state.assetIn, state.assetOut);
 		this.updateState({ valueOut:tokens, valueIn: valueIn });
+	}
+	
+	async changeAssetIn() {
+		
 	}
 	
 	// setMaxDepositAmount() {
@@ -192,7 +200,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		       	</div>
 
 
-
+				<div className="container">
                     <FadeInLeftDiv className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
@@ -200,7 +208,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 							<h2>Balance breakdown</h2>
 							<p>Enter the amount that you want to swap:</p>
 							<div>
-								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.valueIn}></input>
+								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.valueIn}></input><button className="btn btn-md btn-primary">Max</button>
                             </div>
 							<div>
 								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.valueOut}></input>
@@ -217,7 +225,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
                           <div className="migration-footer">
 					        <font size="2"><i>Note : RaptorSwap is still in beta ! Be one of the first to try it :D</i></font>
 				          </div>
-
+				</div>
 
 
 			</div>
