@@ -23,8 +23,10 @@ export type RaptorSwapState = {
 	pending?: boolean,
 	looping?: boolean,
 	address?: string,
-	valueIn?: number
-	valueOut?: number
+	amountA?: number,
+	amountB?: number,
+	assetA?: string,
+	assetB?: string
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
