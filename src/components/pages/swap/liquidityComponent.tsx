@@ -81,7 +81,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 
 //			const raptor = new Raptor(wallet);
 
-			this.updateState({ wallet: wallet, chain: chain, swap: swap, address: wallet.currentAddress, looping: true, pending: false, ctValue: 0 });
+			this.updateState({ wallet: wallet, chain: chain, swap: swap, address: wallet.currentAddress, looping: true, pending: false, ctValue: 0, assetA: "RPTR", assetB: "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32" });
 			this.updateOnce(true).then();
 
 			this.loop().then();
@@ -144,7 +144,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		let state = this.readState();
 		console.log(state);
 		await state.chain.refresh();
-		await state.swap.swap(state.valueIn, "RPTR", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32");
+		await state.swap.swap(state.valueIn, state.assetA, state.assetB);
 		this.updateOnce(true);
 	}
 	
@@ -162,6 +162,35 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			blockExplorerUrls: null,
 		}]
 		await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
+	}
+	
+	pairDisplay(pair) {
+		return <div className="container">
+			<div>
+				{numeral(pair.formattedLpBalance).format("0.00")} LP
+			</div>
+			<div>
+				{numeral(pair.formattedBalance0).format("0.00")} {pair.ticker0}
+			</div>
+			<div>
+				{numeral(pair.formattedBalance1).format("0.00")} {pair.ticker1}
+			</div>
+		</div>
+	}
+	
+	renderPairsList() {
+		const state = this.readState();
+		try {
+			if (state.address) {
+				console.log(state.swap.pairs[0]);
+				return this.pairDisplay(state.swap.pairs[0]);
+			} else {
+				return <></>
+			}
+		} catch (e) {
+			console.error(e);
+			return <></>
+		}
 	}
 
 	render() {
@@ -211,8 +240,8 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
                             <div className="d-flex justify-content-center button-row">
 					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.swap}>Add Liquidity</button>
 					        </div>
+							{this.renderPairsList()}
 						</div>
-
 
 					</FadeInLeftDiv>
 

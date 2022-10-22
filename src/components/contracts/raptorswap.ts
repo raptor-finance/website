@@ -14,6 +14,9 @@ export class LiquidityPair {
 	private readonly _factory: Contract;
 	private readonly _lp: Contract;
 	
+	private readonly _contract0: Contract;
+	private readonly _contract1: Contract;
+	
 	token0: string; // token addresses
 	token1: string;
 	
@@ -23,8 +26,15 @@ export class LiquidityPair {
 	balance0: BigInt; // user's pooled balances
 	balance1: BigInt;
 	
+	ticker0: string;
+	ticker1: string;
+	
 	totalSupply: BigInt; // total LP's supply
 	lpbalance: BigInt; // user's LP balance
+	
+	formattedLpBalance: string;
+	formattedBalance0: string;
+	formattedBalance1: string;
 	
 	setupPromise: Promise;
 	
@@ -40,6 +50,12 @@ export class LiquidityPair {
 	async setupStuff() {
 		this.token0 = await this._lp.methods.token0().call();
 		this.token1 = await this._lp.methods.token1().call();
+		this._contract0 = this._wallet.connectToContract(this.token0, require("./erc20.abi.json"));
+		this._contract1 = this._wallet.connectToContract(this.token1, require("./erc20.abi.json"));
+		
+		this.ticker0 = await this._contract0.methods.symbol().call();
+		this.ticker1 = await this._contract1.methods.symbol().call();
+		
 		this.refresh();
 	}
 	
@@ -53,6 +69,10 @@ export class LiquidityPair {
 		
 		this.balance0 = ((this.reserve0 * this.lpbalance) / this.totalSupply);
 		this.balance1 = ((this.reserve1 * this.lpbalance) / this.totalSupply);
+		
+		this.formattedLpBalance = web3.fromWei(String(this.lpbalance));
+		this.formattedBalance0 = web3.fromWei(String(this.balance0));
+		this.formattedBalance1 = web3.fromWei(String(this.balance1));
 	}
 }
 
@@ -73,8 +93,8 @@ export class RaptorSwap {
 		return ((tokenName == "RPTR") ? WRPTRAddress : tokenName);
 	}
 	
-	get pairs() {
-		return _pairs;
+	public get pairs() {
+		return (this._pairs ? this._pairs : []);
 	}
 	
 	getPath(tokenA, tokenB) {

@@ -26,6 +26,7 @@ import farmComponentv2 from './components/pages/farmv2/farmComponentv2';
 import MigrationComponent from './components/pages/migration/migrationComponent';
 import CrossChainComponent from './components/pages/crosschain/crosschainComponent';
 import SwapComponent from './components/pages/swap/swapComponent';
+import LiquidityComponent from './components/pages/swap/liquidityComponent';
 import CrossChainComponentMainnet from './components/pages/crosschain/crosschainComponentMainnet';
 import TestnetFaucetComponent from './components/pages/faucet/testnetFaucetComponent';
 import YourTokenComponent from './components/pages/yourtoken/yourTokenComponent';
@@ -46,6 +47,7 @@ const pagesInNavigator = [
 	{ id: 'staking', title: 'Staking', component: StakingComponent },
 	{ id: 'stakingv2', title: 'StakingV2', component: StakingComponentv2 },
 	{ id: 'swap', title: 'RaptorSwap', component: SwapComponent },
+	{ id: 'liquidity', title: 'RaptorSwap', component: LiquidityComponent },
 	{ id: 'lottery', title: 'Lottery', component: LotteryComponent },
 	{ id: 'faq', title: 'FAQ', component: FaqComponent },
 	// Ignored on nav
