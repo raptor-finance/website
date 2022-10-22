@@ -227,8 +227,6 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		this.updateOnce(false);
 		const state = this.readState();
 		const t: TFunction<"translation"> = this.readProps().t;
-		const tokenBalance = (!!state.raptor) ? state.raptor.balancev3 : 0;
-		const coinBalance = (!!state.chain) ? state.chain.balance : 0;
 
 		return <div className="staking-container">
 
