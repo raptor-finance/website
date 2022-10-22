@@ -23,10 +23,12 @@ export type RaptorSwapState = {
 	pending?: boolean,
 	looping?: boolean,
 	address?: string,
-	valueIn?: number,
-	valueOut?: number,
+	valueIn?: string,
+	valueOut?: string,
 	assetIn?: string,
-	assetOut?: string
+	assetOut?: string,
+	balanceIn?: number,
+	balanceOut?: number
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -39,12 +41,16 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 	
 	private lock: boolean;
 	
-	constructor(props: CrossChainProps & WithTranslation) {
+	constructor(props: RaptorSwapProps & WithTranslation) {
 		super(props);
 		this.connectWallet = this.connectWallet.bind(this);
 		this.disconnectWallet = this.disconnectWallet.bind(this);
 		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
 		this.handleAmountOutUpdate = this.handleAmountOutUpdate.bind(this);
+		this.handleAssetInUpdate = this.handleAssetInUpdate.bind(this);
+		this.handleAssetOutUpdate = this.handleAssetOutUpdate.bind(this);
+		this.refreshBalances = this.refreshBalances.bind(this);
+		this.setMaxAmount = this.setMaxAmount.bind(this);
 		this.swap = this.swap.bind(this);
 		// this.setMaxDepositAmount = this.setMaxDepositAmount.bind(this);
 		// this.setMaxWithdrawalAmount = this.setMaxWithdrawalAmount.bind(this);
@@ -81,8 +87,9 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 
 //			const raptor = new Raptor(wallet);
 
-			this.updateState({ wallet: wallet, chain: chain, swap: swap, address: wallet.currentAddress, looping: true, pending: false, ctValue: 0 });
+			await this.updateState({ wallet: wallet, chain: chain, swap: swap, address: wallet.currentAddress, looping: true, pending: false, ctValue: 0, assetIn: "RPTR", assetOut: "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32"});
 			this.updateOnce(true).then();
+			this.refreshBalances();
 
 			this.loop().then();
 		}
@@ -131,9 +138,36 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		let valueIn = await this.readState().swap.getInput(tokens, state.assetIn, state.assetOut);
 		this.updateState({ valueOut:tokens, valueIn: valueIn });
 	}
+
+	async refreshBalances() {
+		const state = this.readState();
+		const _balanceIn = await state.swap.assetBalance(state.assetIn);
+		const _balanceOut = await state.swap.assetBalance(state.assetOut);
+		this.updateState({balanceIn: _balanceIn, balanceOut: _balanceOut});
+	}
+
+	async handleAssetInUpdate(event) {
+		const _asset = event.target.value;
+		console.log(`Asset in : ${_asset}`);
+		await this.updateState({ assetIn: _asset });
+		this.refreshBalances();
+	}
+
+	async handleAssetOutUpdate(event) {
+		const _asset = event.target.value;
+		await this.updateState({ assetOut: _asset });
+		this.refreshBalances();
+	}
 	
-	async changeAssetIn() {
-		
+	setMaxAmount() {
+		const state = this.readState();
+		switch (state.assetIn) {
+			case "RPTR":
+				this.updateState({valueIn: (state.balanceIn - 500)});
+				break;
+			default:
+				this.updateState({valueIn: state.balanceIn});
+		}
 	}
 	
 	// setMaxDepositAmount() {
@@ -150,7 +184,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		let state = this.readState();
 		console.log(state);
 		await state.chain.refresh();
-		await state.swap.swap(state.valueIn, "RPTR", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32");
+		await state.swap.swap(state.valueIn, state.assetIn, state.assetOut);
 		this.updateOnce(true);
 	}
 	
@@ -168,6 +202,25 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 			blockExplorerUrls: null,
 		}]
 		await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
+	}
+	
+	assetDisplay(assetName, contractAddr) {
+		return <>
+			<option value={contractAddr}>{assetName}</option>
+		</>
+		
+	}
+
+	assetList() {
+		// return <>
+			// <option value="RPTR">RPTR</option>
+			// <option value="0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32">rDUCO</option>
+		// </>
+		
+		return <>
+			{this.assetDisplay("RPTR", "RPTR")}
+			{this.assetDisplay("rDUCO", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32")}
+		</>
 	}
 
 	render() {
@@ -208,10 +261,24 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 							<h2>Balance breakdown</h2>
 							<p>Enter the amount that you want to swap:</p>
 							<div>
-								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.valueIn}></input><button className="btn btn-md btn-primary">Max</button>
+								<select value={state.assetIn} onChange={this.handleAssetInUpdate}>
+								  <option value="RPTR">RPTR</option>
+								  <option value="0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32">rDUCO</option>
+								</select>
+								Balance : {state.balanceIn}
+							</div>
+							<div>
+								<input type="number" className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.valueIn}></input>
+								<button onClick={this.setMaxAmount} className="btn btn-md btn-primary">Max</button>
                             </div>
 							<div>
-								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.valueOut}></input>
+								<select value={state.assetOut} onChange={this.handleAssetOutUpdate}>
+									{this.assetList()}
+								</select>
+								Balance : {state.balanceOut}
+							</div>
+							<div>
+								<input type="number" className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.valueOut}></input>
                             </div>
 							<br/>
                             <div className="d-flex justify-content-center button-row">
