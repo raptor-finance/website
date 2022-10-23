@@ -30,7 +30,8 @@ export type RaptorSwapState = {
 	assetB?: string,
 	balanceA?: number,
 	balanceB?: number,
-	selectedPair?: any
+	selectedPair?: any,
+	sequenceNumber?: number // 0 = add LP, 1 = withdraw
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -53,6 +54,11 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		this.handleAssetAUpdate = this.handleAssetAUpdate.bind(this);
 		this.handleAssetBUpdate = this.handleAssetBUpdate.bind(this);
 		this.updateAssets = this.updateAssets.bind(this);
+		this.withdrawAssets = this.withdrawAssets.bind(this);
+		this.renderAddLiquidity = this.renderAddLiquidity.bind(this);
+		this.renderRemoveLiquidity = this.renderRemoveLiquidity.bind(this);
+		this.switchToRemoveLiquidity = this.switchToRemoveLiquidity.bind(this);
+		this.switchToAddLiquidity = this.switchToAddLiquidity.bind(this);
 		this.liquify = this.liquify.bind(this);
 		this.removeLP = this.removeLP.bind(this);
 		// this.setMaxDepositAmount = this.setMaxDepositAmount.bind(this);
@@ -90,7 +96,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 
 //			const raptor = new Raptor(wallet);
 
-			this.updateState({ wallet: wallet, chain: chain, swap: swap, address: wallet.currentAddress, looping: true, pending: false, ctValue: 0, assetA: "RPTR", assetB: "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32" });
+			this.updateState({ wallet: wallet, chain: chain, swap: swap, address: wallet.currentAddress, looping: true, pending: false, ctValue: 0, assetA: "RPTR", assetB: "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32", sequenceNumber: 0});
 			this.updateOnce(true).then();
 			this.refreshBalances();
 			this.loop().then();
@@ -156,15 +162,19 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 	}
 	
 	async handleAssetAUpdate(event) {
+		const state = this.readState();
 		const _asset = event.target.value;
 		console.log(`Asset A : ${_asset}`);
-		await this.updateState({ assetA: _asset });
+		const _assetB = (_asset == state.assetB) ? state.assetA : state.assetB;
+		await this.updateState({ assetA: _asset, assetB: _assetB });
 		this.refreshBalances();
 	}
 
 	async handleAssetBUpdate(event) {
+		const state = this.readState();
 		const _asset = event.target.value;
-		await this.updateState({ assetB: _asset });
+		const _assetA = (_asset == state.assetA) ? state.assetB : state.assetA;
+		await this.updateState({ assetA: _assetA, assetB: _asset });
 		this.refreshBalances();
 	}
 	
@@ -227,21 +237,38 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			{this.assetDisplay("rDUCO", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32")}
 		</>
 	}
-
-	async updateAssets(token0, token1) {
-		await this.updateState({assetA: token0, assetB: token1});
+	
+	async switchToAddLiquidity() {
+		await this.updateState({sequenceNumber: 0});
 		this.refreshBalances();
 	}
+	
+	async switchToRemoveLiquidity() {
+		await this.updateState({sequenceNumber: 1});
+		this.refreshBalances();
+	}
+
+	async updateAssets(token0, token1) {
+		await this.updateState({assetA: token0, assetB: token1, sequenceNumber: 0});
+		this.refreshBalances();
+	}
+	
+	async withdrawAssets(token0, token1) {
+		await this.updateState({assetA: token0, assetB: token1, sequenceNumber: 1});
+		this.refreshBalances();
+	}
+	
 	pairDisplay(pair) {
 		return <div className="container shadow lppair gradient-card">
 			<div>
 				<div>
-					{numeral(pair.formattedBalance0).format("0.00")} {pair.ticker0}
-					{numeral(pair.formattedBalance1).format("0.00")} {pair.ticker1}
-					<button className="btn btn-primary" onClick={() => this.updateAssets(pair.token0, pair.token1)}>Select Pair</button>
+					{numeral(pair.formattedBalance0).format("0.00")} {pair.ticker0}&nbsp;
+					{numeral(pair.formattedBalance1).format("0.00")} {pair.ticker1}&nbsp;
+					{numeral(pair.formattedLpBalance).format("0.00")} {pair.ticker0}/{pair.ticker1} LP
 				</div>
 				<div>
-					{numeral(pair.formattedLpBalance).format("0.00")} {pair.ticker0}/{pair.ticker1} LP
+					<button className="btn btn-primary" onClick={() => this.updateAssets(pair.token0, pair.token1)}>Add liquidity</button>&nbsp;
+					<button className="btn btn-primary" onClick={() => this.withdrawAssets(pair.token0, pair.token1)}>Remove liquidity</button>
 				</div>
 			</div>
 		</div>
@@ -290,7 +317,8 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			</div>
 			<br/>
 			<div className="d-flex justify-content-center button-row">
-				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.liquify}>Add Liquidity</button>
+				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.liquify}>Add Liquidity</button>&nbsp;
+				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.switchToRemoveLiquidity}>Remove Liquidity Instead</button>
 			</div>
 		</div>
 	}
@@ -318,7 +346,8 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			</div>
 			<br/>
 			<div className="d-flex justify-content-center button-row">
-				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.removeLP}>Remove Liquidity</button>
+				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.removeLP}>Remove Liquidity</button>&nbsp;
+				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.switchToAddLiquidity}>Add Liquidity Instead</button>
 			</div>
 		</div>
 	}
@@ -357,7 +386,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
-							{this.renderRemoveLiquidity()}
+							{(state.sequenceNumber == 0) ? this.renderAddLiquidity() : this.renderRemoveLiquidity()}
 							{this.renderPairsList()}
 						</div>
 
