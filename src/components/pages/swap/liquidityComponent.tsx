@@ -276,17 +276,18 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 	
 	renderPairsList() {
 		const state = this.readState();
-		try {
-			if (state.address) {
-				console.log(state.swap.pairs[0]);
-				return this.pairDisplay(state.swap.pairs[0]);
-			} else {
-				return <></>
-			}
-		} catch (e) {
-			console.error(e);
-			return <></>
-		}
+		// try {
+			// if (state.address) {
+				// console.log(state.swap.pairs[0]);
+				// return this.pairDisplay(state.swap.pairs[0]);
+			// } else {
+				// return <></>
+			// }
+		// } catch (e) {
+			// console.error(e);
+			// return <></>
+		// }
+		return (state.swap ? state.swap.pairs.map(this.pairDisplay) : undefined);
 	}
 	
 	assetSelector(_value, _updater) {
