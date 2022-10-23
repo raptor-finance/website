@@ -264,7 +264,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
-							<h2>Balance breakdown</h2>
+							<h2>Swap</h2>
 							<p>Enter the amount that you want to swap:</p>
 							<div>
 								{this.assetSelector(state.assetIn, this.handleAssetInUpdate)}

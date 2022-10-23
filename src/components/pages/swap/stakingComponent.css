@@ -11,9 +11,20 @@
 	padding: 50px;
 }
 
+.addLiquidityCard {
+	background-color: #21b451;
+	padding-left: 2%;
+	margin-top: 2%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
+
 .lppair {
 	background-color: #21b451;
 	padding-left: 2%;
+	margin-top: 2%;
+	padding-top: 1%;
+	padding-bottom: 1%;
 }
 
 .staking-container .staking-body h1 {

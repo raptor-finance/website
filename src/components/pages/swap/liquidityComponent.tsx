@@ -25,6 +25,7 @@ export type RaptorSwapState = {
 	address?: string,
 	amountA?: number,
 	amountB?: number,
+	amountLPTokens?: number,
 	assetA?: string,
 	assetB?: string,
 	balanceA?: number,
@@ -51,7 +52,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		this.handleAssetAUpdate = this.handleAssetAUpdate.bind(this);
 		this.handleAssetBUpdate = this.handleAssetBUpdate.bind(this);
 		this.updateAssets = this.updateAssets.bind(this);
-		this.swap = this.swap.bind(this);
+		this.liquify = this.liquify.bind(this);
 		// this.setMaxDepositAmount = this.setMaxDepositAmount.bind(this);
 		// this.setMaxWithdrawalAmount = this.setMaxWithdrawalAmount.bind(this);
 		this.state = {};
@@ -140,6 +141,10 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		this.updateState({ amountB:tokens, amountA: _amtA });
 	}
 	
+	handleLPAmountUpdate(event) {
+		this.updateState({ amountLPTokens: event.target.value });
+	}
+	
 	async refreshBalances() {
 		const state = this.readState();
 		await this.updateCurrentPair();
@@ -165,15 +170,20 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		const state = this.readState();
 		const _pair = (await state.swap.pairFor(state.assetA, state.assetB));
 		console.log(_pair);
-		this.updateState({selectedPair: _pair});
+		await this.updateState({selectedPair: _pair});
+		await _pair.setupPromise;
 	}
 	
-	async swap() {
+	async liquify() {
 		let state = this.readState();
 		console.log(state);
 		await state.chain.refresh();
 		await state.swap.liquify(state.amountA, state.amountB, state.assetA, state.assetB);
 		this.updateOnce(true);
+	}
+	
+	async removeLP() {
+		// TODO
 	}
 	
 	async addTestnetToMetamask() {
@@ -252,6 +262,60 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			</select>
 		</>
 	}
+	
+	renderAddLiquidity() {
+		const state = this.readState();
+		return <div className="container shadow addLiquidityCard gradient-card">
+			<h2>Add Liquidity</h2>
+			<div>
+				{this.assetSelector(state.assetA, this.handleAssetAUpdate)}
+				Balance : {state.balanceA}
+			</div>
+			<div>
+				<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.amountA}></input>
+			</div>
+			<div>
+				{this.assetSelector(state.assetB, this.handleAssetBUpdate)}
+				Balance : {state.balanceB}
+			</div>
+			<div>
+				<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.amountB}></input>
+			</div>
+			<br/>
+			<div className="d-flex justify-content-center button-row">
+				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.removeLP}>Remove Liquidity</button>
+			</div>
+		</div>
+	}
+
+	renderRemoveLiquidity() {
+		const state = this.readState();
+		const _pair = state.selectedPair;
+		const _lpBalance = _pair ? _pair.formattedLpBalance : 0;
+		console.log(`LP balance : ${_lpBalance}`)
+		return <div className="container shadow addLiquidityCard gradient-card">
+			<h2>Remove Liquidity</h2>
+			<div>
+				{this.assetSelector(state.assetA, this.handleAssetAUpdate)}
+				Balance : {state.balanceA}
+			</div>
+			<div>
+				{this.assetSelector(state.assetB, this.handleAssetBUpdate)}
+				Balance : {state.balanceB}
+			</div>
+			<div>
+				LP Balance : {_lpBalance}
+			</div>
+			<div>
+				<input className="input-amount" placeholder="Enter LP amount..." onChange={this.handleLPAmountUpdate} value={state.amountLPTokens}></input>
+			</div>
+			<br/>
+			<div className="d-flex justify-content-center button-row">
+				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.liquify}>Add Liquidity</button>
+			</div>
+		</div>
+	}
+
 
 	render() {
 		this.updateOnce(false);
@@ -286,25 +350,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
-							<h2>Balance breakdown</h2>
-							<div>
-								{this.assetSelector(state.assetA, this.handleAssetAUpdate)}
-								Balance : {state.balanceA}
-							</div>
-							<div>
-								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.amountA}></input>
-                            </div>
-							<div>
-								{this.assetSelector(state.assetB, this.handleAssetBUpdate)}
-								Balance : {state.balanceB}
-							</div>
-							<div>
-								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.amountB}></input>
-                            </div>
-							<br/>
-                            <div className="d-flex justify-content-center button-row">
-					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.swap}>Add Liquidity</button>
-					        </div>
+							{this.renderRemoveLiquidity()}
 							{this.renderPairsList()}
 						</div>
 
