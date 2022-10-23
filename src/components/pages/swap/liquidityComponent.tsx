@@ -89,7 +89,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 
 			this.updateState({ wallet: wallet, chain: chain, swap: swap, address: wallet.currentAddress, looping: true, pending: false, ctValue: 0, assetA: "RPTR", assetB: "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32" });
 			this.updateOnce(true).then();
-
+			this.refreshBalances();
 			this.loop().then();
 		}
 		catch (e) {
@@ -172,7 +172,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		let state = this.readState();
 		console.log(state);
 		await state.chain.refresh();
-		await state.swap.swap(state.valueIn, state.assetA, state.assetB);
+		await state.swap.liquify(state.amountA, state.amountB, state.assetA, state.assetB);
 		this.updateOnce(true);
 	}
 	

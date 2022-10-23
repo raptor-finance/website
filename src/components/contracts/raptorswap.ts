@@ -230,6 +230,21 @@ export class RaptorSwap {
 		}
 	}
 	
+	async liquify(amountA, amountB, assetA, assetB) {
+		const _type = ((assetA == "RPTR" || (assetB == "RPTR")) ? 1 : 0); // type 1 if addLiquidityRPTR else type 0
+		const _rawAmtA = web3.toWei(amountA);
+		const _rawAmtB = web3.toWei(amountB);
+		switch (_type) {
+			case 0:
+				this.addLiquidity(assetA, assetB, _rawAmtA, _rawAmtB, 0, 0);
+				break;
+			case 1:
+				const _nonRPTRToken = (assetA == "RPTR") ? assetB : assetA;
+				this.addLiquidityRPTR(_nonRPTRToken, _rawAmtA, _rawAmtB, 0, 0);
+				break;
+		}
+	}
+	
 	async assetBalance(assetName) {
 		console.log(`Pulling ${assetName} balance`);
 		switch (assetName) {
