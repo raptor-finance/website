@@ -209,7 +209,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			<div>
 				{numeral(pair.formattedBalance1).format("0.00")} {pair.ticker1}
 			</div>
-			<button onClick={() => this.selectAsset(pair.token0, pair.token1)}><select>
+			<button onClick={() => this.selectAsset(pair.token0, pair.token1)}></button>
 		</div>
 	}
 	
