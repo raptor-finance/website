@@ -283,7 +283,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			</div>
 			<br/>
 			<div className="d-flex justify-content-center button-row">
-				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.removeLP}>Remove Liquidity</button>
+				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.liquify}>Add Liquidity</button>
 			</div>
 		</div>
 	}
@@ -311,7 +311,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			</div>
 			<br/>
 			<div className="d-flex justify-content-center button-row">
-				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.liquify}>Add Liquidity</button>
+				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.removeLP}>Remove Liquidity</button>
 			</div>
 		</div>
 	}
