@@ -23,9 +23,9 @@ export type RaptorSwapState = {
 	pending?: boolean,
 	looping?: boolean,
 	address?: string,
-	amountA?: number,
-	amountB?: number,
-	amountLPTokens?: number,
+	amountA?: string,
+	amountB?: string,
+	amountLPTokens?: string,
 	assetA?: string,
 	assetB?: string,
 	balanceA?: number,
@@ -49,10 +49,12 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		this.disconnectWallet = this.disconnectWallet.bind(this);
 		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
 		this.handleAmountOutUpdate = this.handleAmountOutUpdate.bind(this);
+		this.handleLPAmountUpdate = this.handleLPAmountUpdate.bind(this);
 		this.handleAssetAUpdate = this.handleAssetAUpdate.bind(this);
 		this.handleAssetBUpdate = this.handleAssetBUpdate.bind(this);
 		this.updateAssets = this.updateAssets.bind(this);
 		this.liquify = this.liquify.bind(this);
+		this.removeLP = this.removeLP.bind(this);
 		// this.setMaxDepositAmount = this.setMaxDepositAmount.bind(this);
 		// this.setMaxWithdrawalAmount = this.setMaxWithdrawalAmount.bind(this);
 		this.state = {};
@@ -183,6 +185,11 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 	}
 	
 	async removeLP() {
+		let state = this.readState();
+		console.log(state);
+		await state.chain.refresh();
+		await state.swap.removeLP(state.amountLPTokens, state.assetA, state.assetB);
+		this.updateOnce(true);
 		// TODO
 	}
 	
@@ -272,14 +279,14 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 				Balance : {state.balanceA}
 			</div>
 			<div>
-				<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.amountA}></input>
+				<input type="number" className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.amountA}></input>
 			</div>
 			<div>
 				{this.assetSelector(state.assetB, this.handleAssetBUpdate)}
 				Balance : {state.balanceB}
 			</div>
 			<div>
-				<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.amountB}></input>
+				<input type="number" className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.amountB}></input>
 			</div>
 			<br/>
 			<div className="d-flex justify-content-center button-row">
@@ -307,7 +314,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 				LP Balance : {_lpBalance}
 			</div>
 			<div>
-				<input className="input-amount" placeholder="Enter LP amount..." onChange={this.handleLPAmountUpdate} value={state.amountLPTokens}></input>
+				<input type="number" className="input-amount" placeholder="Enter LP amount..." onChange={this.handleLPAmountUpdate} value={state.amountLPTokens}></input>
 			</div>
 			<br/>
 			<div className="d-flex justify-content-center button-row">

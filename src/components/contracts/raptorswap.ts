@@ -174,7 +174,7 @@ export class RaptorSwap {
 		const _token = this.getTokenAt(tokenAddr);
 		const _currentAllowance = await _token.methods.allowance(this._wallet.currentAddress, RouterAddress).call();
 		console.log(_currentAllowance);
-		if (rawAmount > _currentAllowance) {
+		if (BigInt(rawAmount) > BigInt(_currentAllowance)) {
 			await _token.methods.approve(RouterAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress});
 		}
 	}
@@ -230,10 +230,16 @@ export class RaptorSwap {
 		return (await this._router.methods.addLiquidityETH(tokenAddr, amountToken, amountMinToken, amountMinRPTR, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "value": amountRPTR, "gas": 500000}));
 	}
 	
-	async removeLiquidity(lpAmount, assetA, assetB) {
+	async removeLiquidity(lpAmount, assetA, assetB, amtAMin, amtBMin) {
 		const _pAddr = await this._factory.methods.getPair(this.calcName(tokenA), this.calcName(tokenB)).call();
 		await this.ensureApproval(_pAddr, lpAmount);
-		return (await this._router.methods.removeLiquidity(tokenA, tokenB, amountA, amountB, amountAmin, amountBmin, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "gas": 500000}));
+		return (await this._router.methods.removeLiquidity(tokenA, tokenB, lpAmount, amountAmin, amountBmin, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "gas": 500000}));
+	}
+	
+	async removeLiquidityRPTR(lpAmount, tokenAddr, amountTokenMin, amountRPTRMin) {
+		const _pAddr = await this._factory.methods.getPair(this.calcName("RPTR"), this.calcName(tokenAddr)).call();
+		await this.ensureApproval(_pAddr, lpAmount);
+		return (await this._router.methods.removeLiquidityETH(tokenAddr, lpAmount, amountTokenMin, amountRPTRMin, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "gas": 500000}));
 	}
 	
 	async swap(_amountIn, assetFrom, assetTo) {
@@ -269,7 +275,17 @@ export class RaptorSwap {
 	}
 	
 	async removeLP(LPAmt, assetA, assetB) {
-		
+		const _type = ((assetA == "RPTR" || (assetB == "RPTR")) ? 1 : 0); // type 1 if removeLiquidityRPTR else type 0
+		const _rawAmt = web3.toWei(String(LPAmt));
+		switch (_type) {
+			case 0:
+				this.removeLiquidity(_rawAmt, assetA, assetB, 0, 0);
+				break;
+			case 1:
+				const _nonRPTRToken = (assetA == "RPTR") ? assetB : assetA;
+				this.removeLiquidityRPTR(_rawAmt, _nonRPTRToken, 0, 0);
+				break;
+		}
 	}
 	
 	async assetBalance(assetName) {
