@@ -147,15 +147,19 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 	}
 
 	async handleAssetInUpdate(event) {
+		const state = this.readState();
 		const _asset = event.target.value;
 		console.log(`Asset in : ${_asset}`);
-		await this.updateState({ assetIn: _asset });
+		const _assetOut = (_asset == state.assetOut) ? state.assetIn : state.assetOut;
+		await this.updateState({ assetIn: _asset, assetOut: _assetOut });
 		this.refreshBalances();
 	}
 
 	async handleAssetOutUpdate(event) {
+		const state = this.readState();
 		const _asset = event.target.value;
-		await this.updateState({ assetOut: _asset });
+		const _assetIn = (_asset == state.assetIn) ? state.assetOut : state.assetIn;
+		await this.updateState({ assetIn: _assetIn, assetOut: _asset });
 		this.refreshBalances();
 	}
 	
