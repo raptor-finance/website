@@ -302,14 +302,14 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		return <div className="container shadow addLiquidityCard gradient-card">
 			<h2>Add Liquidity</h2>
 			<div>
-				{this.assetSelector(state.assetA, this.handleAssetAUpdate)}
+				{this.assetSelector(state.assetA, this.handleAssetAUpdate)}&nbsp;
 				Balance : {state.balanceA}
 			</div>
 			<div>
 				<input type="number" className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.amountA}></input>
 			</div>
 			<div>
-				{this.assetSelector(state.assetB, this.handleAssetBUpdate)}
+				{this.assetSelector(state.assetB, this.handleAssetBUpdate)}&nbsp;
 				Balance : {state.balanceB}
 			</div>
 			<div>
@@ -331,11 +331,11 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		return <div className="container shadow addLiquidityCard gradient-card">
 			<h2>Remove Liquidity</h2>
 			<div>
-				{this.assetSelector(state.assetA, this.handleAssetAUpdate)}
+				{this.assetSelector(state.assetA, this.handleAssetAUpdate)}&nbsp;
 				Balance : {state.balanceA}
 			</div>
 			<div>
-				{this.assetSelector(state.assetB, this.handleAssetBUpdate)}
+				{this.assetSelector(state.assetB, this.handleAssetBUpdate)}&nbsp;
 				Balance : {state.balanceB}
 			</div>
 			<div>
