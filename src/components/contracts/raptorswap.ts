@@ -6,6 +6,10 @@ export const FactoryAddress = "0xB8F7aAdaC20Cd74237dDAB7AC7ead317BF049Fa3";
 export const RouterAddress = "0x397D194abF71094247057642003EaCd463b7931f";
 export const WRPTRAddress = "0xeF7cADE66695f4cD8a535f7916fBF659936818C4";
 
+// hashes used to for permit (liquidity withdrawal)
+export const DOMAIN_SEPARATOR = "0xc56088e58ee9e64a22017a4611f12d8dee75fd43a2c6b273fa1fd813bfa29323";
+export const PERMIT_TYPEHASH = "0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9";
+
 export const EVM_MAX_UINT256 = "115792089237316195423570985008687907853269984665640564039457584007913129639935"
 
 export class LiquidityPair {
@@ -184,6 +188,19 @@ export class RaptorSwap {
 		return 0;
 	}
 	
+	// calcPermit(tokensRaw) {
+		// // bytes32 digest = keccak256(
+			// // abi.encodePacked(
+				// // '\x19\x01',
+				// // DOMAIN_SEPARATOR,
+				// // keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, nonces[owner]++, deadline))
+			// // )
+		// // );
+
+
+		// web3.soliditySha3({"type": "bytes32", "value": PERMIT_TYPEHASH}, {"type": "address", "value": this._wallet.currentAddress}, {"type": "address", "value": RouterAddress}, {"type": "uint256", "value": tokensRaw}, {"type": "uint256", "value": tokensRaw})
+	// }
+	
 	async swapTokenToToken(amountIn, path) {
 		await this.ensureApproval(path[0], amountIn);
 		return (await this._router.methods.swapExactTokensForTokens(amountIn, 0, path, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "gas": 500000}));
@@ -211,6 +228,12 @@ export class RaptorSwap {
 	async addLiquidityRPTR(tokenAddr, amountRPTR, amountToken, amountMinRPTR, amountMinToken) {
 		await this.ensureApproval(tokenAddr, amountToken);
 		return (await this._router.methods.addLiquidityETH(tokenAddr, amountToken, amountMinToken, amountMinRPTR, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "value": amountRPTR, "gas": 500000}));
+	}
+	
+	async removeLiquidity(lpAmount, assetA, assetB) {
+		const _pAddr = await this._factory.methods.getPair(this.calcName(tokenA), this.calcName(tokenB)).call();
+		await this.ensureApproval(_pAddr, lpAmount);
+		return (await this._router.methods.removeLiquidity(tokenA, tokenB, amountA, amountB, amountAmin, amountBmin, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "gas": 500000}));
 	}
 	
 	async swap(_amountIn, assetFrom, assetTo) {
@@ -243,6 +266,10 @@ export class RaptorSwap {
 				this.addLiquidityRPTR(_nonRPTRToken, _rawAmtA, _rawAmtB, 0, 0);
 				break;
 		}
+	}
+	
+	async removeLP(LPAmt, assetA, assetB) {
+		
 	}
 	
 	async assetBalance(assetName) {
