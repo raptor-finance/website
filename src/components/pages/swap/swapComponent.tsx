@@ -268,27 +268,29 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
-							<h2>Swap</h2>
-							<p>Enter the amount that you want to swap:</p>
-							<div>
-								{this.assetSelector(state.assetIn, this.handleAssetInUpdate)}
-								Balance : {state.balanceIn}
+							<div className="container shadow addLiquidityCard gradient-card">
+								<h2>Swap</h2>
+								<p>Enter the amount that you want to swap:</p>
+								<div>
+									{this.assetSelector(state.assetIn, this.handleAssetInUpdate)}
+									Balance : {state.balanceIn}
+								</div>
+								<div>
+									<input type="number" className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.valueIn}></input>&nbsp;
+									<button onClick={this.setMaxAmount} className="btn btn-md btn-primary">Max</button>
+								</div>
+								<div>
+									{this.assetSelector(state.assetOut, this.handleAssetOutUpdate)}
+									Balance : {state.balanceOut}
+								</div>
+								<div>
+									<input type="number" className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.valueOut}></input>
+								</div>
+								<br/>
+								<div className="d-flex justify-content-center button-row">
+									<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.swap}>Swap</button>
+								</div>
 							</div>
-							<div>
-								<input type="number" className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.valueIn}></input>
-								<button onClick={this.setMaxAmount} className="btn btn-md btn-primary">Max</button>
-                            </div>
-							<div>
-								{this.assetSelector(state.assetOut, this.handleAssetOutUpdate)}
-								Balance : {state.balanceOut}
-							</div>
-							<div>
-								<input type="number" className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.valueOut}></input>
-                            </div>
-							<br/>
-                            <div className="d-flex justify-content-center button-row">
-					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.swap}>Swap</button>
-					        </div>
 						</div>
 
 
