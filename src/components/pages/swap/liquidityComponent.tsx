@@ -49,7 +49,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		this.handleAmountOutUpdate = this.handleAmountOutUpdate.bind(this);
 		this.handleAssetAUpdate = this.handleAssetAUpdate.bind(this);
 		this.handleAssetBUpdate = this.handleAssetBUpdate.bind(this);
-		this.updateState = this.updateState.bind(this);
+		this.updateAssets = this.updateAssets.bind(this);
 		this.swap = this.swap.bind(this);
 		// this.setMaxDepositAmount = this.setMaxDepositAmount.bind(this);
 		// this.setMaxWithdrawalAmount = this.setMaxWithdrawalAmount.bind(this);
