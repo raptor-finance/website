@@ -38,6 +38,9 @@ export class LiquidityPair {
 	
 	setupPromise: Promise;
 	
+	calcAddr(_contract) {
+		return (_contract == WRPTRAddress) ? "RPTR" : _contract;
+	}
 	
 	constructor(wallet: Wallet, router: Contract, factory: Contract, lpAddr: string) {
 		this._wallet = wallet;
@@ -53,10 +56,13 @@ export class LiquidityPair {
 		this._contract0 = this._wallet.connectToContract(this.token0, require("./erc20.abi.json"));
 		this._contract1 = this._wallet.connectToContract(this.token1, require("./erc20.abi.json"));
 		
-		this.ticker0 = await this._contract0.methods.symbol().call();
-		this.ticker1 = await this._contract1.methods.symbol().call();
+		this.token0 = this.calcAddr(this.token0);
+		this.token1 = this.calcAddr(this.token1);
 		
-		this.refresh();
+		this.ticker0 = (this.token0 == "RPTR") ? "RPTR" : (await this._contract0.methods.symbol().call());
+		this.ticker1 = (this.token1 == "RPTR") ? "RPTR" : (await this._contract1.methods.symbol().call());
+		
+		await this.refresh();
 	}
 	
 	async refresh() {
@@ -73,6 +79,26 @@ export class LiquidityPair {
 		this.formattedLpBalance = web3.fromWei(String(this.lpbalance));
 		this.formattedBalance0 = web3.fromWei(String(this.balance0));
 		this.formattedBalance1 = web3.fromWei(String(this.balance1));
+	}
+	
+	public getOtherAmount(enteredAssetName, enteredAssetAmt) {
+		const _enteredAssetAmt = BigInt(web3.toWei(enteredAssetAmt));
+		let _enteredAssetReserve;
+		let _otherAssetReserve;
+		switch (this.calcAddr(enteredAssetName)) {
+			case this.token0:
+				_enteredAssetReserve = this.reserve0;
+				_otherAssetReserve = this.reserve1;
+				break;
+			case this.token1:
+				_enteredAssetReserve = this.reserve1;
+				_otherAssetReserve = this.reserve0;
+				break;
+			default:
+				throw "Asset not found in this pair";
+		}
+		const _amt = (_enteredAssetAmt * _otherAssetReserve) / _enteredAssetReserve;
+		return web3.fromWei(String(_amt));
 	}
 }
 
@@ -133,6 +159,11 @@ export class RaptorSwap {
 		}
 		this._pairs = _p;
 		console.log(this._pairs);
+	}
+	
+	async pairFor(tokenA, tokenB) {
+		const _pAddr = await this._factory.methods.getPair(this.calcName(tokenA), this.calcName(tokenB)).call();
+		return this.getLpAt(_pAddr);
 	}
 	
 	async ensureApproval(tokenAddr, rawAmount) {

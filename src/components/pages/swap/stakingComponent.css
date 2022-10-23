@@ -11,6 +11,11 @@
 	padding: 50px;
 }
 
+.lppair {
+	background-color: #21b451;
+	padding-left: 2%;
+}
+
 .staking-container .staking-body h1 {
 	font-size: 1.8rem;
 	font-weight: bold;

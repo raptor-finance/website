@@ -28,7 +28,8 @@ export type RaptorSwapState = {
 	assetA?: string,
 	assetB?: string,
 	balanceA?: number,
-	balanceB?: number
+	balanceB?: number,
+	selectedPair?: any
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -124,19 +125,27 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 	}
 	
 	async handleAmountUpdate(event) {
+		const state = this.readState();
 		let tokens = event.target.value;
-		const valueOut = await this.readState().swap.getOutput(tokens, "RPTR", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32");
-		this.updateState({ valueIn:tokens, valueOut: valueOut });
+		console.log(state.selectedPair);
+		const _amtB = state.selectedPair.getOtherAmount(state.assetA, tokens);
+		this.updateState({ amountA:tokens, amountB: _amtB });
 	}
 	
 	async handleAmountOutUpdate(event) {
+		const state = this.readState();
 		let tokens = event.target.value;
-		let valueIn = await this.readState().swap.getInput(tokens, "RPTR", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32");
-		this.updateState({ valueOut:tokens, valueIn: valueIn });
+//		let valueIn = await this.readState().swap.getInput(tokens, "RPTR", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32");
+		const _amtA = state.selectedPair.getOtherAmount(state.assetB, tokens);
+		this.updateState({ amountB:tokens, amountA: _amtA });
 	}
 	
 	async refreshBalances() {
-		// TODO : add stuff to catch asset A/B balances
+		const state = this.readState();
+		await this.updateCurrentPair();
+		const _balanceA = await state.swap.assetBalance(state.assetA);
+		const _balanceB = await state.swap.assetBalance(state.assetB);
+		this.updateState({balanceA: _balanceA, balanceB: _balanceB});
 	}
 	
 	async handleAssetAUpdate(event) {
@@ -152,7 +161,12 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		this.refreshBalances();
 	}
 	
-	
+	async updateCurrentPair() {
+		const state = this.readState();
+		const _pair = (await state.swap.pairFor(state.assetA, state.assetB));
+		console.log(_pair);
+		this.updateState({selectedPair: _pair});
+	}
 	
 	async swap() {
 		let state = this.readState();
@@ -202,17 +216,17 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		this.refreshBalances();
 	}
 	pairDisplay(pair) {
-		return <div className="container">
+		return <div className="container shadow lppair gradient-card">
 			<div>
-				{numeral(pair.formattedLpBalance).format("0.00")} LP
+				<div>
+					{numeral(pair.formattedBalance0).format("0.00")} {pair.ticker0}
+					{numeral(pair.formattedBalance1).format("0.00")} {pair.ticker1}
+					<button className="btn btn-primary" onClick={() => this.updateAssets(pair.token0, pair.token1)}>Select Pair</button>
+				</div>
+				<div>
+					{numeral(pair.formattedLpBalance).format("0.00")} {pair.ticker0}/{pair.ticker1} LP
+				</div>
 			</div>
-			<div>
-				{numeral(pair.formattedBalance0).format("0.00")} {pair.ticker0}
-			</div>
-			<div>
-				{numeral(pair.formattedBalance1).format("0.00")} {pair.ticker1}
-			</div>
-			<button onClick={() => this.selectAsset(pair.token0, pair.token1)}></button>
 		</div>
 	}
 	
@@ -278,14 +292,14 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 								Balance : {state.balanceA}
 							</div>
 							<div>
-								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.valueIn}></input>
+								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.amountA}></input>
                             </div>
 							<div>
 								{this.assetSelector(state.assetB, this.handleAssetBUpdate)}
 								Balance : {state.balanceB}
 							</div>
 							<div>
-								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.valueOut}></input>
+								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.amountB}></input>
                             </div>
 							<br/>
                             <div className="d-flex justify-content-center button-row">
