@@ -222,6 +222,14 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 			{this.assetDisplay("rDUCO", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32")}
 		</>
 	}
+	
+	assetSelector(_value, _updater) {
+		return <>
+			<select value={_value} onChange={_updater}>
+				{this.assetList()}
+			</select>
+		</>
+	}
 
 	render() {
 		this.updateOnce(false);
@@ -259,10 +267,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 							<h2>Balance breakdown</h2>
 							<p>Enter the amount that you want to swap:</p>
 							<div>
-								<select value={state.assetIn} onChange={this.handleAssetInUpdate}>
-								  <option value="RPTR">RPTR</option>
-								  <option value="0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32">rDUCO</option>
-								</select>
+								{this.assetSelector(state.assetIn, this.handleAssetInUpdate)}
 								Balance : {state.balanceIn}
 							</div>
 							<div>
@@ -270,9 +275,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 								<button onClick={this.setMaxAmount} className="btn btn-md btn-primary">Max</button>
                             </div>
 							<div>
-								<select value={state.assetOut} onChange={this.handleAssetOutUpdate}>
-									{this.assetList()}
-								</select>
+								{this.assetSelector(state.assetOut, this.handleAssetOutUpdate)}
 								Balance : {state.balanceOut}
 							</div>
 							<div>

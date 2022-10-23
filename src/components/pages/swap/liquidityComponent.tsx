@@ -26,7 +26,9 @@ export type RaptorSwapState = {
 	amountA?: number,
 	amountB?: number,
 	assetA?: string,
-	assetB?: string
+	assetB?: string,
+	balanceA?: number,
+	balanceB?: number
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -130,15 +132,24 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		this.updateState({ valueOut:tokens, valueIn: valueIn });
 	}
 	
-	// setMaxDepositAmount() {
-		// const state = this.readState();
-		// this.updateState({ ctValue: ((!!state.raptor) ? state.raptor.balancev3 : 0) });
-	// }
+	async refreshBalances() {
+		// TODO : add stuff to catch asset A/B balances
+	}
 	
-	// setMaxWithdrawalAmount() {
-		// const state = this.readState();
-		// this.updateState({ ctValue: ((!!state.chain) ? state.chain.balance : 0) });
-	// }
+	async handleAssetAUpdate(event) {
+		const _asset = event.target.value;
+		console.log(`Asset A : ${_asset}`);
+		await this.updateState({ assetA: _asset });
+		this.refreshBalances();
+	}
+
+	async handleAssetBUpdate(event) {
+		const _asset = event.target.value;
+		await this.updateState({ assetB: _asset });
+		this.refreshBalances();
+	}
+	
+	
 	
 	async swap() {
 		let state = this.readState();
@@ -164,6 +175,29 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
 	}
 	
+	assetDisplay(assetName, contractAddr) {
+		return <>
+			<option value={contractAddr}>{assetName}</option>
+		</>
+		
+	}
+
+	assetList() {
+		// return <>
+			// <option value="RPTR">RPTR</option>
+			// <option value="0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32">rDUCO</option>
+		// </>
+		
+		return <>
+			{this.assetDisplay("RPTR", "RPTR")}
+			{this.assetDisplay("rDUCO", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32")}
+		</>
+	}
+
+	async updateAssets(token0, token1) {
+		await this.updateState({assetA: token0, assetB: token1});
+		this.refreshBalances();
+	}
 	pairDisplay(pair) {
 		return <div className="container">
 			<div>
@@ -175,6 +209,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			<div>
 				{numeral(pair.formattedBalance1).format("0.00")} {pair.ticker1}
 			</div>
+			<button onClick={() => this.selectAsset(pair.token0, pair.token1)}><select>
 		</div>
 	}
 	
@@ -191,6 +226,14 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			console.error(e);
 			return <></>
 		}
+	}
+	
+	assetSelector(_value, _updater) {
+		return <>
+			<select value={_value} onChange={_updater}>
+				{this.assetList()}
+			</select>
+		</>
 	}
 
 	render() {
@@ -227,10 +270,17 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
 							<h2>Balance breakdown</h2>
-							<p>Enter the amount that you want to swap:</p>
+							<div>
+								{this.assetSelector(state.assetA, this.handleAssetAUpdate)}
+								Balance : {state.balanceA}
+							</div>
 							<div>
 								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountUpdate} value={state.valueIn}></input>
                             </div>
+							<div>
+								{this.assetSelector(state.assetB, this.handleAssetBUpdate)}
+								Balance : {state.balanceB}
+							</div>
 							<div>
 								<input className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.valueOut}></input>
                             </div>
