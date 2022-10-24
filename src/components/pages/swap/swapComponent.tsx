@@ -189,6 +189,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		console.log(state);
 		await state.chain.refresh();
 		await state.swap.swap(state.valueIn, state.assetIn, state.assetOut);
+		await this.refreshBalances();
 		this.updateOnce(true);
 	}
 	

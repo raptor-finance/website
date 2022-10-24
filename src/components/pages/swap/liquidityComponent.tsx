@@ -161,7 +161,6 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		const _balanceB = await state.swap.assetBalance(state.assetB);
 		await this.updateState({balanceA: _balanceA, balanceB: _balanceB});
 		await state.swap.refreshPairs();
-		await this.updateState();
 	}
 	
 	async handleAssetAUpdate(event) {

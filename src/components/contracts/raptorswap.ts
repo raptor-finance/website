@@ -277,11 +277,11 @@ export class RaptorSwap {
 		const _rawAmtB = web3.toWei(amountB);
 		switch (_type) {
 			case 0:
-				this.addLiquidity(assetA, assetB, _rawAmtA, _rawAmtB, 0, 0);
+				await this.addLiquidity(assetA, assetB, _rawAmtA, _rawAmtB, 0, 0);
 				break;
 			case 1:
 				const _nonRPTRToken = (assetA == "RPTR") ? assetB : assetA;
-				this.addLiquidityRPTR(_nonRPTRToken, _rawAmtA, _rawAmtB, 0, 0);
+				await this.addLiquidityRPTR(_nonRPTRToken, _rawAmtA, _rawAmtB, 0, 0);
 				break;
 		}
 	}
@@ -291,11 +291,11 @@ export class RaptorSwap {
 		const _rawAmt = web3.toWei(String(LPAmt));
 		switch (_type) {
 			case 0:
-				this.removeLiquidity(_rawAmt, assetA, assetB, 0, 0);
+				await this.removeLiquidity(_rawAmt, assetA, assetB, 0, 0);
 				break;
 			case 1:
 				const _nonRPTRToken = (assetA == "RPTR") ? assetB : assetA;
-				this.removeLiquidityRPTR(_rawAmt, _nonRPTRToken, 0, 0);
+				await this.removeLiquidityRPTR(_rawAmt, _nonRPTRToken, 0, 0);
 				break;
 		}
 	}
