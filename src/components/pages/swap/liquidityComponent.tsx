@@ -159,7 +159,9 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		await this.updateCurrentPair();
 		const _balanceA = await state.swap.assetBalance(state.assetA);
 		const _balanceB = await state.swap.assetBalance(state.assetB);
-		this.updateState({balanceA: _balanceA, balanceB: _balanceB});
+		await this.updateState({balanceA: _balanceA, balanceB: _balanceB});
+		await state.swap.refreshPairs();
+		await this.updateState();
 	}
 	
 	async handleAssetAUpdate(event) {
@@ -192,6 +194,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		console.log(state);
 		await state.chain.refresh();
 		await state.swap.liquify(state.amountA, state.amountB, state.assetA, state.assetB);
+		await this.refreshBalances();
 		this.updateOnce(true);
 	}
 	
@@ -200,6 +203,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		console.log(state);
 		await state.chain.refresh();
 		await state.swap.removeLP(state.amountLPTokens, state.assetA, state.assetB);
+		await this.refreshBalances();
 		this.updateOnce(true);
 		// TODO
 	}

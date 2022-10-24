@@ -116,6 +116,7 @@ export class RaptorSwap {
 		this._wallet = wallet;
 		this._factory = wallet.connectToContract(FactoryAddress, require('./swapfactory.abi.json'));
 		this._router = wallet.connectToContract(RouterAddress, require('./swaprouter.abi.json'));
+		this._pairs = [];
 		this.fetchPairs();
 	}
 	
@@ -163,6 +164,17 @@ export class RaptorSwap {
 		}
 		this._pairs = _p;
 		console.log(this._pairs);
+	}
+	
+	async refreshPairs() {
+		let _proms = [];
+		for (let i = 0; i < this._pairs.length; i++) {
+			_proms.push(this._pairs[i].refresh());
+		}
+		
+		for (let j = 0; j < _proms.length; j++) {
+			await _proms[j];
+		}
 	}
 	
 	async pairFor(tokenA, tokenB) {
