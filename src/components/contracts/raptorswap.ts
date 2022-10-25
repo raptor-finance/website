@@ -104,6 +104,22 @@ export class LiquidityPair {
 		const _amt = (_enteredAssetAmt * _otherAssetReserve) / _enteredAssetReserve;
 		return web3.fromWei(String(_amt));
 	}
+	
+	public getPooledAmount(assetName, lpAmt) {
+		const _lpAmt = BigInt(web3.toWei(lpAmt));
+		let _enteredAssetReserve;
+		switch (this.calcAddr(enteredAssetName)) {
+			case this.token0:
+				_enteredAssetReserve = this.reserve0;
+				break;
+			case this.token1:
+				_enteredAssetReserve = this.reserve1;
+				break;
+			default:
+				throw "Asset not found in this pair";
+		}
+		return ((_enteredAssetReserve * this.lpbalance) / this.totalSupply);
+	}
 }
 
 export class RaptorSwap {

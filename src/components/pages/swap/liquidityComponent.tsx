@@ -302,6 +302,13 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		</>
 	}
 	
+	getEstWdAmt() {
+		const state = this.readState();
+		return <div>
+			You will get {state.selectedPair.getPooledAmount(state.assetA, state.amountA)} {state.selectedPair}
+		</div>
+	}
+	
 	renderAddLiquidity() {
 		const state = this.readState();
 		return <div className="container shadow addLiquidityCard gradient-card">

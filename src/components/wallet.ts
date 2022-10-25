@@ -144,7 +144,7 @@ export class Wallet {
 			this._chainId = provider.chainId;
 			// if (!ignoreChain && ((provider.chainId != 1380996178) && (provider.networkVersion != 1380996178)) && ((provider.chainId != 56) && (provider.networkVersion != 56)) && ((provider.chainId != this._raptorChainID) && (provider.networkVersion != this._raptorChainID)) && ((provider.chainId != 97) && (provider.networkVersion != 97))) {
 			if ((expectedChainID || 56) != provider.chainId) {
-				this.switchNetwork(expectedChainID || 56);
+				await this.switchNetwork(expectedChainID || 56);
 			}
 		}
 		else {
