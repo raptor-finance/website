@@ -115,7 +115,26 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 								</ul>
 							</div>
 						</Collapsible>
-						
+
+						<Collapsible
+							trigger={this.collapsedNavItem("RaptorSwap")}
+							triggerWhenOpen={this.expandedNavItem("RaptorSwap")}
+							transitionTime={240}
+							transitionCloseTime={240}
+							open={this.checkCurrentRoute()}
+						>
+							<div className="collapsible-div">
+								<ul className="navbar-nav">
+									<li>
+									    <NavLink to="/swap" activeClassName="active">Swap</NavLink>
+									</li>
+									<li>
+										<NavLink to="/liquidity" activeClassName="active">Liquidity</NavLink>
+									</li>
+								</ul>
+							</div>
+						</Collapsible>
+
 						<Collapsible
 							trigger={this.collapsedNavItem("Testnet")}
 							triggerWhenOpen={this.expandedNavItem("Testnet")}
@@ -128,25 +147,6 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 									<li>
 									    <NavLink to="/faucet" activeClassName="active">Faucet</NavLink>
 									    <NavLink to="/crosschain" activeClassName="active">Bridge</NavLink>
-									</li>
-								</ul>
-							</div>
-						</Collapsible>
-						
-						<Collapsible
-							trigger={this.collapsedNavItem("Trade")}
-							triggerWhenOpen={this.expandedNavItem("Trade")}
-							transitionTime={240}
-							transitionCloseTime={240}
-							open={this.checkCurrentRoute()}
-						>
-							<div className="collapsible-div">
-								<ul className="navbar-nav">
-									<li>
-										<a href="https://swap.raptorswap.com/#/swap" activeClassName="active" className="nav-item swap">Swap BETA</a>
-									</li>
-									<li>
-									    <a href="https://swap.raptorswap.com/#/pool" activeClassName="active" className="nav-item liquidity">Liquidity</a>
 									</li>
 								</ul>
 							</div>
@@ -188,6 +188,12 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 									</li>
 									<li>
 										<NavLink to="/stakingv2" activeClassName="active">Staking V2</NavLink>
+									</li>
+									<li>
+										<a href="https://swap.raptorswap.com/#/swap" activeClassName="active" className="nav-item swap">BSC Swap BETA</a>
+									</li>
+									<li>
+									    <a href="https://swap.raptorswap.com/#/pool" activeClassName="active" className="nav-item liquidity">BSC Liquidity</a>
 									</li>
 								</ul>
 							</div>
