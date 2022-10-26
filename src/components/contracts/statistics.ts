@@ -113,7 +113,6 @@ export class RaptorStatistics {
 		const bnbPrice = (await (await _BNBBUSDPROMISE).json()).price;
 		
 //		const bnbPrice = (await (await fetch("https://api.pancakeswap.info/api/v2/tokens/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")).json());
-		const bnbPrice = (await (await _BNBBUSDPROMISE).json()).price;
 		const _totalSupply = this._web3.utils.fromWei(await this._raptor.methods.totalSupply().call());
 		return {
 			raptor: {
