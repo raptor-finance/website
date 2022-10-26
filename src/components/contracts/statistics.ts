@@ -104,19 +104,22 @@ export class RaptorStatistics {
 			return this._prices;
 		}
 		// const a = (await (await fetch("https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0x44c99ca267c2b2646ceec72e898273085ab87ca5")).json());
-		const a = (await (await fetch("https://api.pancakeswap.info/api/v2/tokens/0x44c99ca267c2b2646ceec72e898273085ab87ca5")).json());
-		const bnbPrice = (await (await fetch("https://api.pancakeswap.info/api/v2/tokens/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")).json());
+		const RPTRBUSD = (await (await fetch("https://bsc.api.0x.org/swap/v1/quote?buyToken=BUSD&sellToken=0x44c99ca267c2b2646ceec72e898273085ab87ca5&sellAmount=1000000000000000000")).json()).price;
+		const RPTRBNB = (await (await fetch("https://bsc.api.0x.org/swap/v1/quote?buyToken=BNB&sellToken=0x44c99ca267c2b2646ceec72e898273085ab87ca5&sellAmount=1000000000000000000")).json()).price;
+		
+//		const bnbPrice = (await (await fetch("https://api.pancakeswap.info/api/v2/tokens/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")).json());
+		const bnbPrice = (await (await fetch("https://bsc.api.0x.org/swap/v1/quote?buyToken=BUSD&sellToken=BNB&sellAmount=1000000000000000000")).json()).price;
 		const _totalSupply = this._web3.utils.fromWei(await this._raptor.methods.totalSupply().call());
 		return {
 			raptor: {
-				usd: a.data.price,
-				bnb: a.data.price_BNB
+				usd: RPTRBUSD,
+				bnb: RPTRBNB
 			},
 			bnb: {
-				usd: bnbPrice.data.price
+				usd: bnbPrice
 			},
 			marketCap: {
-				usd: a.data.price*_totalSupply,
+				usd: RPTRBUSD*_totalSupply,
 			},
 			totalSupply: {
 				value: _totalSupply,
