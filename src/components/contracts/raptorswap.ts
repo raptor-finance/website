@@ -12,6 +12,16 @@ export const PERMIT_TYPEHASH = "0x6e71edae12b1b97f4d1f60370fef10105fa2faae012611
 
 export const EVM_MAX_UINT256 = "115792089237316195423570985008687907853269984665640564039457584007913129639935"
 
+export const Chains = [
+		{"chainid": "0x52505452", "name": "RaptorChain"}
+	]
+	
+export const Assets = [
+		{"contract": "RPTR", "symbol": "RPTR", "name": "Raptor"},
+		{"contract": "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32", "symbol": "rDUCO", "name": "Duino-Coin"}
+		
+	]
+
 export class LiquidityPair {
 	private readonly _wallet: Wallet;
 	private readonly _router: Contract;

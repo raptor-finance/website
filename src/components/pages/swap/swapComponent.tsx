@@ -6,7 +6,7 @@ import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18nex
 import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
-import { RaptorSwap } from '../../contracts/raptorswap';
+import { RaptorSwap, Chains, Assets } from '../../contracts/raptorswap';
 
 import './migrationComponent.css';
 import './stakingComponent.css';
@@ -28,7 +28,8 @@ export type RaptorSwapState = {
 	assetIn?: string,
 	assetOut?: string,
 	balanceIn?: number,
-	balanceOut?: number
+	balanceOut?: number,
+	currentChain?: string
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -49,6 +50,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		this.handleAmountOutUpdate = this.handleAmountOutUpdate.bind(this);
 		this.handleAssetInUpdate = this.handleAssetInUpdate.bind(this);
 		this.handleAssetOutUpdate = this.handleAssetOutUpdate.bind(this);
+		this.selectNetwork = this.selectNetwork.bind(this);
 		this.refreshBalances = this.refreshBalances.bind(this);
 		this.setMaxAmount = this.setMaxAmount.bind(this);
 		this.swap = this.swap.bind(this);
@@ -209,11 +211,14 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
 	}
 	
-	assetDisplay(assetName, contractAddr) {
+	async selectNetwork(event) {
+		await this.updateState({ currentChain: event.target.value });
+	}
+	
+	assetDisplay(_asset) {
 		return <>
-			<option value={contractAddr}>{assetName}</option>
+			<option value={_asset.contract}>{_asset.symbol}</option>
 		</>
-		
 	}
 
 	assetList() {
@@ -223,8 +228,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		// </>
 		
 		return <>
-			{this.assetDisplay("RPTR", "RPTR")}
-			{this.assetDisplay("rDUCO", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32")}
+			{Assets.map(this.assetDisplay)}
 		</>
 	}
 	
@@ -234,6 +238,10 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 				{this.assetList()}
 			</select>
 		</>
+	}
+	
+	chainChoice(_d) {
+		return <option value={_d.chainid}>{_d.name}</option>
 	}
 
 	render() {
@@ -259,6 +267,9 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 									Connect wallet
 								</a>)
 							}
+							<select value={state.currentChain} onchange={state.selectNetwork} className="float-right">
+								{Chains.map(this.chainChoice)}
+							</select>
 					        </div>
 				     </div>
 		       	</div>

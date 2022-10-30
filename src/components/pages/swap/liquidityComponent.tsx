@@ -6,7 +6,7 @@ import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18nex
 import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
-import { RaptorSwap } from '../../contracts/raptorswap';
+import { RaptorSwap, Chains, Assets } from '../../contracts/raptorswap';
 
 import './migrationComponent.css';
 import './stakingComponent.css';
@@ -31,7 +31,8 @@ export type RaptorSwapState = {
 	balanceA?: number,
 	balanceB?: number,
 	selectedPair?: any,
-	sequenceNumber?: number // 0 = add LP, 1 = withdraw
+	sequenceNumber?: number, // 0 = add LP, 1 = withdraw
+	currentChain?: string
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -53,6 +54,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		this.handleLPAmountUpdate = this.handleLPAmountUpdate.bind(this);
 		this.handleAssetAUpdate = this.handleAssetAUpdate.bind(this);
 		this.handleAssetBUpdate = this.handleAssetBUpdate.bind(this);
+		this.selectNetwork = this.selectNetwork.bind(this);
 		this.updateAssets = this.updateAssets.bind(this);
 		this.withdrawAssets = this.withdrawAssets.bind(this);
 		this.renderAddLiquidity = this.renderAddLiquidity.bind(this);
@@ -180,6 +182,10 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		this.refreshBalances();
 	}
 	
+	async selectNetwork(event) {
+		await this.updateState({ currentChain: event.target.value });
+	}
+	
 	async updateCurrentPair() {
 		const state = this.readState();
 		const _pair = (await state.swap.pairFor(state.assetA, state.assetB));
@@ -223,11 +229,10 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
 	}
 	
-	assetDisplay(assetName, contractAddr) {
+	assetDisplay(_asset) {
 		return <>
-			<option value={contractAddr}>{assetName}</option>
+			<option value={_asset.contract}>{_asset.symbol}</option>
 		</>
-		
 	}
 
 	assetList() {
@@ -237,8 +242,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		// </>
 		
 		return <>
-			{this.assetDisplay("RPTR", "RPTR")}
-			{this.assetDisplay("rDUCO", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32")}
+			{Assets.map(this.assetDisplay)}
 		</>
 	}
 	
@@ -363,7 +367,10 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			</div>
 		</div>
 	}
-
+	
+	chainChoice(_d) {
+		return <option value={_d.chainid}>{_d.name}</option>
+	}
 
 	render() {
 		this.updateOnce(false);
@@ -388,6 +395,9 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 									Connect wallet
 								</a>)
 							}
+							<select value={state.currentChain} onchange={state.selectNetwork} className="float-right">
+								{Chains.map(this.chainChoice)}
+							</select>
 					        </div>
 				     </div>
 		       	</div>
