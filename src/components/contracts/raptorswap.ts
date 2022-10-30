@@ -19,7 +19,6 @@ export const Chains = [
 export const Assets = [
 		{"contract": "RPTR", "symbol": "RPTR", "name": "Raptor"},
 		{"contract": "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32", "symbol": "rDUCO", "name": "Duino-Coin"}
-		
 	]
 
 export class LiquidityPair {
