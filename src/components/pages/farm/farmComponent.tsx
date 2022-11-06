@@ -318,7 +318,6 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
     _ctValue[event.target.id] = event.target.value;
 
-    console.log(this.state);
 
     this.updateState({
       ctValue: _ctValue,
@@ -443,7 +442,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
           <hr />
           <div>
             <div className="d-flex">
-              <input className="lp-input" type="number" id={`${version},${pid}`} onChange={(event) => this.stakingValueChanged(event)} value={ctValue || 0} />
+              <input className="lp-input" type="number" id={`${version},${pid}`} onChange={(event) => this.stakingValueChanged(event)} value={ctValue || ""} />
             </div>
             <div className="wd-buttons d-flex justify-content-between">
               <button className="btn btn-complementary btn-small link-dark align-self-center stake-claim" disabled={stakedLp <= 0 || stakedLp == null} type="button" onClick={async () => this.withdrawLP(version, pid)}>Withdraw LP</button>
