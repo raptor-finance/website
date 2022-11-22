@@ -35,6 +35,8 @@ const ProductsOverview: React.FC = ({ }) => {
         <h2>{t('about.products_overview.anon.title')}</h2>
         <p>{t('about.products_overview.anon.paragraph1')}</p>
         <p>{t('about.products_overview.anon.paragraph2')}</p>
+        <h2>Contact us</h2>
+        <p>Feel free to email us on <a href="mailto:ygboucherk@gmail.com">ygboucherk@gmail.com</a></p>
       </Fade>
     </div>
   )
