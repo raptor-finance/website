@@ -449,6 +449,9 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
               <button className="btn btn-primary btn-small link-dark align-self-center stake-claim right" disabled={lpBalance <= 0 || lpBalance == null} type="button" onClick={async () => this.depositLP(version, pid)}>Deposit LP</button>
             </div>
           </div>
+		  <div>
+			<iframe data-aa='2131703' src='//acceptable.a-ads.com/2131703' style={{border:"0px", "margin-top": "15px", "border-radius": "5px", padding:0, width:"100%", height:"100px", overflow:"hidden", "background-color": "transparent"}}></iframe>
+		  </div>
         </div>
       </div>
     </div>
