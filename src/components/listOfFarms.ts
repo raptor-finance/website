@@ -30,4 +30,14 @@ export const farmsList = [
 	"addLiquidityURL": "https://pancakeswap.finance/add/0x44C99Ca267C2b2646cEEc72e898273085aB87ca5/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56",
 	"version":1
   },
+  {
+    "pid": 1,
+    "pairName": "RPTR-ADA",
+    "logo": "images/farm/ada-raptor.png",
+    "fees": "NO FEES",
+    "liquidityPool": "Pancake",
+    "enableGlow": true,
+	"addLiquidityURL": "https://pancakeswap.finance/add/0x44C99Ca267C2b2646cEEc72e898273085aB87ca5/0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47",
+	"version":1
+  }
 ]
