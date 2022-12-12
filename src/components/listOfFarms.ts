@@ -31,7 +31,7 @@ export const farmsList = [
 	"version":1
   },
   {
-    "pid": 1,
+    "pid": 4,
     "pairName": "RPTR-ADA", // note : pair address 0xC40925f9b6aC1d61e486873cb0b0f85b9f9bA3d5
     "logo": "images/farm/ada-raptor.png",
     "fees": "NO FEES",
