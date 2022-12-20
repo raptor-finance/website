@@ -134,7 +134,9 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 								</ul>
 							</div>
 						</Collapsible>
-
+				 		<li>
+							<NavLink to="/lottery" activeClassName="active" className='nav-item lottery'>Lottery</NavLink>
+						</li>
 						<Collapsible
 							trigger={this.collapsedNavItem("Testnet")}
 							triggerWhenOpen={this.expandedNavItem("Testnet")}
