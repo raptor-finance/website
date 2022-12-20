@@ -189,7 +189,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							}
 						</div>
 						<p>{t('lottery.paragraph1')}</p>
-						<p><Trans i18nKey='lottery.paragraph2'>In order to stake Raptor tokens, you need to connect your browser wallet (such as <a
+						<p><Trans i18nKey='lottery.paragraph2'>In order to use Raptor Lottery, you need to connect your browser wallet (such as <a
 							href="https://metamask.io/">Metamask</a>) and <a
 								href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
 								target="_blank">Switch to the Binance Smart Chain</a></Trans>.</p>
