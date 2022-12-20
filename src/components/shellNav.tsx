@@ -134,6 +134,26 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 								</ul>
 							</div>
 						</Collapsible>
+						
+						<Collapsible
+							trigger={this.collapsedNavItem("Products")}
+							triggerWhenOpen={this.expandedNavItem("Products")}
+							transitionTime={240}
+							transitionCloseTime={240}
+							open={this.checkCurrentRoute()}
+						>
+							<div className="collapsible-div">
+								<ul className="navbar-nav">
+									<li>
+									    <NavLink to="/farm" activeClassName="active">Yield Farm</NavLink>
+									</li>
+									<li>
+										<NavLink to="/staking" activeClassName="active">Staking</NavLink>
+									</li>
+								</ul>
+							</div>
+						</Collapsible>
+						
 				 		<li>
 							<NavLink to="/lottery" activeClassName="active" className='nav-item lottery'>Lottery</NavLink>
 						</li>
@@ -149,24 +169,6 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 									<li>
 									    <NavLink to="/faucet" activeClassName="active">Faucet</NavLink>
 									    <NavLink to="/crosschain" activeClassName="active">Bridge</NavLink>
-									</li>
-								</ul>
-							</div>
-						</Collapsible>
-						<Collapsible
-							trigger={this.collapsedNavItem("Products")}
-							triggerWhenOpen={this.expandedNavItem("Products")}
-							transitionTime={240}
-							transitionCloseTime={240}
-							open={this.checkCurrentRoute()}
-						>
-							<div className="collapsible-div">
-								<ul className="navbar-nav">
-									<li>
-									    <NavLink to="/farm" activeClassName="active">Yield Farm</NavLink>
-									</li>
-									<li>
-										<NavLink to="/staking" activeClassName="active">Staking</NavLink>
 									</li>
 								</ul>
 							</div>
