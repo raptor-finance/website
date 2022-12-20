@@ -4,7 +4,7 @@ import {Raptor} from './raptor';
 
 export class RaptorLottery {
 
-	private static readonly address: string = "0x1186479300520DB6c0D443FD8752DdB491769535";
+	private static readonly address: string = "0xB821d7e7a545Df0c64ED19Ae05cf86F231cb063F";
 //	private static readonly address: string = "0x468F4B97a881a81dB6b242889556aBF7fCB2a6A0";
 	//private static readonly address: string = "0x4aaD1aD8628003487623A61305dE7Fc4D6A887ff";
 
