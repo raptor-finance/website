@@ -119,7 +119,7 @@
         "connect_wallet": "Connect Wallet",
         "disconnect_wallet": "Disconnect Wallet",
         "paragraph1": "This is a simple, non-custodial, proof-of-work random number generation lottery for Raptor. You have the chance to win Raptor tokens by buying tickets with Raptor tokens.",
-        "paragraph2": "In order to stake your Raptor tokens, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>",
+        "paragraph2": "In order to use Raptor Lottery, you need to connect your browser wallet (such as <1>Metamask</1>) and <1>Switch to the Binance Smart Chain</1>",
         "your_info": {
             "title": "Your Information",
             "wallet_address": "Wallet address",
