@@ -4,10 +4,11 @@ import {Raptor} from './raptor';
 
 export class RaptorLottery {
 
-	private static readonly address: string = "0x468F4B97a881a81dB6b242889556aBF7fCB2a6A0";
+	private static readonly address: string = "0x1186479300520DB6c0D443FD8752DdB491769535";
+//	private static readonly address: string = "0x468F4B97a881a81dB6b242889556aBF7fCB2a6A0";
 	//private static readonly address: string = "0x4aaD1aD8628003487623A61305dE7Fc4D6A887ff";
 
-	private readonly _ticketPrice = 10**3;
+	private readonly _ticketPrice = 42000;
 
 	private readonly _wallet: Wallet;
 	private readonly _contractv3: Contract;
@@ -79,7 +80,7 @@ export class RaptorLottery {
 				// await this._raptor.contractv3.methods.approve(RaptorLottery.address, allowance).send({'from': this._wallet.currentAddress});
 			// }
 
-			const receipt = await this._raptor._contractv3.methods.approveAndCall(RaptorLottery.address, "1000000000000000000000", "0x0").send({'from': this._wallet.currentAddress});
+			const receipt = await this._raptor._contractv3.methods.approveAndCall(RaptorLottery.address, "42000000000000000000000", "0x0").send({'from': this._wallet.currentAddress});
 			console.log(receipt);
 			return receipt.events["0"].raw.topics[2];
 		}
