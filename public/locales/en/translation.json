@@ -137,7 +137,8 @@
             "nobody": "Nobody won yet!",
             "current_jackpot": "Current JACKPOT",
             "total_tickets": "Total tickets for this round",
-            "purchase": "Purchase a lottery ticket"
+            "purchase": "Purchase a lottery ticket",
+			"countdown_to_draw": "Countdown"
         }
     },
     "about": {

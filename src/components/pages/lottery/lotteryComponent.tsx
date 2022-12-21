@@ -28,7 +28,8 @@ export type LotteryState = {
 	jackpot?: number,
 	totalTickets?: number,
 	drawNumber?: number,
-	pending?: boolean
+	pending?: boolean,
+	countdown?: number
 }
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -50,6 +51,8 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 		super(props);
 		this.connectWallet = this.connectWallet.bind(this);
 		this.disconnectWallet = this.disconnectWallet.bind(this);
+		this.refreshCountdown = this.refreshCountdown.bind(this);
+		this.loop = this.loop.bind(this);
 	}
 
 	handlePurchase(hash) {
@@ -87,13 +90,23 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 	}
 
 	private async loop(): Promise<void> {
-		const self = this;
-		const cont = await self.updateOnce.call(self);
+		const cont = await this.updateOnce();
 
 		if (cont) {
-			setTimeout(async () => await self.loop.call(self), 10000);
+			setTimeout(async () => await this.loop.call(self), 10000);
 		}
 	}
+	
+	private async refreshCountdown() {
+		const lottery = this.readState().lottery;
+
+		if (!lottery) {
+			return false; // halts function
+		}
+		this.updateState({ countdown: lottery.countdown });
+		setTimeout(this.refreshCountdown, 500);
+	}
+	
 	private async updateOnce(): Promise<boolean> {
 		const lottery = this.readState().lottery;
 
@@ -111,7 +124,8 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 					lastWinner: lottery.lastWinner,
 					tickets: lottery.tickets,
 					totalTickets: lottery.totalTickets,
-					drawNumber: lottery.drawNumber
+					drawNumber: lottery.drawNumber,
+					countdown: lottery.countdown
 				});
 			}
 			catch (e) {
@@ -140,7 +154,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 
 			this.updateState({ lottery: lottery, wallet: wallet, looping: true, pending: false });
 			this.updateOnce().then();
-
+			this.refreshCountdown();
 			this.loop().then();
 		}
 		catch (e) {
@@ -164,6 +178,14 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 			this.updateState({ pending: false });
 			this.handleError(e);
 		}
+	}
+	
+	formatCountdown(cnt: number): string {
+		const days = Math.floor(cnt / 86400);
+		const hours = Math.floor((cnt % 86400) / 3600);
+		const minutes = Math.floor((cnt % 3600) / 60);
+		const seconds = Math.floor(cnt % 60);
+		return `${days} days ${hours}h ${minutes}m ${seconds}s`
 	}
 
 	render() {
@@ -262,6 +284,8 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 							>
 								{numeral(state.totalTickets || 0).format('0,0')} Tickets
 							</AnimatedNumber>
+							<h2>{t('lottery.status.countdown_to_draw')}</h2>
+							<div>Time to next draw : {this.formatCountdown(state.countdown)}</div>
 						</div>
 					</FadeInRightDiv>
 					<FadeInUpDiv>

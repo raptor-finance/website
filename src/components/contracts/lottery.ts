@@ -9,6 +9,7 @@ export class RaptorLottery {
 	//private static readonly address: string = "0x4aaD1aD8628003487623A61305dE7Fc4D6A887ff";
 
 	private readonly _ticketPrice = 42000;
+	private readonly _drawTime = 604800;
 
 	private readonly _wallet: Wallet;
 	private readonly _contractv3: Contract;
@@ -20,6 +21,11 @@ export class RaptorLottery {
 	private _drawNumber: number = 0;
 	private _lastWinner: string = null;
 
+	private _lastDraw: number = 0;
+	private _currentDraw: number = 0;
+
+	private _lastDrawPromise: Promise;
+
 	constructor(wallet: Wallet) {
 		if (!wallet.isConnected) {
 			throw 'Wallet must be connected before this action can be executed.';
@@ -28,6 +34,7 @@ export class RaptorLottery {
 		this._wallet = wallet;
 		this._contractv3 = wallet.connectToContract(RaptorLottery.address, require('./lottery.abi.json'));
 		this._raptor = new Raptor(wallet);
+		this._lastDrawPromise = this._contractv3.methods.lastDraw().call();
 	}
 
 	get wallet(): Wallet {
@@ -54,6 +61,12 @@ export class RaptorLottery {
 	get drawNumber(): number {
 		return this._drawNumber;
 	}
+	
+	get countdown(): number {
+		const expectedDate = (Number(this._lastDraw) + Number(this._drawTime));
+		let currentDate = ((new Date()).getTime()/1000);
+		return Math.max(Math.round(expectedDate - currentDate), 0);
+	}
 
 	async refresh(): Promise<void> {
 		await this._raptor.refresh();
@@ -63,8 +76,10 @@ export class RaptorLottery {
 
 		this._drawNumber = await this._contractv3.methods.currentDraw().call();
         let round = await this._contractv3.methods.round(this._drawNumber-1).call();
-        this._totalTickets = round.tickets;
+        let currentround = await this._contractv3.methods.round(this._drawNumber).call();
+        this._totalTickets = currentround.tickets;
         this._lastWinner = round.winner;
+		this._lastDraw = await this._lastDrawPromise;
 	}
 
 	async buyTicket(): Promise<string> {
