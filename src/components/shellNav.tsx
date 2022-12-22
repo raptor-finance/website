@@ -136,8 +136,8 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 						</Collapsible>
 						
 						<Collapsible
-							trigger={this.collapsedNavItem("Products")}
-							triggerWhenOpen={this.expandedNavItem("Products")}
+							trigger={this.collapsedNavItem("Earn")}
+							triggerWhenOpen={this.expandedNavItem("Earn")}
 							transitionTime={240}
 							transitionCloseTime={240}
 							open={this.checkCurrentRoute()}
