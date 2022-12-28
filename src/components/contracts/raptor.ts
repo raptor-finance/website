@@ -92,8 +92,8 @@ export class Raptor {
 		this._balancev3 = web3.fromWei(await this._contractv3.methods.balanceOf(this._wallet.currentAddress).call(), "ether");
 		try {
 			if (this._wallet.chainId == 56) {
-this._balance = web3.fromWei(await this._contract.methods.balanceOf(this._wallet.currentAddress).call(), "gwei");
-			this._stake = web3.fromWei(await this._contract.methods.stakedBalanceOf(this._wallet.currentAddress).call(), "gwei");
+				this._balance = web3.fromWei(await this._contract.methods.balanceOf(this._wallet.currentAddress).call(), "gwei");
+				this._stake = web3.fromWei(await this._contract.methods.stakedBalanceOf(this._wallet.currentAddress).call(), "gwei");
 				this._pendingRewards = web3.fromWei(await this._contract.methods.pendingRewards(this._wallet.currentAddress).call(), "gwei");
 			}
 		}
