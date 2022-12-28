@@ -1,0 +1,59 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "chainid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "gasLimit",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "data",
+				"type": "bytes"
+			}
+		],
+		"name": "crossChainCall",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "chainid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "slotOwner",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "slotKey",
+				"type": "bytes32"
+			}
+		],
+		"name": "getSlotData",
+		"outputs": [
+			{
+				"internalType": "bytes",
+				"name": "slotData",
+				"type": "bytes"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
