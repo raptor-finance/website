@@ -22,7 +22,9 @@ export type CrossChainState = {
 	pending?: boolean,
 	looping?: boolean,
 	address?: string,
-	ctValue?: number
+	ctValue?: number,
+	chainIn?: number,
+	chainOut?: number
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -44,6 +46,8 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
 		this.setMaxDepositAmount = this.setMaxDepositAmount.bind(this);
 		this.setMaxWithdrawalAmount = this.setMaxWithdrawalAmount.bind(this);
+		this.getBalance = this.getBalance.bind(this);
+		this.handleChainInUpdate = this.handleChainInUpdate.bind(this);
 		this.state = {};
 	}
 	
@@ -89,6 +93,38 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		}
 	}
 	
+	async switchChainFrom(chainid: number) {
+		const state = this.readState();
+		await this.updateState({pending:true});
+		await state.wallet.switchNetwork(chainid);
+		await this.updateState({pending:false});
+	}
+	
+	async handleChainInUpdate(event) {
+		await this.updateState({chainIn: event.target.value});
+	}
+	
+	chainDisplay(chainName, chainID) {
+		return <>
+			<option value={chainID}>{chainName}</option>
+		</>
+	}
+	
+	chainList() {
+		return <>
+			{this.chainDisplay("BSC", 56)}
+			{this.chainDisplay("RaptorChain", 0x52505452)}
+		</>
+	}
+	
+	chainSelector(_value, _updater) {
+		return <>
+			<select value={_value} onChange={_updater}>
+				{this.chainList()}
+			</select>
+		</>
+	}
+	
 	async connectWallet() {
 		try {
 			this.updateState({ pending: true });
@@ -102,7 +138,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 
 			const raptor = new Raptor(wallet);
 
-			this.updateState({ raptor: raptor, wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0 });
+			await this.updateState({ raptor: raptor, wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0 });
 			this.updateOnce(true).then();
 
 			this.loop().then();
@@ -141,6 +177,20 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	handleAmountUpdate(event) {
 		let tokens = event.target.value;
 		this.updateState({ ctValue:tokens });
+	}
+	
+	getBalance(chainid: number) {
+		const state = this.readState();
+		if (!state.chain) {
+			return 0;
+		}
+		if (chainid == 56) {
+			return state.raptor.balancev3;
+		} else if (chainid == 0x52505452) {
+			return state.chain.balance;
+		} else {
+			return 0;
+		}
 	}
 	
 	setMaxDepositAmount() {
@@ -223,9 +273,10 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
 							<h2>Balance breakdown</h2>
-							<div onClick={this.setMaxDepositAmount}>
+							{this.chainSelector(state.chainIn, this.handleChainInUpdate)}
+							<span onClick={this.setMaxDepositAmount}>
 								<AnimatedNumber
-									value={numeral(tokenBalance || 0).format('0.00')}
+									value={numeral(this.getBalance(state.chainIn) || 0).format('0.00')}
 									duration="1000"
 									formatValue={value => `BSC-side : ${Number(parseFloat(value).toFixed(2)).toLocaleString('en', { minimumFractionDigits: 2 })}`}
 									// className="staking-info"
@@ -233,7 +284,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 								>
 									0 Raptor
 								</AnimatedNumber>
-							</div>
+							</span>
 							<div onClick={this.setMaxWithdrawalAmount}>
 								<AnimatedNumber
 									value={numeral(coinBalance || 0).format('0.00')}
