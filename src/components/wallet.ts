@@ -84,6 +84,17 @@ export class Wallet {
 				},
 				rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
 				blockExplorerUrls: ['https://testnet.bscscan.com/'],
+			}], 137 : [{
+				chainId: '0x89',
+				chainName: 'Polygon',
+				nativeCurrency:
+				{
+					name: 'MATIC',
+					symbol: 'MATIC',
+					decimals: 18
+				},
+				rpcUrls: ['https://polygon-rpc.com/'],
+				blockExplorerUrls: ['https://polygonscan.com/'],
 			}], 1380996178 : [{
 				chainId: '0x52505452',
 				chainName: 'RaptorChain',
@@ -109,7 +120,9 @@ export class Wallet {
 			}]
 		}
 		if (this._provider.isMetaMask) {
-			await ethereum.request({ method: 'wallet_addEthereumChain', params: networks[chainID] }).catch(function () { throw 'Please choose the Binance Smart Chain as the current network in your wallet app !' })
+			if (this._provider.chainId != chainID) {
+				await ethereum.request({ method: 'wallet_addEthereumChain', params: networks[chainID] }).catch(function () { throw 'Please choose the Binance Smart Chain as the current network in your wallet app !' })
+			}
 		}
 		else {
 			throw 'Please choose the Binance Smart Chain as the current network in your wallet app !';
