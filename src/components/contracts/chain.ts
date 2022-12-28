@@ -6,20 +6,30 @@ import * as web3 from 'web3-utils';
 
 export const CustodyAddressTestnet = "0x121C64598b58318cFF4cD9AB8a209F9537dCAe0d";
 export const CustodyAddressMainnet = "0x6a200e1aA7D31F17211CD569C788Ac1d3Ab1B9f9";
+export const BridgedAddressPolygon = "0x94f405FB408Ad743418d10f4926cb9cdb53b2ef7";
 
 export class RaptorChainInterface {
 	private readonly wallet: Wallet;
 	private readonly node: string;
 	private readonly raptor: Raptor;
 	private readonly _custody: Contract;
+	private readonly _bridgedtoken: Contract;
 	private _balance: number;
 	
 	
 	constructor(walletInstance: Wallet, nodeAddress: string, mainnet?: boolean) {
 		this.wallet = walletInstance;
 		this.node = nodeAddress;
-		this.raptor = (new Raptor(this.wallet));
-		this._custody = mainnet ? this.wallet.connectToContract(CustodyAddressMainnet, require('./custody.abi.json')) : this.wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
+		this.connectContracts();
+	}
+	
+	connectContracts() {
+		if (this.wallet.chainId == 56) {
+			this.raptor = (new Raptor(this.wallet));
+			this._custody = mainnet ? this.wallet.connectToContract(CustodyAddressMainnet, require('./custody.abi.json')) : this.wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
+		} else if (this.wallet.chainId == 137) {
+			this._bridgedtoken = this.wallet.connectToContract(BridgedAddressPolygon, require('./bridgedRaptor.abi.json'));
+		}
 		this._balance = 0;
 	}
 	
@@ -115,6 +125,10 @@ export class RaptorChainInterface {
 	async crossChainWithdrawal(amount: number) {
 		const signedTx = (await this.transferTx("0x0000000000000000000000000000000000000097", web3.toWei(String(amount))));
 		await this.sendTransaction(signedTx);
+	}
+	
+	async bridgeToPolygon(amount: number) {
+		this._
 	}
 	
 	sigToVRS(sig) {
