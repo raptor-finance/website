@@ -61,7 +61,7 @@ export class Wallet {
 		}
 	}
 	
-	async switchNetwork(chainID: number) {
+	public async switchNetwork(chainID: number) {
 		const networks = {56 : [{
 			chainId: '0x38',
 			chainName: 'Binance Smart Chain',
@@ -154,7 +154,6 @@ export class Wallet {
 
 		const provider: any = this._provider;
 		if (provider) {
-			this._chainId = provider.chainId;
 			// if (!ignoreChain && ((provider.chainId != 1380996178) && (provider.networkVersion != 1380996178)) && ((provider.chainId != 56) && (provider.networkVersion != 56)) && ((provider.chainId != this._raptorChainID) && (provider.networkVersion != this._raptorChainID)) && ((provider.chainId != 97) && (provider.networkVersion != 97))) {
 			if ((expectedChainID || 56) != provider.chainId) {
 				await this.switchNetwork(expectedChainID || 56);
@@ -226,6 +225,6 @@ export class Wallet {
 	}
 	
 	public get chainId(): number {
-		return this._chainId;
+		return this._provider.chainId;
 	}
 }

@@ -16,17 +16,19 @@ export class RaptorChainInterface {
 	private readonly _bridgedtoken: Contract;
 	private _balance: number;
 	
+	private _mainnet: boolean;
 	
 	constructor(walletInstance: Wallet, nodeAddress: string, mainnet?: boolean) {
 		this.wallet = walletInstance;
 		this.node = nodeAddress;
+		this._mainnet = mainnet;
 		this.connectContracts();
 	}
 	
 	connectContracts() {
 		if (this.wallet.chainId == 56) {
 			this.raptor = (new Raptor(this.wallet));
-			this._custody = mainnet ? this.wallet.connectToContract(CustodyAddressMainnet, require('./custody.abi.json')) : this.wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
+			this._custody = this._mainnet ? this.wallet.connectToContract(CustodyAddressMainnet, require('./custody.abi.json')) : this.wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
 		} else if (this.wallet.chainId == 137) {
 			this._bridgedtoken = this.wallet.connectToContract(BridgedAddressPolygon, require('./bridgedRaptor.abi.json'));
 		}

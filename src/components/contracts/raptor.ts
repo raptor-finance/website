@@ -23,7 +23,6 @@ export class Raptor {
 		if (this._wallet.chainId == 56) {
 			this._contract = wallet.connectToContract(RaptorAddress, require('./raptor.abi.json'));
 			this._contractv3 = wallet.connectToContract(RaptorAddressv3, require('./raptor.abi.json'));
-			this._te
 		}
 		else {
 			this._contract = wallet.connectToContract(TestnetRaptorAddressv3, require('./raptor.abi.json'));
