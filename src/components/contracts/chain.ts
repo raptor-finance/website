@@ -14,6 +14,7 @@ export class RaptorChainInterface {
 	private readonly raptor: Raptor;
 	private readonly _custody: Contract;
 	private readonly _bridgedtoken: Contract;
+	private readonly _bridgeHost: Contract;
 	private _balance: number;
 	
 	private _mainnet: boolean;
@@ -31,6 +32,8 @@ export class RaptorChainInterface {
 			this._custody = this._mainnet ? this.wallet.connectToContract(CustodyAddressMainnet, require('./custody.abi.json')) : this.wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
 		} else if (this.wallet.chainId == 137) {
 			this._bridgedtoken = this.wallet.connectToContract(BridgedAddressPolygon, require('./bridgedRaptor.abi.json'));
+		} else if (this.wallet.chainId == 137) {
+			this._bridgeHost = this.wallet.connectToContract(BridgeHostAddress, require('./bridgedRaptor.abi.json'));
 		}
 		this._balance = 0;
 	}

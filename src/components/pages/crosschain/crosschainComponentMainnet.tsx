@@ -51,6 +51,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		this.handleChainInUpdate = this.handleChainInUpdate.bind(this);
 		this.handleChainOutUpdate = this.handleChainOutUpdate.bind(this);
 		this.setMaxAmount = this.setMaxAmount.bind(this);
+		this.switchWalletChain = this.switchWalletChain.bind(this);
 		this.state = {};
 	}
 	
@@ -96,7 +97,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		}
 	}
 	
-	async switchChainFrom(chainid: number) {
+	async switchWalletChain(chainid: number) {
 		const state = this.readState();
 		await this.updateState({pending:true});
 		await state.wallet.switchNetwork(chainid);
