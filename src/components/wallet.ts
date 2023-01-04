@@ -2,6 +2,7 @@ import Web3 from 'web3';
 import Web3Modal, { providers } from 'web3modal';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { Contract } from 'web3-eth-contract';
+import * as web3 from 'web3-utils';
 
 export const Raptors = {56: "0x44C99Ca267C2b2646cEEc72e898273085aB87ca5", 137: "0x94f405FB408Ad743418d10f4926cb9cdb53b2ef7"};
 
@@ -10,7 +11,7 @@ export class ReadOnlyProvider {
 	private _rptrToken: Contract;
 	private chainId: number;
 	private _userAddr: string;
-	private _rptrBalance: number;
+	private _rptrBalance: string = "0";
 	
 	constructor(rpcURL: string, _chainId: number, userAddr: string) {
 		this._userAddr = userAddr;
@@ -40,11 +41,11 @@ export class ReadOnlyProvider {
 	}
 	
 	public async refresh() {
-		this._rptrBalance = await this.getRaptorBalance(this._userAddr);
+		this._rptrBalance = String(await this.getRaptorBalance(this._userAddr));
 	}
 	
 	public get balance() {
-		return this._rptrBalance;
+		return Number(web3.fromWei(this._rptrBalance));
 	}
 }
 

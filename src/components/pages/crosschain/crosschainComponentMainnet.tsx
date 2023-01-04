@@ -211,7 +211,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 			return state.bsc.balance;
 		} else if ((chainid == 137) && state.polygon) {
 			return state.polygon.balance;
-		} else if (chainid == 0x52505452) {
+		} else if ((chainid == 0x52505452)) {
 			return state.chain.balance;
 		} else {
 			return 0;

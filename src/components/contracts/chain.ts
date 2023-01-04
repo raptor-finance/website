@@ -3,27 +3,10 @@ import {Raptor} from './raptor';
 import {Contract} from 'web3-eth-contract';
 // import { ethers } from 'ethers';
 import * as web3 from 'web3-utils';
-import Web3 from 'web3';
 
 export const CustodyAddressTestnet = "0x121C64598b58318cFF4cD9AB8a209F9537dCAe0d";
 export const CustodyAddressMainnet = "0x6a200e1aA7D31F17211CD569C788Ac1d3Ab1B9f9";
 export const BridgedAddressPolygon = "0x94f405FB408Ad743418d10f4926cb9cdb53b2ef7";
-
-export class ReadOnlyProvider {
-	private _web3: Web3 = null;
-	
-	constructor(rpcURL: string) {
-		this._web3 = new Web3((new Web3.providers.HttpProvider(rpcURL)));
-	}
-	
-	public connectToContract(address: string, abi: any): Contract {
-		if (!this._web3) {
-			throw 'Error loading contract';
-		}
-
-		return new this._web3.eth.Contract(abi, address);
-	}
-}
 
 export class RaptorChainInterface {
 	private readonly wallet: Wallet;
