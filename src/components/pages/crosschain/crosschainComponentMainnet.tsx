@@ -3,7 +3,7 @@ import * as numeral from 'numeral';
 
 import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
 import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
-import { Wallet } from '../../wallet';
+import { Wallet, ReadOnlyProvider } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
 
@@ -18,6 +18,8 @@ export type CrossChainProps = {};
 export type CrossChainState = {
 	raptor?: Raptor,
 	wallet?: Wallet,
+	polygon?: ReadOnlyProvider,
+	bsc?: ReadOnlyProvider,
 	chain?: RaptorChainInterface,
 	pending?: boolean,
 	looping?: boolean,
@@ -69,17 +71,18 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	}
 	
 	private async updateOnce(resetCt?: boolean): Promise<boolean> {
-		const raptor = this.readState().raptor;
-		const chain = this.readState().chain;
-		if (!!raptor) {
+		const state = this.readState();
+		if (!!state.raptor) {
 			try {
-				await raptor.refresh();
-				await chain.refresh();
+				await state.raptor.refresh();
+				await state.chain.refresh();
+				await state.bsc.refresh();
+				await state.polygon.refresh();
 				if (!this.readState().looping) {
 					return false;
 				}
 				this.updateState({
-					address: raptor.wallet.currentAddress,
+					address: state.raptor.wallet.currentAddress,
 				});
 
 				if (resetCt) {
@@ -156,8 +159,9 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 			}
 
 			const raptor = new Raptor(wallet);
-
-			await this.updateState({ raptor: raptor, wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0, chainIn: 56, chainOut: 0x52505452 });
+			const bsc = wallet.getReadOnly(56);
+			const polygon = wallet.getReadOnly(137);
+			await this.updateState({ raptor: raptor, wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0, bsc: bsc, polygon: polygon, chainIn: 56, chainOut: 0x52505452 });
 			this.updateOnce(true).then();
 
 			this.loop().then();
@@ -203,8 +207,10 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		if (!state.chain) {
 			return 0;
 		}
-		if (chainid == 56) {
-			return state.raptor.balancev3;
+		if ((chainid == 56) && (state.bsc)) {
+			return state.bsc.balance;
+		} else if ((chainid == 137) && state.polygon) {
+			return state.polygon.balance;
 		} else if (chainid == 0x52505452) {
 			return state.chain.balance;
 		} else {
@@ -235,6 +241,15 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		let state = this.readState();
 		console.log(state);
 		await state.chain.crossChainWithdrawal(state.ctValue);
+		await state.raptor.refresh();
+		await state.chain.refresh();
+		this.updateOnce(true);
+	}
+	
+	async wrapToPolygon() {
+		let state = this.readState();
+		console.log(state);
+		await this.switchWalletChain(0x52505452); // switch wallet to RaptorChain
 		await state.raptor.refresh();
 		await state.chain.refresh();
 		this.updateOnce(true);

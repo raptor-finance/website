@@ -3,6 +3,51 @@ import Web3Modal, { providers } from 'web3modal';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { Contract } from 'web3-eth-contract';
 
+export const Raptors = {56: "0x44C99Ca267C2b2646cEEc72e898273085aB87ca5", 137: "0x94f405FB408Ad743418d10f4926cb9cdb53b2ef7"};
+
+export class ReadOnlyProvider {
+	private _web3: Web3 = null;
+	private _rptrToken: Contract;
+	private chainId: number;
+	private _userAddr: string;
+	private _rptrBalance: number;
+	
+	constructor(rpcURL: string, _chainId: number, userAddr: string) {
+		this._userAddr = userAddr;
+		this._web3 = new Web3((new Web3.providers.HttpProvider(rpcURL)));
+		this.chainId = _chainId;
+		if (_chainId != 1380996178) {
+			this._rptrToken = this.connectToContract(Raptors[_chainId], require('./contracts/erc20.abi.json'));
+		}
+	}
+	
+	public connectToContract(address: string, abi: any): Contract {
+		if (!this._web3) {
+			throw 'Error loading contract';
+		}
+		return new this._web3.eth.Contract(abi, address);
+	}
+	
+	public async eth_getBalance(address) {
+		if (!this._web3) {
+			return 0;
+		}
+		return (await this._web3.eth.getBalance(address));
+	}
+	
+	public async getRaptorBalance(address) {
+		return (this.chainId == 1380996178) ? (await this.eth_getBalance(address)) : (this._rptrToken.methods.balanceOf(address).call());
+	}
+	
+	public async refresh() {
+		this._rptrBalance = await this.getRaptorBalance(this._userAddr);
+	}
+	
+	public get balance() {
+		return this._rptrBalance;
+	}
+}
+
 export class Wallet {
 	private _address: string = null;
 	private _provider: any = null;
@@ -14,55 +59,10 @@ export class Wallet {
 		providerOptions: this.getProviderOptions()
 	});
 	private _web3: Web3 = null;
+	private _readOnlyProvs: any = {};
 
-	public getProviderOptions(): any {
-		const providerOptions = {
-			walletconnect: {
-				package: WalletConnectProvider,
-				options: {
-					rpc: {
-						56: 'https://bsc-dataseed.binance.org/'
-					},
-					network: 'binance',
-					chainId: 56,
-					infuraId: 'TR4KMIQ72NEDFNJ2ZP5C1BGGTD6DSTTGGT'
-				}
-				// ,options: {
-				// 	rpc: {
-				// 		97: 'https://data-seed-prebsc-1-s1.binance.org:8545/'
-				// 	},
-				// 	network: 'binance',
-				// 	chainId: 97,
-				// 	infuraId: 'TR4KMIQ72NEDFNJ2ZP5C1BGGTD6DSTTGGT '
-				// }
-			}
-		};
 
-		return providerOptions;
-	};
-
-	public async addMainnetToMetamask() {
-		const networkinfo = [{
-			chainId: '0x52505452',
-			chainName: 'RaptorChain Mainnet Beta',
-			nativeCurrency:
-			{
-				name: 'Raptor',
-				symbol: 'RPTR',
-				decimals: 18
-			},
-			rpcUrls: ['https://rpc.raptorchain.io/web3'],
-			blockExplorerUrls: ["https://explorer.raptorchain.io/"],
-		}]
-		try {
-			await this._provider.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
-		} catch (e) {
-			throw "Failed to add mainnet to metamask !"
-		}
-	}
-	
-	public async switchNetwork(chainID: number) {
-		const networks = {56 : [{
+	private networks: Object = {56 : [{
 			chainId: '0x38',
 			chainName: 'Binance Smart Chain',
 			nativeCurrency:
@@ -118,15 +118,71 @@ export class Wallet {
 				rpcUrls: ['https://rpc-testnet.raptorchain.io/web3'],
 				blockExplorerUrls: ['https://explorer-testnet.raptorchain.io/'],
 			}]
+		};
+
+	public getProviderOptions(): any {
+		const providerOptions = {
+			walletconnect: {
+				package: WalletConnectProvider,
+				options: {
+					rpc: {
+						56: 'https://bsc-dataseed.binance.org/'
+					},
+					network: 'binance',
+					chainId: 56,
+					infuraId: 'TR4KMIQ72NEDFNJ2ZP5C1BGGTD6DSTTGGT'
+				}
+				// ,options: {
+				// 	rpc: {
+				// 		97: 'https://data-seed-prebsc-1-s1.binance.org:8545/'
+				// 	},
+				// 	network: 'binance',
+				// 	chainId: 97,
+				// 	infuraId: 'TR4KMIQ72NEDFNJ2ZP5C1BGGTD6DSTTGGT '
+				// }
+			}
+		};
+
+		return providerOptions;
+	};
+
+	public async addMainnetToMetamask() {
+		const networkinfo = [{
+			chainId: '0x52505452',
+			chainName: 'RaptorChain Mainnet Beta',
+			nativeCurrency:
+			{
+				name: 'Raptor',
+				symbol: 'RPTR',
+				decimals: 18
+			},
+			rpcUrls: ['https://rpc.raptorchain.io/web3'],
+			blockExplorerUrls: ["https://explorer.raptorchain.io/"],
+		}]
+		try {
+			await this._provider.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
+		} catch (e) {
+			throw "Failed to add mainnet to metamask !"
 		}
+	}
+	
+	public async switchNetwork(chainID: number) {
 		if (this._provider.isMetaMask) {
 			if (this._provider.chainId != chainID) {
-				await ethereum.request({ method: 'wallet_addEthereumChain', params: networks[chainID] }).catch(function () { throw 'Please choose the Binance Smart Chain as the current network in your wallet app !' })
+				await ethereum.request({ method: 'wallet_addEthereumChain', params: this.networks[chainID] }).catch(function () { throw 'Please choose the Binance Smart Chain as the current network in your wallet app !' })
 			}
 		}
 		else {
 			throw 'Please choose the Binance Smart Chain as the current network in your wallet app !';
 		}
+	}
+	
+	public getReadOnly(chainID: number) {
+		if (this._readOnlyProvs[chainID]) {
+			return this._readOnlyProvs[chainID];
+		}
+		this._readOnlyProvs[chainID] = (new ReadOnlyProvider(this.networks[chainID][0].rpcUrls[0], chainID, this._address));
+		return this._readOnlyProvs[chainID];
 	}
 
 	public async connect(expectedChainID: number): Promise<boolean> {
