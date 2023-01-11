@@ -27,14 +27,13 @@ export class RaptorChainInterface {
 	}
 	
 	connectContracts() {
-		if (this.wallet.chainId == 56) {
-			this.raptor = (new Raptor(this.wallet));
-			this._custody = this._mainnet ? this.wallet.connectToContract(CustodyAddressMainnet, require('./custody.abi.json')) : this.wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
-		} else if (this.wallet.chainId == 137) {
-			this._bridgedtoken = this.wallet.connectToContract(BridgedAddressPolygon, require('./bridgedRaptor.abi.json'));
-		} else if (this.wallet.chainId == 137) {
-			this._bridgeHost = this.wallet.connectToContract(BridgeHostAddress, require('./bridgedRaptor.abi.json'));
-		}
+		this.raptor = (new Raptor(this.wallet));
+		this._custody = this._mainnet ? this.wallet.connectToContract(CustodyAddressMainnet, require('./custody.abi.json')) : this.wallet.connectToContract(CustodyAddressTestnet, require('./custody.abi.json'));
+		// } else if (this.wallet.chainId == 137) {
+			// this._bridgedtoken = this.wallet.connectToContract(BridgedAddressPolygon, require('./bridgedRaptor.abi.json'));
+		// } else if (this.wallet.chainId == 137) {
+			// this._bridgeHost = this.wallet.connectToContract(BridgeHostAddress, require('./bridgedRaptor.abi.json'));
+		// }
 		this._balance = 0;
 	}
 	
@@ -127,13 +126,18 @@ export class RaptorChainInterface {
 		}
 	}
 	
+	async getBridgeHost() {
+		return this.wallet.connectToContract(BridgeHostAddress, require('./bridgedRaptor.abi.json'));
+	}
+	
 	async crossChainWithdrawal(amount: number) {
 		const signedTx = (await this.transferTx("0x0000000000000000000000000000000000000097", web3.toWei(String(amount))));
 		await this.sendTransaction(signedTx);
 	}
 	
 	async bridgeToPolygon(amount: number) {
-		this._
+		const _host = this.getBridgeHost();
+		return await _host.methods.wrap().send({'from': this.wallet.currentAddress, amount, 'value': web3.toWei(String(amount))})
 	}
 	
 	sigToVRS(sig) {

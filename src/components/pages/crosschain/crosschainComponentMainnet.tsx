@@ -45,10 +45,9 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		this.disconnectWallet = this.disconnectWallet.bind(this);
 		this.deposit = this.deposit.bind(this);
 		this.withdraw = this.withdraw.bind(this);
+		this.wrapToPolygon = this.wrapToPolygon.bind(this);
 		this.transfer = this.transfer.bind(this);
 		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
-		this.setMaxDepositAmount = this.setMaxDepositAmount.bind(this);
-		this.setMaxWithdrawalAmount = this.setMaxWithdrawalAmount.bind(this);
 		this.getBalance = this.getBalance.bind(this);
 		this.handleChainInUpdate = this.handleChainInUpdate.bind(this);
 		this.handleChainOutUpdate = this.handleChainOutUpdate.bind(this);
@@ -74,7 +73,6 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		const state = this.readState();
 		if (!!state.raptor) {
 			try {
-				await state.raptor.refresh();
 				await state.chain.refresh();
 				await state.bsc.refresh();
 				await state.polygon.refresh();
@@ -82,7 +80,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 					return false;
 				}
 				this.updateState({
-					address: state.raptor.wallet.currentAddress,
+					address: state.wallet.currentAddress,
 				});
 
 				if (resetCt) {
@@ -150,7 +148,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	async connectWallet() {
 		try {
 			this.updateState({ pending: true });
-			const wallet = new Wallet();
+			const wallet = new Wallet(0); // 0 means "any chainid". absence of param makes it switch to BSC (legacy code lmao)
 			const result = await wallet.connect();
 			const chain = new RaptorChainInterface(wallet, "https://rpc.raptorchain.io/", true);
 
@@ -218,21 +216,10 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		}
 	}
 	
-	setMaxDepositAmount() {
-		const state = this.readState();
-		this.updateState({ ctValue: ((!!state.raptor) ? state.raptor.balancev3 : 0) });
-	}
-	
-	setMaxWithdrawalAmount() {
-		const state = this.readState();
-		this.updateState({ ctValue: ((!!state.chain) ? state.chain.balance : 0) });
-	}
-	
 	async deposit() {
 		let state = this.readState();
 		console.log(state);
 		await state.chain.crossChainDeposit(state.ctValue);
-		await state.raptor.refresh();
 		await state.chain.refresh();
 		this.updateOnce(true);
 	}
@@ -241,7 +228,6 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		let state = this.readState();
 		console.log(state);
 		await state.chain.crossChainWithdrawal(state.ctValue);
-		await state.raptor.refresh();
 		await state.chain.refresh();
 		this.updateOnce(true);
 	}
@@ -250,7 +236,8 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		let state = this.readState();
 		console.log(state);
 		await this.switchWalletChain(0x52505452); // switch wallet to RaptorChain
-		await state.raptor.refresh();
+		this.chain.bridgeToPolygon();
+		await state.polygon.refresh();
 		await state.chain.refresh();
 		this.updateOnce(true);
 	}
@@ -261,6 +248,8 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 			this.deposit();
 		} else if ((state.chainIn == 0x52505452) && (state.chainOut == 56)) {
 			this.withdraw();
+		} else if ((state.chainIn == 0x52505452) && (state.chainOut == 137)) {
+			this.wrapToPolygon();
 		}
 	}
 	
@@ -289,8 +278,6 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		this.updateOnce(false);
 		const state = this.readState();
 		const t: TFunction<"translation"> = this.readProps().t;
-		const tokenBalance = (!!state.raptor) ? state.raptor.balancev3 : 0;
-		const coinBalance = (!!state.chain) ? state.chain.balance : 0;
 
 		return <div className="staking-container">
 

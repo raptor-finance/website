@@ -212,7 +212,7 @@ export class Wallet {
 		const provider: any = this._provider;
 		if (provider) {
 			// if (!ignoreChain && ((provider.chainId != 1380996178) && (provider.networkVersion != 1380996178)) && ((provider.chainId != 56) && (provider.networkVersion != 56)) && ((provider.chainId != this._raptorChainID) && (provider.networkVersion != this._raptorChainID)) && ((provider.chainId != 97) && (provider.networkVersion != 97))) {
-			if ((expectedChainID || 56) != provider.chainId) {
+			if (((expectedChainID || 56) != provider.chainId) && (expectedChainID != 0)) {
 				await this.switchNetwork(expectedChainID || 56);
 			}
 		}
