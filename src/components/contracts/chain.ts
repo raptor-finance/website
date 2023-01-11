@@ -8,6 +8,8 @@ export const CustodyAddressTestnet = "0x121C64598b58318cFF4cD9AB8a209F9537dCAe0d
 export const CustodyAddressMainnet = "0x6a200e1aA7D31F17211CD569C788Ac1d3Ab1B9f9";
 export const BridgedAddressPolygon = "0x94f405FB408Ad743418d10f4926cb9cdb53b2ef7";
 
+export const BridgeHostAddress = "0xa09D1c8A7486Aa19A92e044c8f7a922B85FCe3Fc";
+
 export class RaptorChainInterface {
 	private readonly wallet: Wallet;
 	private readonly node: string;
@@ -126,8 +128,8 @@ export class RaptorChainInterface {
 		}
 	}
 	
-	async getBridgeHost() {
-		return this.wallet.connectToContract(BridgeHostAddress, require('./bridgedRaptor.abi.json'));
+	getBridgeHost() {
+		return this.wallet.connectToContract(BridgeHostAddress, require('./bridgeHost.abi.json'));
 	}
 	
 	async crossChainWithdrawal(amount: number) {
@@ -137,7 +139,8 @@ export class RaptorChainInterface {
 	
 	async bridgeToPolygon(amount: number) {
 		const _host = this.getBridgeHost();
-		return await _host.methods.wrap().send({'from': this.wallet.currentAddress, amount, 'value': web3.toWei(String(amount))})
+		console.log(_host);
+		return await _host.methods.wrap().send({'from': this.wallet.currentAddress, amount, 'value': web3.toWei(String(amount))});
 	}
 	
 	sigToVRS(sig) {

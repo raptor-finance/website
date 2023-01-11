@@ -16,7 +16,6 @@ import styled, { keyframes } from 'styled-components';
 
 export type CrossChainProps = {};
 export type CrossChainState = {
-	raptor?: Raptor,
 	wallet?: Wallet,
 	polygon?: ReadOnlyProvider,
 	bsc?: ReadOnlyProvider,
@@ -71,7 +70,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	
 	private async updateOnce(resetCt?: boolean): Promise<boolean> {
 		const state = this.readState();
-		if (!!state.raptor) {
+		if (!!state.chain) {
 			try {
 				await state.chain.refresh();
 				await state.bsc.refresh();
@@ -155,11 +154,9 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 			if (!result) {
 				throw 'The wallet connection was cancelled.';
 			}
-
-			const raptor = new Raptor(wallet);
 			const bsc = wallet.getReadOnly(56);
 			const polygon = wallet.getReadOnly(137);
-			await this.updateState({ raptor: raptor, wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0, bsc: bsc, polygon: polygon, chainIn: 56, chainOut: 0x52505452 });
+			await this.updateState({ wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0, bsc: bsc, polygon: polygon, chainIn: 56, chainOut: 0x52505452 });
 			this.updateOnce(true).then();
 
 			this.loop().then();
@@ -178,7 +175,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 				throw 'The wallet connection was cancelled.';
 			}
 
-			this.updateState({ raptor: null, wallet: null, chain: null, address: null, looping: false, pending: false });
+			this.updateState({ wallet: null, chain: null, address: null, looping: false, pending: false });
 		}
 		catch (e) {
 			this.updateState({ pending: false });
@@ -236,7 +233,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		let state = this.readState();
 		console.log(state);
 		await this.switchWalletChain(0x52505452); // switch wallet to RaptorChain
-		this.chain.bridgeToPolygon();
+		await state.chain.bridgeToPolygon(state.ctValue);
 		await state.polygon.refresh();
 		await state.chain.refresh();
 		this.updateOnce(true);

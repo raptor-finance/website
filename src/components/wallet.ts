@@ -187,7 +187,7 @@ export class Wallet {
 	}
 
 	public async connect(expectedChainID: number): Promise<boolean> {
-		console.log(`expectedChainID value : ${expectedChainID || 56}`);
+		console.log(`expectedChainID value : ${expectedChainID}`);
 		const wnd: any = window;
 		try {
 			this._provider = await this.web3Modal.connect();
@@ -197,8 +197,6 @@ export class Wallet {
 
 		// Subscribe to provider disconnection
 		this._provider.on("disconnect", async (error: { code: number; message: string }) => {
-			this._web3 = null;
-			this._address = null;
 			console.log(error);
 		});
 		// if (!!wnd.ethereum) {
