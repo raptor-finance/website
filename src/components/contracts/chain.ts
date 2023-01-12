@@ -132,6 +132,10 @@ export class RaptorChainInterface {
 		return this.wallet.connectToContract(BridgeHostAddress, require('./bridgeHost.abi.json'));
 	}
 	
+	getBridgedInstance() {
+		return this.wallet.connectContract(BridgedAddressPolygon, require("./bridgedRaptor.abi.json"));
+	}
+	
 	async crossChainWithdrawal(amount: number) {
 		const signedTx = (await this.transferTx("0x0000000000000000000000000000000000000097", web3.toWei(String(amount))));
 		await this.sendTransaction(signedTx);
@@ -141,6 +145,16 @@ export class RaptorChainInterface {
 		const _host = this.getBridgeHost();
 		console.log(_host);
 		return await _host.methods.wrap().send({'from': this.wallet.currentAddress, amount, 'value': web3.toWei(String(amount))});
+	}
+	
+	async initPolygonUnwrap(amount: number) {
+		const _instance = this.getBridgedInstance();
+		return await _instance.methods.unwrap(web3.toWei(String(amount))).send({'from': this.wallet.currentAddress});
+	}
+	
+	async finishPolygonUnwrap(slot) {
+		const _host = this.getBridgeHost();
+		return await _host.methods.unwrap(slot).send({'from': this.wallet.currentAddress});
 	}
 	
 	sigToVRS(sig) {

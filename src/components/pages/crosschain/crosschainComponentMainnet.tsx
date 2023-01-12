@@ -233,8 +233,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	async wrapToPolygon() {
 		let state = this.readState();
 		console.log(state);
-		await this.switchWalletChain(0x52505452); // switch wallet to RaptorChain
-		await state.chain.bridgeToPolygon(state.ctValue);
+		await state.chain.bridgeToPolygon(state.ctValue); // chain switch logic is managed inside `bridgeToPolygon`
 		await state.polygon.refresh();
 		await state.chain.refresh();
 		this.updateOnce(true);
