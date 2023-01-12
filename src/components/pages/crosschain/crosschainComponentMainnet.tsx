@@ -241,7 +241,6 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	
 	async unwrapFromPolygon() {
 		let state = this.readState();
-		await this.switchWalletChain(137); // switch wallet to Polygon
 	}
 	
 	async transfer() {

@@ -148,11 +148,13 @@ export class RaptorChainInterface {
 	}
 	
 	async initPolygonUnwrap(amount: number) {
+		await this.wallet.switchNetwork(0x52505452); // switch wallet to RaptorChain
 		const _instance = this.getBridgedInstance();
 		return await _instance.methods.unwrap(web3.toWei(String(amount))).send({'from': this.wallet.currentAddress});
 	}
 	
 	async finishPolygonUnwrap(slot) {
+		await this.wallet.switchNetwork(137); // switch wallet to RaptorChain
 		const _host = this.getBridgeHost();
 		return await _host.methods.unwrap(slot).send({'from': this.wallet.currentAddress});
 	}
