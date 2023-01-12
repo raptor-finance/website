@@ -148,8 +148,8 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	async connectWallet() {
 		try {
 			this.updateState({ pending: true });
-			const wallet = new Wallet(0); // 0 means "any chainid". absence of param makes it switch to BSC (legacy code lmao)
-			const result = await wallet.connect();
+			const wallet = new Wallet();
+			const result = await wallet.connect(0); // 0 means "any chainid". absence of param makes it switch to BSC (legacy code lmao)
 			const chain = new RaptorChainInterface(wallet, "https://rpc.raptorchain.io/", true);
 
 			if (!result) {
@@ -241,6 +241,8 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	
 	async unwrapFromPolygon() {
 		let state = this.readState();
+		let slotKey = await state.chain.initPolygonUnwrap(state.ctValue);
+		await state.chain.finishPolygonUnwrap(slotKey);
 	}
 	
 	async transfer() {
@@ -251,6 +253,8 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 			this.withdraw();
 		} else if ((state.chainIn == 0x52505452) && (state.chainOut == 137)) {
 			this.wrapToPolygon();
+		} else if ((state.chainIn == 137) && (state.chainOut == 0x52505452)) {
+			this.unwrapFromPolygon();
 		}
 	}
 	
