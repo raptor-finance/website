@@ -45,6 +45,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		this.deposit = this.deposit.bind(this);
 		this.withdraw = this.withdraw.bind(this);
 		this.wrapToPolygon = this.wrapToPolygon.bind(this);
+		this.unwrapFromPolygon = this.unwrapFromPolygon.bind(this);
 		this.transfer = this.transfer.bind(this);
 		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
 		this.getBalance = this.getBalance.bind(this);
@@ -237,6 +238,11 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		await state.polygon.refresh();
 		await state.chain.refresh();
 		this.updateOnce(true);
+	}
+	
+	async unwrapFromPolygon() {
+		let state = this.readState();
+		await this.switchWalletChain(137); // switch wallet to Polygon
 	}
 	
 	async transfer() {
