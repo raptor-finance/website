@@ -154,7 +154,7 @@ export class RaptorChainInterface {
 	}
 	
 	async finishPolygonUnwrap(slot) {
-		await this.wallet.switchNetwork(137); // switch wallet to RaptorChain
+		await this.wallet.switchNetwork(137); // switch wallet to Polygon
 		const _host = this.getBridgeHost();
 		return await _host.methods.unwrap(slot).send({'from': this.wallet.currentAddress});
 	}
