@@ -198,6 +198,21 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		this.updateState({ ctValue:tokens });
 	}
 	
+	transferStep(name, description, completed) {
+		return <div className="transferStep">
+			{name} - {description}{completed ? " - Done" : ""}
+		</div>
+	}
+	
+	transferProgress(steps) {
+		for (let n = 0; n < steps.length; n++) {
+			
+		}
+		return <>
+			
+		</>
+	}
+	
 	getBalance(chainid: number) {
 		const state = this.readState();
 		if (!state.chain) {
@@ -247,15 +262,17 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	
 	async transfer() {
 		let state = this.readState();
+		await this.updateState({pending:true}); // shows "loading"
 		if ((state.chainIn == 56) && (state.chainOut == 0x52505452)) {
-			this.deposit();
+			await this.deposit();
 		} else if ((state.chainIn == 0x52505452) && (state.chainOut == 56)) {
-			this.withdraw();
+			await this.withdraw();
 		} else if ((state.chainIn == 0x52505452) && (state.chainOut == 137)) {
-			this.wrapToPolygon();
+			await this.wrapToPolygon();
 		} else if ((state.chainIn == 137) && (state.chainOut == 0x52505452)) {
-			this.unwrapFromPolygon();
+			await this.unwrapFromPolygon();
 		}
+		await this.updateState({pending:false}); // stops showing "loading" once complete
 	}
 	
 	async setMaxAmount() {
