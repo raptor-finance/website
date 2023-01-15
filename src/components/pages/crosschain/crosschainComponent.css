@@ -1,5 +1,4 @@
-.progressCard {
-	background-color: transparent;
+.progressCardCompleted, .progressCardNotCompleted {
 	padding-left: 3mm;
 	padding-right: 1cm;
 	border-style: solid;
@@ -7,10 +6,20 @@
 	margin-bottom: 2px;
 }
 
+.progressCardCompleted {
+	background-color: #21b451;
+}
+
+.progressCardNotCompleted {
+	background-color: red;
+}
+
 .progressContainer {
-	background-color: greenyellow;
+	margin-top: 10px;
+	background-color: #303030;
 	border-style: solid;
 	padding: 2mm;
 	border-radius: 10px;
 	width: fit-content;
+	margin-left: 3mm;
 }

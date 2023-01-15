@@ -39,10 +39,13 @@ export type CrossChainState = {
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
+const FadeInRightAnimation = keyframes`${fadeInRight}`;
 const FadeInLeftDiv = styled.div`
   animation: ease-out 0.8s ${FadeInLeftAnimation};
 `;
-
+const FadeInRightDiv = styled.div`
+  animation: ease-out 0.8s ${FadeInRightAnimation};
+`;
 
 class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTranslation, CrossChainState> {
 	
@@ -210,15 +213,16 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	}
 	
 	transferStep(step) {
-		return <div className="progressCard">
+		return <div className={step.completed ? "progressCardCompleted" : "progressCardNotCompleted"}>
 			{step.name} - {step.description}{step.completed ? " - Done" : ""}
 		</div>
 	}
 	
 	transferProgress() {
 		let state = this.readState();
-		// {this.transferStep("step1", "step 1 display test", true)}
-		// {this.transferStep("step2", "step 2 display test", false)}
+		if (!state.steps) {
+			return <h3>Something will show up if you attempt something... just like your crush</h3>
+		}
 		return <>
 			<div className="progressContainer">
 				{(state.steps || []).map(this.transferStep)}
@@ -351,8 +355,8 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		       	</div>
 
 
-
-                    <FadeInLeftDiv className="col-md-6 d-flex">
+				<div className="row">
+                    <FadeInLeftDiv className="col-md-6">
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
@@ -387,18 +391,18 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.transfer}>Transfer</button>
 								<button id="btn-addtometa" className="btn btn-complementary btn-md link-dark align-self-center stake-claim" onClick={this.addMainnetToMetamask}>Add to Metamask</button>
 					        </div>
+						</div>
+					</FadeInLeftDiv>
+                    <FadeInRightDiv className="col-md-6">
+						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
+							<h1>Progress</h1>
 							{this.transferProgress()}
 						</div>
-
-
-					</FadeInLeftDiv>
-
-                          <div className="migration-footer">
-					        <font size="2"><i>Note : Funds usually take about 15 minutes to arrive, please be patient !</i></font>
-				          </div>
-
-
-
+					</FadeInRightDiv>
+				</div>
+			  <div className="migration-footer">
+				<font size="2"><i>Note : Funds usually take about 15 minutes to arrive, please be patient !</i></font>
+			  </div>
 			</div>
 		</div>
 	}
