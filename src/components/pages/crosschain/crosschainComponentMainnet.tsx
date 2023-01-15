@@ -9,10 +9,18 @@ import { RaptorChainInterface } from '../../contracts/chain';
 
 import './migrationComponent.css';
 import './stakingComponent.css';
+import './crosschainComponent.css';
 import AnimatedNumber from 'animated-number-react';
 import { fadeInLeft, fadeInRight, pulse } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 
+export class Step {
+	constructor(name, description) {
+		this.name = name;
+		this.description = description;
+		this.completed = false;
+	}
+}
 
 export type CrossChainProps = {};
 export type CrossChainState = {
@@ -25,7 +33,9 @@ export type CrossChainState = {
 	address?: string,
 	ctValue?: number,
 	chainIn?: number,
-	chainOut?: number
+	chainOut?: number,
+	steps?: any,
+	currentStep?: number
 };
 
 const FadeInLeftAnimation = keyframes`${fadeInLeft}`;
@@ -53,6 +63,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		this.handleChainOutUpdate = this.handleChainOutUpdate.bind(this);
 		this.setMaxAmount = this.setMaxAmount.bind(this);
 		this.switchWalletChain = this.switchWalletChain.bind(this);
+		this.transferProgress = this.transferProgress.bind(this);
 		this.state = {};
 	}
 	
@@ -198,18 +209,20 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		this.updateState({ ctValue:tokens });
 	}
 	
-	transferStep(name, description, completed) {
-		return <div className="transferStep">
-			{name} - {description}{completed ? " - Done" : ""}
+	transferStep(step) {
+		return <div className="progressCard">
+			{step.name} - {step.description}{step.completed ? " - Done" : ""}
 		</div>
 	}
 	
-	transferProgress(steps) {
-		for (let n = 0; n < steps.length; n++) {
-			
-		}
+	transferProgress() {
+		let state = this.readState();
+		// {this.transferStep("step1", "step 1 display test", true)}
+		// {this.transferStep("step2", "step 2 display test", false)}
 		return <>
-			
+			<div className="progressContainer">
+				{(state.steps || []).map(this.transferStep)}
+			</div>
 		</>
 	}
 	
@@ -230,34 +243,48 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	}
 	
 	async deposit() {
+		await this.updateState({steps: [new Step("BSC", "Switch wallet to BSC"), new Step("Tx", "Send transaction")]});
 		let state = this.readState();
 		console.log(state);
+		state.steps[0].completed = true;
 		await state.chain.crossChainDeposit(state.ctValue);
+		state.steps[1].completed = true;
 		await state.chain.refresh();
 		this.updateOnce(true);
 	}
 	
 	async withdraw() {
+		await this.updateState({steps: [new Step("Msg", "Sign message")]});
 		let state = this.readState();
 		console.log(state);
 		await state.chain.crossChainWithdrawal(state.ctValue);
+		state.steps[0].completed = true;
 		await state.chain.refresh();
 		this.updateOnce(true);
 	}
 	
 	async wrapToPolygon() {
+		await this.updateState({steps: [new Step("Chain", "Switch wallet to RaptorChain"), new Step("Tx", "Send tx")]});
 		let state = this.readState();
 		console.log(state);
+		
 		await state.chain.bridgeToPolygon(state.ctValue); // chain switch logic is managed inside `bridgeToPolygon`
+		state.steps[0].completed = true;
+		state.steps[1].completed = true;
 		await state.polygon.refresh();
 		await state.chain.refresh();
 		this.updateOnce(true);
 	}
 	
 	async unwrapFromPolygon() {
+		await this.updateState({steps: [new Step("Chain", "Switch wallet to Polygon"), new Step("Tx", "Send lock tx"), new Step("Chain", "Switch wallet to RaptorChain"), new Step("Claim", "Send claim tx")]});
 		let state = this.readState();
+		state.steps[0].completed = true;
 		let slotKey = await state.chain.initPolygonUnwrap(state.ctValue);
+		state.steps[1].completed = true;
+		state.steps[2].completed = true;
 		await state.chain.finishPolygonUnwrap(slotKey);
+		state.steps[3].completed = true;
 	}
 	
 	async transfer() {
@@ -360,6 +387,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 					         	<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.transfer}>Transfer</button>
 								<button id="btn-addtometa" className="btn btn-complementary btn-md link-dark align-self-center stake-claim" onClick={this.addMainnetToMetamask}>Add to Metamask</button>
 					        </div>
+							{this.transferProgress()}
 						</div>
 
 

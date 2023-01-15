@@ -1,0 +1,16 @@
+.progressCard {
+	background-color: transparent;
+	padding-left: 3mm;
+	padding-right: 1cm;
+	border-style: solid;
+	border-radius: 10px;
+	margin-bottom: 2px;
+}
+
+.progressContainer {
+	background-color: greenyellow;
+	border-style: solid;
+	padding: 2mm;
+	border-radius: 10px;
+	width: fit-content;
+}
