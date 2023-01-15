@@ -114,9 +114,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	
 	async switchWalletChain(chainid: number) {
 		const state = this.readState();
-		await this.updateState({pending:true});
 		await state.wallet.switchNetwork(chainid);
-		await this.updateState({pending:false});
 	}
 	
 	async handleChainInUpdate(event) {
@@ -250,15 +248,19 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		await this.updateState({steps: [new Step("BSC", "Switch wallet to BSC"), new Step("Tx", "Send transaction")]});
 		let state = this.readState();
 		console.log(state);
+		
+		await this.switchWalletChain(56);
 		state.steps[0].completed = true;
+		
 		await state.chain.crossChainDeposit(state.ctValue);
 		state.steps[1].completed = true;
+		
 		await state.chain.refresh();
 		this.updateOnce(true);
 	}
 	
 	async withdraw() {
-		await this.updateState({steps: [new Step("Msg", "Sign message")]});
+		await this.updateState({steps: [new Step("Sign", "Sign message")]});
 		let state = this.readState();
 		console.log(state);
 		await state.chain.crossChainWithdrawal(state.ctValue);
@@ -268,12 +270,13 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	}
 	
 	async wrapToPolygon() {
-		await this.updateState({steps: [new Step("Chain", "Switch wallet to RaptorChain"), new Step("Tx", "Send tx")]});
+		await this.updateState({steps: [new Step("Chain", "Switch wallet to RaptorChain"), new Step("Send", "Send transaction")]});
 		let state = this.readState();
 		console.log(state);
+		await this.switchWalletChain(0x52505452);
+		state.steps[0].completed = true;
 		
 		await state.chain.bridgeToPolygon(state.ctValue); // chain switch logic is managed inside `bridgeToPolygon`
-		state.steps[0].completed = true;
 		state.steps[1].completed = true;
 		await state.polygon.refresh();
 		await state.chain.refresh();
@@ -281,12 +284,18 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	}
 	
 	async unwrapFromPolygon() {
-		await this.updateState({steps: [new Step("Chain", "Switch wallet to Polygon"), new Step("Tx", "Send lock tx"), new Step("Chain", "Switch wallet to RaptorChain"), new Step("Claim", "Send claim tx")]});
+		await this.updateState({steps: [new Step("Chain", "Switch wallet to Polygon"), new Step("Lock", "Send lock tx"), new Step("Chain", "Switch wallet to RaptorChain"), new Step("Claim", "Send claim tx")]});
 		let state = this.readState();
+		
+		await this.switchWalletChain(137);
 		state.steps[0].completed = true;
+		
 		let slotKey = await state.chain.initPolygonUnwrap(state.ctValue);
 		state.steps[1].completed = true;
+		
+		await this.switchWalletChain(0x52505452);
 		state.steps[2].completed = true;
+		
 		await state.chain.finishPolygonUnwrap(slotKey);
 		state.steps[3].completed = true;
 	}
