@@ -278,6 +278,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		
 		await state.chain.bridgeToPolygon(state.ctValue); // chain switch logic is managed inside `bridgeToPolygon`
 		state.steps[1].completed = true;
+		
 		await state.polygon.refresh();
 		await state.chain.refresh();
 		this.updateOnce(true);
