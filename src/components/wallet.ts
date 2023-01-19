@@ -168,6 +168,9 @@ export class Wallet {
 	}
 	
 	public async switchNetwork(chainID: number) {
+		if (this._provider.chainId == chainID) {
+			return;
+		}
 		if (this._provider.isMetaMask) {
 			if (this._provider.chainId != chainID) {
 				await ethereum.request({ method: 'wallet_addEthereumChain', params: this.networks[chainID] }).catch(function () { throw 'Please choose the Binance Smart Chain as the current network in your wallet app !' })
