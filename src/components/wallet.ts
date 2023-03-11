@@ -97,7 +97,7 @@ export class Wallet {
 				},
 				rpcUrls: ['https://polygon-rpc.com/'],
 				blockExplorerUrls: ['https://polygonscan.com/'],
-			}] 250 : [{
+			}], 250 : [{
 				chainId: '0xfa',
 				chainName: 'Fantom',
 				nativeCurrency:
