@@ -3,7 +3,7 @@ import * as numeral from 'numeral';
 
 import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
 import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
-import { Wallet, ReadOnlyProvider } from '../../wallet';
+import { Wallet, ReadOnlyProvider, ChainNames } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
 
@@ -25,8 +25,9 @@ export class Step {
 export type CrossChainProps = {};
 export type CrossChainState = {
 	wallet?: Wallet,
-	polygon?: ReadOnlyProvider,
+	chains?: any;
 	bsc?: ReadOnlyProvider,
+	polygon?: ReadOnlyProvider,
 	chain?: RaptorChainInterface,
 	pending?: boolean,
 	looping?: boolean,
@@ -89,7 +90,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 			try {
 				await state.chain.refresh();
 				await state.bsc.refresh();
-				await state.polygon.refresh();
+				await state.chains[137].refresh();
 				if (!this.readState().looping) {
 					return false;
 				}
@@ -169,7 +170,9 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 			}
 			const bsc = wallet.getReadOnly(56);
 			const polygon = wallet.getReadOnly(137);
-			await this.updateState({ wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0, bsc: bsc, polygon: polygon, chainIn: 56, chainOut: 0x52505452 });
+			const fantom = wallet.getReadOnly(250);
+			let _chains = {56: bsc, 137: polygon, 250: fantom};
+			await this.updateState({ wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0, bsc: bsc, polygon: polygon, chains: _chains, chainIn: 56, chainOut: 0x52505452 });
 			this.updateOnce(true).then();
 
 			this.loop().then();
@@ -235,10 +238,10 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		}
 		if ((chainid == 56) && (state.bsc)) {
 			return state.bsc.balance;
-		} else if ((chainid == 137) && state.polygon) {
-			return state.polygon.balance;
 		} else if ((chainid == 0x52505452)) {
 			return state.chain.balance;
+		} else if (state.chains[chainid]) {
+			return state.chains[chainid].balance;
 		} else {
 			return 0;
 		}
@@ -298,6 +301,39 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		state.steps[2].completed = true;
 		
 		await state.chain.finishPolygonUnwrap(slotKey);
+		state.steps[3].completed = true;
+	}
+	
+	async wrapTo(chainid) {
+		await this.updateState({steps: [new Step("Chain", "Switch wallet to RaptorChain"), new Step("Send", "Send transaction")]});
+		let state = this.readState();
+		console.log(state);
+		await this.switchWalletChain(0x52505452);
+		state.steps[0].completed = true;
+		
+		await state.chain.bridgeTo(chainid, state.ctValue); // chain switch logic is managed inside `bridgeToPolygon`
+		state.steps[1].completed = true;
+		
+		await state.chains[chainid].refresh();
+		await state.chain.refresh();
+		this.updateOnce(true);
+	}
+	
+	async unwrapFrom(chainid) {
+		const _name = ChainNames[chainid];
+		await this.updateState({steps: [new Step("Chain", `Switch wallet to ${_name}`), new Step("Lock", "Send lock tx"), new Step("Chain", "Switch wallet to RaptorChain"), new Step("Claim", "Send claim tx")]});
+		let state = this.readState();
+		
+		await this.switchWalletChain(chainid);
+		state.steps[0].completed = true;
+		
+		let slotKey = await state.chain.initUnwrap(chainid, state.ctValue);
+		state.steps[1].completed = true;
+		
+		await this.switchWalletChain(0x52505452);
+		state.steps[2].completed = true;
+		
+		await state.chain.finishUnwrap(chainid, slotKey);
 		state.steps[3].completed = true;
 	}
 	
