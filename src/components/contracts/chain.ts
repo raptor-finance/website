@@ -1,4 +1,4 @@
-import {Wallet} from '../wallet';
+import {Wallet, Raptors} from '../wallet';
 import {Raptor} from './raptor';
 import {Contract} from 'web3-eth-contract';
 // import { ethers } from 'ethers';
@@ -9,6 +9,7 @@ export const CustodyAddressMainnet = "0x6a200e1aA7D31F17211CD569C788Ac1d3Ab1B9f9
 export const BridgedAddressPolygon = "0x94f405FB408Ad743418d10f4926cb9cdb53b2ef7";
 
 export const BridgeHostAddress = "0xa09D1c8A7486Aa19A92e044c8f7a922B85FCe3Fc";
+export const BridgeHostAddresses = {137: "0xa09D1c8A7486Aa19A92e044c8f7a922B85FCe3Fc", 250: "0x47FbA14C31F50cAe1cFb061f157E8B5CD0796c2c"};
 
 export class RaptorChainInterface {
 	private readonly wallet: Wallet;
@@ -128,12 +129,12 @@ export class RaptorChainInterface {
 		}
 	}
 	
-	getBridgeHost() {
-		return this.wallet.connectToContract(BridgeHostAddress, require('./bridgeHost.abi.json'));
+	getBridgeHost(chainid: number) {
+		return this.wallet.connectToContract(BridgeHostAddresses[chainid], require('./bridgeHost.abi.json'));
 	}
 	
-	getBridgedInstance() {
-		return this.wallet.connectToContract(BridgedAddressPolygon, require("./bridgedRaptor.abi.json"));
+	getBridgedInstance(chainid: number) {
+		return this.wallet.connectToContract(Raptors[chainid], require("./bridgedRaptor.abi.json"));
 	}
 	
 	async crossChainWithdrawal(amount: number) {
@@ -141,16 +142,17 @@ export class RaptorChainInterface {
 		await this.sendTransaction(signedTx);
 	}
 	
+	// polygon-specific code
 	async bridgeToPolygon(amount: number) {
 		await this.wallet.switchNetwork(0x52505452); // switch wallet to RaptorChain
-		const _host = this.getBridgeHost();
+		const _host = this.getBridgeHost(137);
 		console.log(_host);
 		return await _host.methods.wrap().send({'from': this.wallet.currentAddress, amount, 'value': web3.toWei(String(amount))});
 	}
 	
 	async initPolygonUnwrap(amount: number) {
 		await this.wallet.switchNetwork(137); // switch wallet to Polygon
-		const _instance = this.getBridgedInstance();
+		const _instance = this.getBridgedInstance(137);
 		let receipt = await _instance.methods.unwrap(web3.toWei(String(amount))).send({'from': this.wallet.currentAddress});
 		console.log(receipt);
 		return receipt.events.UnWrap.returnValues.slotKey;
@@ -158,9 +160,32 @@ export class RaptorChainInterface {
 	
 	async finishPolygonUnwrap(slot) {
 		await this.wallet.switchNetwork(0x52505452); // switch wallet to RaptorChain
-		const _host = this.getBridgeHost();
+		const _host = this.getBridgeHost(137);
 		return await _host.methods.unwrap(slot).send({'from': this.wallet.currentAddress});
 	}
+	
+	// chain-agnostic code
+	async bridgeTo(chainid: number, amount: number) {
+		await this.wallet.switchNetwork(0x52505452); // switch wallet to RaptorChain
+		const _host = this.getBridgeHost(chainid);
+		console.log(_host);
+		return await _host.methods.wrap().send({'from': this.wallet.currentAddress, amount, 'value': web3.toWei(String(amount))});
+	}
+	
+	async initUnwrap(chainid: number, amount: number) {
+		await this.wallet.switchNetwork(chainid); // switch wallet to Chain
+		const _instance = this.getBridgedInstance(chainid);
+		let receipt = await _instance.methods.unwrap(web3.toWei(String(amount))).send({'from': this.wallet.currentAddress});
+		console.log(receipt);
+		return receipt.events.UnWrap.returnValues.slotKey;
+	}
+	
+	async finishUnwrap(chainid: number, slot) {
+		await this.wallet.switchNetwork(0x52505452); // switch wallet to RaptorChain
+		const _host = this.getBridgeHost(137);
+		return await _host.methods.unwrap(slot).send({'from': this.wallet.currentAddress});
+	}
+	
 	
 	sigToVRS(sig) {
 		return (('0x' + sig.substring(2).substring(128, 130)), ('0x' + sig.substring(2).substring(0, 64)), ('0x' + sig.substring(2).substring(64, 128)));
