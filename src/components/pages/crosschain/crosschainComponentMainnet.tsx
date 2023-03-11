@@ -3,7 +3,7 @@ import * as numeral from 'numeral';
 
 import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
 import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
-import { Wallet, ReadOnlyProvider, ChainNames } from '../../wallet';
+import { Wallet, ReadOnlyProvider, ChainNames, ChainIDsToRefresh } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
 
@@ -90,7 +90,12 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 			try {
 				await state.chain.refresh();
 				await state.bsc.refresh();
-				await state.chains[137].refresh();
+				for (let n = 0; n<ChainIDsToRefresh.length; n++) {
+					if (state.chains[ChainIDsToRefresh[n]]) {
+						await state.chains[ChainIDsToRefresh[n]].refresh();
+					}
+				}
+				
 				if (!this.readState().looping) {
 					return false;
 				}
@@ -147,6 +152,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 			{this.chainDisplay("BSC", 56)}
 			{this.chainDisplay("RaptorChain", 0x52505452)}
 			{this.chainDisplay("Polygon", 137)}
+			{this.chainDisplay("Fantom", 250)}
 		</>
 	}
 	
@@ -344,10 +350,10 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 			await this.deposit();
 		} else if ((state.chainIn == 0x52505452) && (state.chainOut == 56)) {
 			await this.withdraw();
-		} else if ((state.chainIn == 0x52505452) && (state.chainOut == 137)) {
-			await this.wrapToPolygon();
-		} else if ((state.chainIn == 137) && (state.chainOut == 0x52505452)) {
-			await this.unwrapFromPolygon();
+		} else if ((state.chainIn == 0x52505452) && (state.chainOut != 0x52505452)) {
+			await this.wrapTo(state.chainOut);
+		} else if ((state.chainIn != 0x52505452) && (state.chainOut == 0x52505452)) {
+			await this.unwrapFrom(state.chainIn);
 		}
 		await this.updateState({pending:false}); // stops showing "loading" once complete
 	}

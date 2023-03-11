@@ -6,6 +6,7 @@ import * as web3 from 'web3-utils';
 
 export const Raptors = {56: "0x44C99Ca267C2b2646cEEc72e898273085aB87ca5", 137: "0x94f405FB408Ad743418d10f4926cb9cdb53b2ef7", 250: "0x50956f965F321c1DE62d2E103620881597d76809"};
 export const ChainNames = {56: "BSC", 137: "Polygon", 250: "Fantom"};
+export const ChainIDsToRefresh = [56, 137, 250];
 
 export class ReadOnlyProvider {
 	private _web3: Web3 = null;
