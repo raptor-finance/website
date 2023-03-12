@@ -130,7 +130,9 @@ export class RaptorChainInterface {
 	}
 	
 	getBridgeHost(chainid: number) {
-		return this.wallet.connectToContract(BridgeHostAddresses[chainid], require('./bridgeHost.abi.json'));
+		const _addr = BridgeHostAddresses[chainid];
+		console.log(_addr);
+		return this.wallet.connectToContract(_addr, require('./bridgeHost.abi.json'));
 	}
 	
 	getBridgedInstance(chainid: number) {
@@ -173,6 +175,7 @@ export class RaptorChainInterface {
 	}
 	
 	async initUnwrap(chainid: number, amount: number) {
+		console.log(chainid);
 		await this.wallet.switchNetwork(chainid); // switch wallet to Chain
 		const _instance = this.getBridgedInstance(chainid);
 		let receipt = await _instance.methods.unwrap(web3.toWei(String(amount))).send({'from': this.wallet.currentAddress});
@@ -181,8 +184,10 @@ export class RaptorChainInterface {
 	}
 	
 	async finishUnwrap(chainid: number, slot) {
+		console.log(chainid);
+		console.log(slot);
 		await this.wallet.switchNetwork(0x52505452); // switch wallet to RaptorChain
-		const _host = this.getBridgeHost(137);
+		const _host = this.getBridgeHost(chainid);
 		return await _host.methods.unwrap(slot).send({'from': this.wallet.currentAddress});
 	}
 	
