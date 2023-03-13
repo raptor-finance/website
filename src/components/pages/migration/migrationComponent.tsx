@@ -164,7 +164,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 	}
 	
 	async addToMetamask() {
-		await ethereum.request({method: 'wallet_watchAsset',params: {type: 'ERC20',options: {address: "0x44c99ca267c2b2646ceec72e898273085ab87ca5",symbol: "RPTR",decimals: 18,image: "https://raptorswap.com/images/logo.png",},},});
+		await ethereum.request({method: 'wallet_watchAsset',params: {type: 'ERC20',options: {address: "0x44c99ca267c2b2646ceec72e898273085ab87ca5",symbol: "RPTR",decimals: 18,image: "https://raptorchain.io/images/logo.png",},},});
 	}
 
 	render() {
