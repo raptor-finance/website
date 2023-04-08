@@ -3,7 +3,7 @@ import {Contract} from 'web3-eth-contract';
 // import { ethers } from 'ethers';
 import * as web3 from 'web3-utils';
 
-export const DeployerAddress = "0x54Aeeb4fEfF57d5944C859bb66d5FeAFBf01F982";
+export const DeployerAddress = "0x1506abf34029a9F56605A8e2334484222564f25E";
 
 export class YourTokenBackend {
 	private readonly _wallet: Wallet;
