@@ -257,7 +257,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							<a href="https://bscscan.com/token/0x44c99ca267c2b2646ceec72e898273085ab87ca5#balances" className="btn btn-complementary btn-block" target="_blank">{t('nav.viewonbscscan')}</a>
 						</div>
 						<div className="mt-2">
-							<a href="https://bitriseaudits.com/project/106" className="btn btn-complementary btn-block" target="_blank">BitRise audit</a>
+							<a href="https://bitgert.com/audits/public/project/106" className="btn btn-complementary btn-block" target="_blank">BitRise audit</a>
 						</div>
 						<select
 							value={languageCodeOnly(i18n.language)}
