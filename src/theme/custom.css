@@ -73,6 +73,10 @@ body {
 	color: var(--space);
 }
 
+.smoothDiv {
+	border-radius: 1cm;
+}
+
 @media (max-width: 900px) {
 	.listing-banner {
 		top: 68px;
