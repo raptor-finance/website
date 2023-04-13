@@ -6,6 +6,7 @@ import { fadeIn } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 import AnimatedNumber from 'animated-number-react';
 
+import '../../../theme/custom.css';
 import './raptorForest.css';
 
 export type RaptorForestProps = {};
@@ -97,7 +98,7 @@ class RaptorForest extends BaseComponent<RaptorForestProps & WithTranslation, Ra
     const t: TFunction<"translation"> = this.readProps().t;
 
     return <FadeInDiv>
-      <div className="shadow d-flex flex-row align-self-center flex-wrap gradient-card primary raptor-forest">
+      <div className="shadow d-flex flex-row align-self-center flex-wrap gradient-card primary raptor-forest smoothDiv">
         <h2 className="flex-fill"><strong>{t('home.raptor_forest.title')}</strong></h2>
         <p><Trans i18nKey='home.raptor_forest.funder'><strong>Funded by: </strong>
           <span>Raptor Finance</span></Trans>
