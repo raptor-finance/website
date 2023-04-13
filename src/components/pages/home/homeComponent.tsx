@@ -107,6 +107,8 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
               </Suspense>
             </div>
           </div>
+		  
+		  {/*
           <div className="second-paragraph">
             <h1><strong className="title-white">{t('home.subtitle2')}</strong><br /></h1>
             <p>{t('home.paragraph2')} <a href="home#roadmap">{t('home.roadmap')}</a> {t('home.for_details')}</p>
@@ -123,6 +125,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
               {t('home.paragraph4_2')}
             </p>
           </div>
+		  */}
         </section>
 
         <section className="token-stats">
