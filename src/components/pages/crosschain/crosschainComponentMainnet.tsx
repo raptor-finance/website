@@ -7,6 +7,7 @@ import { Wallet, ReadOnlyProvider, ChainNames, ChainIDsToRefresh } from '../../w
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
 
+import '../../../theme/custom.css';
 import './migrationComponent.css';
 import './stakingComponent.css';
 import './crosschainComponent.css';
@@ -409,7 +410,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 
 				<div className="row">
                     <FadeInLeftDiv className="col-md-6">
-						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
+						<div className="shadow d-flex flex-column flex-fill gradient-card primary smoothDiv">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
 							<h2>Balance breakdown</h2>
@@ -446,7 +447,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 						</div>
 					</FadeInLeftDiv>
                     <FadeInRightDiv className="col-md-6">
-						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
+						<div className="shadow d-flex flex-column flex-fill gradient-card primary smoothDiv">
 							<h1>Progress</h1>
 							{this.transferProgress()}
 						</div>
