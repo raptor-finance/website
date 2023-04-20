@@ -143,17 +143,17 @@
     },
     "about": {
         "raptor_finance": {
-            "title": "About Raptor Finance V3",
-            "paragraph1": "Here at Raptor Finance, our goal is to build a decentralized, green DEX platform (RaptorSwap) and green blockchain (RaptorChain). We at Raptor Finance feel that the crypto industry is not sustainable and green enough, we are going to change that! Our platform will be hosted on servers that are powered by green electricity, our UK data center uses 100% green-sourced power as specified by E.ON, and as regulated by Ofgem. Additionally, we are planting trees every day to ensure that the world is becoming a greener place!",
-            "paragraph2": "With RaptorSwap, we will be collecting fees on all transactions, and unlike any other DEX/CEX platform, we will have a fixed percentage of these fees going directly to our donation wallet. This means that we will have a constant stream of our earnings going to our donation wallet. Therefore, the bigger we become, the greater our impact can be!",
-            "paragraph3": "We at Raptor Finance aim to donate these earnings to charities/projects/foundations that help the fight against climate change through technology. We strongly believe that it’s impossible to change the behavior of enough people on this planet in time to save our planet, so we need technology to help do that! We are not saying that anyone who doesn’t think about climate change is bad, because realistically if you earn 10 dollars a day you, unfortunately, don’t have the time to think about the climate. This is one of a multitude of reasons why people aren’t thinking about climate change. But we do! And that is the reason we started this project!",
+            "title": "About Raptor",
+            "paragraph1": "Our goal was initially to build build a decentralized, green DEX platform (RaptorSwap) and green blockchain (RaptorChain). We at Raptor Finance felt that the crypto industry was not sustainable and green enough, and aimed to change that! The goal was to host our platform on green hosting. Additionally, we started planting trees every day to ensure that the world would become a greener place!",
+            "paragraph2": "However, we faced some bad event (got rugged by one dev, Miguel), which caused project to collapse late in 2021 :/",
+            "paragraph3": "Despite these issues, we decided to keep working on it, and are proud to show RaptorChain, a semi-asynchronous EVM-compatible blockchain, which burns half of its fees, the other half going to block producers. We also kept planting trees on ecologi, with over 14k trees planted so far (and more to come) !",
             "our_plan": {
-                "title": "So what is our plan?",
-                "line1": "Begin our movement! Join us and become part of the RaptorFamily!",
-                "line2": "Launch our range of products according to our roadmap",
-                "line3": "Start various green initiatives (e.g. clean-up giveaways, planting trees, etc.)",
-                "line4": "Support/donate to research/projects that make a real impact",
-                "line5": "Support/donate to educational projects around the world that teach people about the importance of taking care of our planet"
+                "title": "So what's next ?",
+                "line1": "Keep developing innovative products (cross-chain)",
+                "line2": "Increase decentralization (considering to move to a DAO)",
+                "line3": "Make project more visible (marketing)",
+                "line4": "Partnerships with other projects",
+                "line5": "And of course, planting even more trees (co2 pump go brrr)"
             }
         },
         "products_overview": {
