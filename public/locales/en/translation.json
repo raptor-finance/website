@@ -145,7 +145,7 @@
         "raptor_finance": {
             "title": "About Raptor",
             "paragraph1": "Our goal was initially to build build a decentralized, green DEX platform (RaptorSwap) and green blockchain (RaptorChain). We at Raptor Finance felt that the crypto industry was not sustainable and green enough, and aimed to change that! The goal was to host our platform on green hosting. Additionally, we started planting trees every day to ensure that the world would become a greener place!",
-            "paragraph2": "However, we faced some bad event (got rugged by one dev, Miguel), which caused project to collapse late in 2021 :/",
+            "paragraph2": "However, we faced some bad event (got rugged by one former dev, Miguel), which caused project to collapse late in 2021 :/",
             "paragraph3": "Despite these issues, we decided to keep working on it, and are proud to show RaptorChain, a semi-asynchronous EVM-compatible blockchain, which burns half of its fees, the other half going to block producers. We also kept planting trees on ecologi, with over 14k trees planted so far (and more to come) !",
             "our_plan": {
                 "title": "So what's next ?",
@@ -160,8 +160,8 @@
             "title": "Products Overview",
             "token": {
                 "title": "Raptor Token",
-                "paragraph1": "Raptor Token fuels the Raptor ecosystem. It is the foundation of all the products we have made and will be the foundation of all the future products we will make. More information about this within the Whitepaper. We do this to combat the exchange killer known as impermanent loss because on the other side, we have features such as staking (and farming coming in the future) which generate new tokens. With this, we can keep our total supply balanced.",
-                "paragraph2": "Initially, our total supply was one quadrillion tokens, of which we burned 53% from the get-go. Afterwards, we've decided to move to a lower total supply. Hence, we've launched Raptor v3 with a Total Supply of 650 Millions."
+                "paragraph1": "Raptor Token fuels the Raptor ecosystem. It is the foundation of all the products we have made and will be the foundation of all the future products we will make. It's used to reward staking and farms with 1 RPTR per BSC block (+ 0.1 to marketing address), and as gas token on RaptorChain, in order to become deflationnary once RaptorChain has enough usage !",
+                "paragraph2": "Old token's supply was one quadrillion tokens, with 53% burned. However, after the rug, we (new team) decided to migrate to a new token (by allowing old token's holders to swap their tokens to new one at 1M to 1 rate), which gives RPTR token decent supply figures (like wtf trillion man)"
      },
             "swap": {
                 "title": "RaptorSwap",
