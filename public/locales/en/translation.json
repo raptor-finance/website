@@ -160,7 +160,7 @@
             "title": "Products Overview",
             "token": {
                 "title": "Raptor Token",
-                "paragraph1": "Raptor Token powers the Raptor ecosystem. It is the foundation of all the products we have made and will be the foundation of all the future products we will make. The Raptor Token is a deflationary token. More information about this within the Whitepaper. We do this to combat the exchange killer known as impermanent loss because on the other side, we have features such as staking (and farming coming in the future) which generate new tokens. With this, we can keep our total supply balanced.",
+                "paragraph1": "Raptor Token fuels the Raptor ecosystem. It is the foundation of all the products we have made and will be the foundation of all the future products we will make. More information about this within the Whitepaper. We do this to combat the exchange killer known as impermanent loss because on the other side, we have features such as staking (and farming coming in the future) which generate new tokens. With this, we can keep our total supply balanced.",
                 "paragraph2": "Initially, our total supply was one quadrillion tokens, of which we burned 53% from the get-go. Afterwards, we've decided to move to a lower total supply. Hence, we've launched Raptor v3 with a Total Supply of 650 Millions."
      },
             "swap": {
