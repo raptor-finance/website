@@ -165,8 +165,8 @@
      },
             "swap": {
                 "title": "RaptorSwap",
-                "paragraph1": "A one of a kind DEX with CEX attributes, featuring live trading charts and live transaction feeds. Our one-of-a-kind non-KYC verified exchange allows you to reap the benefits of a traditional exchange without having to worry about the prying eyes of the regulation, and your tokens will always remain in your custody, off of an exchange. If you prefer a more simple swap style, we also provide that so our product is not exclusive to the tech-savvy consumer, but for everyone. A small set fee is applied to every transaction which partially goes to our donation wallet, by doing so we enable our trading platform to partake in saving the planet!",
-                "paragraph2": "New token owners will have the possibility to help save our planet by hosting their liquidity on RaptorSwap. Fees from liquidity pools and subsequent trading fees will go directly to our donation wallet!"
+                "paragraph1": "A DEX built on our own blockchain. It aims to leverage our chain's cross-chain capabilities by allowing to trade tokens from different chains (good bye gas fees and CEXes)",
+                "paragraph2": "If you're a project developer, feel free to message us on telegram, where we'll be glad to help you with listing"
             },
             "farm": {
                 "title": "RaptorFarm",
