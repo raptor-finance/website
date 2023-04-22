@@ -8,8 +8,10 @@ import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
 import { RaptorSwap } from '../../contracts/raptorswap';
 
+import '../../../theme/custom.css';
 import './migrationComponent.css';
 import './stakingComponent.css';
+import './swapComponent.css'
 import AnimatedNumber from 'animated-number-react';
 import { fadeInLeft, fadeInRight, pulse } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
@@ -266,10 +268,10 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 
 				<div className="container">
                     <FadeInLeftDiv className="col-md-6 d-flex">
-						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
+						<div className="shadow d-flex flex-column flex-fill gradient-card primary smoothDiv">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
-							<div className="container shadow addLiquidityCard gradient-card">
+							<div className="container shadow addLiquidityCard gradient-card smoothDiv swapSubDiv">
 								<h2>Swap</h2>
 								<p>Enter the amount that you want to swap:</p>
 								<div>
