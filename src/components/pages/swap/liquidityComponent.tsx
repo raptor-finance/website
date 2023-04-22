@@ -8,6 +8,7 @@ import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
 import { RaptorSwap } from '../../contracts/raptorswap';
 
+import '../../../theme/custom.css';
 import './migrationComponent.css';
 import './stakingComponent.css';
 import AnimatedNumber from 'animated-number-react';
@@ -311,7 +312,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 	
 	renderAddLiquidity() {
 		const state = this.readState();
-		return <div className="container shadow addLiquidityCard gradient-card">
+		return <div className="container shadow addLiquidityCard gradient-card smoothDiv">
 			<h2>Add Liquidity</h2>
 			<div>
 				{this.assetSelector(state.assetA, this.handleAssetAUpdate)}&nbsp;
@@ -340,7 +341,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		const _pair = state.selectedPair;
 		const _lpBalance = _pair ? _pair.formattedLpBalance : 0;
 		console.log(`LP balance : ${_lpBalance}`)
-		return <div className="container shadow addLiquidityCard gradient-card">
+		return <div className="container shadow addLiquidityCard gradient-card smoothDiv">
 			<h2>Remove Liquidity</h2>
 			<div>
 				{this.assetSelector(state.assetA, this.handleAssetAUpdate)}&nbsp;
@@ -368,6 +369,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 	render() {
 		this.updateOnce(false);
 		const state = this.readState();
+		console.log(`Sequence : ${state.sequenceNumber}`);
 		const t: TFunction<"translation"> = this.readProps().t;
 
 		return <div className="staking-container">
@@ -395,10 +397,10 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 
 				<div className="container">
                     <FadeInLeftDiv className="col-md-6 d-flex">
-						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
+						<div className="shadow d-flex flex-column flex-fill gradient-card primary smoothDiv">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
-							{(state.sequenceNumber == 0) ? this.renderAddLiquidity() : this.renderRemoveLiquidity()}
+							{(!state.sequenceNumber) ? this.renderAddLiquidity() : this.renderRemoveLiquidity()}
 							{this.renderPairsList()}
 						</div>
 
