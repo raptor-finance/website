@@ -11,6 +11,7 @@ import AnimatedNumber from 'animated-number-react';
 import { fadeInLeft, fadeInRight, pulse } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 
+import '../../../theme/custom.css';
 
 export type MigrationProps = {};
 export type MigrationState = {
@@ -196,7 +197,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 
 
                     <FadeInLeftDiv className="col-md-6 d-flex">
-						<div className="shadow d-flex flex-column flex-fill gradient-card primary">
+						<div className="shadow d-flex flex-column flex-fill gradient-card primary smoothDiv">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
 							<h2>{t('migration.wallet.v2')}</h2>
