@@ -33,7 +33,7 @@ const ProductsOverview: React.FC = ({ }) => {
         <p>{t('about.products_overview.docs.paragraph1')}</p>
         <p>{t('about.products_overview.docs.paragraph2')}</p>
         <h2>Contact us</h2>
-        <p>Feel free to email us on <a href="mailto:ygboucherk@gmail.com">ygboucherk@gmail.com</a></p>
+        <p>Feel free to email us on <a href="mailto:admin@raptorchain.io">admin@raptorchain.io</a></p>
       </Fade>
     </div>
   )
