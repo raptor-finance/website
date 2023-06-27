@@ -175,7 +175,7 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
                   <a href="https://www.youtube.com/channel/UCgLBdvV2BiTy6nwTuWdUeKg" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faYoutube} />
                   </a>
-                  <a href="https://discord.gg/EJwR3pjd9A" rel="noreferrer" className="btn-social" target="_blank">
+                  <a href="https://discord.gg/Qud3ShuAMF" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faDiscord} />
                   </a>
                 </div>
