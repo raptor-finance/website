@@ -157,27 +157,30 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
                   <a href="https://twitter.com/raptorchainio" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faTwitter} />
                   </a>
-                  <a href="https://t.me/RaptorSwap" rel="noreferrer" className="btn-social" target="_blank">
-                    <FontAwesomeIcon icon={faTelegram} />
-                  </a>
-                  <a href="https://www.facebook.com/RaptorSwap  " rel="noreferrer" className="btn-social" target="_blank">
-                    <FontAwesomeIcon icon={faFacebook} />
-                  </a>
                   <a href="https://www.instagram.com/rptrarmy/" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faInstagram} />
                   </a>
                   <a href="https://www.reddit.com/r/RaptorToken/" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faReddit} />
                   </a>
-                  <a href="https://tiktok.com/@raptorswap" rel="noreferrer" className="btn-social" target="_blank">
-                    <FontAwesomeIcon icon={faTiktok} />
-                  </a>
-                  <a href="https://www.youtube.com/channel/UCgLBdvV2BiTy6nwTuWdUeKg" rel="noreferrer" className="btn-social" target="_blank">
-                    <FontAwesomeIcon icon={faYoutube} />
-                  </a>
                   <a href="https://discord.gg/Qud3ShuAMF" rel="noreferrer" className="btn-social" target="_blank">
                     <FontAwesomeIcon icon={faDiscord} />
                   </a>
+                  <a href="https://t.me/RaptorSwap" rel="noreferrer" className="btn-social" target="_blank">
+                    <FontAwesomeIcon icon={faTelegram} />
+                  </a>
+
+				{/*
+					<a href="https://tiktok.com/@raptorswap" rel="noreferrer" className="btn-social" target="_blank">
+						<FontAwesomeIcon icon={faTiktok} />
+					</a>
+					<a href="https://www.youtube.com/channel/UCgLBdvV2BiTy6nwTuWdUeKg" rel="noreferrer" className="btn-social" target="_blank">
+						<FontAwesomeIcon icon={faYoutube} />
+					</a>
+					<a href="https://www.facebook.com/RaptorSwap  " rel="noreferrer" className="btn-social" target="_blank">
+						<FontAwesomeIcon icon={faFacebook} />
+					</a>
+				*/}
                 </div>
               </div>
 
