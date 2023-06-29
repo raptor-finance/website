@@ -4,6 +4,36 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import { Contract } from 'web3-eth-contract';
 import * as web3 from 'web3-utils';
 
+import { w3mConnectors } from '@web3modal/ethereum';
+import { createClient } from 'wagmi';
+
+import { arbitrum, mainnet, polygon } from 'wagmi/chains';
+
+const chains = [bsc, polygon, fantom];
+const { publicClient } = configureChains(chains, [w3mProvider({ WALLETCONNECT_PROJECT_ID })])
+
+
+// walletconnect v2 setup
+const WALLETCONNECT_PROJECT_ID = "ee73972c848732c22ce81eec53a2f68f";
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors: w3mConnectors({ WALLETCONNECT_PROJECT_ID, chains }),
+  publicClient
+});
+
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors: w3mConnectors({
+    WALLETCONNECT_PROJECT_ID,
+    chains
+  }),
+  provider
+});
+
+const ethereumClient = new EthereumClient(wagmiConfig, chains);
+
+
 export const Raptors = {56: "0x44C99Ca267C2b2646cEEc72e898273085aB87ca5", 137: "0x94f405FB408Ad743418d10f4926cb9cdb53b2ef7", 250: "0x50956f965F321c1DE62d2E103620881597d76809"};
 export const ChainNames = {56: "BSC", 137: "Polygon", 250: "Fantom"};
 export const ChainIDsToRefresh = [56, 137, 250];
@@ -178,6 +208,10 @@ export class Wallet {
 		} catch (e) {
 			throw "Failed to add mainnet to metamask !"
 		}
+	}
+	
+	async loadWeb3Modal() {
+		
 	}
 	
 	public async switchNetwork(chainID: number) {
