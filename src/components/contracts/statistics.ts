@@ -103,14 +103,13 @@ export class RaptorStatistics {
 		if (!!this._prices && !force) {
 			return this._prices;
 		}
-		let _RPTRBUSDPromise = fetch("https://api.app-mobula.com/api/1/market/data?asset=raptor%20finance");
-		let _RPTRBNBPROMISE = fetch("https://bsc.api.0x.org/swap/v1/quote?buyToken=BNB&sellToken=0x44c99ca267c2b2646ceec72e898273085ab87ca5&sellAmount=1000000000000000000&excludedSources=PancakeSwap");
-		let _BNBBUSDPROMISE = fetch("https://bsc.api.0x.org/swap/v1/quote?buyToken=BUSD&sellToken=BNB&sellAmount=1000000000000000000");
 		
+		let _RPTRBUSDPromise = fetch("https://api.app-mobula.com/api/1/market/data?asset=raptor%20finance");
+		let _BNBBUSDPROMISE = fetch("https://api.app-mobula.com/api/1/market/data?asset=bnb");
 		// const a = (await (await fetch("https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0x44c99ca267c2b2646ceec72e898273085ab87ca5")).json());
 		const RPTRBUSD = (await (await _RPTRBUSDPromise).json()).data.price; // sending requests in batch before awaiting them is more latency-efficient
-		const RPTRBNB = (await (await _RPTRBNBPROMISE).json()).price;
 		const bnbPrice = (await (await _BNBBUSDPROMISE).json()).price;
+		const RPTRBNB = RPTRBUSD / bnbPrice;
 		
 //		const bnbPrice = (await (await fetch("https://api.pancakeswap.info/api/v2/tokens/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")).json());
 		const _totalSupply = this._web3.utils.fromWei(await this._raptor.methods.totalSupply().call());
