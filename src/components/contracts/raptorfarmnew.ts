@@ -148,7 +148,7 @@ export class RaptorFarmNew {
 				const allowance = `${BigInt(2 ** 256) - BigInt(1)}`;
 				await this._lpToken.methods.approve(RaptorFarmNew.address, allowance).send({ 'from': this._wallet.currentAddress });
 			}
-			await this._contract.methods.deposit(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
+			await this._contract.methods.deposit(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress, 'gasPrice': 3000000000 });
 		}
 		else {
 			throw 'Your LP balance is not sufficient';
@@ -160,7 +160,7 @@ export class RaptorFarmNew {
 		const rawAmount = BigInt(web3.toWei(amount));
 
 		if (BigInt((await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount) >= rawAmount) {
-			await this._contract.methods.withdraw(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
+			await this._contract.methods.withdraw(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress, 'gasPrice': 3000000000 });
 		}
 		else {
 			throw 'Your staked LP balance is not sufficient';
@@ -169,6 +169,6 @@ export class RaptorFarmNew {
 
 	async claim(): Promise<void> {
 		// await this._raptor.refresh();
-		await this._contract.methods.deposit(this._pid, 0).send({ 'from': this._wallet.currentAddress });
+		await this._contract.methods.deposit(this._pid, 0).send({ 'from': this._wallet.currentAddress, 'gasPrice': 3000000000 });
 	}
 }
