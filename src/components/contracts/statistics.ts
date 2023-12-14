@@ -3,7 +3,7 @@ import { RaptorAddressv3, DonationWalletAddress } from './raptor';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 
-export const MOBULA_RAPTOR_URL = "https://api.app-mobula.com/api/1/market/data?asset=raptor%20finance"
+export const RPTR_PRICE_URL = "https://explorer.raptorchain.io/RPTRPrice"
 
 type PriceInfo = { 
 	raptor: { 
@@ -112,11 +112,11 @@ export class RaptorStatistics {
 		
 		
 		
-		let _RPTRBUSDPromise = fetch(MOBULA_RAPTOR_URL);
+		let _RPTRBUSDPromise = fetch(RPTR_PRICE_URL);
 		let _BNBBUSDPROMISE = fetch("https://api.app-mobula.com/api/1/market/data?asset=bnb");
 
 		try {
-			RPTRBUSD = (await (await _RPTRBUSDPromise).json()).data.price; // batch-sending requests before awaiting them is more latency-efficient
+			RPTRBUSD = Number(await (await _RPTRBUSDPromise).text()); // batch-sending requests before awaiting them is more latency-efficient
 		} catch (e) {
 			RPTRBUSD = 0;
 		}
