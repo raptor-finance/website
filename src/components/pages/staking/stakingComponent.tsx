@@ -81,7 +81,7 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
 
       this.updateState({ farm: farm, wallet: wallet, looping: true, tvl:tvl });
       await this.updateOnce(false);
-      this.updateState({ pending: false });
+      await this.updateState({ pending: false });
       this.loop().then();
     }
     catch (e) {
