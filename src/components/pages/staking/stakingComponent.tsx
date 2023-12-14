@@ -144,17 +144,12 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
 	const poolLengthNew = (await farm["1,0"].contract.methods.poolLength().call());
     if (!!farm) {
       try {
-        // let i = 0;
-		let j = 0;
-        // while (i < poolLengthOld) {
-          // farm[`0,${i}`].refresh();
-          // i += 1;
-        // }
-        while (j < poolLengthNew-1) {
+        for (let j = 0; j < poolLengthNew-2; j++) {
           farm[`1,${j}`].refresh();
-          j += 1;
         }
+		
 		await farm[`1,${poolLengthNew-1}`].refresh();
+		
         if (!this.readState().looping) {
           return false;
         }

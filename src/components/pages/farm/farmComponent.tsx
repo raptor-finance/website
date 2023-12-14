@@ -149,26 +149,21 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 
   private async updateOnce(resetCt?: boolean): Promise<boolean> {
     const farm = this.readState().farm;
-	const poolLengthOld = (await farm["0,0"].contract.methods.poolLength().call());
+	// const poolLengthOld = (await farm["0,0"].contract.methods.poolLength().call());
 	const poolLengthNew = (await farm["1,0"].contract.methods.poolLength().call());
     if (!!farm) {
       try {
-        // let i = 0;
-		let j = 0;
-        // while (i < poolLengthOld) {
-          // farm[`0,${i}`].refresh();
-          // i += 1;
-        // }
-        while (j < poolLengthNew-1) {
+        for (let j = 0; j < poolLengthNew-2; j++) {
           farm[`1,${j}`].refresh();
-          j += 1;
         }
+		
 		await farm[`1,${poolLengthNew-1}`].refresh();
+		
         if (!this.readState().looping) {
           return false;
         }
         this.updateState({
-          address: farm["1,0"].wallet.currentAddress,
+          address: farm["0,0"].wallet.currentAddress,
         });
 
         if (resetCt) {
@@ -176,7 +171,6 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
             address: "",
           })
         }
-
       }
       catch (e) {
         console.warn('Unable to update farm status', e);
