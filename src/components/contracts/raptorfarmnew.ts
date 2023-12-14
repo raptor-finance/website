@@ -88,30 +88,41 @@ export class RaptorFarmNew {
 		return this._contract;
 	}
 	
-	async raptorInLp() {
-		if (this._lpToken._address == "0x44C99Ca267C2b2646cEEc72e898273085aB87ca5") {
-			return (await this._lpToken.methods.totalSupply().call()/2);
-		}
-		var _tokensInPair = [(await this._lpToken.methods.token0().call()), await this._lpToken.methods.token1().call()]
-		if (_tokensInPair.includes("0x44C99Ca267C2b2646cEEc72e898273085aB87ca5")) {
-			return (await this._raptor.contractv3.methods.balanceOf(this._lpAddress).call());
-		}
-		else if (_tokensInPair.includes(this._raptor.contract._address)) {
-			return (await this._raptor.contract.methods.balanceOf(this._lpAddress).call())*10**3;
-		}
-		else if (_tokensInPair.includes("0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")) {
+	async pooledRPTREquivalent(otherToken) {
+		if (otherToken == "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c") {	// WBNB address
 			const _wbnb = this._wallet.connectToContract("0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", require("./erc20.abi.json"));
-			return (this._stats.bnbToRaptor((await _wbnb.methods.balanceOf(this._lpToken._address).call())/10**15));
+			return (this._stats.bnbToRaptor((await _wbnb.methods.balanceOf(this._lpToken._address).call())/1e18));
 		}
 		else {
 			for(let n = 0; n < this._stablecoins.length; n++) {
-				if (_tokensInPair.includes(this._stablecoins[n])) {
+				if (otherToken == this._stablecoins[n]) {
 					const _stablecoin = this._wallet.connectToContract(this._stablecoins[n], require("./erc20.abi.json"));
-					return (this._stats.usdToRaptor((await _stablecoin.methods.balanceOf(this._lpToken._address).call())/10**15));
+					return (this._stats.usdToRaptor((await _stablecoin.methods.balanceOf(this._lpToken._address).call())/1e18));
 				}
 			}
 			return 0;
 		}
+	}
+	
+	async raptorPerFarmToken() {
+		const rptrAddress = "0x44C99Ca267C2b2646cEEc72e898273085aB87ca5";
+		if (this._lpToken._address == rptrAddress) {
+			return 1;
+		}
+		const tokenSupply = await this._lpToken.methods.totalSupply().call();
+		let _tokensInPair = [(await this._lpToken.methods.token0().call()), await this._lpToken.methods.token1().call()]
+		if (_tokensInPair.includes(rptrAddress)) {
+			const pooledRPTR = (await this._raptor.contractv3.methods.balanceOf(this._lpAddress).call());
+			return (pooledRPTR*2)/tokenSupply;
+		} else {
+			for (let i=0; i<_tokensInPair.length; i++) {
+				let _equivalent = await pooledRPTREquivalent(_addr);
+				if (_equivalent > 0) {
+					return (_equivalent)/tokenSupply;
+				}
+			}
+		}
+		return 0;
 	}
 
 	async refresh(): Promise<void> {
@@ -120,12 +131,15 @@ export class RaptorFarmNew {
 		await this._raptor.refresh();
 		const _raptorUsd = this._stats.raptorUsdPrice;
 		const _totalLp = (await this._lpToken.methods.totalSupply().call());
-		const raptorPerLPToken = (await this.raptorInLp()) / _totalLp;
+		const raptorPerLPToken = await this.raptorPerFarmToken();
+		
+		console.log(raptorPerLPToken)
+		
 		const stakedRaptorInLPs = (await this._lpToken.methods.balanceOf(RaptorFarmNew.address).call()) * raptorPerLPToken;
 
 		const raptorPerYear = ((await this._contract.methods.raptorPerBlock().call()) * 10512000) * ((await this._contract.methods.poolInfo(this._pid).call()).allocPoint / (await this._contract.methods.totalAllocPoint().call())) * (await this._contract.methods.BONUS_MULTIPLIER().call())
 
-		this._apr = ((raptorPerYear / stakedRaptorInLPs) * 50);
+		this._apr = ((raptorPerYear / stakedRaptorInLPs) * 100);
 
 		this._rewards = (await this._contract.methods.pendingCake(this._pid, this._wallet.currentAddress).call()) / 10 ** 18;
 		this._lpBalance = (await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) / 10 ** 18;

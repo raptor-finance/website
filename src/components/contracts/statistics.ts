@@ -3,6 +3,8 @@ import { RaptorAddressv3, DonationWalletAddress } from './raptor';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 
+export const MOBULA_RAPTOR_URL = "https://api.app-mobula.com/api/1/market/data?asset=raptor%20finance"
+
 type PriceInfo = { 
 	raptor: { 
 		usd: number, 
@@ -104,19 +106,17 @@ export class RaptorStatistics {
 			return this._prices;
 		}
 		
-		
 		let RPTRBNB;
 		let RPTRBUSD;
 		let bnbPrice;
 		
 		
 		
-		let _RPTRBUSDPromise = fetch("https://api.app-mobula.com/api/1/market/data?asset=raptor%20finance");
+		let _RPTRBUSDPromise = fetch(MOBULA_RAPTOR_URL);
 		let _BNBBUSDPROMISE = fetch("https://api.app-mobula.com/api/1/market/data?asset=bnb");
-		// const a = (await (await fetch("https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0x44c99ca267c2b2646ceec72e898273085ab87ca5")).json());
 
 		try {
-			RPTRBUSD = (await (await _RPTRBUSDPromise).json()).data.price; // sending requests in batch before awaiting them is more latency-efficient
+			RPTRBUSD = (await (await _RPTRBUSDPromise).json()).data.price; // batch-sending requests before awaiting them is more latency-efficient
 		} catch (e) {
 			RPTRBUSD = 0;
 		}
@@ -125,10 +125,11 @@ export class RaptorStatistics {
 			bnbPrice = (await (await _BNBBUSDPROMISE).json()).price;
 			RPTRBNB = RPTRBUSD / bnbPrice;
 		} catch (e) {
+			// since bnbPrice is denominator, it has to be set here in case bnb price can't be fetched OR if it's zero (triggers catch too)
 			bnbPrice = 0;
 			RPTRBNB = 0;
 		}
-//		const bnbPrice = (await (await fetch("https://api.pancakeswap.info/api/v2/tokens/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")).json());
+		
 		const _totalSupply = this._web3.utils.fromWei(await this._raptor.methods.totalSupply().call());
 		return {
 			raptor: {

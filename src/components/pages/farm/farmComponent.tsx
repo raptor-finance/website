@@ -153,7 +153,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 	const poolLengthNew = (await farm["1,0"].contract.methods.poolLength().call());
     if (!!farm) {
       try {
-        for (let j = 0; j < poolLengthNew-2; j++) {
+        for (let j = 0; j < poolLengthNew-1; j++) {
           farm[`1,${j}`].refresh();
         }
 		
