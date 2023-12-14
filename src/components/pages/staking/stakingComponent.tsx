@@ -52,7 +52,6 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
   async connectWallet() {
     try {
       this.updateState({ pending: true });
-	  var tvl = 0;
       const wallet = new Wallet();
       const result = await wallet.connect();
 
@@ -60,17 +59,9 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
         throw 'The wallet connection was cancelled.';
       }
 
-      var farm = {};
+      let farm = {};
       farm[`0,0`] = new RaptorFarm(wallet, 0);
       farm[`1,0`] = new RaptorFarmNew(wallet, 0);
-      // await farm[0].finishSetup();
-
-      // const poolLengthOld = (await farm[`0,0`].contract.methods.poolLength().call());
-      // var i = 1;
-      // while (i < poolLengthOld) {
-        // farm[`0,${i}`] = new RaptorFarm(wallet, i);
-        // i += 1;
-      // }
 	  
       const poolLengthNew = (await farm[`1,0`].contract.methods.poolLength().call());
       var i = 1;
@@ -79,7 +70,7 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
         i += 1;
       }
 
-      this.updateState({ farm: farm, wallet: wallet, looping: true, tvl:tvl });
+      this.updateState({ farm: farm, wallet: wallet, looping: true });
       await this.updateOnce(false);
       await this.updateState({ pending: false });
       this.loop().then();
