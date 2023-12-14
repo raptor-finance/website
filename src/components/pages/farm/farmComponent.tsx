@@ -90,96 +90,25 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
   }
 
-  getLpBalance(pid: string): number {
-    const farmInfo = ((this.readState().farm || {})[pid]);
-    if (farmInfo == undefined) {
-      return 0;
-    }
-    else {
-      return (farmInfo.lpBalance || 0);
-    }
-  }
-
-  getStakedBalance(pid: string): number {
-    const farmInfo = ((this.readState().farm || {})[pid]);
-    if (farmInfo == undefined) {
-      return 0;
-    }
-    else {
-      return (farmInfo.stakedLp || 0);
-    }
-  }
-
-  getRewards(pid: string): number {
-    const farmInfo = ((this.readState().farm || {})[pid]);
-    if (farmInfo == undefined) {
-      return 0;
-    }
-    else {
-      return (farmInfo.rewards || 0);
-    }
-  }
-
-  getApr(pid: string): number {
-    const farmInfo = ((this.readState().farm || {})[pid]);
-    if (farmInfo == undefined) {
-      return 0;
-    }
-    else {
-      return (farmInfo.apr || 0);
-    }
-  }
-  
-  getTVL(pid: string): number {
-    const farmInfo = ((this.readState().farm || {})[pid]);
-    if (farmInfo == undefined) {
-      return 0;
-    }
-    else {
-      return (farmInfo.tvl || 0);
-    }
-  }
-  
-  getUsdAvbl(pid: string): number {
-    const farmInfo = ((this.readState().farm || {})[pid]);
-    if (farmInfo == undefined) {
-      return 0;
-    }
-    else {
-      return (farmInfo.usdavailable || 0);
-    }
-  }
-  
-  getUsdStaked(pid: string): number {
-    const farmInfo = ((this.readState().farm || {})[pid]);
-    if (farmInfo == undefined) {
-      return 0;
-    }
-    else {
-      return (farmInfo.usdstaked || 0);
-    }
-  }
-  
-  getUsdRewards(pid: string): number {
-    const farmInfo = ((this.readState().farm || {})[pid]);
-    if (farmInfo == undefined) {
-      return 0;
-    }
-    else {
-      return (farmInfo.usdrewards || 0);
-    }
+  getFarm(pid: string) {
+	  return ((this.readState().farm || {})[pid]);
   }
 
   getAmounts(version: number, pid: number) {
-    var amounts = {};
-    amounts["apr"] = this.getApr(`${version},${pid}`);
-    amounts["lpBalance"] = this.getLpBalance(`${version},${pid}`);
-    amounts["stakedLp"] = this.getStakedBalance(`${version},${pid}`);
-    amounts["rewards"] = this.getRewards(`${version},${pid}`);
-    amounts["tvl"] = this.getTVL(`${version},${pid}`);
-    amounts["usdavailable"] = this.getUsdAvbl(`${version},${pid}`);
-    amounts["usdstaked"] = this.getUsdStaked(`${version},${pid}`);
-    amounts["usdrewards"] = this.getUsdRewards(`${version},${pid}`);
+	const strpid = `${version},${pid}`;
+	const farminfo = this.getFarm(strpid);
+	if (farminfo == undefined) {
+		return;
+	}
+    let amounts = {};
+    amounts["apr"] = farminfo.apr;
+    amounts["lpBalance"] = farminfo.lpBalance;
+    amounts["stakedLp"] = farminfo.stakedLp;
+    amounts["rewards"] = farminfo.rewards;
+    amounts["tvl"] = farminfo.tvl;
+    amounts["usdavailable"] = farminfo.usdavailable;
+    amounts["usdstaked"] = farminfo.usdstaked;
+    amounts["usdrewards"] = farminfo.usdrewards;
     return amounts;
   }
 
@@ -342,6 +271,11 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
   }) {
     const ctValue = ((this.readState().ctValue || {})[`${version},${pid}`]);
     const amounts = this.getAmounts(version, pid);
+	
+	if (amounts == undefined) {
+		return null;	// exits if no amounts are found, indicating inexistent farm
+	}
+	
     const apr = amounts["apr"];
     const lpBalance = amounts["lpBalance"];
     const stakedLp = amounts["stakedLp"];
