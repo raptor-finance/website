@@ -53,7 +53,7 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
     try {
       this.updateState({ pending: true });
       const wallet = new Wallet();
-      const result = await wallet.connect();
+      const result = await wallet.connect(56);
 
       if (!result) {
         throw 'The wallet connection was cancelled.';
