@@ -64,11 +64,11 @@ export class RaptorStatistics {
 	public async refresh() {	
 		const prices: PriceInfo = await this.getPrices(true);
 
-		const bnbBalance: number = +this._web3.utils.fromWei(await this._web3.eth.getBalance(DonationWalletAddress), 'ether');
-		const usdBalance: number = await this._usd.methods.balanceOf(DonationWalletAddress).call() * Math.pow(10, -(await this._usd.methods.decimals().call()));
-		const raptorBalance: number = await this._raptor.methods.balanceOf(DonationWalletAddress).call() * Math.pow(10, -(await this._raptor.methods.decimals().call()));
+		// const bnbBalance: number = +this._web3.utils.fromWei(await this._web3.eth.getBalance(DonationWalletAddress), 'ether');
+		// const usdBalance: number = await this._usd.methods.balanceOf(DonationWalletAddress).call() * Math.pow(10, -(await this._usd.methods.decimals().call()));
+		// const raptorBalance: number = await this._raptor.methods.balanceOf(DonationWalletAddress).call() * Math.pow(10, -(await this._raptor.methods.decimals().call()));
 
-		this._donationWalletBalance = usdBalance + (bnbBalance * prices.bnb.usd) + (raptorBalance * prices.raptor.usd);
+		// this._donationWalletBalance = usdBalance + (bnbBalance * prices.bnb.usd) + (raptorBalance * prices.raptor.usd);
 		this._prices = prices;
 	}
 
@@ -95,11 +95,6 @@ export class RaptorStatistics {
 	public bnbToRaptor(bnbAmount?: number): number {
 		return (bnbAmount/(this._prices || {}).raptor.bnb);
 	}
-
-	// private async retrievePriceApi() {
-		// console.log("Retrieving prices...");
-		// return (await (await fetch("https://api.perseusoft.tech/raptoradmin/raptorservices/crypto/info/0x44c99ca267c2b2646ceec72e898273085ab87ca5")).json());
-	// }
 
 	private async getPrices(force: boolean): PriceInfo {
 		if (!!this._prices && !force) {

@@ -52,39 +52,31 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
   async connectWallet() {
     try {
       this.updateState({ pending: true });
-	  var tvl = 0;
       const wallet = new Wallet();
-      const result = await wallet.connect();
+      const result = await wallet.connect(56);
 
       if (!result) {
         throw 'The wallet connection was cancelled.';
       }
 
-      var farm = {};
-      farm[`0,0`] = new RaptorFarm(wallet, 0);
-      farm[`1,0`] = new RaptorFarmNew(wallet, 0);
-      // await farm[0].finishSetup();
+      const state = this.readState();
+      const farm = state.farm;
+	  console.log(state);
+      const poolLengthNew = (await farm[`1,0`].contractView.methods.poolLength().call());
 
-      // const poolLengthOld = (await farm[`0,0`].contract.methods.poolLength().call());
-      // var i = 1;
-      // while (i < poolLengthOld) {
-        // farm[`0,${i}`] = new RaptorFarm(wallet, i);
-        // i += 1;
-      // }
-	  
-      const poolLengthNew = (await farm[`1,0`].contract.methods.poolLength().call());
-      var i = 1;
-      while (i < poolLengthNew) {
-        farm[`1,${i}`] = new RaptorFarmNew(wallet, i);
+      for (let i=0; i < poolLengthNew; i++) {
+        farm[`1,${i}`].connectWallet(wallet);
+		await farm[`1,${i}`].refresh();
         i += 1;
       }
 
-      this.updateState({ farm: farm, wallet: wallet, looping: true, tvl:tvl });
+      await this.updateState({ wallet: wallet, looping: true });
       await this.updateOnce(false);
-      this.updateState({ pending: false });
+      await this.updateState({ pending: false });
       this.loop().then();
     }
     catch (e) {
+	  console.error(`Raptor Staking: Error connecting wallet: ${e}`);
       this.updateState({ pending: false });
       this.handleError(e);
     }
@@ -129,6 +121,21 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
   }
 
   async componentDidMount() {
+	let farm = {};
+	farm[`1,0`] = new RaptorFarmNew(0);
+	await farm[`1,0`]._setupFinished;
+	await farm[`1,0`].refresh();
+
+	const poolLengthNew = (await farm[`1,0`].contractView.methods.poolLength().call());
+	var i = 1;
+	while (i < poolLengthNew) {
+	  let f = new RaptorFarmNew(i)
+      farm[`1,${i}`] = f;
+	  await f._setupFinished
+      i += 1;
+    }
+    await this.updateState({ farm: farm });
+	
     if ((window.ethereum || {}).selectedAddress) {
       this.connectWallet();
     }
@@ -148,7 +155,8 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
   }
 
   private async updateOnce(resetCt?: boolean): Promise<boolean> {
-    const farm = this.readState().farm;
+    const state = this.readState();
+    const farm = state.farm;
 	// const poolLengthOld = (await farm["0,0"].contract.methods.poolLength().call());
 	const poolLengthNew = (await farm["1,0"].contract.methods.poolLength().call());
     if (!!farm) {
@@ -163,7 +171,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
           return false;
         }
         this.updateState({
-          address: farm["0,0"].wallet.currentAddress,
+          address: state.wallet?state.wallet._address:undefined,
         });
 
         if (resetCt) {
@@ -266,18 +274,25 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     const ctValue = ((this.readState().ctValue || {})[`${version},${pid}`]);
     const amounts = this.getAmounts(version, pid);
 	
-	if (amounts == undefined) {
-		return null;	// exits if no amounts are found, indicating inexistent farm
-	}
+	let apr = 0;
+	let lpBalance = 0;
+	let stakedLp = 0;
+	let rewards = 0;
+	let tvl = 0;
+	let usdavailable = 0;
+	let usdstaked = 0;
+	let usdrewards = 0;
 	
-    const apr = amounts["apr"];
-    const lpBalance = amounts["lpBalance"];
-    const stakedLp = amounts["stakedLp"];
-    const rewards = amounts["rewards"];
-	const tvl = amounts["tvl"];
-	const usdavailable = amounts["usdavailable"];
-	const usdstaked = amounts["usdstaked"];
-	const usdrewards = amounts["usdrewards"];
+	if (amounts) {
+		apr = amounts["apr"];
+		lpBalance = amounts["lpBalance"];
+		stakedLp = amounts["stakedLp"];
+		rewards = amounts["rewards"];
+		tvl = amounts["tvl"];
+		usdavailable = amounts["usdavailable"];
+		usdstaked = amounts["usdstaked"];
+		usdrewards = amounts["usdrewards"];
+	}
 
     return <div className={`farm-card ${enableGlow ? "glow-div" : ""}`}>
       <div className="gradient-card shadow dark">

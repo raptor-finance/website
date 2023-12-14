@@ -15,13 +15,17 @@ export class ReadOnlyProvider {
 	private _userAddr: string;
 	private _rptrBalance: string = "0";
 	
-	constructor(rpcURL: string, _chainId: number, userAddr: string) {
+	constructor(rpcURL: string, _chainId: number, userAddr: any) {
 		this._userAddr = userAddr;
 		this._web3 = new Web3((new Web3.providers.HttpProvider(rpcURL)));
 		this.chainId = _chainId;
 		if (_chainId != 1380996178) {
 			this._rptrToken = this.connectToContract(Raptors[_chainId], require('./contracts/erc20.abi.json'));
 		}
+	}
+	
+	changeUserAddr(_addr) {
+		this._userAddr = _addr;
 	}
 	
 	public connectToContract(address: string, abi: any): Contract {
@@ -43,6 +47,9 @@ export class ReadOnlyProvider {
 	}
 	
 	public async refresh() {
+		if (!this._userAddr) {
+			return;
+		}
 		this._rptrBalance = String(await this.getRaptorBalance(this._userAddr));
 	}
 	

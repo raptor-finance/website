@@ -59,23 +59,24 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
         throw 'The wallet connection was cancelled.';
       }
 
-      let farm = {};
-      farm[`0,0`] = new RaptorFarm(wallet, 0);
-      farm[`1,0`] = new RaptorFarmNew(wallet, 0);
-	  
-      const poolLengthNew = (await farm[`1,0`].contract.methods.poolLength().call());
-      var i = 1;
-      while (i < poolLengthNew) {
-        farm[`1,${i}`] = new RaptorFarm(wallet, i);
+      const state = this.readState();
+      const farm = state.farm;
+	  console.log(state);
+      const poolLengthNew = (await farm[`1,0`].contractView.methods.poolLength().call());
+
+      for (let i=0; i < poolLengthNew; i++) {
+        farm[`1,${i}`].connectWallet(wallet);
+		await farm[`1,${i}`].refresh();
         i += 1;
       }
 
-      this.updateState({ farm: farm, wallet: wallet, looping: true });
+      await this.updateState({ wallet: wallet, looping: true });
       await this.updateOnce(false);
       await this.updateState({ pending: false });
       this.loop().then();
     }
     catch (e) {
+	  console.error(`Raptor Staking: Error connecting wallet: ${e}`);
       this.updateState({ pending: false });
       this.handleError(e);
     }
@@ -120,6 +121,22 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
   }
 
   async componentDidMount() {
+	let farm = {};
+	farm[`1,0`] = new RaptorFarmNew(0);
+	await farm[`1,0`]._setupFinished;
+	await farm[`1,0`].refresh();
+
+	const poolLengthNew = (await farm[`1,0`].contractView.methods.poolLength().call());
+	var i = 1;
+	while (i < poolLengthNew) {
+	  let f = new RaptorFarmNew(i)
+      farm[`1,${i}`] = f;
+	  await f._setupFinished
+      i += 1;
+	}
+	
+    await this.updateState({ farm: farm });
+	
     if ((window.ethereum || {}).selectedAddress) {
       this.connectWallet();
     }
@@ -139,7 +156,8 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
   }
 
   private async updateOnce(resetCt?: boolean): Promise<boolean> {
-    const farm = this.readState().farm;
+    const state = this.readState();
+    const farm = state.farm;
 	// const poolLengthOld = (await farm["0,0"].contract.methods.poolLength().call());
 	const poolLengthNew = (await farm["1,0"].contract.methods.poolLength().call());
     if (!!farm) {
@@ -154,7 +172,7 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
           return false;
         }
         this.updateState({
-          address: farm["0,0"].wallet.currentAddress,
+          address: state.wallet?state.wallet._address:undefined,
         });
 
         if (resetCt) {
@@ -256,19 +274,27 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
   }) {
     const ctValue = ((this.readState().ctValue || {})[`${version},${pid}`]);
     const amounts = this.getAmounts(version, pid);
+		
+	let apr = 0;
+	let lpBalance = 0;
+	let stakedLp = 0;
+	let rewards = 0;
+	let tvl = 0;
+	let usdavailable = 0;
+	let usdstaked = 0;
+	let usdrewards = 0;
 	
-	if (amounts == undefined) {
-		return null;	// exits if no amounts are found, indicating inexistent farm
+	if (amounts) {
+		apr = amounts["apr"];
+		lpBalance = amounts["lpBalance"];
+		stakedLp = amounts["stakedLp"];
+		rewards = amounts["rewards"];
+		tvl = amounts["tvl"];
+		usdavailable = amounts["usdavailable"];
+		usdstaked = amounts["usdstaked"];
+		usdrewards = amounts["usdrewards"];
 	}
-	
-    const apr = amounts["apr"];
-    const lpBalance = amounts["lpBalance"];
-    const stakedLp = amounts["stakedLp"];
-    const rewards = amounts["rewards"];
-	const tvl = amounts["tvl"];
-	const usdavailable = amounts["usdavailable"];
-	const usdstaked = amounts["usdstaked"];
-	const usdrewards = amounts["usdrewards"];
+	console.log("rewards: " + rewards);
 
     return <div className={`farm-card ${enableGlow ? "glow-div" : ""}`}>
       <div className="gradient-card shadow dark">
@@ -380,6 +406,8 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
     const state = this.readState();
     const t: TFunction<"translation"> = this.readProps().t;
 
+	const _walletAddress = state.wallet?state.wallet._address:undefined;
+
     return <div className="farm-container">
 
       <div className="row text-white farm-header">
@@ -387,7 +415,7 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
           <div className="farm-title">
             <span>Raptor</span>
             <span style={{ color: "#31c461" }}>Staking</span>
-            {state.address ?
+            {_walletAddress ?
               (<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
                 {state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
                 {t('farm.disconnect_wallet')}
