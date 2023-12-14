@@ -181,7 +181,7 @@ export class Wallet {
 			blockExplorerUrls: ["https://explorer.raptorchain.io/"],
 		}]
 		try {
-			await this._provider.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
+			await this._provider.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain to metamask' })
 		} catch (e) {
 			throw "Failed to add mainnet to metamask !"
 		}

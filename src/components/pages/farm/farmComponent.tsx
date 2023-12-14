@@ -121,6 +121,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
   }
 
   async componentDidMount() {
+    await this.updateState({ pending: true });
 	let farm = {};
 	farm[`1,0`] = new RaptorFarmNew(0);
 	await farm[`1,0`]._setupFinished;
@@ -139,6 +140,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     if ((window.ethereum || {}).selectedAddress) {
       this.connectWallet();
     }
+	await this.updateState({ pending: false });
   }
 
   componentWillUnmount() {
