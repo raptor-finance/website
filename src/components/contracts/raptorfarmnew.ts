@@ -138,10 +138,7 @@ export class RaptorFarmNew {
 		return 0;
 	}
 
-	async refresh(): Promise<void> {
-		console.log(`Updating pid ${this._pid}`)
-		await this._setupFinished;
-
+	async refreshAPR() {
 		const _raptorUsd = this._stats.raptorUsdPrice;
 		const _totalLp = (await this._lpTokenView.methods.totalSupply().call());
 		const raptorPerLPToken = await this.raptorPerFarmToken();
@@ -154,6 +151,15 @@ export class RaptorFarmNew {
 
 		this._apr = ((raptorPerYear / stakedRaptorInLPs) * 100);
 		this._tvl = (_raptorUsd*stakedRaptorInLPs)/10**18;
+	}
+
+	async refresh(): Promise<void> {
+		console.log(`Updating pid ${this._pid}`)
+		await this._setupFinished;
+
+		if (this._apr == 0 || this._tvl == 0) {
+			await this.refreshAPR();
+		}
 
 		if (!this._contract) {
 			return;	// halts here if wallet isn't connected
