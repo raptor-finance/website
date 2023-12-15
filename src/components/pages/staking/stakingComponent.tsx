@@ -67,7 +67,6 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
       for (let i=0; i < poolLengthNew; i++) {
         farm[`1,${i}`].connectWallet(wallet);
 		await farm[`1,${i}`].refresh();
-        i += 1;
       }
 
       await this.updateState({ wallet: wallet, looping: true });

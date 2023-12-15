@@ -67,7 +67,6 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
       for (let i=0; i < poolLengthNew; i++) {
         farm[`1,${i}`].connectWallet(wallet);
 		await farm[`1,${i}`].refresh();
-        i += 1;
       }
 
       await this.updateState({ wallet: wallet, looping: true });
