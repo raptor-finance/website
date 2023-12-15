@@ -29,6 +29,7 @@ export class RaptorFarmNew {
 	private _usdbalanceavbl: number = 0;
 	private _usdbalancestaked: number = 0;
 	private _usdpendingrewards: number = 0;
+	private _raptorPerLP: number = 0;
 	private _tvl: number = 0;
 	private _lpAddress: string = "";
 	private _stablecoins = ["0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", "0x55d398326f99059fF775485246999027B3197955", "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3", "0x23396cF899Ca06c4472205fC903bDB4de249D6fC"];
@@ -143,6 +144,8 @@ export class RaptorFarmNew {
 		const _totalLp = (await this._lpTokenView.methods.totalSupply().call());
 		const raptorPerLPToken = await this.raptorPerFarmToken();
 		
+		this._raptorPerLP = raptorPerLPToken;
+		
 		console.log(raptorPerLPToken)
 		
 		const stakedRaptorInLPs = (await this._lpTokenView.methods.balanceOf(RaptorFarmNew.address).call()) * raptorPerLPToken;
@@ -159,6 +162,7 @@ export class RaptorFarmNew {
 
 		const _raptorUsd = this._stats.raptorUsdPrice;
 
+
 		if (this._apr == 0 || this._tvl == 0) {
 			await this.refreshAPR();
 		}
@@ -172,8 +176,8 @@ export class RaptorFarmNew {
 		this._lpBalance = (await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) / 1e18;
 		this._stakedLp = (await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount / 1e18;
 
-		this._usdbalancestaked = _raptorUsd*raptorPerLPToken*this._stakedLp;
-		this._usdbalanceavbl = _raptorUsd*raptorPerLPToken*this._lpBalance;
+		this._usdbalancestaked = _raptorUsd*this._raptorPerLP*this._stakedLp;
+		this._usdbalanceavbl = _raptorUsd*this._raptorPerLP*this._lpBalance;
 		this._usdpendingrewards = _raptorUsd*this._rewards;
 	}
 
