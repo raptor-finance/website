@@ -4,7 +4,8 @@ import { Raptor } from './raptor';
 import { RaptorStatistics } from './statistics'
 import * as web3 from 'web3-utils';
 
-export const BSC_RPC = "https://bscrpc.com";
+
+export const BSC_RPC = "https://bsc-dataseed1.binance.org:443";
 
 export class RaptorFarmNew {
 
