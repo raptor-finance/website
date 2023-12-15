@@ -157,6 +157,8 @@ export class RaptorFarmNew {
 		console.log(`Updating pid ${this._pid}`)
 		await this._setupFinished;
 
+		const _raptorUsd = this._stats.raptorUsdPrice;
+
 		if (this._apr == 0 || this._tvl == 0) {
 			await this.refreshAPR();
 		}
