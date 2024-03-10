@@ -120,8 +120,12 @@ export class RaptorFarmNew {
 	
 	async raptorPerFarmToken() {
 		const rptrAddress = "0x44C99Ca267C2b2646cEEc72e898273085aB87ca5";
+		const dummyAddress = "0x2a05D1b3D27BB092EBDD6b717940D4b93BbC729e";
 		if (this._lpTokenView._address == rptrAddress) {
 			return 1;
+		}
+		if (this._lpTokenView._address == dummyAddress) {
+			return 0;
 		}
 		const tokenSupply = await this._lpTokenView.methods.totalSupply().call();
 		let _tokensInPair = [(await this._lpTokenView.methods.token0().call()), await this._lpTokenView.methods.token1().call()]
@@ -162,7 +166,7 @@ export class RaptorFarmNew {
 
 		const _raptorUsd = this._stats.raptorUsdPrice;
 
-
+		// refreshes apr/tvl when one of them is zero
 		if (this._apr == 0 || this._tvl == 0) {
 			await this.refreshAPR();
 		}
