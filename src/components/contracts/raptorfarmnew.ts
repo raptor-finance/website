@@ -154,7 +154,7 @@ export class RaptorFarmNew {
 		
 		const stakedRaptorInLPs = (await this._lpTokenView.methods.balanceOf(RaptorFarmNew.address).call()) * raptorPerLPToken;
 
-		const raptorPerYear = ((await this._contractView.methods.raptorPerBlock().call()) * 10512000) * ((await this._contractView.methods.poolInfo(this._pid).call()).allocPoint / (await this._contractView.methods.totalAllocPoint().call())) * (await this._contractView.methods.BONUS_MULTIPLIER().call())
+		const raptorPerYear = ((await this._contractView.methods.raptorPerBlock().call()) * 21024000) * ((await this._contractView.methods.poolInfo(this._pid).call()).allocPoint / (await this._contractView.methods.totalAllocPoint().call())) * (await this._contractView.methods.BONUS_MULTIPLIER().call())
 
 		this._apr = ((raptorPerYear / stakedRaptorInLPs) * 100);
 		this._tvl = (_raptorUsd*stakedRaptorInLPs)/10**18;
