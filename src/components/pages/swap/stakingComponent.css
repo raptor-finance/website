@@ -1,6 +1,6 @@
 .staking-container {
 	display: block;
-	padding: 8% 4% 0% 4%;
+	padding: 2% 4% 0% 4%;
 }
 
 .staking-container #staking-form label {
@@ -116,7 +116,7 @@
 
 @media (max-width: 900px) {
 	.staking-container {
-		padding: 40% 10% 0 10%;
+		padding: 12% 10% 0 10%;
 	}
 
 	.staking-title {
