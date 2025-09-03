@@ -11,6 +11,7 @@ import AnimatedNumber from 'animated-number-react';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
+import '../paddings.css';
 import './lotteryComponent.css';
 
 export type LotteryProps = {}

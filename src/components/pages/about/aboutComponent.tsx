@@ -6,6 +6,7 @@ import { Fade, Slide } from 'react-reveal';
 import { pulse } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 
+import '../paddings.css';
 import './aboutComponent.css';
 
 export type AboutProps = {};

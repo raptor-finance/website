@@ -9,6 +9,7 @@ import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18nex
 import { Tooltip, OverlayTrigger, Container, Row, Col } from 'react-bootstrap';
 import AnimatedNumber from 'animated-number-react';
 
+import '../paddings.css';
 import './farmComponent.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
