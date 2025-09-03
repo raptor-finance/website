@@ -77,6 +77,12 @@ body {
 	border-radius: 1cm;
 }
 
+.staking-container .farm-container .home-container {
+	display: block;
+	padding: 2% 4% 0% 4%;
+}
+
+
 @media (max-width: 900px) {
 	.listing-banner {
 		top: 68px;
@@ -84,5 +90,9 @@ body {
 
 	.listing-banner h1 {
 		font-size: 0.8rem;
+	}
+
+	.staking-container .home-container {
+		padding: 1.8cm 10% 0 10%;
 	}
 }
