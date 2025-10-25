@@ -188,11 +188,11 @@ export class Wallet {
 	}
 	
 	public async switchNetwork(chainID: number) {
-		if (this._provider.chainId == chainID) {
+		if (this.chainId == chainID) {
 			return;
 		}
 //		if (this._provider.isMetaMask) {
-			if (this._provider.chainId != chainID) {
+			if (this.chainId != chainID) {
 				await ethereum.request({ method: 'wallet_addEthereumChain', params: this.networks[chainID] }).catch(function () { throw 'Please choose the Binance Smart Chain as the current network in your wallet app !' })
 			}
 //		}
@@ -265,8 +265,13 @@ export class Wallet {
 	}
 
 	public get chainId(): number {
-		return this._provider.chainId;
+		if (this._provider.getChainId) {
+			return Number(this._provider.getChainId());
+		} else if (this._provider.chainId) {
+			return Number(this._provider.chainId);
+		}
 	}
+
 
 	public get isConnected(): boolean {
 		return !!this._address;
@@ -300,9 +305,5 @@ export class Wallet {
 	
 	public get raptorChainID(): number {
 		return this._raptorChainID;
-	}
-	
-	public get chainId(): number {
-		return this._provider.chainId;
 	}
 }
