@@ -47,7 +47,7 @@ class YourTokenComponent extends WalletPageBase<YourTokenProps & WithTranslation
 	protected async buildSession(wallet: Wallet): Promise<void> {
 		const backend = new YourTokenBackend(wallet);
 		await backend.refresh();
-		this.updateState({ backend: backend, looping: true, supply: "0", name: "", symbol: "" });
+		this.updateState({ backend: backend, address: wallet.currentAddress, looping: true, supply: "0", name: "", symbol: "" });
 	}
 
 	protected async refreshOnce(resetCt?: boolean): Promise<boolean> {
