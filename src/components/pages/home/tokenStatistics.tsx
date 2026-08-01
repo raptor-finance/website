@@ -38,7 +38,7 @@ class TokenStatistics extends BaseComponent<TokenStatisticsProps & WithTranslati
   }
 
   componentDidMount() {
-    console.log('mount');
+
     this.tick();
   }
 

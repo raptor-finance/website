@@ -14,7 +14,13 @@ module.exports = {
   },
   resolve: {
     modules: ['node_modules'],
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    /**
+     * Prefer the CommonJS `main` build over `module`/ESM builds.
+     * Some transitive deps of @web3-onboard (e.g. viem) ship ESM code that
+     * webpack 4's parser cannot handle; their CJS build is ES5-compatible.
+     */
+    mainFields: ['browser', 'main', 'module']
   },
   performance: {
     hints: false,
@@ -27,6 +33,18 @@ module.exports = {
         test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         include: resolveAppPath('src'),
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            require.resolve('babel-preset-react-app')
+          ]
+        }
+      },
+      {
+        // @web3-onboard ships pre-compiled bundles that still contain a few
+        // ES2020 constructs (optional chaining) which webpack 4's parser can't
+        // handle. Transpile just those packages with babel.
+        test: /node_modules\/@web3-onboard\/.*\.js$/,
         loader: 'babel-loader',
         options: {
           presets: [

@@ -22,7 +22,7 @@ import StakingComponentv2 from './components/pages/stakingv2/stakingComponentv2'
 import AboutComponent from './components/pages/about/aboutComponent';
 import FaqComponent from './components/pages/faq/faqComponent';
 import FarmComponent from './components/pages/farm/farmComponent';
-import farmComponentv2 from './components/pages/farmv2/farmComponentv2';
+import FarmComponentv2 from './components/pages/farmv2/farmComponentv2';
 import MigrationComponent from './components/pages/migration/migrationComponent';
 import CrossChainComponent from './components/pages/crosschain/crosschainComponent';
 import SwapComponent from './components/pages/swap/swapComponent';
@@ -42,7 +42,7 @@ const pagesInNavigator = [
 	{ id: 'bridge', title: 'Cross-Chain Mainnet', component: CrossChainComponentMainnet },
 	{ id: 'yourtoken', title: 'Your Token', component: YourTokenComponent },
 	{ id: 'farm', title: 'Farm', component: FarmComponent },
-	{ id: 'farmv2', title: 'Farmv2', component: farmComponentv2 },
+	{ id: 'farmv2', title: 'Farmv2', component: FarmComponentv2 },
 	{ id: 'migrate', title:'Migration', component: MigrationComponent },
 	{ id: 'staking', title: 'Staking', component: StakingComponent },
 	{ id: 'stakingv2', title: 'StakingV2', component: StakingComponentv2 },
@@ -60,7 +60,6 @@ const overrideCss = css`
 
 // initialize modals
 Modal.setAppElement('#root');
-console.log(HomeComponent)
 // and render our app into the "root" element!
 ReactDOM.render(
 	<React.Suspense fallback={<ClipLoader color={"#FFFFFF"} css={overrideCss}/>}>

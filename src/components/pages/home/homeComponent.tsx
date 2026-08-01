@@ -45,7 +45,6 @@ class HomeComponent extends BaseComponent<HomeProps & WithTranslation, HomeState
   }
 
   componentDidMount() {
-    console.log('mount');
     this.tick();
   }
 

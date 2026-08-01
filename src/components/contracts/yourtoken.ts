@@ -1,22 +1,23 @@
 import {Wallet} from '../wallet';
 import {Contract} from 'web3-eth-contract';
-// import { ethers } from 'ethers';
 import * as web3 from 'web3-utils';
 
-export const DeployerAddress = "0x1506abf34029a9F56605A8e2334484222564f25E";
+import { CHAIN, CONTRACTS } from '../../config';
+import { fromRawUnits } from '../../utils/units';
+
+export const DeployerAddress = CONTRACTS.YOUR_TOKEN_DEPLOYER;
 
 export class YourTokenBackend {
 	private readonly _wallet: Wallet;
 	private readonly _contract: Contract;
 	private _balance: number = 0;
-	private _deployed: Contract;
 
 	constructor(wallet: Wallet) {
 		this._wallet = wallet;
-		if (this._wallet.chainId != 1380996178) {
+		if (this._wallet.chainId != CHAIN.RAPTORCHAIN) {
 			this._wallet.addMainnetToMetamask();
 		}
-		if (this._wallet.chainId == 1380996178) {
+		if (this._wallet.chainId == CHAIN.RAPTORCHAIN) {
 			this._contract = this._wallet.connectToContract(DeployerAddress, require('./yourtoken.abi.json'));
 		}
 		else {
@@ -46,13 +47,8 @@ export class YourTokenBackend {
 		if (!this._wallet) {
 			return;
 		}
-		try {
-			if (this._wallet.chainId == 1380996178) {
-				this._balance = web3.fromWei(String(await this._wallet.eth_getBalance(this._wallet.currentAddress)));
-			}
-		}
-		catch (e) {
-			throw e;
+		if (this._wallet.chainId == CHAIN.RAPTORCHAIN) {
+			this._balance = fromRawUnits(await this._wallet.eth_getBalance(this._wallet.currentAddress));
 		}
 	}
 }

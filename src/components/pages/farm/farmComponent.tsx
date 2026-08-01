@@ -3,7 +3,6 @@ import * as numeral from 'numeral';
 
 import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
 import { Wallet } from '../../wallet';
-import { RaptorFarm } from '../../contracts/raptorfarm';
 import { RaptorFarmNew } from '../../contracts/raptorfarmnew';
 import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
 import { Tooltip, OverlayTrigger, Container, Row, Col } from 'react-bootstrap';
@@ -11,8 +10,6 @@ import AnimatedNumber from 'animated-number-react';
 
 import '../paddings.css';
 import './farmComponent.css';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import { farmsList } from '../../listOfFarms';
 
 export type FarmProps = {};
@@ -34,6 +31,12 @@ export type FarmState = {
 
 class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState> {
 
+  private _timeout: any = null;
+  /** Resolves once the farm pool list has been built and committed to state. */
+  private _farmReady: Promise<void>;
+  /** Resolver for _farmReady, called by componentDidMount. */
+  private _resolveFarmReady: () => void;
+
   constructor(props: FarmProps & WithTranslation) {
     super(props);
 
@@ -44,6 +47,12 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     this.renderTooltip = this.renderTooltip.bind(this);
 
     this.state = {};
+
+    // Always defined so connectWallet() can await it even if a user clicks
+    // before componentDidMount finishes building the farm list.
+    this._farmReady = new Promise<void>((resolve) => {
+      this._resolveFarmReady = resolve;
+    });
   }
 
   handleError(error) {
@@ -60,9 +69,14 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
         throw 'The wallet connection was cancelled.';
       }
 
+      // The farm list is built asynchronously in componentDidMount (multiple
+      // RPC calls). Wait for it before touching state.farm, otherwise a user
+      // click (or the mount-time auto-connect) can race ahead of farm setup
+      // and crash on farm["1,0"] being undefined.
+      await this._farmReady;
+
       const state = this.readState();
       const farm = state.farm;
-	  console.log(state);
       const poolLengthNew = (await farm[`1,0`].contractView.methods.poolLength().call());
 
       for (let i=0; i < poolLengthNew; i++) {
@@ -135,15 +149,21 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
 	  await f._setupFinished
       i += 1;
     }
-    await this.updateState({ farm: farm });
+    // Signal that the farm list is ready, so connectWallet() can proceed.
+    // Use setState's callback so _farmReady only resolves after React has
+    // actually committed the farm to state (setState is async).
+    (this as any).setState({ farm }, () => this._resolveFarmReady());
 	
-    if ((window.ethereum || {}).selectedAddress) {
+    if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
       this.connectWallet();
     }
 	await this.updateState({ pending: false });
   }
 
   componentWillUnmount() {
+    if (!!this._timeout) {
+      clearTimeout(this._timeout);
+    }
     this.updateState({ farm: null, looping: false });
   }
 
@@ -152,17 +172,16 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     const cont = await self.updateOnce.call(self);
 
     if (cont) {
-      setTimeout(async () => await self.loop.call(self), 10000);
+      this._timeout = setTimeout(async () => await self.loop.call(self), 10000);
     }
   }
 
   private async updateOnce(resetCt?: boolean): Promise<boolean> {
     const state = this.readState();
     const farm = state.farm;
-	// const poolLengthOld = (await farm["0,0"].contract.methods.poolLength().call());
-	const poolLengthNew = (await farm["1,0"].contract.methods.poolLength().call());
     if (!!farm) {
       try {
+        const poolLengthNew = (await farm["1,0"].contract.methods.poolLength().call());
         for (let j = 0; j < poolLengthNew-1; j++) {
           farm[`1,${j}`].refresh();
         }
@@ -173,7 +192,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
           return false;
         }
         this.updateState({
-          address: state.wallet?state.wallet._address:undefined,
+          address: state.wallet?state.wallet.currentAddress:undefined,
         });
 
         if (resetCt) {
@@ -215,7 +234,6 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     try {
       const state = this.readState();
       this.updateState({ pending: true });
-      console.log(`${version},${pid}`)
       if (state.ctValue[`${version},${pid}`] >= 0) {
         await state.farm[`${version},${pid}`].withdraw(state.ctValue[`${version},${pid}`]);
       } else {

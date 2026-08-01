@@ -6,6 +6,7 @@ import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18nex
 import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
+import { CHAIN, CHAIN_HEX, CHAIN_META } from '../../../config';
 
 import './migrationComponent.css';
 import './stakingComponent.css';
@@ -33,7 +34,7 @@ const FadeInLeftDiv = styled.div`
 
 class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslation, CrossChainState> {
 	
-	private lock: boolean;
+	private _timeout: any = null;
 	
 	constructor(props: CrossChainProps & WithTranslation) {
 		super(props);
@@ -130,12 +131,15 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	}
 	
 	async componentDidMount() {
-		if ((window.ethereum || {}).selectedAddress) {
+		if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
 		  this.connectWallet();
 		}
 	}
 
 	componentWillUnmount() {
+		if (!!this._timeout) {
+			clearTimeout(this._timeout);
+		}
 	}
 	
 	handleAmountUpdate(event) {
@@ -155,7 +159,6 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	
 	async deposit() {
 		let state = this.readState();
-		console.log(state);
 		await state.chain.crossChainDeposit(state.ctValue);
 		await state.raptor.refresh();
 		await state.chain.refresh();
@@ -164,7 +167,6 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	
 	async withdraw() {
 		let state = this.readState();
-		console.log(state);
 		await state.chain.crossChainWithdrawal(state.ctValue);
 		await state.raptor.refresh();
 		await state.chain.refresh();
@@ -172,23 +174,14 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	}
 	
 	async addTestnetToMetamask() {
-		const networkinfo = [{
-			chainId: '0x7452505452',
-			chainName: 'RaptorChain v0.4 testnet',
-			nativeCurrency:
-			{
-				name: 'Testnet RPTR',
-				symbol: 'tRPTR',
-				decimals: 18
-			},
-			rpcUrls: ['https://rptr-testnet-1.dynamic-dns.net/web3'],
-			blockExplorerUrls: null,
-		}]
-		await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
+		// Delegate to Wallet so the request is routed through the connected
+		// provider (providerRequest) instead of the global window.ethereum,
+		// which may belong to a different wallet extension.
+		const wallet = this.readState().wallet || new Wallet();
+		await wallet.addTestnetToMetamask();
 	}
 
 	render() {
-		this.updateOnce(false);
 		const state = this.readState();
 		const t: TFunction<"translation"> = this.readProps().t;
 		const tokenBalance = (!!state.raptor) ? state.raptor.balancev3 : 0;

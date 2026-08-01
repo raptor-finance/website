@@ -107,5 +107,5 @@ export const farmsList = [
     "liquidityPool": "Pancake",
     "enableGlow": false,
 	"version":0
-  },
+  }
 ]
