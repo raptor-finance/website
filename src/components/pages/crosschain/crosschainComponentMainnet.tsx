@@ -6,6 +6,7 @@ import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18nex
 import { Wallet, ReadOnlyProvider, ChainNames, ChainIDsToRefresh } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
+import { CHAIN, CHAIN_HEX, CHAIN_META, RPC } from '../../../config';
 
 import '../../../theme/custom.css';
 import './migrationComponent.css';
@@ -151,7 +152,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	chainList() {
 		return <>
 			{this.chainDisplay("BSC", 56)}
-			{this.chainDisplay("RaptorChain", 0x52505452)}
+			{this.chainDisplay("RaptorChain", CHAIN.RAPTORCHAIN)}
 			{this.chainDisplay("Polygon", 137)}
 			{this.chainDisplay("Fantom", 250)}
 		</>
@@ -179,7 +180,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 			const polygon = wallet.getReadOnly(137);
 			const fantom = wallet.getReadOnly(250);
 			let _chains = {56: bsc, 137: polygon, 250: fantom};
-			await this.updateState({ wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0, bsc: bsc, polygon: polygon, chains: _chains, chainIn: 56, chainOut: 0x52505452 });
+			await this.updateState({ wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0, bsc: bsc, polygon: polygon, chains: _chains, chainIn: 56, chainOut: CHAIN.RAPTORCHAIN });
 			this.updateOnce(true).then();
 
 			this.loop().then();
@@ -245,7 +246,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		}
 		if ((chainid == 56) && (state.bsc)) {
 			return state.bsc.balance;
-		} else if ((chainid == 0x52505452)) {
+		} else if ((chainid == CHAIN.RAPTORCHAIN)) {
 			return state.chain.balance;
 		} else if (state.chains[chainid]) {
 			return state.chains[chainid].balance;
@@ -257,7 +258,6 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	async deposit() {
 		await this.updateState({steps: [new Step("BSC", "Switch wallet to BSC"), new Step("Tx", "Send transaction")]});
 		let state = this.readState();
-		console.log(state);
 		
 		await this.switchWalletChain(56);
 		state.steps[0].completed = true;
@@ -272,7 +272,6 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	async withdraw() {
 		await this.updateState({steps: [new Step("Sign", "Sign message")]});
 		let state = this.readState();
-		console.log(state);
 		await state.chain.crossChainWithdrawal(state.ctValue);
 		state.steps[0].completed = true;
 		await state.chain.refresh();
@@ -282,8 +281,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	async wrapToPolygon() {
 		await this.updateState({steps: [new Step("Chain", "Switch wallet to RaptorChain"), new Step("Send", "Send transaction")]});
 		let state = this.readState();
-		console.log(state);
-		await this.switchWalletChain(0x52505452);
+		await this.switchWalletChain(CHAIN.RAPTORCHAIN);
 		state.steps[0].completed = true;
 		
 		await state.chain.bridgeToPolygon(state.ctValue); // chain switch logic is managed inside `bridgeToPolygon`
@@ -304,7 +302,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		let slotKey = await state.chain.initPolygonUnwrap(state.ctValue);
 		state.steps[1].completed = true;
 		
-		await this.switchWalletChain(0x52505452);
+		await this.switchWalletChain(CHAIN.RAPTORCHAIN);
 		state.steps[2].completed = true;
 		
 		await state.chain.finishPolygonUnwrap(slotKey);
@@ -314,8 +312,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	async wrapTo(chainid) {
 		await this.updateState({steps: [new Step("Chain", "Switch wallet to RaptorChain"), new Step("Send", "Send transaction")]});
 		let state = this.readState();
-		console.log(state);
-		await this.switchWalletChain(0x52505452);
+		await this.switchWalletChain(CHAIN.RAPTORCHAIN);
 		state.steps[0].completed = true;
 		
 		await state.chain.bridgeTo(chainid, state.ctValue); // chain switch logic is managed inside `bridgeToPolygon`
@@ -337,7 +334,7 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		let slotKey = await state.chain.initUnwrap(chainid, state.ctValue);
 		state.steps[1].completed = true;
 		
-		await this.switchWalletChain(0x52505452);
+		await this.switchWalletChain(CHAIN.RAPTORCHAIN);
 		state.steps[2].completed = true;
 		
 		await state.chain.finishUnwrap(chainid, slotKey);
@@ -347,13 +344,13 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	async transfer() {
 		let state = this.readState();
 		await this.updateState({pending:true}); // shows "loading"
-		if ((state.chainIn == 56) && (state.chainOut == 0x52505452)) {
+		if ((state.chainIn == CHAIN.BSC) && (state.chainOut == CHAIN.RAPTORCHAIN)) {
 			await this.deposit();
-		} else if ((state.chainIn == 0x52505452) && (state.chainOut == 56)) {
+		} else if ((state.chainIn == CHAIN.RAPTORCHAIN) && (state.chainOut == CHAIN.BSC)) {
 			await this.withdraw();
-		} else if ((state.chainIn == 0x52505452) && (state.chainOut != 0x52505452)) {
+		} else if ((state.chainIn == CHAIN.RAPTORCHAIN) && (state.chainOut != CHAIN.RAPTORCHAIN)) {
 			await this.wrapTo(state.chainOut);
-		} else if ((state.chainIn != 0x52505452) && (state.chainOut == 0x52505452)) {
+		} else if ((state.chainIn != CHAIN.RAPTORCHAIN) && (state.chainOut == CHAIN.RAPTORCHAIN)) {
 			await this.unwrapFrom(state.chainIn);
 		}
 		await this.updateState({pending:false}); // stops showing "loading" once complete
@@ -366,22 +363,16 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	
 	async addMainnetToMetamask() {
 		const networkinfo = [{
-			chainId: '0x52505452',
+			chainId: CHAIN_HEX[CHAIN.RAPTORCHAIN],
 			chainName: 'RaptorChain Mainnet Beta',
-			nativeCurrency:
-			{
-				name: 'Raptor',
-				symbol: 'RPTR',
-				decimals: 18
-			},
-			rpcUrls: ['https://rpc.raptorchain.io/web3'],
-			blockExplorerUrls: ["https://explorer.raptorchain.io/"],
+			nativeCurrency: CHAIN_META[CHAIN.RAPTORCHAIN].nativeCurrency,
+			rpcUrls: [RPC[CHAIN.RAPTORCHAIN]],
+			blockExplorerUrls: CHAIN_META[CHAIN.RAPTORCHAIN].blockExplorerUrls,
 		}]
 		await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
 	}
 
 	render() {
-		this.updateOnce(false);
 		const state = this.readState();
 		const t: TFunction<"translation"> = this.readProps().t;
 

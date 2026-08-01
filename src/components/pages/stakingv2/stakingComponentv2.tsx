@@ -8,11 +8,8 @@ import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18nex
 import { fadeInLeft, fadeInRight, pulse } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 import AnimatedNumber from 'animated-number-react';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-import { NavLink, useLocation } from 'react-router-dom';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 
 import './stakingComponent.css';
 

@@ -37,7 +37,7 @@ class RaptorForest extends BaseComponent<RaptorForestProps & WithTranslation, Ra
   }
 
   componentDidMount() {
-    console.log('mount');
+
     this.tick();
   }
 

@@ -1,12 +1,13 @@
 import * as React from 'react';
 
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { BaseComponent, IShellPage } from './shellInterfaces';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
 import { supportedLanguages, languageCodeOnly } from '../i18n';
 import Collapsible from 'react-collapsible';
+import { RPTR_TOKEN, CHAIN } from '../config';
 import './shellNav.css';
 import './shellNav.icons.css';
 
@@ -29,37 +30,23 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 			this.collapseRef.current.click();
 	}
 
-	collapsedNavItem(title) {
+	navItem(title, open: boolean) {
 		return <li className="sudo-nav-link">
 			<a href="" className={`d-flex justify-content-between nav-item ${title.toLowerCase()}`}>
 				<p>{title}</p>
-				<p>▼</p>
+				<p>{open ? '▲' : '▼'}</p>
 			</a>
 		</li>
 	}
 
-	expandedNavItem(title) {
-		return <li className="sudo-nav-link">
-			<a href="" className={`d-flex justify-content-between nav-item ${title.toLowerCase()}`}>
-				<p>{title}</p>
-				<p>▲</p>
-			</a>
-		</li>
-	}
-
+	/** Whether any of the collapsible sections should be force-opened. */
 	checkCurrentRoute() {
-		const location = window.location;
-
-		console.log(location);
-
-		if (location.pathname == "/launch" || location.pathname == "/lock" || location.pathname == "/swap" || location.pathname == "/liquidity") {
-			return true;
-		}
-		return false;
+		const { pathname } = window.location;
+		return ["/launch", "/lock", "/swap", "/liquidity"].includes(pathname);
 	}
 	
 	async addToMetamask() {
-		await ethereum.request({method: 'wallet_watchAsset',params: {type: 'ERC20',options: {address: "0x44c99ca267c2b2646ceec72e898273085ab87ca5",symbol: "RPTR",decimals: 18,image: "https://raptorswap.com/images/logo.png",},},});	
+		await ethereum.request({method: 'wallet_watchAsset',params: {type: 'ERC20',options: {address: RPTR_TOKEN[CHAIN.BSC],symbol: "RPTR",decimals: 18,image: "https://raptorswap.com/images/logo.png",},},});	
 	}
 
 	render() {
@@ -68,8 +55,6 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 		const i18n = this.readProps().i18n;
 
 		const pages1 = pages.slice(0, 2);
-		const pages2 = pages.slice(2, 4);
-		const pages3 = pages.slice(7, 9);
 
 		return (
 			<div className="navigation-wrapper">
@@ -100,8 +85,8 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							})
 						}
 						<Collapsible
-							trigger={this.collapsedNavItem("Mainnet")}
-							triggerWhenOpen={this.expandedNavItem("Mainnet")}
+							trigger={this.navItem("Mainnet", false)}
+							triggerWhenOpen={this.navItem("Mainnet", true)}
 							transitionTime={240}
 							transitionCloseTime={240}
 							open={this.checkCurrentRoute()}
@@ -117,8 +102,8 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 						</Collapsible>
 
 						<Collapsible
-							trigger={this.collapsedNavItem("RaptorSwap")}
-							triggerWhenOpen={this.expandedNavItem("RaptorSwap")}
+							trigger={this.navItem("RaptorSwap", false)}
+							triggerWhenOpen={this.navItem("RaptorSwap", true)}
 							transitionTime={240}
 							transitionCloseTime={240}
 							open={this.checkCurrentRoute()}
@@ -136,8 +121,8 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 						</Collapsible>
 						
 						<Collapsible
-							trigger={this.collapsedNavItem("Earn")}
-							triggerWhenOpen={this.expandedNavItem("Earn")}
+							trigger={this.navItem("Earn", false)}
+							triggerWhenOpen={this.navItem("Earn", true)}
 							transitionTime={240}
 							transitionCloseTime={240}
 							open={this.checkCurrentRoute()}
@@ -158,8 +143,8 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							<NavLink to="/lottery" activeClassName="active" className='nav-item lottery'>Lottery</NavLink>
 						</li>
 						<Collapsible
-							trigger={this.collapsedNavItem("Testnet")}
-							triggerWhenOpen={this.expandedNavItem("Testnet")}
+							trigger={this.navItem("Testnet", false)}
+							triggerWhenOpen={this.navItem("Testnet", true)}
 							transitionTime={240}
 							transitionCloseTime={240}
 							open={this.checkCurrentRoute()}
@@ -175,12 +160,12 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 						</Collapsible>
 
 				 		<li>
-							<NavLink to="/Migrate" activeClassName="active" className='nav-item migrate'>Migrate to V3</NavLink>
+							<NavLink to="/migrate" activeClassName="active" className='nav-item migrate'>Migrate to V3</NavLink>
 						</li>
 
 						<Collapsible
-							trigger={this.collapsedNavItem("Deprecated Products")}
-							triggerWhenOpen={this.expandedNavItem("Deprecated Products")}
+							trigger={this.navItem("Deprecated Products", false)}
+							triggerWhenOpen={this.navItem("Deprecated Products", true)}
 							transitionTime={240}
 							transitionCloseTime={240}
 							open={this.checkCurrentRoute()}
@@ -194,58 +179,21 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 										<NavLink to="/stakingv2" activeClassName="active">Staking V2</NavLink>
 									</li>
 									<li>
-										<a href="https://swap.raptorswap.com/#/swap" activeClassName="active" className="nav-item swap">BSC Swap BETA</a>
+										<a href="https://swap.raptorswap.com/#/swap" className="nav-item swap">BSC Swap BETA</a>
 									</li>
 									<li>
-									    <a href="https://swap.raptorswap.com/#/pool" activeClassName="active" className="nav-item liquidity">BSC Liquidity</a>
+									    <a href="https://swap.raptorswap.com/#/pool" className="nav-item liquidity">BSC Liquidity</a>
 									</li>
 								</ul>
 							</div>
 						</Collapsible>
-
-						{
-							// pages3.map(page => {
-								// const classes = ['nav-item', page.id];
-								// const menuMap = {
-									// 'migrate': t('nav.migration'),
-									// 'lottery': t('nav.lottery'),
-									// 'faq': t('nav.faq')
-								// }
-								// const menuName = (menuMap as any)[`${page.id}`];
-
-								// return <li key={`${page.id}`}>
-									// <NavLink to={page.id} activeClassName="active" className={classes.join(' ')} onClick={this.toggleMenu}>{menuName}</NavLink>
-								// </li>;
-							// })
-						}
-
-
-						{/* WIP */}
-						{/* <Collapsible
-							trigger={this.collapsedNavItem()}
-							triggerWhenOpen={this.expandedNavItem()}
-							transitionTime={240}
-							transitionCloseTime={240}
-							open={this.checkCurrentRoute()}
-						>
-							<div className="collapsible-div">
-								<ul className="navbar-nav">
-									<li>
-										<NavLink to="launch" activeClassName="active" className="nav-item launch" onClick={this.toggleMenu}>Launch</NavLink>
-									</li>
-									<li>
-										<NavLink to="lock" activeClassName="active" className="nav-item lock" onClick={this.toggleMenu}>Lock</NavLink>
-									</li>
-								</ul>
-							</div>
-						</Collapsible> */}
 					</ul>
 					<div className="navigation-footer">
 						<div className="mt-2">
 							<a href="https://mobula.fi/asset/raptor-finance?utm_source=partner&utm_medium=raptor&utm_campaign=partner-page" className="btn btn-primary btn-block glow" target="_blank">See on Mobula</a>
 						</div>
 						<div className="mt-2">
-							<a href="https://pancakeswap.finance/swap?outputCurrency=0x44c99ca267c2b2646ceec72e898273085ab87ca5" className="btn btn-primary btn-block glow" target="_blank">{t('nav.buyonpancake')}</a>
+							<a href={`https://pancakeswap.finance/swap?outputCurrency=${RPTR_TOKEN[CHAIN.BSC]}`} className="btn btn-primary btn-block glow" target="_blank">{t('nav.buyonpancake')}</a>
 						</div>
 						<div className="mt-2">
 							<a href="https://swap.raptorswap.com/#/swap" className="btn btn-primary btn-block glow" target="_blank">{t('nav.buyonraptorswap')}</a>
@@ -254,7 +202,7 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 							<button onClick={this.addToMetamask} className="btn btn-primary btn-block glow" target="_blank">{t('nav.addtometamask')}</button>
 						</div>
 						<div className="mt-2">
-							<a href="https://bscscan.com/token/0x44c99ca267c2b2646ceec72e898273085ab87ca5#balances" className="btn btn-complementary btn-block" target="_blank">{t('nav.viewonbscscan')}</a>
+							<a href={`https://bscscan.com/token/${RPTR_TOKEN[CHAIN.BSC]}#balances`} className="btn btn-complementary btn-block" target="_blank">{t('nav.viewonbscscan')}</a>
 						</div>
 						<div className="mt-2">
 							<a href="https://bitgert.com/audits/public/project/106" className="btn btn-complementary btn-block" target="_blank">BitRise audit</a>

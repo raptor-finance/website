@@ -7,6 +7,7 @@ export const defaultLanguage = "en";
 
 export const supportedLanguages = [
   { code: "en", name: "English" },
+  // NOTE: locale files live in public/locales/ch/ — keep this in sync
   { code: "ch", name: "简体中文" },
 ];
 

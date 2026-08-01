@@ -4,15 +4,12 @@ import * as numeral from 'numeral';
 import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
 import { Wallet } from '../../wallet';
 import { RaptorFarm } from '../../contracts/raptorfarm';
-import { RaptorFarmNew } from '../../contracts/raptorfarmnew';
 import { withTranslation, WithTranslation, TFunction, Trans } from 'react-i18next';
 import { Tooltip, OverlayTrigger, Container, Row, Col } from 'react-bootstrap';
 import AnimatedNumber from 'animated-number-react';
 
 import '../paddings.css';
 import './farmComponent.css';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import { farmsList } from '../../listOfFarmsv2';
 
 export type FarmProps = {};
@@ -34,6 +31,8 @@ export type FarmState = {
 
 class FarmComponentv2 extends BaseComponent<FarmProps & WithTranslation, FarmState> {
 
+  private _timeout: any = null;
+
   constructor(props: FarmProps & WithTranslation) {
     super(props);
 
@@ -53,7 +52,6 @@ class FarmComponentv2 extends BaseComponent<FarmProps & WithTranslation, FarmSta
   async connectWallet() {
     try {
       this.updateState({ pending: true });
-	  var tvl = 0;
       const wallet = new Wallet();
       const result = await wallet.connect();
 
@@ -63,8 +61,6 @@ class FarmComponentv2 extends BaseComponent<FarmProps & WithTranslation, FarmSta
 
       var farm = {};
       farm[`0,0`] = new RaptorFarm(wallet, 0);
-      farm[`1,0`] = new RaptorFarmNew(wallet, 0);
-      // await farm[0].finishSetup();
 
       const poolLengthOld = (await farm[`0,0`].contract.methods.poolLength().call());
       var i = 1;
@@ -72,15 +68,8 @@ class FarmComponentv2 extends BaseComponent<FarmProps & WithTranslation, FarmSta
         farm[`0,${i}`] = new RaptorFarm(wallet, i);
         i += 1;
       }
-	  
-      const poolLengthNew = (await farm[`1,0`].contract.methods.poolLength().call());
-      var i = 1;
-      while (i < poolLengthNew) {
-        farm[`1,${i}`] = new RaptorFarm(wallet, i);
-        i += 1;
-      }
 
-      this.updateState({ farm: farm, wallet: wallet, looping: true, tvl:tvl });
+      this.updateState({ farm: farm, wallet: wallet, looping: true });
       await this.updateOnce(false);
       this.updateState({ pending: false });
       this.loop().then();
@@ -207,6 +196,9 @@ class FarmComponentv2 extends BaseComponent<FarmProps & WithTranslation, FarmSta
   }
 
   componentWillUnmount() {
+    if (!!this._timeout) {
+      clearTimeout(this._timeout);
+    }
     this.updateState({ farm: null, looping: false });
   }
 
@@ -215,27 +207,20 @@ class FarmComponentv2 extends BaseComponent<FarmProps & WithTranslation, FarmSta
     const cont = await self.updateOnce.call(self);
 
     if (cont) {
-      setTimeout(async () => await self.loop.call(self), 10000);
+      this._timeout = setTimeout(async () => await self.loop.call(self), 10000);
     }
   }
 
   private async updateOnce(resetCt?: boolean): Promise<boolean> {
     const farm = this.readState().farm;
-	const poolLengthOld = (await farm["0,0"].contract.methods.poolLength().call());
-	const poolLengthNew = (await farm["1,0"].contract.methods.poolLength().call());
     if (!!farm) {
       try {
+        const poolLengthOld = (await farm["0,0"].contract.methods.poolLength().call());
         let i = 0;
-		let j = 0;
         while (i < poolLengthOld) {
           farm[`0,${i}`].refresh();
           i += 1;
         }
-        while (j < poolLengthNew-1) {
-          farm[`1,${j}`].refresh();
-          j += 1;
-        }
-		await farm[`1,${poolLengthNew-1}`].refresh();
         if (!this.readState().looping) {
           return false;
         }
@@ -283,7 +268,6 @@ class FarmComponentv2 extends BaseComponent<FarmProps & WithTranslation, FarmSta
     try {
       const state = this.readState();
       this.updateState({ pending: true });
-      console.log(`${version},${pid}`)
       if (state.ctValue[`${version},${pid}`] >= 0) {
         await state.farm[`${version},${pid}`].withdraw(state.ctValue[`${version},${pid}`]);
       } else {

@@ -6,6 +6,7 @@ import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18nex
 import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
+import { CHAIN, CHAIN_HEX, CHAIN_META } from '../../../config';
 
 import './migrationComponent.css';
 import './stakingComponent.css';
@@ -33,7 +34,7 @@ const FadeInLeftDiv = styled.div`
 
 class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslation, CrossChainState> {
 	
-	private lock: boolean;
+	private _timeout: any = null;
 	
 	constructor(props: CrossChainProps & WithTranslation) {
 		super(props);
@@ -136,6 +137,9 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	}
 
 	componentWillUnmount() {
+		if (!!this._timeout) {
+			clearTimeout(this._timeout);
+		}
 	}
 	
 	handleAmountUpdate(event) {
@@ -155,7 +159,6 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	
 	async deposit() {
 		let state = this.readState();
-		console.log(state);
 		await state.chain.crossChainDeposit(state.ctValue);
 		await state.raptor.refresh();
 		await state.chain.refresh();
@@ -164,7 +167,6 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	
 	async withdraw() {
 		let state = this.readState();
-		console.log(state);
 		await state.chain.crossChainWithdrawal(state.ctValue);
 		await state.raptor.refresh();
 		await state.chain.refresh();
@@ -173,14 +175,9 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	
 	async addTestnetToMetamask() {
 		const networkinfo = [{
-			chainId: '0x7452505452',
+			chainId: CHAIN_HEX[CHAIN.RAPTORCHAIN_TESTNET],
 			chainName: 'RaptorChain v0.4 testnet',
-			nativeCurrency:
-			{
-				name: 'Testnet RPTR',
-				symbol: 'tRPTR',
-				decimals: 18
-			},
+			nativeCurrency: CHAIN_META[CHAIN.RAPTORCHAIN_TESTNET].nativeCurrency,
 			rpcUrls: ['https://rptr-testnet-1.dynamic-dns.net/web3'],
 			blockExplorerUrls: null,
 		}]
@@ -188,7 +185,6 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	}
 
 	render() {
-		this.updateOnce(false);
 		const state = this.readState();
 		const t: TFunction<"translation"> = this.readProps().t;
 		const tokenBalance = (!!state.raptor) ? state.raptor.balancev3 : 0;

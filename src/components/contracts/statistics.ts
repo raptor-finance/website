@@ -1,7 +1,8 @@
-import axios from 'axios';
-import { RaptorAddressv3, DonationWalletAddress } from './raptor';
+import { RaptorAddressv3 } from './raptor';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
+
+import { RPC, CHAIN, BUSD_BSC } from '../../config';
 
 export const RPTR_PRICE_URL = "https://explorer.raptorchain.io/RPTRPrice"
 
@@ -25,56 +26,26 @@ export class RaptorStatistics {
 
 	private readonly _web3: Web3;
 	private readonly _raptor: Contract;
-	private readonly _usd: Contract;
 
 	private _prices?: PriceInfo = null;
-	private _donationWalletBalance?: number;
 
 	constructor() {
-
-		const erc20: any = [
-			{
-				"constant": true,
-				"inputs": [{ "name": "_owner", "type": "address" }],
-				"name": "balanceOf",
-				"outputs": [{ "name": "balance", "type": "uint256" }],
-				"type": "function"
-			},
-			{
-				"constant": true,
-				"inputs": [],
-				"name": "totalSupply",
-				"outputs": [{ "name": "supply", "type": "uint256" }],
-				"type": "function"
-			},
-			{
-				"constant": true,
-				"inputs": [],
-				"name": "decimals",
-				"outputs": [{ "name": "", "type": "uint8" }],
-				"type": "function"
-			}
-		];
-
-		this._web3 = new Web3(new Web3.providers.HttpProvider('https://bsc-dataseed1.binance.org:443'));
-		this._usd = new this._web3.eth.Contract(erc20, "0xe9e7cea3dedca5984780bafc599bd69add087d56");
-		this._raptor = new this._web3.eth.Contract(erc20, RaptorAddressv3);
+		this._web3 = new Web3(new Web3.providers.HttpProvider(RPC[CHAIN.BSC]));
+		this._raptor = new this._web3.eth.Contract(require('./erc20.abi.json'), RaptorAddressv3);
 	}
 
 	public async refresh() {	
-		const prices: PriceInfo = await this.getPrices(true);
-
-		// const bnbBalance: number = +this._web3.utils.fromWei(await this._web3.eth.getBalance(DonationWalletAddress), 'ether');
-		// const usdBalance: number = await this._usd.methods.balanceOf(DonationWalletAddress).call() * Math.pow(10, -(await this._usd.methods.decimals().call()));
-		// const raptorBalance: number = await this._raptor.methods.balanceOf(DonationWalletAddress).call() * Math.pow(10, -(await this._raptor.methods.decimals().call()));
-
-		// this._donationWalletBalance = usdBalance + (bnbBalance * prices.bnb.usd) + (raptorBalance * prices.raptor.usd);
-		this._prices = prices;
+		this._prices = await this.getPrices(true);
 	}
 
+	/**
+	 * Donation-wallet balance was never wired up (the computation is disabled);
+	 * kept returning 0 because the home page still reads it.
+	 */
 	public get donationWalletBalance(): number {
-		return this._donationWalletBalance || 0;
+		return 0;
 	}
+
 	public get raptorBnbPrice(): number {
 		return (this._prices || {}).raptor.bnb;
 	}
@@ -88,12 +59,19 @@ export class RaptorStatistics {
 		return (this._prices || {}).totalSupply.value;
 	}
 	
+	/**
+	 * Convert a USD amount into RPTR. Returns 0 when the price is unknown
+	 * instead of dividing by zero (which produced Infinity before).
+	 */
 	public usdToRaptor(usdAmount?: number): number {
-		return (usdAmount/(this._prices || {}).raptor.usd);
+		const _price = (this._prices || {}).raptor?.usd;
+		return _price ? (usdAmount / _price) : 0;
 	}
 	
+	/** Same as `usdToRaptor` but using the RPTR/BNB price. */
 	public bnbToRaptor(bnbAmount?: number): number {
-		return (bnbAmount/(this._prices || {}).raptor.bnb);
+		const _price = (this._prices || {}).raptor?.bnb;
+		return _price ? (bnbAmount / _price) : 0;
 	}
 
 	private async getPrices(force: boolean): PriceInfo {

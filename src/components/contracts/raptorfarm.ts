@@ -2,11 +2,18 @@ import { Wallet } from '../wallet';
 import { Contract } from 'web3-eth-contract';
 import { Raptor } from './raptor';
 import { RaptorStatistics } from './statistics'
-import * as web3 from 'web3-utils';
+
+import {
+	CONTRACTS,
+	STABLE_COINS_BSC,
+	WBNB_BSC,
+	EVM_MAX_UINT256,
+} from '../../config';
+import { fromRawUnits, toRawUnits } from '../../utils/units';
 
 export class RaptorFarm {
 
-	private static readonly address: string = "0x540647470C039dD7c93b2dfe328264d1a56e3074";
+	private static readonly address: string = CONTRACTS.RAPTOR_FARM_OLD;
 
 	private readonly _wallet: Wallet;
 	private readonly _contract: Contract;
@@ -26,7 +33,7 @@ export class RaptorFarm {
 	private _usdpendingrewards: number = 0;
 	private _tvl: number = 0;
 	private _lpAddress: string = "";
-	private _stablecoins = ["0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", "0x55d398326f99059fF775485246999027B3197955", "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3", "0x23396cF899Ca06c4472205fC903bDB4de249D6fC"];
+	private _stablecoins = STABLE_COINS_BSC;
 
 	async finishSetup() {
 		await this._stats.refresh();
@@ -98,8 +105,8 @@ export class RaptorFarm {
 		if (_tokensInPair.includes(this._raptor.contract._address)) {
 			return (await this._raptor.contract.methods.balanceOf(this._lpAddress).call())/10**6;
 		}
-		else if (_tokensInPair.includes("0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")) {
-			const _wbnb = this._wallet.connectToContract("0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", require("./erc20.abi.json"));
+		else if (_tokensInPair.includes(WBNB_BSC)) {
+			const _wbnb = this._wallet.connectToContract(WBNB_BSC, require("./erc20.abi.json"));
 			return (this._stats.bnbToRaptor((await _wbnb.methods.balanceOf(this._lpToken._address).call())/10**9));
 		}
 		else {
@@ -143,15 +150,14 @@ export class RaptorFarm {
 
 	async deposit(amount: number): Promise<void> {
 		await this._raptor.refresh();
-		const rawAmount = web3.toWei(amount);
+		const rawAmount = toRawUnits(amount);
 
 		if ((await this._lpToken.methods.balanceOf(this._wallet.currentAddress).call()) >= rawAmount) {
 			const allowance = (await this._lpToken.methods.allowance(this._wallet.currentAddress, RaptorFarm.address).call());
 
-			if (allowance < Number(rawAmount)) {
+			if (allowance < BigInt(rawAmount)) {
 				// we need to give allowance to farming contract first
-				const allowance = `${BigInt(2 ** 256) - BigInt(1)}`;
-				await this._lpToken.methods.approve(RaptorFarm.address, allowance).send({ 'from': this._wallet.currentAddress });
+				await this._lpToken.methods.approve(RaptorFarm.address, EVM_MAX_UINT256).send({ 'from': this._wallet.currentAddress });
 			}
 			await this._contract.methods.deposit(this._pid, rawAmount).send({ 'from': this._wallet.currentAddress });
 		}
@@ -162,7 +168,7 @@ export class RaptorFarm {
 
 	async withdraw(amount: number): Promise<void> {
 		await this._raptor.refresh()
-		const rawAmount = web3.toWei(amount);
+		const rawAmount = toRawUnits(amount);
 
 		if ((await this._contract.methods.userInfo(this._pid, this._wallet.currentAddress).call()).amount >= rawAmount) {
 			if (this._raptorPerYear == 0) {

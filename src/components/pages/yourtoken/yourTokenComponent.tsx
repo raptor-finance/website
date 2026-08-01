@@ -6,6 +6,7 @@ import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18nex
 import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { YourTokenBackend } from '../../contracts/yourtoken';
+import { CHAIN } from '../../../config';
 
 // import './migrationComponent.css';
 // import './stakingComponent.css';
@@ -95,7 +96,7 @@ class YourTokenComponent extends BaseComponent<YourTokenProps & withTranslation,
 		try {
 			this.updateState({ pending: true });
 			const wallet = new Wallet();
-			const result = await wallet.connect(1380996178);
+			const result = await wallet.connect(CHAIN.RAPTORCHAIN);
 			const backend = new YourTokenBackend(wallet);
 
 			if (!result) {
@@ -140,7 +141,7 @@ class YourTokenComponent extends BaseComponent<YourTokenProps & withTranslation,
 	}
 	async deploy() {
 		let state = this.readState();
-		console.log(state);
+	
 		const tokenAddress = (await state.backend.deploy(state.name, state.symbol, state.supply));
 		await state.backend.refresh();
 		this.updateState({tokenAddress: tokenAddress});

@@ -7,6 +7,7 @@ import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
 import { RaptorSwap } from '../../contracts/raptorswap';
+import { CHAIN } from '../../../config';
 
 import '../../../theme/custom.css';
 import './migrationComponent.css';
@@ -41,7 +42,7 @@ const FadeInLeftDiv = styled.div`
 
 class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, RaptorSwapState> {
 	
-	private lock: boolean;
+	private _timeout: any = null;
 	
 	constructor(props: RaptorSwapProps & WithTranslation) {
 		super(props);
@@ -54,8 +55,6 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		this.refreshBalances = this.refreshBalances.bind(this);
 		this.setMaxAmount = this.setMaxAmount.bind(this);
 		this.swap = this.swap.bind(this);
-		// this.setMaxDepositAmount = this.setMaxDepositAmount.bind(this);
-		// this.setMaxWithdrawalAmount = this.setMaxWithdrawalAmount.bind(this);
 		this.state = {};
 	}
 	
@@ -73,13 +72,28 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 	}
 	
 	private async updateOnce(resetCt?: boolean): Promise<boolean> {
+		const state = this.readState();
+		if (!state.swap) {
+			return false;
+		}
+		try {
+			if (!this.readState().looping) {
+				return false;
+			}
+			await this.refreshBalances();
+			return true;
+		}
+		catch (e) {
+			console.warn('Unable to update swap status', e);
+			return false;
+		}
 	}
 	
 	async connectWallet() {
 		try {
 			this.updateState({ pending: true });
 			const wallet = new Wallet();
-			const result = await wallet.connect(0x52505452);
+			const result = await wallet.connect(CHAIN.RAPTORCHAIN);
 			const chain = new RaptorChainInterface(wallet, "https://rpc.raptorchain.io/");
 			const swap = new RaptorSwap(wallet);
 
@@ -87,11 +101,8 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 				throw 'The wallet connection was cancelled.';
 			}
 
-//			const raptor = new Raptor(wallet);
-
 			await this.updateState({ wallet: wallet, chain: chain, swap: swap, address: wallet.currentAddress, looping: true, pending: false, ctValue: 0, assetIn: "RPTR", assetOut: "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32"});
-			this.updateOnce(true).then();
-			this.refreshBalances();
+			await this.refreshBalances();
 
 			this.loop().then();
 		}
@@ -110,7 +121,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 				throw 'The wallet connection was cancelled.';
 			}
 
-			this.updateState({ raptor: null, wallet: null, chain: null, address: null, looping: false, pending: false });
+			this.updateState({ wallet: null, chain: null, swap: null, address: null, looping: false, pending: false });
 		}
 		catch (e) {
 			this.updateState({ pending: false });
@@ -125,6 +136,9 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 	}
 
 	componentWillUnmount() {
+		if (!!this._timeout) {
+			clearTimeout(this._timeout);
+		}
 	}
 	
 	async handleAmountUpdate(event) {
@@ -167,48 +181,15 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 	
 	setMaxAmount() {
 		const state = this.readState();
-		switch (state.assetIn) {
-			case "RPTR":
-				this.updateState({valueIn: (state.balanceIn - 500)});
-				break;
-			default:
-				this.updateState({valueIn: state.balanceIn});
-		}
+		// keep a small buffer so the tx doesn't fail on rounding (gas token case)
+		this.updateState({valueIn: (state.assetIn == "RPTR" ? (state.balanceIn - 500) : state.balanceIn)});
 	}
-	
-	// setMaxDepositAmount() {
-		// const state = this.readState();
-		// this.updateState({ ctValue: ((!!state.raptor) ? state.raptor.balancev3 : 0) });
-	// }
-	
-	// setMaxWithdrawalAmount() {
-		// const state = this.readState();
-		// this.updateState({ ctValue: ((!!state.chain) ? state.chain.balance : 0) });
-	// }
 	
 	async swap() {
 		let state = this.readState();
-		console.log(state);
-		await state.chain.refresh();
 		await state.swap.swap(state.valueIn, state.assetIn, state.assetOut);
 		await this.refreshBalances();
-		this.updateOnce(true);
-	}
-	
-	async addTestnetToMetamask() {
-		const networkinfo = [{
-			chainId: '0x7452505452',
-			chainName: 'RaptorChain v0.4 testnet',
-			nativeCurrency:
-			{
-				name: 'Testnet RPTR',
-				symbol: 'tRPTR',
-				decimals: 18
-			},
-			rpcUrls: ['https://rptr-testnet-1.dynamic-dns.net/web3'],
-			blockExplorerUrls: null,
-		}]
-		await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
+		await this.updateOnce(true);
 	}
 	
 	assetDisplay(assetName, contractAddr) {
@@ -219,11 +200,6 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 	}
 
 	assetList() {
-		// return <>
-			// <option value="RPTR">RPTR</option>
-			// <option value="0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32">rDUCO</option>
-		// </>
-		
 		return <>
 			{this.assetDisplay("RPTR", "RPTR")}
 			{this.assetDisplay("rDUCO", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32")}
@@ -239,7 +215,6 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 	}
 
 	render() {
-		this.updateOnce(false);
 		const state = this.readState();
 		const t: TFunction<"translation"> = this.readProps().t;
 
