@@ -1,26 +1,25 @@
 import * as React from 'react';
 import * as numeral from 'numeral';
 
-import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
 import { Wallet } from '../../wallet';
 import { RaptorLottery } from '../../contracts/lottery';
 import { fadeInLeft, fadeInRight, fadeInUp } from 'react-animations';
 import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
 import styled, { keyframes } from 'styled-components';
 import AnimatedNumber from 'animated-number-react';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+
+import { WalletPageBase, WalletPageState } from '../../shared/WalletPageBase';
+import WalletConnectButton from '../../shared/WalletConnectButton';
 
 import '../paddings.css';
 import './lotteryComponent.css';
 
 export type LotteryProps = {}
-export type LotteryState = {
+export type LotteryState = WalletPageState & {
 	lottery?: RaptorLottery,
-	wallet?: Wallet,
-	looping?: boolean,
 
-	address?: string,
 	balance?: number,
 	tickets?: number,
 	price?: number,
@@ -29,7 +28,6 @@ export type LotteryState = {
 	jackpot?: number,
 	totalTickets?: number,
 	drawNumber?: number,
-	pending?: boolean,
 	countdown?: number
 }
 
@@ -46,23 +44,19 @@ const FadeInUpDiv = styled.div`
   animation: ease-out 0.6s ${FadeInUpAnimation};
 `;
 
-class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, LotteryState> {
+class LotteryComponent extends WalletPageBase<LotteryProps & WithTranslation, LotteryState> {
+
+	private _countdownTimeout: any = null;
 
 	constructor(props: LotteryProps & WithTranslation) {
 		super(props);
-		this.connectWallet = this.connectWallet.bind(this);
-		this.disconnectWallet = this.disconnectWallet.bind(this);
 		this.refreshCountdown = this.refreshCountdown.bind(this);
-		this.loop = this.loop.bind(this);
+		this.state = {} as LotteryState;
 	}
 
 	handlePurchase(hash) {
 		// todo show message nicer
 		NotificationManager.success('You have successfully purchased a ticket. Your hash code is: ' + hash);
-	}
-
-	handleError(error) {
-		ShellErrorHandler.handle(error);
 	}
 
 	async buyTicket(): Promise<void> {
@@ -78,7 +72,7 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 			const hash = await lottery.buyTicket();
 			this.handlePurchase(hash);
 			this.updateState({ pending: false });
-			this.updateOnce().then();
+			this.refreshOnce().then();
 		}
 		catch (e) {
 			this.updateState({ pending: false });
@@ -87,17 +81,14 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 	}
 
 	componentWillUnmount() {
-		this.updateState({ lottery: null, looping: false });
-	}
-
-	private async loop(): Promise<void> {
-		const cont = await this.updateOnce();
-
-		if (cont) {
-			setTimeout(async () => await this.loop.call(self), 10000);
+		super.componentWillUnmount();
+		if (!!this._countdownTimeout) {
+			clearTimeout(this._countdownTimeout);
+			this._countdownTimeout = null;
 		}
+		this.updateState({ lottery: null });
 	}
-	
+
 	private async refreshCountdown() {
 		const lottery = this.readState().lottery;
 
@@ -105,10 +96,24 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 			return false; // halts function
 		}
 		this.updateState({ countdown: lottery.countdown });
-		setTimeout(this.refreshCountdown, 500);
+		this._countdownTimeout = setTimeout(this.refreshCountdown, 500);
 	}
-	
-	private async updateOnce(): Promise<boolean> {
+
+	protected get pollIntervalMs(): number {
+		return 10000;
+	}
+
+	protected get connectChainId(): number {
+		return 56;
+	}
+
+	protected async buildSession(wallet: Wallet): Promise<void> {
+		const lottery = new RaptorLottery(wallet);
+		this.updateState({ lottery: lottery, looping: true });
+		this.refreshCountdown();
+	}
+
+	protected async refreshOnce(): Promise<boolean> {
 		const lottery = this.readState().lottery;
 
 		if (!!lottery) {
@@ -140,47 +145,6 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 		return true;
 	}
 
-	async connectWallet() {
-
-		try {
-			this.updateState({ pending: true });
-			const wallet = new Wallet();
-			const result = await wallet.connect();
-
-			if (!result) {
-				throw 'The wallet connection was cancelled.';
-			}
-
-			const lottery = new RaptorLottery(wallet);
-
-			this.updateState({ lottery: lottery, wallet: wallet, looping: true, pending: false });
-			this.updateOnce().then();
-			this.refreshCountdown();
-			this.loop().then();
-		}
-		catch (e) {
-			this.updateState({ pending: false });
-			this.handleError(e);
-		}
-	}
-
-	async disconnectWallet() {
-
-		try {
-			this.updateState({ pending: true });
-			const result = await this.state.wallet.disconnect();
-			if (result) {
-				throw 'The wallet connection was cancelled.';
-			}
-
-			this.updateState({ lottery: null, wallet: null, address: null, looping: false, pending: false });
-		}
-		catch (e) {
-			this.updateState({ pending: false });
-			this.handleError(e);
-		}
-	}
-	
 	formatCountdown(cnt: number): string {
 		const days = Math.floor(cnt / 86400);
 		const hours = Math.floor((cnt % 86400) / 3600);
@@ -199,17 +163,14 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 						<div className="lottery-title">
 							<span>Raptor</span>
 							<span style={{ color: "#31c461" }}>Lottery</span>
-							{state.address ?
-								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
-									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									{t('lottery.disconnect_wallet')}
-								</a>)
-								:
-								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.connectWallet}>
-									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									{t('lottery.connect_wallet')}
-								</a>)
-							}
+							<WalletConnectButton
+								connected={!!state.address}
+								pending={state.pending}
+								connectLabelKey="lottery.connect_wallet"
+								disconnectLabelKey="lottery.disconnect_wallet"
+								onConnect={this.connectWallet}
+								onDisconnect={this.disconnectWallet}
+							/>
 						</div>
 						<p>{t('lottery.paragraph1')}</p>
 						<p><Trans i18nKey='lottery.paragraph2'>In order to use Raptor Lottery, you need to connect your browser wallet (such as <a
@@ -298,7 +259,6 @@ class LotteryComponent extends BaseComponent<LotteryProps & WithTranslation, Lot
 					</FadeInUpDiv>
 				</div>
 			</div>
-			<NotificationContainer />
 		</div>
 	}
 }

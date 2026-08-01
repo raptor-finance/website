@@ -367,6 +367,25 @@ export class Wallet {
 		return this.isConnected;
 	}
 
+	/**
+	 * Switch the connected wallet to another chain (EIP-3326). Uses
+	 * Onboard's setChain, which internally falls back to wallet_addEthereumChain
+	 * with the EIP-3085 params below when the wallet doesn't know the chain yet.
+	 *
+	 * IMPORTANT: `chainId` must be the DECIMAL chain id (e.g. 56, 137). Onboard
+	 * converts numbers to hex (`56 -> 0x38`); passing a string like `'56'` would
+	 * be treated as already-hex and look up chain 0x56 = 86.
+	 */
+	public async switchNetwork(chainId: number): Promise<void> {
+		if (!this._provider) {
+			throw 'No compatible wallet app was found. Please install a supported browser extension, such as Metamask.';
+		}
+		await onboard.setChain({ chainId: chainId });
+		// Some providers (e.g. injected wallets) do not refresh their chainId
+		// until the next request; Onboard's setChain resolves after the wallet
+		// acknowledged the switch, so the provider's own chainId is up to date.
+	}
+
 	public get chainId(): number {
 		if (this._provider && this._provider.getChainId) {
 			return Number(this._provider.getChainId());

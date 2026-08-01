@@ -1,13 +1,14 @@
 import * as React from 'react';
 import * as numeral from 'numeral';
 
-import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
-import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
+import { WithTranslation, withTranslation, TFunction } from 'react-i18next';
 import { Wallet } from '../../wallet';
-import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
 import { RaptorSwap } from '../../contracts/raptorswap';
 import { CHAIN } from '../../../config';
+
+import { WalletPageBase, WalletPageState } from '../../shared/WalletPageBase';
+import WalletConnectButton from '../../shared/WalletConnectButton';
 
 import '../../../theme/custom.css';
 import './migrationComponent.css';
@@ -19,13 +20,9 @@ import styled, { keyframes } from 'styled-components';
 
 
 export type RaptorSwapProps = {};
-export type RaptorSwapState = {
-	wallet?: Wallet,
+export type RaptorSwapState = WalletPageState & {
 	chain?: RaptorChainInterface,
 	swap?: RaptorSwap,
-	pending?: boolean,
-	looping?: boolean,
-	address?: string,
 	valueIn?: string,
 	valueOut?: string,
 	assetIn?: string,
@@ -40,14 +37,10 @@ const FadeInLeftDiv = styled.div`
 `;
 
 
-class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, RaptorSwapState> {
-	
-	private _timeout: any = null;
+class SwapComponent extends WalletPageBase<RaptorSwapProps & WithTranslation, RaptorSwapState> {
 	
 	constructor(props: RaptorSwapProps & WithTranslation) {
 		super(props);
-		this.connectWallet = this.connectWallet.bind(this);
-		this.disconnectWallet = this.disconnectWallet.bind(this);
 		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
 		this.handleAmountOutUpdate = this.handleAmountOutUpdate.bind(this);
 		this.handleAssetInUpdate = this.handleAssetInUpdate.bind(this);
@@ -55,23 +48,25 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 		this.refreshBalances = this.refreshBalances.bind(this);
 		this.setMaxAmount = this.setMaxAmount.bind(this);
 		this.swap = this.swap.bind(this);
-		this.state = {};
+		this.state = {} as RaptorSwapState;
 	}
 	
-	handleError(error) {
-		ShellErrorHandler.handle(error);
+	protected get pollIntervalMs(): number {
+		return 1000;
 	}
-	
-	private async loop(): Promise<void> {
-		const self = this;
-		const cont = await self.updateOnce.call(self);
 
-		if (cont) {
-			this._timeout = setTimeout(async () => await self.loop.call(self), 1000);
-		}
+	protected get connectChainId(): number {
+		return CHAIN.RAPTORCHAIN;
 	}
-	
-	private async updateOnce(resetCt?: boolean): Promise<boolean> {
+
+	protected async buildSession(wallet: Wallet): Promise<void> {
+		const chain = new RaptorChainInterface(wallet, "https://rpc.raptorchain.io/");
+		const swap = new RaptorSwap(wallet);
+		this.updateState({ chain: chain, swap: swap, address: wallet.currentAddress, looping: true, valueIn: "", valueOut: "", assetIn: "RPTR", assetOut: "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32" });
+		await this.refreshBalances();
+	}
+
+	protected async refreshOnce(resetCt?: boolean): Promise<boolean> {
 		const state = this.readState();
 		if (!state.swap) {
 			return false;
@@ -88,78 +83,30 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 			return false;
 		}
 	}
-	
-	async connectWallet() {
-		try {
-			this.updateState({ pending: true });
-			const wallet = new Wallet();
-			const result = await wallet.connect(CHAIN.RAPTORCHAIN);
-			const chain = new RaptorChainInterface(wallet, "https://rpc.raptorchain.io/");
-			const swap = new RaptorSwap(wallet);
 
-			if (!result) {
-				throw 'The wallet connection was cancelled.';
-			}
-
-			await this.updateState({ wallet: wallet, chain: chain, swap: swap, address: wallet.currentAddress, looping: true, pending: false, ctValue: 0, assetIn: "RPTR", assetOut: "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32"});
-			await this.refreshBalances();
-
-			this.loop().then();
-		}
-		catch (e) {
-			this.updateState({ pending: false });
-			this.handleError(e);
-			throw e;
-		}
-	}
-
-	async disconnectWallet() {
-		try {
-			this.updateState({ pending: true });
-			const result = await this.state.wallet.disconnect();
-			if (result) {
-				throw 'The wallet connection was cancelled.';
-			}
-
-			this.updateState({ wallet: null, chain: null, swap: null, address: null, looping: false, pending: false });
-		}
-		catch (e) {
-			this.updateState({ pending: false });
-			this.handleError(e);
-		}
-	}
-	
-	async componentDidMount() {
-		if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
-		  this.connectWallet();
-		}
-	}
-
-	componentWillUnmount() {
-		if (!!this._timeout) {
-			clearTimeout(this._timeout);
-		}
+	protected resetState(): void {
+		this.updateState({ chain: null, swap: null });
 	}
 	
 	async handleAmountUpdate(event) {
 		const state = this.readState();
 		let tokens = event.target.value;
 		const valueOut = await this.readState().swap.getOutput(tokens, state.assetIn, state.assetOut);
-		this.updateState({ valueIn:tokens, valueOut: valueOut });
+		this.updateState({ valueIn: tokens, valueOut: valueOut });
 	}
 	
 	async handleAmountOutUpdate(event) {
 		const state = this.readState();
 		let tokens = event.target.value;
 		let valueIn = await this.readState().swap.getInput(tokens, state.assetIn, state.assetOut);
-		this.updateState({ valueOut:tokens, valueIn: valueIn });
+		this.updateState({ valueOut: tokens, valueIn: valueIn });
 	}
 
 	async refreshBalances() {
 		const state = this.readState();
 		const _balanceIn = await state.swap.assetBalance(state.assetIn);
 		const _balanceOut = await state.swap.assetBalance(state.assetOut);
-		this.updateState({balanceIn: _balanceIn, balanceOut: _balanceOut});
+		this.updateState({ balanceIn: _balanceIn, balanceOut: _balanceOut });
 	}
 
 	async handleAssetInUpdate(event) {
@@ -182,14 +129,14 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 	setMaxAmount() {
 		const state = this.readState();
 		// keep a small buffer so the tx doesn't fail on rounding (gas token case)
-		this.updateState({valueIn: (state.assetIn == "RPTR" ? (state.balanceIn - 500) : state.balanceIn)});
+		this.updateState({ valueIn: (state.assetIn == "RPTR" ? (state.balanceIn - 500) : state.balanceIn) });
 	}
 	
 	async swap() {
 		let state = this.readState();
 		await state.swap.swap(state.valueIn, state.assetIn, state.assetOut);
 		await this.refreshBalances();
-		await this.updateOnce(true);
+		await this.refreshOnce(true);
 	}
 	
 	assetDisplay(assetName, contractAddr) {
@@ -223,26 +170,21 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 			<div className="container">
 				<div className="row text-white staking-header">
 					<div className="col-md-12">
-							<div className="migration-title">
+						<div className="migration-title">
 							<b><font size="6"><span>Raptor</span><span style={{ color: "#31c461" }}>Swap</span></font></b>
-							{state.address ?
-								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
-									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									Disconnect wallet
-								</a>)
-								:
-								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.connectWallet}>
-									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									Connect wallet
-								</a>)
-							}
-					        </div>
-				     </div>
-		       	</div>
+							<WalletConnectButton
+								connected={!!state.address}
+								pending={state.pending}
+								onConnect={this.connectWallet}
+								onDisconnect={this.disconnectWallet}
+							/>
+						</div>
+					</div>
+				</div>
 
 
 				<div className="container">
-                    <FadeInLeftDiv className="col-md-6 d-flex">
+					<FadeInLeftDiv className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary smoothDiv">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
@@ -264,7 +206,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 								<div>
 									<input type="number" className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.valueOut}></input>
 								</div>
-								<br/>
+								<br />
 								<div className="d-flex justify-content-center button-row">
 									<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.swap}>Swap</button>
 								</div>
@@ -274,9 +216,9 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 
 					</FadeInLeftDiv>
 
-                          <div className="migration-footer">
-					        <font size="2"><i>Note : RaptorSwap is still in beta ! Be one of the first to try it :D</i></font>
-				          </div>
+					<div className="migration-footer">
+						<font size="2"><i>Note : RaptorSwap is still in beta ! Be one of the first to try it :D</i></font>
+					</div>
 				</div>
 
 

@@ -1,12 +1,13 @@
 import * as React from 'react';
 import * as numeral from 'numeral';
 
-import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
-import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
+import { WithTranslation, withTranslation, TFunction } from 'react-i18next';
 import { Wallet, ReadOnlyProvider, ChainNames, ChainIDsToRefresh } from '../../wallet';
-import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
-import { CHAIN, CHAIN_HEX, CHAIN_META, RPC } from '../../../config';
+import { CHAIN } from '../../../config';
+
+import { WalletPageBase, WalletPageState } from '../../shared/WalletPageBase';
+import WalletConnectButton from '../../shared/WalletConnectButton';
 
 import '../../../theme/custom.css';
 import './migrationComponent.css';
@@ -25,15 +26,11 @@ export class Step {
 }
 
 export type CrossChainProps = {};
-export type CrossChainState = {
-	wallet?: Wallet,
+export type CrossChainState = WalletPageState & {
 	chains?: any;
 	bsc?: ReadOnlyProvider,
 	polygon?: ReadOnlyProvider,
 	chain?: RaptorChainInterface,
-	pending?: boolean,
-	looping?: boolean,
-	address?: string,
 	ctValue?: number,
 	chainIn?: number,
 	chainOut?: number,
@@ -50,14 +47,10 @@ const FadeInRightDiv = styled.div`
   animation: ease-out 0.8s ${FadeInRightAnimation};
 `;
 
-class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTranslation, CrossChainState> {
-	
-	private lock: boolean;
+class CrossChainComponentMainnet extends WalletPageBase<CrossChainProps & WithTranslation, CrossChainState> {
 	
 	constructor(props: CrossChainProps & WithTranslation) {
 		super(props);
-		this.connectWallet = this.connectWallet.bind(this);
-		this.disconnectWallet = this.disconnectWallet.bind(this);
 		this.deposit = this.deposit.bind(this);
 		this.withdraw = this.withdraw.bind(this);
 		this.wrapToPolygon = this.wrapToPolygon.bind(this);
@@ -70,46 +63,45 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		this.setMaxAmount = this.setMaxAmount.bind(this);
 		this.switchWalletChain = this.switchWalletChain.bind(this);
 		this.transferProgress = this.transferProgress.bind(this);
-		this.state = {};
+		this.state = {} as CrossChainState;
 	}
 	
-	handleError(error) {
-		ShellErrorHandler.handle(error);
+	protected get pollIntervalMs(): number {
+		return 1000;
 	}
-	
-	private async loop(): Promise<void> {
-		const self = this;
-		const cont = await self.updateOnce.call(self);
 
-		if (cont) {
-			this._timeout = setTimeout(async () => await self.loop.call(self), 1000);
-		}
+	/** 0 = leave the wallet on its current chain (bridge switches chains itself). */
+	protected get connectChainId(): number {
+		return 0;
 	}
-	
-	private async updateOnce(resetCt?: boolean): Promise<boolean> {
+
+	protected async buildSession(wallet: Wallet): Promise<void> {
+		const chain = new RaptorChainInterface(wallet, "https://rpc.raptorchain.io/", true);
+		const bsc = wallet.getReadOnly(56);
+		const polygon = wallet.getReadOnly(137);
+		const fantom = wallet.getReadOnly(250);
+		let _chains = { 56: bsc, 137: polygon, 250: fantom };
+		this.updateState({ chain: chain, looping: true, ctValue: 0, bsc: bsc, polygon: polygon, chains: _chains, chainIn: 56, chainOut: CHAIN.RAPTORCHAIN });
+	}
+
+	protected async refreshOnce(resetCt?: boolean): Promise<boolean> {
 		const state = this.readState();
 		if (!!state.chain) {
 			try {
 				await state.chain.refresh();
 				await state.bsc.refresh();
-				for (let n = 0; n<ChainIDsToRefresh.length; n++) {
+				for (let n = 0; n < ChainIDsToRefresh.length; n++) {
 					if (state.chains[ChainIDsToRefresh[n]]) {
 						await state.chains[ChainIDsToRefresh[n]].refresh();
 					}
 				}
-				
+
 				if (!this.readState().looping) {
 					return false;
 				}
 				this.updateState({
-					address: state.wallet.currentAddress,
+					address: state.wallet ? state.wallet.currentAddress : undefined,
 				});
-
-				if (resetCt) {
-					// this.updateState({
-					// })
-				}
-
 			}
 			catch (e) {
 				console.warn('Unable to update transfer status', e);
@@ -118,6 +110,11 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 		else {
 			return false;
 		}
+		return true;
+	}
+
+	protected resetState(): void {
+		this.updateState({ chain: null, bsc: null, polygon: null, chains: null });
 	}
 	
 	async switchWalletChain(chainid: number) {
@@ -164,56 +161,6 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 				{this.chainList()}
 			</select>
 		</>
-	}
-	
-	async connectWallet() {
-		try {
-			this.updateState({ pending: true });
-			const wallet = new Wallet();
-			const result = await wallet.connect(0); // 0 means "any chainid". absence of param makes it switch to BSC (legacy code lmao)
-			const chain = new RaptorChainInterface(wallet, "https://rpc.raptorchain.io/", true);
-
-			if (!result) {
-				throw 'The wallet connection was cancelled.';
-			}
-			const bsc = wallet.getReadOnly(56);
-			const polygon = wallet.getReadOnly(137);
-			const fantom = wallet.getReadOnly(250);
-			let _chains = {56: bsc, 137: polygon, 250: fantom};
-			await this.updateState({ wallet: wallet, chain: chain,looping: true, pending: false, ctValue: 0, bsc: bsc, polygon: polygon, chains: _chains, chainIn: 56, chainOut: CHAIN.RAPTORCHAIN });
-			this.updateOnce(true).then();
-
-			this.loop().then();
-		}
-		catch (e) {
-			this.updateState({ pending: false });
-			this.handleError(e);
-		}
-	}
-
-	async disconnectWallet() {
-		try {
-			this.updateState({ pending: true });
-			const result = await this.state.wallet.disconnect();
-			if (result) {
-				throw 'The wallet connection was cancelled.';
-			}
-
-			this.updateState({ wallet: null, chain: null, address: null, looping: false, pending: false });
-		}
-		catch (e) {
-			this.updateState({ pending: false });
-			this.handleError(e);
-		}
-	}
-	
-	async componentDidMount() {
-		if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
-		  this.connectWallet();
-		}
-	}
-
-	componentWillUnmount() {
 	}
 	
 	handleAmountUpdate(event) {
@@ -389,17 +336,12 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 					<div className="col-md-12">
 							<div className="migration-title">
 							<b><font size="6"><span>Raptor</span><span style={{ color: "#31c461" }}>Chain</span></font></b>
-							{state.address ?
-								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
-									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									Disconnect wallet
-								</a>)
-								:
-								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.connectWallet}>
-									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									Connect wallet
-								</a>)
-							}
+							<WalletConnectButton
+								connected={!!state.address}
+								pending={state.pending}
+								onConnect={this.connectWallet}
+								onDisconnect={this.disconnectWallet}
+							/>
 					        </div>
 				     </div>
 		       	</div>

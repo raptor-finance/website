@@ -1,13 +1,14 @@
 import * as React from 'react';
 import * as numeral from 'numeral';
 
-import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
-import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
+import { WithTranslation, withTranslation, TFunction } from 'react-i18next';
 import { Wallet } from '../../wallet';
-import { Raptor } from '../../contracts/raptor';
 import { RaptorChainInterface } from '../../contracts/chain';
 import { RaptorSwap } from '../../contracts/raptorswap';
 import { CHAIN } from '../../../config';
+
+import { WalletPageBase, WalletPageState } from '../../shared/WalletPageBase';
+import WalletConnectButton from '../../shared/WalletConnectButton';
 
 import '../../../theme/custom.css';
 import './migrationComponent.css';
@@ -18,13 +19,9 @@ import styled, { keyframes } from 'styled-components';
 
 
 export type RaptorSwapProps = {};
-export type RaptorSwapState = {
-	wallet?: Wallet,
+export type RaptorSwapState = WalletPageState & {
 	chain?: RaptorChainInterface,
 	swap?: RaptorSwap,
-	pending?: boolean,
-	looping?: boolean,
-	address?: string,
 	amountA?: string,
 	amountB?: string,
 	amountLPTokens?: string,
@@ -42,14 +39,10 @@ const FadeInLeftDiv = styled.div`
 `;
 
 
-class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation, RaptorSwapState> {
-	
-	private _timeout: any = null;
+class LiquidityComponent extends WalletPageBase<RaptorSwapProps & WithTranslation, RaptorSwapState> {
 	
 	constructor(props: RaptorSwapProps & WithTranslation) {
 		super(props);
-		this.connectWallet = this.connectWallet.bind(this);
-		this.disconnectWallet = this.disconnectWallet.bind(this);
 		this.handleAmountUpdate = this.handleAmountUpdate.bind(this);
 		this.handleAmountOutUpdate = this.handleAmountOutUpdate.bind(this);
 		this.handleLPAmountUpdate = this.handleLPAmountUpdate.bind(this);
@@ -64,23 +57,25 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		this.liquify = this.liquify.bind(this);
 		this.removeLP = this.removeLP.bind(this);
 		this.pairDisplay = this.pairDisplay.bind(this);
-		this.state = {};
+		this.state = {} as RaptorSwapState;
 	}
 	
-	handleError(error) {
-		ShellErrorHandler.handle(error);
+	protected get pollIntervalMs(): number {
+		return 1000;
 	}
-	
-	private async loop(): Promise<void> {
-		const self = this;
-		const cont = await self.updateOnce.call(self);
 
-		if (cont) {
-			this._timeout = setTimeout(async () => await self.loop.call(self), 1000);
-		}
+	protected get connectChainId(): number {
+		return CHAIN.RAPTORCHAIN;
 	}
-	
-	private async updateOnce(resetCt?: boolean): Promise<boolean> {
+
+	protected async buildSession(wallet: Wallet): Promise<void> {
+		const chain = new RaptorChainInterface(wallet, "https://rpc.raptorchain.io/");
+		const swap = new RaptorSwap(wallet);
+		this.updateState({ chain: chain, swap: swap, address: wallet.currentAddress, looping: true, assetA: "RPTR", assetB: "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32", sequenceNumber: 0 });
+		await this.refreshBalances();
+	}
+
+	protected async refreshOnce(resetCt?: boolean): Promise<boolean> {
 		const state = this.readState();
 		if (!state.swap) {
 			return false;
@@ -97,56 +92,9 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			return false;
 		}
 	}
-	
-	async connectWallet() {
-		try {
-			this.updateState({ pending: true });
-			const wallet = new Wallet();
-			const result = await wallet.connect(CHAIN.RAPTORCHAIN);
-			const chain = new RaptorChainInterface(wallet, "https://rpc.raptorchain.io/");
-			const swap = new RaptorSwap(wallet);
 
-			if (!result) {
-				throw 'The wallet connection was cancelled.';
-			}
-
-			this.updateState({ wallet: wallet, chain: chain, swap: swap, address: wallet.currentAddress, looping: true, pending: false, ctValue: 0, assetA: "RPTR", assetB: "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32", sequenceNumber: 0});
-			await this.refreshBalances();
-			this.loop().then();
-		}
-		catch (e) {
-			this.updateState({ pending: false });
-			this.handleError(e);
-			throw e;
-		}
-	}
-
-	async disconnectWallet() {
-		try {
-			this.updateState({ pending: true });
-			const result = await this.state.wallet.disconnect();
-			if (result) {
-				throw 'The wallet connection was cancelled.';
-			}
-
-			this.updateState({ wallet: null, chain: null, swap: null, address: null, looping: false, pending: false });
-		}
-		catch (e) {
-			this.updateState({ pending: false });
-			this.handleError(e);
-		}
-	}
-	
-	async componentDidMount() {
-		if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
-		  this.connectWallet();
-		}
-	}
-
-	componentWillUnmount() {
-		if (!!this._timeout) {
-			clearTimeout(this._timeout);
-		}
+	protected resetState(): void {
+		this.updateState({ chain: null, swap: null });
 	}
 	
 	async handleAmountUpdate(event) {
@@ -154,15 +102,14 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		let tokens = event.target.value;
 		console.log(state.selectedPair);
 		const _amtB = state.selectedPair.getOtherAmount(state.assetA, tokens);
-		this.updateState({ amountA:tokens, amountB: _amtB });
+		this.updateState({ amountA: tokens, amountB: _amtB });
 	}
 	
 	async handleAmountOutUpdate(event) {
 		const state = this.readState();
 		let tokens = event.target.value;
-//		let valueIn = await this.readState().swap.getInput(tokens, "RPTR", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32");
 		const _amtA = state.selectedPair.getOtherAmount(state.assetB, tokens);
-		this.updateState({ amountB:tokens, amountA: _amtA });
+		this.updateState({ amountB: tokens, amountA: _amtA });
 	}
 	
 	handleLPAmountUpdate(event) {
@@ -174,7 +121,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		await this.updateCurrentPair();
 		const _balanceA = await state.swap.assetBalance(state.assetA);
 		const _balanceB = await state.swap.assetBalance(state.assetB);
-		await this.updateState({balanceA: _balanceA, balanceB: _balanceB});
+		await this.updateState({ balanceA: _balanceA, balanceB: _balanceB });
 		await state.swap.refreshPairs();
 	}
 	
@@ -199,7 +146,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		const state = this.readState();
 		const _pair = (await state.swap.pairFor(state.assetA, state.assetB));
 		console.log(_pair);
-		await this.updateState({selectedPair: _pair});
+		await this.updateState({ selectedPair: _pair });
 		await _pair.setupPromise;
 	}
 	
@@ -207,14 +154,14 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 		let state = this.readState();
 		await state.swap.liquify(state.amountA, state.amountB, state.assetA, state.assetB);
 		await this.refreshBalances();
-		await this.updateOnce(true);
+		await this.refreshOnce(true);
 	}
 	
 	async removeLP() {
 		let state = this.readState();
 		await state.swap.removeLP(state.amountLPTokens, state.assetA, state.assetB);
 		await this.refreshBalances();
-		await this.updateOnce(true);
+		await this.refreshOnce(true);
 	}
 	
 	assetDisplay(assetName, contractAddr) {
@@ -225,11 +172,6 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 	}
 
 	assetList() {
-		// return <>
-			// <option value="RPTR">RPTR</option>
-			// <option value="0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32">rDUCO</option>
-		// </>
-		
 		return <>
 			{this.assetDisplay("RPTR", "RPTR")}
 			{this.assetDisplay("rDUCO", "0x9ffE5c6EB6A8BFFF1a9a9DC07406629616c19d32")}
@@ -237,22 +179,22 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 	}
 	
 	async switchToAddLiquidity() {
-		await this.updateState({sequenceNumber: 0});
+		await this.updateState({ sequenceNumber: 0 });
 		this.refreshBalances();
 	}
 	
 	async switchToRemoveLiquidity() {
-		await this.updateState({sequenceNumber: 1});
+		await this.updateState({ sequenceNumber: 1 });
 		this.refreshBalances();
 	}
 
 	async updateAssets(token0, token1) {
-		await this.updateState({assetA: token0, assetB: token1, sequenceNumber: 0});
+		await this.updateState({ assetA: token0, assetB: token1, sequenceNumber: 0 });
 		this.refreshBalances();
 	}
 	
 	async withdrawAssets(token0, token1) {
-		await this.updateState({assetA: token0, assetB: token1, sequenceNumber: 1});
+		await this.updateState({ assetA: token0, assetB: token1, sequenceNumber: 1 });
 		this.refreshBalances();
 	}
 	
@@ -274,17 +216,6 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 	
 	renderPairsList() {
 		const state = this.readState();
-		// try {
-			// if (state.address) {
-				// console.log(state.swap.pairs[0]);
-				// return this.pairDisplay(state.swap.pairs[0]);
-			// } else {
-				// return <></>
-			// }
-		// } catch (e) {
-			// console.error(e);
-			// return <></>
-		// }
 		return (state.swap ? state.swap.pairs.map(this.pairDisplay) : undefined);
 	}
 	
@@ -321,7 +252,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			<div>
 				<input type="number" className="input-amount" placeholder="Enter an amount..." onChange={this.handleAmountOutUpdate} value={state.amountB}></input>
 			</div>
-			<br/>
+			<br />
 			<div className="d-flex justify-content-center button-row">
 				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.liquify}>Add Liquidity</button>&nbsp;
 				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.switchToRemoveLiquidity}>Remove Liquidity Instead</button>
@@ -350,7 +281,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			<div>
 				<input type="number" className="input-amount" placeholder="Enter LP amount..." onChange={this.handleLPAmountUpdate} value={state.amountLPTokens}></input>
 			</div>
-			<br/>
+			<br />
 			<div className="d-flex justify-content-center button-row">
 				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.removeLP}>Remove Liquidity</button>&nbsp;
 				<button id="btn-deposit" className="btn btn-primary btn-md link-dark align-self-center stake-confirm" onClick={this.switchToAddLiquidity}>Add Liquidity Instead</button>
@@ -368,26 +299,21 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 			<div className="container">
 				<div className="row text-white staking-header">
 					<div className="col-md-12">
-							<div className="migration-title">
+						<div className="migration-title">
 							<b><font size="6"><span>Raptor</span><span style={{ color: "#31c461" }}>Swap</span></font></b>
-							{state.address ?
-								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.disconnectWallet}>
-									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									Disconnect wallet
-								</a>)
-								:
-								(<a className="shadow btn btn-primary ladda-button btn-md btn-wallet float-right" disabled={state.pending} role="button" onClick={this.connectWallet}>
-									{state.pending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"> </span>}
-									Connect wallet
-								</a>)
-							}
-					        </div>
-				     </div>
-		       	</div>
+							<WalletConnectButton
+								connected={!!state.address}
+								pending={state.pending}
+								onConnect={this.connectWallet}
+								onDisconnect={this.disconnectWallet}
+							/>
+						</div>
+					</div>
+				</div>
 
 
 				<div className="container">
-                    <FadeInLeftDiv className="col-md-6 d-flex">
+					<FadeInLeftDiv className="col-md-6 d-flex">
 						<div className="shadow d-flex flex-column flex-fill gradient-card primary smoothDiv">
 							<h2>{t('migration.wallet.wallet_address')}</h2>
 							<p>{state.address || t('migration.wallet.connect_wallet')}</p>
@@ -397,9 +323,9 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 
 					</FadeInLeftDiv>
 
-                          <div className="migration-footer">
-					        <font size="2"><i>Note : RaptorSwap is still in beta ! Be one of the first to try it :D</i></font>
-				          </div>
+					<div className="migration-footer">
+						<font size="2"><i>Note : RaptorSwap is still in beta ! Be one of the first to try it :D</i></font>
+					</div>
 				</div>
 
 
