@@ -149,10 +149,13 @@ export abstract class WalletPageBase<
 	protected startLoop(): void {
 		const self = this;
 		const cont = self.refreshOnce(false);
-		cont.then((shouldContinue) => {
-			if (shouldContinue) {
-				this._timeout = setTimeout(async () => await self.loop.call(self), this.pollIntervalMs);
-			}
+		cont.then(() => {
+			// Always schedule the first re-tick. The initial refreshOnce may
+			// legitimately return false because `looping: true` was just set via
+			// setState (async commit) and isn't visible yet — mirroring the
+			// original pages, where loop() was always kicked off after connect.
+			// loop() re-checks refreshOnce's result + the looping flag.
+			this._timeout = setTimeout(async () => await self.loop.call(self), this.pollIntervalMs);
 		});
 	}
 

@@ -213,7 +213,7 @@ class CrossChainComponentMainnet extends WalletPageBase<CrossChainProps & WithTr
 		state.steps[1].completed = true;
 		
 		await state.chain.refresh();
-		this.updateOnce(true);
+		this.refreshOnce(true);
 	}
 	
 	async withdraw() {
@@ -222,7 +222,7 @@ class CrossChainComponentMainnet extends WalletPageBase<CrossChainProps & WithTr
 		await state.chain.crossChainWithdrawal(state.ctValue);
 		state.steps[0].completed = true;
 		await state.chain.refresh();
-		this.updateOnce(true);
+		this.refreshOnce(true);
 	}
 	
 	async wrapToPolygon() {
@@ -236,7 +236,7 @@ class CrossChainComponentMainnet extends WalletPageBase<CrossChainProps & WithTr
 		
 		await state.polygon.refresh();
 		await state.chain.refresh();
-		this.updateOnce(true);
+		this.refreshOnce(true);
 	}
 	
 	async unwrapFromPolygon() {
@@ -267,7 +267,7 @@ class CrossChainComponentMainnet extends WalletPageBase<CrossChainProps & WithTr
 		
 		await state.chains[chainid].refresh();
 		await state.chain.refresh();
-		this.updateOnce(true);
+		this.refreshOnce(true);
 	}
 	
 	async unwrapFrom(chainid) {

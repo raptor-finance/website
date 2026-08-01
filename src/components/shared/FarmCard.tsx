@@ -84,8 +84,8 @@ export function FarmCard(props: FarmCardProps) {
 	const usdstaked = amount.usdstaked || 0;
 	const usdrewards = amount.usdrewards || 0;
 
-	const unitLabel = showLP ? 'LP' : '';
-	const lpLabel = showLP ? ' LP' : '';
+	const pairLabel = showLP ? `${pairName} LP` : pairName;
+	const lpLabel = showLP ? 'LP' : 'RPTR';
 
 	const formatAmount = (v: number, decimals: number, suffix: string) =>
 		`${Number(parseFloat(v.toFixed(decimals))).toLocaleString('en', { minimumFractionDigits: decimals })}${suffix}`;
@@ -102,7 +102,7 @@ export function FarmCard(props: FarmCardProps) {
 							<div className="d-flex justify-content-between pair-header">
 								<img className="lp-pair-icon" src={logo} alt="bnb-raptor-pair" />
 								<div>
-									<h1 className="text-right">{pairName} {unitLabel}</h1>
+									<h1 className="text-right">{pairLabel}</h1>
 									<h2 className="text-right">{fees}</h2>
 								</div>
 							</div>
@@ -141,7 +141,7 @@ export function FarmCard(props: FarmCardProps) {
 										: <u>{liquidityPool}</u>}
 								</h2>
 							</div>
-							<h3>Available {pairName} {lpLabel}</h3>
+							<h3>Available {pairLabel}</h3>
 							<AnimatedNumber
 								value={numeral(lpBalance || 0).format('0.000000')}
 								duration="1000"
@@ -178,7 +178,7 @@ export function FarmCard(props: FarmCardProps) {
 								</div>
 							</div>
 							<div className="staked-lp-info">
-								<h3>{pairName} {lpLabel} Staked</h3>
+								<h3>{pairLabel} Staked</h3>
 								<AnimatedNumber
 									value={numeral(stakedLp || 0).format('0.000000')}
 									duration="1000"

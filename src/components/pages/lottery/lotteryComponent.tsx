@@ -89,6 +89,14 @@ class LotteryComponent extends WalletPageBase<LotteryProps & WithTranslation, Lo
 		this.updateState({ lottery: null });
 	}
 
+	protected resetState(): void {
+		if (!!this._countdownTimeout) {
+			clearTimeout(this._countdownTimeout);
+			this._countdownTimeout = null;
+		}
+		this.updateState({ lottery: null });
+	}
+
 	private async refreshCountdown() {
 		const lottery = this.readState().lottery;
 

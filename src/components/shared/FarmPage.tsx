@@ -113,10 +113,19 @@ export class FarmPage extends WalletPageBase<FarmPageProps, FarmPageState> {
 		await this.updateState({ pending: true });
 		const farm = await this.buildFarm();
 
-		// Signal that the farm list is ready, so connectWallet() can proceed.
-		// Use setState's callback so _farmReady only resolves after React has
-		// actually committed the farm to state (setState is async).
-		(this as any).setState({ farm }, () => this._resolveFarmReady());
+		// Only publish a pre-built farm list when there is one. Pages whose
+		// pools require a wallet (v2 farm) build them later in buildSession();
+		// publishing an empty farm here would make the first refreshOnce tick
+		// read farm["0,0"] as undefined and log spurious warnings.
+		if (farm && Object.keys(farm).length > 0) {
+			// Signal that the farm list is ready, so connectWallet() can proceed.
+			// Use setState's callback so _farmReady only resolves after React has
+			// actually committed the farm to state (setState is async).
+			(this as any).setState({ farm }, () => this._resolveFarmReady());
+		} else {
+			// Nothing to wait for; connectWallet() can proceed immediately.
+			this._resolveFarmReady();
+		}
 
 		super.componentDidMount();
 		await this.updateState({ pending: false });
