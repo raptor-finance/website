@@ -57,6 +57,11 @@ const onboard: OnboardAPI = Onboard({
 			{ name: 'MetaMask', url: 'https://metamask.io' },
 		],
 	},
+	connect: {
+		// Persist the last connected wallet to localStorage and silently
+		// reconnect to it on page load (no modal, no "Connect wallet" flash).
+		autoConnectLastWallet: true,
+	},
 	accountCenter: {
 		desktop: { enabled: false },
 		mobile: { enabled: false },
@@ -123,6 +128,27 @@ export class Wallet {
 	private _raptorChainID: number = CHAIN.RAPTORCHAIN_TESTNET;
 	private _web3: Web3 = null;
 	private _readOnlyProvs: any = {};
+
+	/**
+	 * Whether Web3-Onboard has a wallet session cached in localStorage from a
+	 * previous visit. Used by pages in componentDidMount to decide whether to
+	 * auto-connect on load (instead of the legacy window.ethereum.selectedAddress
+	 * check, which is unreliable with EIP-6963 / multiple wallet extensions).
+	 */
+	public static hasCachedSession(): boolean {
+		try {
+			const stored = (window as any).localStorage
+				? (window as any).localStorage.getItem('onboard.js:last_connected_wallet')
+				: null;
+			if (!stored) {
+				return false;
+			}
+			const parsed = JSON.parse(stored);
+			return Array.isArray(parsed) && parsed.length > 0;
+		} catch (e) {
+			return false;
+		}
+	}
 
 	/**
 	 * EIP-3085 network params, one per chain id, built from the central config.
@@ -222,14 +248,66 @@ export class Wallet {
 		}
 	}
 
+	/**
+	 * Restore the session stored in localStorage by Onboard (see
+	 * autoConnectLastWallet). Used on page load so the wallet reconnects
+	 * without opening the modal. Returns true when a session existed.
+	 */
+	private async restoreCachedSession(): Promise<boolean> {
+		if (!Wallet.hasCachedSession()) {
+			return false;
+		}
+		try {
+			// Onboard persists the last connected label; ask it to reconnect
+			// to that label silently. This mirrors what autoConnectLastWallet
+			// does during init, and is safe to call even if init already did it.
+			const state = await onboard.state.get();
+			const wallets = state.wallets;
+			if (wallets && wallets.length > 0) {
+				return true;
+			}
+			const wallets2 = await onboard.connectWallet({
+				autoSelect: { label: Wallet.getCachedWalletLabel(), disableModals: true }
+			});
+			return (wallets2 && wallets2.length > 0);
+		} catch (e) {
+			console.warn('Cached session restore failed', e);
+			return false;
+		}
+	}
+
+	/**
+	 * Returns the label of the last connected wallet from Onboard's cache, or
+	 * null if none. Used by restoreCachedSession.
+	 */
+	private static getCachedWalletLabel(): string | null {
+		try {
+			const stored = (window as any).localStorage
+				? (window as any).localStorage.getItem('onboard.js:last_connected_wallet')
+				: null;
+			if (!stored) {
+				return null;
+			}
+			const parsed = JSON.parse(stored);
+			return Array.isArray(parsed) && parsed.length > 0 ? parsed[0] : null;
+		} catch (e) {
+			return null;
+		}
+	}
+
 	public async connect(expectedChainID: number): Promise<boolean> {
 		console.log(`expectedChainID value : ${expectedChainID}`);
 		try {
 			let wallets: any[] = null;
-			if (expectedChainID === 0) {
-				// "any chain" mode (crosschain mainnet): try to silently
-				// reconnect to the last used wallet before opening the modal.
-				wallets = (await this.tryReconnect()) ? await onboard.state.get().wallets : await onboard.connectWallet();
+
+			// Try to silently reconnect to a previously-used wallet before
+			// showing the modal. Works for both connect(0) (any chain) and
+			// specific-chain connects (page-load auto-connect).
+			if (await this.tryReconnect()) {
+				wallets = await onboard.state.get().wallets;
+			}
+			else if (await this.restoreCachedSession()) {
+				wallets = await onboard.state.get().wallets;
 			}
 			else {
 				wallets = await onboard.connectWallet();

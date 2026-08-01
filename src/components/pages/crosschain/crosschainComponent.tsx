@@ -131,7 +131,7 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	}
 	
 	async componentDidMount() {
-		if ((window.ethereum || {}).selectedAddress) {
+		if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
 		  this.connectWallet();
 		}
 	}

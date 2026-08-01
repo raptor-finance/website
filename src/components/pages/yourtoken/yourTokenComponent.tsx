@@ -132,7 +132,7 @@ class YourTokenComponent extends BaseComponent<YourTokenProps & withTranslation,
 	}
 	
 	async componentDidMount() {
-		if ((window.ethereum || {}).selectedAddress) {
+		if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
 		  this.connectWallet();
 		}
 	}

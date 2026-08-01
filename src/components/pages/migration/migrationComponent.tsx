@@ -130,7 +130,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 	}
 	
 	async componentDidMount() {
-		if ((window.ethereum || {}).selectedAddress) {
+		if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
 		  this.connectWallet();
 		}
 	}

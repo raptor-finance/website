@@ -130,7 +130,7 @@ class SwapComponent extends BaseComponent<RaptorSwapProps & withTranslation, Rap
 	}
 	
 	async componentDidMount() {
-		if ((window.ethereum || {}).selectedAddress) {
+		if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
 		  this.connectWallet();
 		}
 	}

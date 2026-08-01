@@ -190,7 +190,7 @@ class FarmComponentv2 extends BaseComponent<FarmProps & WithTranslation, FarmSta
   }
 
   async componentDidMount() {
-    if ((window.ethereum || {}).selectedAddress) {
+    if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
       this.connectWallet();
     }
   }

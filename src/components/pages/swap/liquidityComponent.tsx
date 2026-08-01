@@ -138,7 +138,7 @@ class LiquidityComponent extends BaseComponent<RaptorSwapProps & withTranslation
 	}
 	
 	async componentDidMount() {
-		if ((window.ethereum || {}).selectedAddress) {
+		if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
 		  this.connectWallet();
 		}
 	}

@@ -135,7 +135,7 @@ class FarmComponent extends BaseComponent<FarmProps & WithTranslation, FarmState
     }
     await this.updateState({ farm: farm });
 	
-    if ((window.ethereum || {}).selectedAddress) {
+    if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
       this.connectWallet();
     }
 	await this.updateState({ pending: false });

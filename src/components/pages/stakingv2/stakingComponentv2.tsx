@@ -140,7 +140,7 @@ class StakingComponentv2 extends BaseComponent<StakingProps & WithTranslation, S
 	}
 
 	async componentDidMount() {
-		if ((window.ethereum || {}).selectedAddress) {
+		if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
 			this.connectWallet();
 		}
 	}

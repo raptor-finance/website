@@ -135,7 +135,7 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
 	
     await this.updateState({ farm: farm });
 	
-    if ((window.ethereum || {}).selectedAddress) {
+    if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
       this.connectWallet();
     }
   }

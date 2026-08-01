@@ -126,7 +126,7 @@ class TestnetFaucetComponent extends BaseComponent<TestnetFaucetProps & withTran
 	}
 	
 	async componentDidMount() {
-		if ((window.ethereum || {}).selectedAddress) {
+		if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
 		  this.connectWallet();
 		}
 	}
