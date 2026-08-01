@@ -42,9 +42,13 @@ export const RPC = {
 	[CHAIN.RAPTORCHAIN_TESTNET]: 'https://rpc-testnet.raptorchain.io/web3',
 };
 
-/** RPC urls keyed by hex chain id (used by the WalletConnect provider options). */
-export const RPC_HEX = {
-	[CHAIN_HEX[CHAIN.BSC]]: RPC[CHAIN.BSC],
+/**
+ * RPC urls keyed by decimal chain id.
+ * The WalletConnect provider's `rpc` option expects decimal chain-id keys
+ * (its `getRpcUrl(chainId, rpc)` does `rpc.custom[chainId]` with a number).
+ */
+export const RPC_BY_CHAIN_ID = {
+	[CHAIN.BSC]: RPC[CHAIN.BSC],
 };
 
 // ---------------------------------------------------------------------------

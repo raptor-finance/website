@@ -9,7 +9,7 @@ import {
 	CHAIN_HEX,
 	CHAIN_META,
 	RPC,
-	RPC_HEX,
+	RPC_BY_CHAIN_ID,
 	RPTR_TOKEN,
 } from '../config';
 
@@ -91,7 +91,7 @@ export class Wallet {
 			walletconnect: {
 				package: WalletConnectProvider,
 				options: {
-					rpc: RPC_HEX,
+					rpc: RPC_BY_CHAIN_ID,
 					network: 'binance',
 					chainId: CHAIN.BSC,
 					infuraId: 'TR4KMIQ72NEDFNJ2ZP5C1BGGTD6DSTTGGT'
