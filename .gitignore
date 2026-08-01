@@ -8,5 +8,16 @@ dist_old/
 *.iml
 .vs/
 .vscode/
-
+.gitconfig
+.gitmodules
+.idea
+.claude/
+.zshrc
+.bashrc
+.bash_profile
+.zprofile
+.vscode
+.profile
+.ripgreprc
+.mcp.json
 #
