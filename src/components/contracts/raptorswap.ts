@@ -2,15 +2,17 @@ import {Wallet} from '../wallet';
 import {Contract} from 'web3-eth-contract';
 import * as web3 from 'web3-utils';
 
-export const FactoryAddress = "0xB8F7aAdaC20Cd74237dDAB7AC7ead317BF049Fa3";
-export const RouterAddress = "0x397D194abF71094247057642003EaCd463b7931f";
-export const WRPTRAddress = "0xeF7cADE66695f4cD8a535f7916fBF659936818C4";
+import {
+	CONTRACTS,
+	W_RPTR,
+	EVM_MAX_UINT256,
+} from '../../config';
 
-// hashes used to for permit (liquidity withdrawal)
-export const DOMAIN_SEPARATOR = "0xc56088e58ee9e64a22017a4611f12d8dee75fd43a2c6b273fa1fd813bfa29323";
-export const PERMIT_TYPEHASH = "0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9";
+export const FactoryAddress = CONTRACTS.RAPTOR_SWAP_FACTORY;
+export const RouterAddress = CONTRACTS.RAPTOR_SWAP_ROUTER;
+export const WRPTRAddress = W_RPTR;
 
-export const EVM_MAX_UINT256 = "115792089237316195423570985008687907853269984665640564039457584007913129639935"
+export { EVM_MAX_UINT256 };
 
 export class LiquidityPair {
 	private readonly _wallet: Wallet;
@@ -108,7 +110,7 @@ export class LiquidityPair {
 	public getPooledAmount(assetName, lpAmt) {
 		const _lpAmt = BigInt(web3.toWei(lpAmt));
 		let _enteredAssetReserve;
-		switch (this.calcAddr(enteredAssetName)) {
+		switch (this.calcAddr(assetName)) {
 			case this.token0:
 				_enteredAssetReserve = this.reserve0;
 				break;
@@ -118,7 +120,7 @@ export class LiquidityPair {
 			default:
 				throw "Asset not found in this pair";
 		}
-		return ((_enteredAssetReserve * this.lpbalance) / this.totalSupply);
+		return ((_enteredAssetReserve * _lpAmt) / this.totalSupply);
 	}
 }
 
@@ -213,21 +215,9 @@ export class RaptorSwap {
 	}
 	
 	async getAmountIn(expectedAmountOut, path) {
-		return 0;
+		const amts = await this._router.methods.getAmountsIn(expectedAmountOut, path).call();
+		return amts[0];
 	}
-	
-	// calcPermit(tokensRaw) {
-		// // bytes32 digest = keccak256(
-			// // abi.encodePacked(
-				// // '\x19\x01',
-				// // DOMAIN_SEPARATOR,
-				// // keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, nonces[owner]++, deadline))
-			// // )
-		// // );
-
-
-		// web3.soliditySha3({"type": "bytes32", "value": PERMIT_TYPEHASH}, {"type": "address", "value": this._wallet.currentAddress}, {"type": "address", "value": RouterAddress}, {"type": "uint256", "value": tokensRaw}, {"type": "uint256", "value": tokensRaw})
-	// }
 	
 	async swapTokenToToken(amountIn, path) {
 		await this.ensureApproval(path[0], amountIn);
@@ -248,8 +238,6 @@ export class RaptorSwap {
 	async addLiquidity(tokenA, tokenB, amountA, amountB, amountAmin, amountBmin) {
 		let _approvalA = this.ensureApproval(tokenA, amountA);
 		let _approvalB = this.ensureApproval(tokenB, amountB);
-		await _approvalA;
-		await _approvalB;
 		return (await this._router.methods.addLiquidity(tokenA, tokenB, amountA, amountB, amountAmin, amountBmin, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "gas": 500000}));
 	}
 	
@@ -259,9 +247,9 @@ export class RaptorSwap {
 	}
 	
 	async removeLiquidity(lpAmount, assetA, assetB, amtAMin, amtBMin) {
-		const _pAddr = await this._factory.methods.getPair(this.calcName(tokenA), this.calcName(tokenB)).call();
+		const _pAddr = await this._factory.methods.getPair(this.calcName(assetA), this.calcName(assetB)).call();
 		await this.ensureApproval(_pAddr, lpAmount);
-		return (await this._router.methods.removeLiquidity(tokenA, tokenB, lpAmount, amountAmin, amountBmin, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "gas": 500000}));
+		return (await this._router.methods.removeLiquidity(assetA, assetB, lpAmount, amtAMin, amtBMin, this._wallet.currentAddress, EVM_MAX_UINT256).send({"from": this._wallet.currentAddress, "gas": 500000}));
 	}
 	
 	async removeLiquidityRPTR(lpAmount, tokenAddr, amountTokenMin, amountRPTRMin) {
@@ -317,12 +305,11 @@ export class RaptorSwap {
 	}
 	
 	async assetBalance(assetName) {
-		console.log(`Pulling ${assetName} balance`);
 		switch (assetName) {
 			case "RPTR":
-				return web3.fromWei(await this._wallet.eth_getBalance(this._wallet.currentAddress, EVM_MAX_UINT256));
+				return web3.fromWei(String(await this._wallet.eth_getBalance(this._wallet.currentAddress)));
 			default:
-				return web3.fromWei(await this.getTokenAt(assetName).methods.balanceOf(this._wallet.currentAddress).call());
+				return web3.fromWei(String(await this.getTokenAt(assetName).methods.balanceOf(this._wallet.currentAddress).call()));
 		}
 	}
 	

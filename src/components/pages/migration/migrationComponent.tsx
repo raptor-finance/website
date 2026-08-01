@@ -5,6 +5,7 @@ import { BaseComponent, ShellErrorHandler } from '../../shellInterfaces';
 import { WithTranslation, withTranslation, TFunction, Trans } from 'react-i18next';
 import { Wallet } from '../../wallet';
 import { Raptor } from '../../contracts/raptor';
+import { CHAIN, RPTR_TOKEN } from '../../../config';
 import './migrationComponent.css';
 import './stakingComponent.css';
 import AnimatedNumber from 'animated-number-react';
@@ -129,7 +130,7 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 	}
 	
 	async componentDidMount() {
-		if ((window.ethereum || {}).selectedAddress) {
+		if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
 		  this.connectWallet();
 		}
 	}
@@ -158,14 +159,13 @@ class MigrationComponent extends BaseComponent<MigrationProps & withTranslation,
 	
 	async migrate() {
 		let state = this.readState();
-		console.log(state);
 		await state.raptor.migrate(state.ctValue);
 		await state.raptor.refresh();
 		this.updateOnce(true);
 	}
 	
 	async addToMetamask() {
-		await ethereum.request({method: 'wallet_watchAsset',params: {type: 'ERC20',options: {address: "0x44c99ca267c2b2646ceec72e898273085ab87ca5",symbol: "RPTR",decimals: 18,image: "https://raptorchain.io/images/logo.png",},},});
+		await ethereum.request({method: 'wallet_watchAsset',params: {type: 'ERC20',options: {address: RPTR_TOKEN[CHAIN.BSC],symbol: "RPTR",decimals: 18,image: "https://raptorchain.io/images/logo.png",},},});
 	}
 
 	render() {

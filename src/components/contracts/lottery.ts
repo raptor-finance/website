@@ -2,11 +2,12 @@ import {Wallet} from '../wallet';
 import {Contract} from 'web3-eth-contract';
 import {Raptor} from './raptor';
 
+import { CONTRACTS } from '../../config';
+import { fromRawUnits, toRawUnits } from '../../utils/units';
+
 export class RaptorLottery {
 
-	private static readonly address: string = "0xB821d7e7a545Df0c64ED19Ae05cf86F231cb063F";
-//	private static readonly address: string = "0x468F4B97a881a81dB6b242889556aBF7fCB2a6A0";
-	//private static readonly address: string = "0x4aaD1aD8628003487623A61305dE7Fc4D6A887ff";
+	private static readonly address: string = CONTRACTS.RAPTOR_LOTTERY;
 
 	private readonly _ticketPrice = 42000;
 	private readonly _drawTime = 604800;
@@ -22,7 +23,6 @@ export class RaptorLottery {
 	private _lastWinner: string = null;
 
 	private _lastDraw: number = 0;
-	private _currentDraw: number = 0;
 
 	private _lastDrawPromise: Promise;
 
@@ -72,31 +72,23 @@ export class RaptorLottery {
 		await this._raptor.refresh();
 
 		this._tickets = await this._contractv3.methods.ticketBalanceOf(this._wallet.currentAddress).call();
-		this._jackpot = await this._contractv3.methods.currentJackpot().call() / (10**18)
+		this._jackpot = fromRawUnits(await this._contractv3.methods.currentJackpot().call());
 
 		this._drawNumber = await this._contractv3.methods.currentDraw().call();
-        let round = await this._contractv3.methods.round(this._drawNumber-1).call();
-        let currentround = await this._contractv3.methods.round(this._drawNumber).call();
-        this._totalTickets = currentround.tickets;
-        this._lastWinner = round.winner;
+        const prevRound = await this._contractv3.methods.round(this._drawNumber-1).call();
+        const currentRound = await this._contractv3.methods.round(this._drawNumber).call();
+        this._totalTickets = currentRound.tickets;
+        this._lastWinner = prevRound.winner;
 		this._lastDraw = await this._lastDrawPromise;
 	}
 
 	async buyTicket(): Promise<string> {
 		await this._raptor.refresh()
 
-
 		if (this._raptor.balancev3 >= this._ticketPrice) {
-			const allowance = +(await this._raptor.contractv3.methods.allowance(this._wallet.currentAddress, RaptorLottery.address).call());
-
-			// if (allowance < rawPrice) {
-				// // we need to give allowance to lottery contract first
-				// const allowance = `${BigInt(2**256) - BigInt(1)}`;
-				// await this._raptor.contractv3.methods.approve(RaptorLottery.address, allowance).send({'from': this._wallet.currentAddress});
-			// }
-
-			const receipt = await this._raptor._contractv3.methods.approveAndCall(RaptorLottery.address, "42000000000000000000000", "0x0").send({'from': this._wallet.currentAddress});
-			console.log(receipt);
+			// amount derived from the _ticketPrice constant instead of a hardcoded literal
+			const rawPrice = toRawUnits(this._ticketPrice);
+			const receipt = await this._raptor.contractv3.methods.approveAndCall(RaptorLottery.address, rawPrice, "0x0").send({'from': this._wallet.currentAddress});
 			return receipt.events["0"].raw.topics[2];
 		}
 		else {
