@@ -46,7 +46,22 @@ class ShellNav extends BaseComponent<ShellNavProps & WithTranslation, ShellNavSt
 	}
 	
 	async addToMetamask() {
-		await ethereum.request({method: 'wallet_watchAsset',params: {type: 'ERC20',options: {address: RPTR_TOKEN[CHAIN.BSC],symbol: "RPTR",decimals: 18,image: "https://raptorswap.com/images/logo.png",},},});	
+		const provider: any = (window as any).ethereum;
+		if (!provider || !provider.request) {
+			throw 'No compatible wallet app was found. Please install a supported browser extension, such as Metamask.';
+		}
+		await provider.request({
+			method: 'wallet_watchAsset',
+			params: {
+				type: 'ERC20',
+				options: {
+					address: RPTR_TOKEN[CHAIN.BSC],
+					symbol: "RPTR",
+					decimals: 18,
+					image: "https://raptorswap.com/images/logo.png",
+				},
+			},
+		});
 	}
 
 	render() {
