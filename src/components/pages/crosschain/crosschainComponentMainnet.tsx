@@ -344,16 +344,25 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	async transfer() {
 		let state = this.readState();
 		await this.updateState({pending:true}); // shows "loading"
-		if ((state.chainIn == CHAIN.BSC) && (state.chainOut == CHAIN.RAPTORCHAIN)) {
-			await this.deposit();
-		} else if ((state.chainIn == CHAIN.RAPTORCHAIN) && (state.chainOut == CHAIN.BSC)) {
-			await this.withdraw();
-		} else if ((state.chainIn == CHAIN.RAPTORCHAIN) && (state.chainOut != CHAIN.RAPTORCHAIN)) {
-			await this.wrapTo(state.chainOut);
-		} else if ((state.chainIn != CHAIN.RAPTORCHAIN) && (state.chainOut == CHAIN.RAPTORCHAIN)) {
-			await this.unwrapFrom(state.chainIn);
+		try {
+			if ((state.chainIn == CHAIN.BSC) && (state.chainOut == CHAIN.RAPTORCHAIN)) {
+				await this.deposit();
+			} else if ((state.chainIn == CHAIN.RAPTORCHAIN) && (state.chainOut == CHAIN.BSC)) {
+				await this.withdraw();
+			} else if ((state.chainIn == CHAIN.RAPTORCHAIN) && (state.chainOut != CHAIN.RAPTORCHAIN)) {
+				await this.wrapTo(state.chainOut);
+			} else if ((state.chainIn != CHAIN.RAPTORCHAIN) && (state.chainOut == CHAIN.RAPTORCHAIN)) {
+				await this.unwrapFrom(state.chainIn);
+			} else {
+				// EVM-to-EVM (e.g. Polygon -> Fantom) is not supported: the bridge
+				// only moves between RaptorChain and a single EVM chain at a time.
+				throw 'This transfer route is not supported. Bridge through RaptorChain instead.';
+			}
+		} catch (e) {
+			this.handleError(e);
+		} finally {
+			await this.updateState({pending:false}); // stops showing "loading" once complete
 		}
-		await this.updateState({pending:false}); // stops showing "loading" once complete
 	}
 	
 	async setMaxAmount() {
@@ -362,14 +371,11 @@ class CrossChainComponentMainnet extends BaseComponent<CrossChainProps & withTra
 	}
 	
 	async addMainnetToMetamask() {
-		const networkinfo = [{
-			chainId: CHAIN_HEX[CHAIN.RAPTORCHAIN],
-			chainName: 'RaptorChain Mainnet Beta',
-			nativeCurrency: CHAIN_META[CHAIN.RAPTORCHAIN].nativeCurrency,
-			rpcUrls: [RPC[CHAIN.RAPTORCHAIN]],
-			blockExplorerUrls: CHAIN_META[CHAIN.RAPTORCHAIN].blockExplorerUrls,
-		}]
-		await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
+		// Delegate to Wallet so the request is routed through the connected
+		// provider (providerRequest) instead of the global window.ethereum,
+		// which may belong to a different wallet extension.
+		const wallet = this.readState().wallet || new Wallet();
+		await wallet.addMainnetToMetamask();
 	}
 
 	render() {

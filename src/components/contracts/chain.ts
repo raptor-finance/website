@@ -31,6 +31,10 @@ export class RaptorChainInterface {
 		this.wallet = walletInstance;
 		this.node = nodeAddress;
 		this._mainnet = mainnet;
+		// Tell the wallet which RaptorChain network this session targets so
+		// Raptor.refresh() picks the right balance path (native eth_getBalance
+		// on RaptorChain vs ERC20 balanceOf on BSC). Defaults to testnet.
+		this.wallet.setRaptorChainID(mainnet ? CHAIN.RAPTORCHAIN : CHAIN.RAPTORCHAIN_TESTNET);
 		this.connectContracts();
 	}
 	
@@ -115,7 +119,7 @@ export class RaptorChainInterface {
 	async crossChainDeposit(amount: number) {
 		await this.raptor.refresh();
 		if (Number(this.raptor.balancev3) >= Number(amount)) {
-			await this.raptor.contractv3.methods.approveAndCall(this._custody._address, web3.toWei(String(amount)),"0x0").send({'from': this.wallet.currentAddress});
+			await this.raptor.contractv3.methods.approveAndCall(this._custody._address, toRawUnits(amount),"0x0").send({'from': this.wallet.currentAddress});
 		}
 		else {
 			throw `Your balance isn't sufficient to deposit ${amount} raptors, maximum : ${this.raptor.balancev3}`;
@@ -157,14 +161,23 @@ export class RaptorChainInterface {
 	async bridgeTo(chainid: number, amount: number) {
 		await this.wallet.switchNetwork(CHAIN.RAPTORCHAIN); // switch wallet to RaptorChain
 		const _host = this.getBridgeHost(chainid);
-		return await _host.methods.wrap().send({'from': this.wallet.currentAddress, amount, 'value': toRawUnits(amount)});
+		// wrap() takes no args; the bridged amount is carried as msg.value.
+		return await _host.methods.wrap().send({'from': this.wallet.currentAddress, 'value': toRawUnits(amount)});
 	}
 	
 	async initUnwrap(chainid: number, amount: number) {
 		await this.wallet.switchNetwork(chainid); // switch wallet to Chain
 		const _instance = this.getBridgedInstance(chainid);
 		let receipt = await _instance.methods.unwrap(toRawUnits(amount)).send({'from': this.wallet.currentAddress});
-		return receipt.events.UnWrap.returnValues.slotKey;
+		// Decode the UnWrap event robustly: web3.js keys receipt.events by the
+		// event name when decoding succeeds, but fall back to scanning by the
+		// `event` field in case of signature/overload ambiguity.
+		const events: any = receipt.events || {};
+		const unWrap = events.UnWrap || Object.values(events).find((e: any) => e && e.event === 'UnWrap');
+		if (!unWrap || !unWrap.returnValues || !unWrap.returnValues.slotKey) {
+			throw 'Bridge unwrap tx succeeded but the UnWrap event could not be decoded; cannot finish the claim step.';
+		}
+		return unWrap.returnValues.slotKey;
 	}
 	
 	async finishUnwrap(chainid: number, slot) {

@@ -174,14 +174,11 @@ class CrossChainComponent extends BaseComponent<CrossChainProps & withTranslatio
 	}
 	
 	async addTestnetToMetamask() {
-		const networkinfo = [{
-			chainId: CHAIN_HEX[CHAIN.RAPTORCHAIN_TESTNET],
-			chainName: 'RaptorChain v0.4 testnet',
-			nativeCurrency: CHAIN_META[CHAIN.RAPTORCHAIN_TESTNET].nativeCurrency,
-			rpcUrls: ['https://rptr-testnet-1.dynamic-dns.net/web3'],
-			blockExplorerUrls: null,
-		}]
-		await ethereum.request({ method: 'wallet_addEthereumChain', params: networkinfo }).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
+		// Delegate to Wallet so the request is routed through the connected
+		// provider (providerRequest) instead of the global window.ethereum,
+		// which may belong to a different wallet extension.
+		const wallet = this.readState().wallet || new Wallet();
+		await wallet.addTestnetToMetamask();
 	}
 
 	render() {

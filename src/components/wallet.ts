@@ -193,17 +193,24 @@ export class Wallet {
 			throw "Failed to add mainnet to metamask !"
 		}
 	}
-	
-	public async switchNetwork(chainID: number) {
-		if (this.chainId == chainID) {
-			return;
-		}
-		// NOTE: pass the DECIMAL number, not a string. Onboard's setChain
-		// converts numbers to hex (0x38 for 56), but treats strings as
-		// already-hex (so '56' would resolve to chain 0x56 = 86).
-		const ok = await onboard.setChain({ chainId: chainID });
-		if (!ok) {
-			throw 'Please choose the right network in your wallet app !';
+
+	/**
+	 * Add the RaptorChain testnet to the connected wallet via EIP-3085. Routed
+	 * through providerRequest so it targets the wallet the user actually
+	 * connected with (not whichever extension won window.ethereum).
+	 */
+	public async addTestnetToMetamask() {
+		const networkinfo = [{
+			chainId: CHAIN_HEX[CHAIN.RAPTORCHAIN_TESTNET],
+			chainName: 'RaptorChain v0.4 testnet',
+			nativeCurrency: CHAIN_META[CHAIN.RAPTORCHAIN_TESTNET].nativeCurrency,
+			rpcUrls: ['https://rptr-testnet-1.dynamic-dns.net/web3'],
+			blockExplorerUrls: null,
+		}]
+		try {
+			await this.providerRequest('wallet_addEthereumChain', networkinfo).catch(function () { throw 'Failed adding RaptorChain Testnet to metamask' })
+		} catch (e) {
+			throw "Failed to add testnet to metamask !"
 		}
 	}
 
@@ -403,5 +410,16 @@ export class Wallet {
 	
 	public get raptorChainID(): number {
 		return this._raptorChainID;
+	}
+
+	/**
+	 * Set the RaptorChain chain id this wallet session targets (mainnet vs
+	 * testnet). Raptor.refresh() uses this to decide whether to read the
+	 * native RaptorChain balance via eth_getBalance or fall back to the ERC20
+	 * path. Defaults to testnet; RaptorChainInterface flips it to mainnet when
+	 * constructed with mainnet=true.
+	 */
+	public setRaptorChainID(id: number): void {
+		this._raptorChainID = id;
 	}
 }
