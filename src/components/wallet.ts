@@ -198,7 +198,10 @@ export class Wallet {
 		if (this.chainId == chainID) {
 			return;
 		}
-		const ok = await onboard.setChain({ chainId: String(chainID) });
+		// NOTE: pass the DECIMAL number, not a string. Onboard's setChain
+		// converts numbers to hex (0x38 for 56), but treats strings as
+		// already-hex (so '56' would resolve to chain 0x56 = 86).
+		const ok = await onboard.setChain({ chainId: chainID });
 		if (!ok) {
 			throw 'Please choose the right network in your wallet app !';
 		}

@@ -32,6 +32,10 @@ export type FarmState = {
 class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmState> {
 
 	private _timeout: any = null;
+	/** Resolves once the farm pool list has been built and committed to state. */
+	private _farmReady: Promise<void>;
+	/** Resolver for _farmReady, called by componentDidMount. */
+	private _resolveFarmReady: () => void;
 
 	constructor(props: FarmProps & WithTranslation) {
     super(props);
@@ -43,6 +47,12 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
     this.renderTooltip = this.renderTooltip.bind(this);
 
     this.state = {};
+
+    // Always defined so connectWallet() can await it even if a user clicks
+    // before componentDidMount finishes building the farm list.
+    this._farmReady = new Promise<void>((resolve) => {
+      this._resolveFarmReady = resolve;
+    });
   }
 
   handleError(error) {
@@ -58,6 +68,12 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
       if (!result) {
         throw 'The wallet connection was cancelled.';
       }
+
+      // The farm list is built asynchronously in componentDidMount (multiple
+      // RPC calls). Wait for it before touching state.farm, otherwise a user
+      // click (or the mount-time auto-connect) can race ahead of farm setup
+      // and crash on farm["1,0"] being undefined.
+      await this._farmReady;
 
       const state = this.readState();
       const farm = state.farm;
@@ -133,7 +149,10 @@ class StakingComponent extends BaseComponent<FarmProps & WithTranslation, FarmSt
       i += 1;
 	}
 	
-    await this.updateState({ farm: farm });
+    // Signal that the farm list is ready, so connectWallet() can proceed.
+    // Use setState's callback so _farmReady only resolves after React has
+    // actually committed the farm to state (setState is async).
+    (this as any).setState({ farm }, () => this._resolveFarmReady());
 	
     if (Wallet.hasCachedSession() || (window.ethereum || {}).selectedAddress) {
       this.connectWallet();
