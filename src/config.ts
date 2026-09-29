@@ -36,8 +36,8 @@ export const CHAIN_HEX = {
 export const RPC = {
 	[CHAIN.BSC]: 'https://bsc-dataseed3.binance.org/',
 	[CHAIN.BSC_TESTNET]: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
-	[CHAIN.POLYGON]: 'https://polygon-rpc.com/',
-	[CHAIN.FANTOM]: 'https://rpc.ftm.tools/',
+	[CHAIN.POLYGON]: 'https://polygon-bor-rpc.publicnode.com/',
+	[CHAIN.FANTOM]: 'https://fantom.drpc.org',
 	[CHAIN.RAPTORCHAIN]: 'https://rpc.raptorchain.io/web3',
 	[CHAIN.RAPTORCHAIN_TESTNET]: 'https://rpc-testnet.raptorchain.io/web3',
 };
